@@ -2,7 +2,9 @@ package nl.maastrichtuniversity.dke;
 
 public class Scenario {
 
-    void work() {
-        System.out.println("this is a scenario");
-    }
+    private String name;
+    private int gameMode;
+    // private Environment environment;
+    private double scaling;
+
 }
