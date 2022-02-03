@@ -2,21 +2,25 @@ package nl.maastrichtuniversity.dke.areas;
 
 import nl.maastrichtuniversity.dke.Vector;
 
-public class Circle implements Area{
+public class Rectangle implements Area {
 
-    // center position of the circle
+    // bottom left point of the square
     private Vector position;
-    private double radius;
 
-    public Circle(int x, int y, double radius) {
-        this.position = new Vector(x, y);
-        this.radius = radius;
+    private int width;
+    private int height;
+
+    public Rectangle(int x1, int y1, int x2, int y2){
+        this.position = new Vector(x1, y1);
+        this.width = x2 - x1;
+        this.height = y2 - y1;
     }
 
     @Override
     public boolean isHit(Area area) {
         return Collider.isColliding(this, area);
     }
+
 
     @Override
     public Vector getPosition() {
@@ -25,11 +29,11 @@ public class Circle implements Area{
 
     @Override
     public double getWidth() {
-        return radius * 2;
+        return width;
     }
 
     @Override
     public double getHeight() {
-        return radius * 2;
+        return height;
     }
 }

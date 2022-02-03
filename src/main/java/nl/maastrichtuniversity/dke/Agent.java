@@ -14,4 +14,23 @@ public class Agent {
         this.id = agentCount++;
     }
 
+    public Vector getPosition() {
+        return position;
+    }
+
+    public void setPosition(Vector position) {
+        this.position = position;
+    }
+
+    public double getBaseSpeed() {
+        return baseSpeed;
+    }
+
+    public void setBaseSpeed(double baseSpeed) {
+        this.baseSpeed = baseSpeed;
+    }
+
+    public int getId() {
+        return id;
+    }
 }

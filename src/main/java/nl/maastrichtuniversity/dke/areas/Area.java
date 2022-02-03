@@ -1,12 +1,12 @@
 package nl.maastrichtuniversity.dke.areas;
 
+import nl.maastrichtuniversity.dke.Vector;
+
 public interface Area {
 
-    boolean isHit(int x, int y);
+    boolean isHit(Area area);
 
-    int getX();
-
-    int getY();
+    Vector getPosition();
 
     double getWidth();
 

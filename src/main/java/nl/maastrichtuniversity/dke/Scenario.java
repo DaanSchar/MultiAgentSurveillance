@@ -11,7 +11,16 @@ public class Scenario {
     private double timeStep;
 
     private List<Agent> agents;
+
     // private Environment environment;
+
+    public Scenario(String name, int gameMode, double scaling, double timeStep, List<Agent> agents) {
+        this.name = name;
+        this.agents = agents;
+    }
+
+
+
 
 
 }
