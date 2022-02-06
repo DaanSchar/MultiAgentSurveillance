@@ -12,9 +12,6 @@ public class Environment{
     private List<Area> teleportPortals;
     private Area targetArea;
 
-    public Environment() {
-    }
-
     public Environment(double width, double height, List<Area> spawnAreaIntruders, List<Area> spawnAreaGuards, List<Area> walls, List<Area> shadedAreas, List<Area> teleportPortals, Area targetArea) {
         this.width = width;
         this.height = height;
