@@ -1,4 +1,4 @@
-package nl.maastrichtuniversity.dke;
+package nl.maastrichtuniversity.dke.util;
 
 public class Vector {
 
