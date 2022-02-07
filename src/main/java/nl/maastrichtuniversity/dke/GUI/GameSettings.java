@@ -3,13 +3,12 @@ package nl.maastrichtuniversity.dke.GUI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.net.URI;
 import java.util.*;
 import java.util.List;
 
-import nl.maastrichtuniversity.dke.*;
 import nl.maastrichtuniversity.dke.areas.*;
 import nl.maastrichtuniversity.dke.areas.Rectangle;
+import nl.maastrichtuniversity.dke.scenario.Environment;
 
 
 /**

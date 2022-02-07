@@ -1,6 +1,6 @@
 package nl.maastrichtuniversity.dke.areas;
 
-import nl.maastrichtuniversity.dke.Vector;
+import nl.maastrichtuniversity.dke.util.Vector;
 
 public class Circle implements Area{
 

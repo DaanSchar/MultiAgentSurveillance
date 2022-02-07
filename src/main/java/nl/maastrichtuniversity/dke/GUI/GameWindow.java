@@ -3,9 +3,10 @@ package nl.maastrichtuniversity.dke.GUI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import nl.maastrichtuniversity.dke.*;
-import nl.maastrichtuniversity.dke.areas.*;
-    /**
+
+import nl.maastrichtuniversity.dke.scenario.Environment;
+
+/**
      * GUIboard class
      */
 

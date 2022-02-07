@@ -8,17 +8,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import java.io.File;
-import java.util.ArrayList;
 import javax.swing.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
-import nl.maastrichtuniversity.dke.*;
-import nl.maastrichtuniversity.dke.areas.*;
+import nl.maastrichtuniversity.dke.scenario.Environment;
+
 public class GameComponent extends JComponent{
 
     /**
