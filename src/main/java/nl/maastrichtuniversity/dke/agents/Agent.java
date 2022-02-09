@@ -24,6 +24,9 @@ public class Agent {
         this.spawnModule = spawnModule;
         this.baseSpeed = baseSpeed;
         this.id = agentCount++;
+
+        System.out.println("you should be able to find this");
+
         logger.info("Created new " + this.getClass().getSimpleName() + " " + this.id + " with modules: " + spawnModule.getClass().getSimpleName());
     }
 
