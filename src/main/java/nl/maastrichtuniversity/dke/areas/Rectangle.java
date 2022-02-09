@@ -1,35 +1,23 @@
 package nl.maastrichtuniversity.dke.areas;
 
 import lombok.Getter;
-import lombok.Setter;
 import nl.maastrichtuniversity.dke.util.Vector;
 
-public class Rectangle implements Area {
+public class Rectangle extends Polygon implements Area {
 
-    private @Getter @Setter Vector position; // bottom left
+    private @Getter final double width;
+    private @Getter final double height;
 
-    private int width;
-    private int height;
-
-    public Rectangle(int x1, int y1, int x2, int y2){
-        this.position = new Vector(x1, y1);
+    public Rectangle(double x1, double y1, double x2, double y2){
+        super(x1 + (x2-x1)/2.0, y1 + (y2-y1)/2.0);
+        super.setVertices(new Vector[]{
+                new Vector(x1, y1),
+                new Vector(x2, y1),
+                new Vector(x2, y2),
+                new Vector(x1, y2)
+        });
         this.width = x2 - x1;
         this.height = y2 - y1;
     }
 
-    @Override
-    public boolean isHit(Area area) {
-        return Collider.isColliding(this, area);
-    }
-
-
-    @Override
-    public double getWidth() {
-        return width;
-    }
-
-    @Override
-    public double getHeight() {
-        return height;
-    }
 }

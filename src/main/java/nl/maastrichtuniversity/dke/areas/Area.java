@@ -4,7 +4,7 @@ import nl.maastrichtuniversity.dke.util.Vector;
 
 public interface Area {
 
-    boolean isHit(Area area);
+    boolean isColliding(Polygon polygon);
 
     Vector getPosition();
 
