@@ -42,7 +42,7 @@ public class Polygon {
         direction = direction.unit();
 
         for (int i = 0; i < vertices.length; i++) {
-            dot = Vector.dot(vertices[i], direction);
+            dot = vertices[i].dot(direction);
             if (dot > max) { max = dot; index = i; }
         }
 
