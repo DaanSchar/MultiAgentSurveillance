@@ -28,17 +28,21 @@ public class GameComponent extends JComponent{
 
     BufferedImage guard1=null;   	
     BufferedImage guardleft1=null;   	
+    BufferedImage spawnArea=null;   	
 
 	Environment environment;
-	int TEXTURESIZE = 32;
+	int texturesize;
 
-	int guardy = 0;
+	int guardy = 100;
 	int guardx = 0;
+	int panningX=0;
+	int panningY=0;
 
 	public GameComponent(Environment environment){
 
-		environment = this.environment;
-
+		this.environment = environment;
+		double scal = environment.getScaling()*100;
+		texturesize = (int) scal;
  		  /**
    		   * Assign the images of the pieces
    		   */
@@ -46,6 +50,7 @@ public class GameComponent extends JComponent{
         try
         {
 			targetArea = ImageIO.read(GameComponent.class.getResource("/images/texture/targetarea.png"));
+			spawnArea = ImageIO.read(GameComponent.class.getResource("/images/texture/spawnArea.png"));
         	wall = ImageIO.read(GameComponent.class.getResource("/images/texture/wall.png"));
         	teleport = ImageIO.read(GameComponent.class.getResource("/images/texture/teleport.png"));
         	tree = ImageIO.read(GameComponent.class.getResource("/images/texture/tree.png"));
@@ -65,58 +70,93 @@ public class GameComponent extends JComponent{
 	public void paintComponent(Graphics g){
 
 		//drawing textures
-		g.drawImage(targetArea,100,100,TEXTURESIZE,TEXTURESIZE,null);
-		g.drawImage(wall,50,50,TEXTURESIZE,TEXTURESIZE,null);
-		g.drawImage(wall,82,50,TEXTURESIZE,TEXTURESIZE,null);
-		g.drawImage(guard1,300,guardy,TEXTURESIZE,TEXTURESIZE,null);
-		g.drawImage(guardleft1,200,200,TEXTURESIZE,TEXTURESIZE,null);
+		g.drawImage(guard1,panningX+300,panningY+guardy,texturesize,texturesize,null);
+
+
+		
+		//createWalls 
+		for (int i =0;i<environment.getWalls().size() ;i++ ) {
+			for (int j =0; j<environment.getWalls().get(i).getPositions().size() ;j++ ) {
+				g.drawImage(wall,panningX+((int)environment.getWalls().get(i).getPositions().get(j).getX())*texturesize,panningY+((int)environment.getWalls().get(i).getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
+			}
+		}
+
+		//CreateTeleportPortals
+		 for (int i =0;i<environment.getTeleportPortals().size() ;i++ ) {
+		 	for (int j =0; j<environment.getTeleportPortals().get(i).getPositions().size() ;j++ ) {
+		 		g.drawImage(teleport,panningX+((int)environment.getTeleportPortals().get(i).getPositions().get(j).getX())*texturesize,panningY+((int)environment.getTeleportPortals().get(i).getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
+		 	}
+		 }	
+
+		//createSpawnAreaIntruders
+		for (int i =0;i<environment.getSpawnAreaIntruders().size() ;i++ ) {
+			for (int j =0; j<environment.getSpawnAreaIntruders().get(i).getPositions().size() ;j++ ) {
+				g.drawImage(spawnArea,panningX+((int)environment.getSpawnAreaIntruders().get(i).getPositions().get(j).getX())*texturesize,panningY+((int)environment.getSpawnAreaIntruders().get(i).getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
+			}
+		}	
+
+		//createSpawnAreaGuards
+		for (int i =0;i<environment.getSpawnAreaGuards().size() ;i++ ) {
+			for (int j =0; j<environment.getSpawnAreaGuards().get(i).getPositions().size() ;j++ ) {
+				g.drawImage(spawnArea,panningX+((int)environment.getSpawnAreaGuards().get(i).getPositions().get(j).getX())*texturesize,panningY+((int)environment.getSpawnAreaGuards().get(i).getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
+			}
+		}	
+
+		//setTextures
+
+
+		//createWindows
+		for (int i =0;i<environment.getWindows().size() ;i++ ) {
+			for (int j =0; j<environment.getWindows().get(i).getPositions().size() ;j++ ) {
+				g.drawImage(window,panningX+((int)environment.getWindows().get(i).getPositions().get(j).getX())*texturesize,panningY+((int)environment.getWindows().get(i).getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
+			}
+		}
+
+		//createDoors
+		for (int i =0;i<environment.getDoors().size() ;i++ ) {
+			for (int j =0; j<environment.getDoors().get(i).getPositions().size() ;j++ ) {
+				g.drawImage(door,panningX+((int)environment.getDoors().get(i).getPositions().get(j).getX())*texturesize,panningY+((int)environment.getDoors().get(i).getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
+			}
+		}
+
+		//createSentryTowers
+		for (int i =0;i<environment.getSentrytowers().size() ;i++ ) {
+			for (int j =0; j<environment.getSentrytowers().get(i).getPositions().size() ;j++ ) {
+				g.drawImage(sentrytower,panningX+((int)environment.getSentrytowers().get(i).getPositions().get(j).getX())*texturesize,panningY+((int)environment.getSentrytowers().get(i).getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
+			}
+		}
+
+		//createTargetArea
+		for (int i =0;i<1 ;i++ ) {
+			for (int j =0; j<environment.getTargetArea().getPositions().size() ;j++ ) {
+				g.drawImage(targetArea,panningX+((int)environment.getTargetArea().getPositions().get(j).getX())*texturesize,panningY+((int)environment.getTargetArea().getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
+			if ((environment.getTargetArea().getPositions().size())/2 + 2== j) {
+				g.drawImage(target,panningX+((int)environment.getTargetArea().getPositions().get(j).getX())*texturesize,panningY+((int)environment.getTargetArea().getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
+				}
+			}
+		}
+		//createTrees
+		for (int i =0;i<environment.getShadedAreas().size() ;i++ ) {
+			for (int j =0; j<environment.getShadedAreas().get(i).getPositions().size() ;j++ ) {
+				g.drawImage(tree,panningX+((int)environment.getShadedAreas().get(i).getPositions().get(j).getX())*texturesize,panningY+((int)environment.getShadedAreas().get(i).getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
+			}
+		}
+
+
 
 
 
 		//move guard
-		moveGuards();
+		//moveGuards();
 
 
-	}
-	public void createTargetArea(){
-
-	}
-	public void createSpawnAreaIntruders(){
-		
-	}
-	public void createSpawnAreaGuards(){
-		
-	}
-	public void createWalls(){
-		
-	}
-	public void createTeleports(){
-		
-	}
-	public void createTrees(){
-		
-	}
-	public void setTextures(){
-		
-	}
-	public void createWindows(){
-		
-	}
-	public void createDoors(){
-		
-	}
-	public void createSentryTowers(){
-		
 	}
 	public void moveGuards(){
 		Timer timer = new Timer(1000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				guardy++;
-				System.out.println(guardy);
 				if (guardy>500) {
-					System.out.println("sssssssss");
 					((Timer)e.getSource()).stop();
 				}
 				repaint();
@@ -126,5 +166,22 @@ public class GameComponent extends JComponent{
 	}
 	public void moveIntuders(){
 		
+	}
+	public void zoomIn(){
+		texturesize=texturesize+5;
+	}
+	public void zoomOut(){
+		texturesize=texturesize-5;
+	}
+	public void panning(int x,int y){
+		System.out.println(x);
+		panningX = x;
+		panningY = y;
+		
+	}
+	public void resize(){
+		texturesize = (int) (environment.getScaling()*100);
+		panningX = 0;
+		panningY = 0; 		
 	}
 }

@@ -21,7 +21,7 @@ public class GameWindow  {
     /**
      * set the icon of the game
      */
-    ImageIcon icon = new ImageIcon(GameWindow.class.getResource("/images/icon.png"));
+    ImageIcon icon = new ImageIcon(GameWindow.class.getResource("/images/settings/icon.png"));
 
     /**
      * Creating new Frame (window)
@@ -34,24 +34,30 @@ public class GameWindow  {
      * the back button 
      */
 
-    ImageIcon backImage = new ImageIcon(GameWindow.class.getResource("/images/next.jpg"));
+    ImageIcon backImage = new ImageIcon(GameWindow.class.getResource("/images/settings/next.jpg"));
     JButton back = new JButton("BACK");    
 
     Color color1 = new Color(230,230,230);
     Color color2 = new Color(173,237,153);
 
     JButton exit = new JButton("EXIT");    
+    JButton zoomIn = new JButton("zoomIn");    
+    JButton zoomOut = new JButton("zoomOut");    
+    JButton resize = new JButton("resize");    
 
     AnimationListener animationListener = new AnimationListener();
 
     Environment environment;
 
+    JLabel gameLabel = new JLabel();
+    MouseSpy mouseListener = new MouseSpy();
 public GameWindow(Environment environment) {
 
     this.environment = environment;
     System.out.println(environment.getHeight());
 
     game = new GameComponent(environment);
+
 
 
    /**
@@ -63,20 +69,46 @@ public GameWindow(Environment environment) {
     back.addActionListener(animationListener);
     back.setBackground(color1);   
     back.setFocusable(false);   
-    back.setBorder(BorderFactory.createBevelBorder(0, Color.red , Color.blue));
+    back.setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black));
     /**
      * Implement the exit button. set the bounds,the background color,the border and add the actionlistener
      */
 
-    exit.setBounds(80,0,75,40);
+    exit.setBounds(((int)environment.getWidth()*10)-75,0,75,40);
     exit.addActionListener(animationListener);
     exit.setBackground(color1);   
     exit.setFocusable(false);   
-    exit.setBorder(BorderFactory.createBevelBorder(0, Color.red , Color.blue));  
+    exit.setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black));  
 
+    zoomIn.setBounds(80,0,75,40);
+    zoomIn.addActionListener(animationListener);
+    zoomIn.setBackground(color1);   
+    zoomIn.setFocusable(false);   
+    zoomIn.setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black));  
 
+    zoomOut.setBounds(160,0,75,40);
+    zoomOut.addActionListener(animationListener);
+    zoomOut.setBackground(color1);   
+    zoomOut.setFocusable(false);   
+    zoomOut.setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black)); 
 
-             
+    resize.setBounds(240,0,75,40);
+    resize.addActionListener(animationListener);
+    resize.setBackground(color1);   
+    resize.setFocusable(false);   
+    resize.setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black));  
+
+    gameLabel.setHorizontalAlignment(JLabel.CENTER);
+    gameLabel.setVerticalAlignment(JLabel.CENTER);
+    gameLabel.setBackground(color2);
+    gameLabel.setOpaque(true);
+    gameLabel.setBounds(0,((int)environment.getHeight()*10),(int) environment.getWidth()*10, 40);
+    gameLabel.add(back);   
+    gameLabel.add(exit);             
+    gameLabel.add(zoomIn);             
+    gameLabel.add(zoomOut);             
+    gameLabel.add(resize);             
+          
     /**
      *  Set how to close the frame.
      *  Set the size of the frame.
@@ -85,13 +117,15 @@ public GameWindow(Environment environment) {
      *  Add back button to the frame
      *  Add the gamecomponent to the frame   
      */
+    window.addMouseWheelListener(mouseListener);
+    window.addMouseListener(mouseListener);
+    window.addMouseMotionListener(mouseListener);    
     window.setUndecorated(true);
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    window.setSize((int) environment.getWidth()*10, (int)environment.getHeight()*10);
+    window.setSize((int) environment.getWidth()*10, ((int)environment.getHeight()*10) + 40);
     window.setLocationRelativeTo(null);
-    window.getContentPane().setBackground(color2);
-    //window.add(back);    
-    //window.add(exit);         
+    window.getContentPane().setBackground(color2);         
+    window.add(gameLabel);
     window.add(game);    
     window.setIconImage(icon.getImage());    
     window.setVisible(true);
@@ -119,12 +153,79 @@ class AnimationListener implements ActionListener {
         if(e.getSource()==exit){
     	    System.exit(0);
     	    }
+         if(e.getSource()==zoomOut){
+            game.zoomOut();
+           }   
+            if(e.getSource()==zoomIn){
+           game.zoomIn();
+           }
+           if(e.getSource()==resize){
+           game.resize();
+           }
 
                   
     window.repaint();             
 
 }
     }
+ class MouseSpy implements MouseWheelListener ,MouseMotionListener,MouseListener {
+    Point point0;
+       boolean released = false;
 
+         @Override
+            public void mouseWheelMoved(MouseWheelEvent e){
+                if (e.getWheelRotation()<0) {
+                    game.zoomIn(); 
+                }
+                else {
+                    game.zoomOut();
+                }
+             window.repaint();
+
+         }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            Point point1 = e.getLocationOnScreen();
+            if (released=true) {
+                game.panning((point1.x-point0.x),(point1.y-point0.y));
+            }
+            window.repaint();
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+    
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            released =false;
+            point0 = MouseInfo.getPointerInfo().getLocation();
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            released = true;
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            // TODO Auto-generated method stub
+            
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            // TODO Auto-generated method stub
+            
+        }
+         
+    }
 }
 

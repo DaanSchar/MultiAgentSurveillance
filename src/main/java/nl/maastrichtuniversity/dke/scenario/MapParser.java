@@ -111,6 +111,15 @@ public class MapParser {
             case "texture":
                 logger.error("Texture not implemented yet");
                 break;
+            case "windows":
+                environment.getWindows().add(parseRectangle(values));
+                break;
+            case "doors":
+                environment.getDoors().add(parseRectangle(values));
+                break;
+            case "sentrytowers":
+                environment.getSentrytowers().add(parseRectangle(values));
+                break;            
         }
     }
 
