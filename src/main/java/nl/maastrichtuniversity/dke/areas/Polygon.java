@@ -7,6 +7,11 @@ import nl.maastrichtuniversity.dke.util.Vector;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * A polygon is a closed shape defined by a set of vertices.
+ *
+ * @Author Daan
+ */
 public class Polygon {
 
     private @Getter @Setter Vector position;
@@ -32,15 +37,17 @@ public class Polygon {
      * returns the furthest point (vertex) in a given direction.
      * Used in GJK algorithm.
      */
-    public Vector getFurthestPoint(Vector direction) {
+    public Vector getSupportVertex(Vector direction) {
         double max;
         int index;
         double dot; // dot product of the direction and the vector
 
         max = Double.MIN_VALUE;
         index = 0;
-        direction = direction.unit();
+        direction = direction.norm();
 
+        // the vertex with the highest dot product with the direction
+        // is the furthest point in the direction.
         for (int i = 0; i < vertices.length; i++) {
             dot = vertices[i].dot(direction);
             if (dot > max) { max = dot; index = i; }

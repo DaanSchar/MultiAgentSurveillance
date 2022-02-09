@@ -5,6 +5,11 @@ import lombok.Setter;
 
 import java.util.Objects;
 
+/**
+ * 3D vector class.
+ *
+ * @Author Daan
+ */
 public class Vector {
 
     private @Getter @Setter double x;
@@ -31,7 +36,7 @@ public class Vector {
         );
     }
 
-    public Vector unit() {
+    public Vector norm() {
         double length = this.length();
 
         return new Vector(

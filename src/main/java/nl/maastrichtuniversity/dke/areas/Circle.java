@@ -5,7 +5,7 @@ import nl.maastrichtuniversity.dke.util.Vector;
 
 public class Circle extends Polygon implements Area{
 
-    private static final int FIDELITY = 5; // total vertices representing the circle.
+    private static final int FIDELITY = 50; // total vertices representing the circle.
 
     private @Getter final double radius;
 

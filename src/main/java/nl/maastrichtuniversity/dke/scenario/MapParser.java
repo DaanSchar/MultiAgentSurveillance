@@ -7,6 +7,11 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.Scanner;
 
+/**
+ * reads a map file to return a scenario object.
+ *
+ * @Author Daan
+ */
 public class MapParser {
 
     private Logger logger = LoggerFactory.getLogger(MapParser.class);
