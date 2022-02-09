@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.sql.SQLOutput;
+import java.util.Objects;
 
 import javax.imageio.ImageIO;
 import javax.swing.Timer;
@@ -17,18 +19,18 @@ public class GameComponent extends JComponent{
     /**
      * Create variables the images of te pieces
      */
-    BufferedImage targetArea=null;
-    BufferedImage wall=null;
-    BufferedImage teleport=null;
-    BufferedImage tree=null;
-    BufferedImage door=null;   	
-    BufferedImage window=null;   	
-    BufferedImage sentrytower=null;   	
-    BufferedImage target=null;   
+    BufferedImage targetArea;
+    BufferedImage wall;
+    BufferedImage teleport;
+    BufferedImage tree;
+    BufferedImage door;
+    BufferedImage window;
+    BufferedImage sentrytower;
+    BufferedImage target;
 
-    BufferedImage guard1=null;   	
-    BufferedImage guardleft1=null;   	
-    BufferedImage spawnArea=null;   	
+    BufferedImage guard1;
+    BufferedImage guardleft1;
+    BufferedImage spawnArea;
 
 	Environment environment;
 	int texturesize;
@@ -43,23 +45,23 @@ public class GameComponent extends JComponent{
 		this.environment = environment;
 		double scal = environment.getScaling()*100;
 		texturesize = (int) scal;
- 		  /**
-   		   * Assign the images of the pieces
-   		   */
 
+		/*
+		 * Assign the images of the pieces
+		 */
         try
         {
-			targetArea = ImageIO.read(GameComponent.class.getResource("/images/texture/targetarea.png"));
-			spawnArea = ImageIO.read(GameComponent.class.getResource("/images/texture/spawnArea.png"));
-        	wall = ImageIO.read(GameComponent.class.getResource("/images/texture/wall.png"));
-        	teleport = ImageIO.read(GameComponent.class.getResource("/images/texture/teleport.png"));
-        	tree = ImageIO.read(GameComponent.class.getResource("/images/texture/tree.png"));
-        	door = ImageIO.read(GameComponent.class.getResource("/images/texture/door.png"));
-        	window = ImageIO.read(GameComponent.class.getResource("/images/texture/window.png"));
-        	sentrytower = ImageIO.read(GameComponent.class.getResource("/images/texture/sentrytower.png"));
-        	target = ImageIO.read(GameComponent.class.getResource("/images/texture/target.png"));
-        	guard1 = ImageIO.read(GameComponent.class.getResource("/images/guard/guard1.png"));
-        	guardleft1 = ImageIO.read(GameComponent.class.getResource("/images/guard/guardleft.png"));
+			targetArea = ImageIO.read(Objects.requireNonNull(GameComponent.class.getResource("/images/texture/targetarea.png")));
+			spawnArea = ImageIO.read(Objects.requireNonNull(GameComponent.class.getResource("/images/texture/spawnArea.png")));
+        	wall = ImageIO.read(Objects.requireNonNull(GameComponent.class.getResource("/images/texture/wall.png")));
+        	teleport = ImageIO.read(Objects.requireNonNull(GameComponent.class.getResource("/images/texture/teleport.png")));
+        	tree = ImageIO.read(Objects.requireNonNull(GameComponent.class.getResource("/images/texture/tree.png")));
+        	door = ImageIO.read(Objects.requireNonNull(GameComponent.class.getResource("/images/texture/door.png")));
+        	window = ImageIO.read(Objects.requireNonNull(GameComponent.class.getResource("/images/texture/window.png")));
+        	sentrytower = ImageIO.read(Objects.requireNonNull(GameComponent.class.getResource("/images/texture/sentrytower.png")));
+        	target = ImageIO.read(Objects.requireNonNull(GameComponent.class.getResource("/images/texture/target.png")));
+        	guard1 = ImageIO.read(Objects.requireNonNull(GameComponent.class.getResource("/images/guard/guard1.png")));
+        	guardleft1 = ImageIO.read(Objects.requireNonNull(GameComponent.class.getResource("/images/guard/guardleft.png")));
 
         }
         catch(IOException e) {
@@ -80,6 +82,8 @@ public class GameComponent extends JComponent{
 				g.drawImage(wall,panningX+((int)environment.getWalls().get(i).getPositions().get(j).getX())*texturesize,panningY+((int)environment.getWalls().get(i).getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
 			}
 		}
+
+		System.out.println("github");
 
 		//CreateTeleportPortals
 		 for (int i =0;i<environment.getTeleportPortals().size() ;i++ ) {
@@ -152,15 +156,12 @@ public class GameComponent extends JComponent{
 
 	}
 	public void moveGuards(){
-		Timer timer = new Timer(1000, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				guardy++;
-				if (guardy>500) {
-					((Timer)e.getSource()).stop();
-				}
-				repaint();
+		Timer timer = new Timer(1000, e -> {
+			guardy++;
+			if (guardy>500) {
+				((Timer)e.getSource()).stop();
 			}
+			repaint();
 		});
 		timer.start();
 	}
