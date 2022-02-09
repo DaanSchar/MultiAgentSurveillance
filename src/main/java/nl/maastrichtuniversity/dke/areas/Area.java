@@ -8,6 +8,8 @@ public interface Area {
 
     Vector getPosition();
 
+    void setPosition(Vector position);
+
     double getWidth();
 
     double getHeight();

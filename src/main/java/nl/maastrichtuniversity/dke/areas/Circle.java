@@ -1,11 +1,12 @@
 package nl.maastrichtuniversity.dke.areas;
 
+import lombok.Getter;
+import lombok.Setter;
 import nl.maastrichtuniversity.dke.util.Vector;
 
 public class Circle implements Area{
 
-    // center position of the circle
-    private Vector position;
+    private @Getter @Setter Vector position; // center
     private double radius;
 
     public Circle(int x, int y, double radius) {
@@ -16,11 +17,6 @@ public class Circle implements Area{
     @Override
     public boolean isHit(Area area) {
         return Collider.isColliding(this, area);
-    }
-
-    @Override
-    public Vector getPosition() {
-        return position;
     }
 
     @Override

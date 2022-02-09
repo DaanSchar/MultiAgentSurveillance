@@ -1,11 +1,12 @@
 package nl.maastrichtuniversity.dke.areas;
 
+import lombok.Getter;
+import lombok.Setter;
 import nl.maastrichtuniversity.dke.util.Vector;
 
 public class Rectangle implements Area {
 
-    // bottom left point of the square
-    private Vector position;
+    private @Getter @Setter Vector position; // bottom left
 
     private int width;
     private int height;
@@ -21,11 +22,6 @@ public class Rectangle implements Area {
         return Collider.isColliding(this, area);
     }
 
-
-    @Override
-    public Vector getPosition() {
-        return position;
-    }
 
     @Override
     public double getWidth() {
