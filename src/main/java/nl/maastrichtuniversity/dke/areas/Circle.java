@@ -2,6 +2,9 @@ package nl.maastrichtuniversity.dke.areas;
 
 import nl.maastrichtuniversity.dke.util.Vector;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Circle implements Area{
 
     // center position of the circle
@@ -31,5 +34,9 @@ public class Circle implements Area{
     @Override
     public double getHeight() {
         return radius * 2;
+    }
+    @Override
+    public List<Vector> getPositions() {
+        return new ArrayList<>();
     }
 }

@@ -1,14 +1,16 @@
 package nl.maastrichtuniversity.dke.GUI;
 
+import nl.maastrichtuniversity.dke.areas.Rectangle;
+import nl.maastrichtuniversity.dke.areas.Area;
+import nl.maastrichtuniversity.dke.scenario.Environment;
+import nl.maastrichtuniversity.dke.scenario.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import java.util.List;
 
-import nl.maastrichtuniversity.dke.areas.*;
-import nl.maastrichtuniversity.dke.areas.Rectangle;
-import nl.maastrichtuniversity.dke.scenario.Environment;
+
 
 
 /**
@@ -26,14 +28,14 @@ public class GameSettings implements ActionListener  {
     /**
      * Declaring the images of the buttons and the app icon
      */
-    ImageIcon nextImage = new ImageIcon(Menu.class.getResource("/images/next.jpg"));
-    ImageIcon startImage = new ImageIcon(Menu.class.getResource("/images/start.jpg"));
-    ImageIcon uploudFileImage = new ImageIcon(Menu.class.getResource("/images/uploudFile.png"));
-    ImageIcon setting1Image = new ImageIcon(Menu.class.getResource("/images/Settings1.jpg"));
-    ImageIcon setting2Image = new ImageIcon(Menu.class.getResource("/images/Settings2.jpg"));
-    ImageIcon setting3Image = new ImageIcon(Menu.class.getResource("/images/Settings3.jpg"));
+    ImageIcon nextImage = new ImageIcon(Menu.class.getResource("/images/settings/next.jpg"));
+    ImageIcon startImage = new ImageIcon(Menu.class.getResource("/images/settings/start.jpg"));
+    ImageIcon setting1Image = new ImageIcon(Menu.class.getResource("/images/settings/Settings1.jpg"));
+    ImageIcon setting2Image = new ImageIcon(Menu.class.getResource("/images/settings/Settings2.jpg"));
+    ImageIcon setting3Image = new ImageIcon(Menu.class.getResource("/images/settings/Settings3.jpg"));
+    ImageIcon backI = new ImageIcon(Menu.class.getResource("/images/settings/bback.png"));
 
-    ImageIcon icon = new ImageIcon(Menu.class.getResource("/images/icon.png"));
+    ImageIcon icon = new ImageIcon(Menu.class.getResource("/images/settings/icon.png"));
 
     /**
      * Declaring the JTextField for the settings of the game
@@ -53,19 +55,19 @@ public class GameSettings implements ActionListener  {
     JTextField spawnareaintruders = new JTextField("2 2 20 10");
     JTextField spawnareaguards = new JTextField("2 2 20 10");
 
-    JTextField walls = new JTextField("50 0 51 20 , 0 0 1 80 , 0 79 120 80 , 119 0 120 1");
+    JTextField walls = new JTextField("50 0 51 20,0 0 1 80,0 79 120 80,119 0 120 80,0 0 120 1");
     JTextField teleport = new JTextField("20 70 25 75 90 50 0.0");
     JTextField shaded = new JTextField("10 20 20 40");
     JTextField texture = new JTextField("10 20 20 40 0 0");
-    JTextField windows = new JTextField("");
-    JTextField doors = new JTextField("");
-    JTextField sentrytower = new JTextField("");
+    JTextField windows = new JTextField("61 61 61 61");
+    JTextField doors = new JTextField("60 60 60 60");
+    JTextField sentrytower = new JTextField("50 50 50 50");
 
 
 
     /**
      * Create a general label
-     * Creating 3 Buttons and add thier icons (start , uploudFile ).
+     * Creating 3 Buttons and add thier icons (start ,  ).
      * create new color
      * create a double for the frame size number
      */
@@ -74,13 +76,21 @@ public class GameSettings implements ActionListener  {
     JLabel settings1 = new JLabel();
     JButton next = new JButton(nextImage);
     JButton start = new JButton(startImage);
-    JButton uploudFile = new JButton(uploudFileImage);
 
     Color color1 = new Color(189,228,247);
 
     int nextInt = 0;
+    JButton back = new JButton(backI);
+
+    Environment environment;
 
     public GameSettings() {
+
+
+
+    back.setBounds(760,0,40,40);
+    back.addActionListener(this);
+    back.setBackground(new Color(155,223,232));
 
         gameMode.setFont(new Font("Consolas",Font.PLAIN,20));
         gameMode.setForeground(Color.darkGray);
@@ -212,12 +222,6 @@ public class GameSettings implements ActionListener  {
         next.setBounds(669,545,131,48);
         next.addActionListener(this);
 
-        /**
-         * Implement the uploudFile button. set the bounds,the background color, and add the actionlistener
-         */
-
-        uploudFile.setBounds(505,15,285,73);
-        uploudFile.addActionListener(this);
 
         /**
          *  Set the settings1 icon
@@ -230,7 +234,6 @@ public class GameSettings implements ActionListener  {
         settings1.setVerticalAlignment(JLabel.CENTER);
         settings1.setBackground(Color.WHITE);
         settings1.setOpaque(true);
-        settings1.add(uploudFile);
         settings1.add(gameMode);
         settings1.add(height);
         settings1.add(width);
@@ -289,12 +292,94 @@ public class GameSettings implements ActionListener  {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setSize(800, 600);
         window.setLocationRelativeTo(null);
+        window.add(back);
         window.add(next);
         window.add(settings1);
         window.setIconImage(icon.getImage());
         window.setVisible(true);
 
     }
+
+    public void createEnvironment(){
+
+            //width , height scalling
+            double widthI = Double.parseDouble(width.getText());
+            double heightI = Double.parseDouble(height.getText());
+            double scalingI = Double.parseDouble(scaling.getText());
+
+            //spawn Area Guards
+            String[] valuesSpawnGuards = spawnareaguards.getText().split(" ");
+            Rectangle guard1 = new Rectangle(Integer.parseInt(valuesSpawnGuards[0]),Integer.parseInt(valuesSpawnGuards[1]),Integer.parseInt(valuesSpawnGuards[2]),Integer.parseInt(valuesSpawnGuards[3]));
+            List<Area> spawnAreaGuardsI = new ArrayList<Area>();
+            spawnAreaGuardsI.add(guard1);
+
+
+            String[] targetareass = targetarea.getText().split(" ");
+            Rectangle targetAreaI = new Rectangle(Integer.parseInt(targetareass[0]),Integer.parseInt(targetareass[1]),Integer.parseInt(targetareass[2]),Integer.parseInt(targetareass[3]));
+            
+
+            //spawn Area Intruders
+            List<Area> spawnAreaIntrudersI = new ArrayList<Area>();
+            spawnAreaIntrudersI.add(guard1);
+
+            //walls
+            String[] wallsS = walls.getText().split(",");
+            List<Area> wallsI = new ArrayList<>();
+            for (int i =0;i<wallsS.length ;i++ ) {
+                String[] wallsCord = wallsS[i].split(" ");
+                Rectangle wallll = new Rectangle(Integer.parseInt(wallsCord[0]),Integer.parseInt(wallsCord[1]),Integer.parseInt(wallsCord[2]),Integer.parseInt(wallsCord[3]));
+                wallsI.add(wallll);
+            }
+
+
+
+            //shaded areas
+            String[] shadedAreasIS = shaded.getText().split(",");
+            List<Area> shadedAreasI = new ArrayList<>();
+            for (int i =0;i<shadedAreasIS.length ;i++ ) {
+                String[] shadedAreasCord = shadedAreasIS[i].split(" ");
+                Rectangle shadedareee = new Rectangle(Integer.parseInt(shadedAreasCord[0]),Integer.parseInt(shadedAreasCord[1]),Integer.parseInt(shadedAreasCord[2]),Integer.parseInt(shadedAreasCord[3]));
+                shadedAreasI.add(shadedareee);
+            }
+
+            //teleportals
+            String[] teleportss = teleport.getText().split(",");
+            List<Area> teleportPortalsI = new ArrayList<>();
+            for (int i =0;i<teleportss.length ;i++ ) {
+                String[] teleportssCord = teleportss[i].split(" ");
+                Rectangle teleportssCords = new Rectangle(Integer.parseInt(teleportssCord[0]),Integer.parseInt(teleportssCord[1]),Integer.parseInt(teleportssCord[2]),Integer.parseInt(teleportssCord[3]));
+                teleportPortalsI.add(teleportssCords);
+            }
+
+            //Windows
+            String[] windowsString = windows.getText().split(",");
+            List<Area> windowsI = new ArrayList<>();
+            for (int i =0;i<windowsString.length ;i++ ) {
+                String[] windowsStringC = windowsString[i].split(" ");
+                Rectangle windowsStringCs = new Rectangle(Integer.parseInt(windowsStringC[0]),Integer.parseInt(windowsStringC[1]),Integer.parseInt(windowsStringC[2]),Integer.parseInt(windowsStringC[3]));
+                windowsI.add(windowsStringCs);
+            }
+            //Doors
+            String[] doorsString = doors.getText().split(",");
+            List<Area> doorsI = new ArrayList<>();
+            for (int i =0;i<doorsString.length ;i++ ) {
+                String[] doorsCord = doorsString[i].split(" ");
+                Rectangle doorsStringRec = new Rectangle(Integer.parseInt(doorsCord[0]),Integer.parseInt(doorsCord[1]),Integer.parseInt(doorsCord[2]),Integer.parseInt(doorsCord[3]));
+                doorsI.add(doorsStringRec);
+            }
+            //SentryTowers
+            String[] towersString = sentrytower.getText().split(",");
+            List<Area> sentrytowersI = new ArrayList<>();
+            for (int i =0;i<towersString.length ;i++ ) {
+                String[] towersStringss = towersString[i].split(" ");
+                Rectangle towersStringssC = new Rectangle(Integer.parseInt(towersStringss[0]),Integer.parseInt(towersStringss[1]),Integer.parseInt(towersStringss[2]),Integer.parseInt(towersStringss[3]));
+                sentrytowersI.add(towersStringssC);
+            }
+            
+
+
+            environment = new Environment(widthI,heightI,scalingI,spawnAreaIntrudersI,spawnAreaGuardsI,wallsI,shadedAreasI,teleportPortalsI,targetAreaI,windowsI,doorsI,sentrytowersI);
+    };
 
     /**
      *  Creat an Action listener method.
@@ -315,7 +400,8 @@ public class GameSettings implements ActionListener  {
             settings2.setVisible(true);
             settings1.setVisible(false);
             window.add(settings2);   
-            }    
+            }
+
             nextInt++;
         }
 
@@ -327,38 +413,20 @@ public class GameSettings implements ActionListener  {
                 next.setVisible(false);
             }
         }
+    if(e.getSource()==back){
+     window.dispose();
+     Menu Menu = new Menu();
+ }        
         /**
          *  If start clicked create new game window.
          */
         if(e.getSource()==start){
-             double widthI = Double.parseDouble(width.getText());
-             double heightI = Double.parseDouble(height.getText());
-              Rectangle guard1 = new Rectangle(367,514,200,25);
-              List<Area> spawnAreaGuardsI = new ArrayList<Area>();
-              spawnAreaGuardsI.add(guard1);
-            List<Area> spawnAreaIntrudersI = new ArrayList<Area>();
-              Rectangle wall1 = new Rectangle(30,40,770,120);
-            List<Area> wallsI = new ArrayList<>();
-              wallsI.add(wall1);
-            List<Area> shadedAreasI = new ArrayList<>();
-            List<Area> teleportPortalsI = new ArrayList<>();
-              Rectangle targetArea = new Rectangle(224,472,200,25);
 
-            Environment Environment = new Environment(widthI,heightI,spawnAreaIntrudersI,spawnAreaGuardsI,wallsI,shadedAreasI,teleportPortalsI,targetArea);
-            System.out.println(Environment.getHeight());
-            GameWindow gameWindow = new GameWindow(Environment);
+            createEnvironment();
+            GameWindow gameWindow = new GameWindow(environment);
             window.dispose();
             
         }
-
-        /**
-         *  If uploudFile  clicked the user can select a file for the game settings
-         */
-
-        if(e.getSource()==uploudFile){
-           JOptionPane.showMessageDialog(uploudFile,"NOT IMPLEMENTED YET! :(" );
-        }
-
 
     }
 
