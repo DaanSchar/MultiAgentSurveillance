@@ -144,6 +144,12 @@ public class Vector {
         return Double.compare(vector.x, x) == 0 && Double.compare(vector.y, y) == 0 && Double.compare(vector.z, z) == 0;
     }
 
+
+    public Vector copy(){
+        return new Vector(x,y,z);
+    }
+
+
     @Override
     public int hashCode() {
         return Objects.hash(x, y, z);
@@ -154,7 +160,7 @@ public class Vector {
         return "[" + this.x + ", " + this.y + ", " + this.z + "]";
     }
 
-    private Vector rotate(double angle) {
+    public Vector rotate(double angle) {
         double x1 = (this.x * Math.cos(Math.toRadians(angle)) - this.y * Math.sin(Math.toRadians(angle)));
         double y1 = (this.x * Math.sin(Math.toRadians(angle)) + this.y * Math.cos(Math.toRadians(angle))) ;
         return new Vector(x1, y1);
