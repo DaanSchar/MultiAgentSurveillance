@@ -5,6 +5,7 @@ import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.Agent;
 import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
+import nl.maastrichtuniversity.dke.agents.modules.movement.Movement;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.UniformSpawnModule;
 
 import java.util.ArrayList;
@@ -49,11 +50,11 @@ public class Scenario {
 
         for (int i = 0; i < numGuards; i++)
             guards.add(new Guard(
-                    new UniformSpawnModule(environment), baseSpeedGuard));
+                    new UniformSpawnModule(environment),new Movement(), baseSpeedGuard));
 
         for (int i = 0; i < numIntruders; i++)
             intruders.add(new Intruder(
-                    new UniformSpawnModule(environment), baseSpeedIntruder));
+                    new UniformSpawnModule(environment),new Movement(), baseSpeedIntruder));
 
 
     }

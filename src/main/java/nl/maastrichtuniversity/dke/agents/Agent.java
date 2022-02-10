@@ -2,6 +2,7 @@ package nl.maastrichtuniversity.dke.agents;
 
 import lombok.Getter;
 import lombok.Setter;
+import nl.maastrichtuniversity.dke.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.util.Vector;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.ISpawnModule;
 import org.slf4j.Logger;
@@ -16,13 +17,15 @@ public class Agent {
 
     private @Getter @Setter Vector position;
     private @Getter @Setter double baseSpeed;
-    private @Getter @Setter double angle;
+    private @Getter @Setter Vector direction;
 
     private ISpawnModule spawnModule;
+    private IMovement movement;
 
-    public Agent(ISpawnModule spawnModule, double baseSpeed) {
+    public Agent(ISpawnModule spawnModule, IMovement movement, double baseSpeed) {
         this.position = null;
         this.spawnModule = spawnModule;
+        this.movement = movement;
         this.baseSpeed = baseSpeed;
         this.id = agentCount++;
 
@@ -39,27 +42,31 @@ public class Agent {
         logger.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position);
     }
 
-    public void rotateLeft(){
-        double x = angle + baseSpeed;
-        if(x > 365){
-            angle =  x - 365 ;
-        }else{
-            angle += baseSpeed;
-        }
-    }
-    public void rotateRight(){
-        double x = angle - baseSpeed;
-        if(x < 0){
-            angle = 365 + x;
-        }else{
-            angle -= baseSpeed;
-        }
-    }
     public void goForward(){
-        position.add(new Vector((Math.cos(Math.toRadians(angle)) * baseSpeed), Math.sin(Math.toRadians(angle)) * baseSpeed));
+        movement.goForward(position, direction);
     }
+
     public void goBackward(){
-        position.add(new Vector((Math.sin(Math.toRadians(angle)) * baseSpeed), Math.cos(Math.toRadians(angle)) * baseSpeed));
+        movement.goBackward(position, direction);
+    }
+
+    public void sprint(){
+        movement.sprint(position, direction);
+        baseSpeed -= 5;
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        // your code here
+                        baseSpeed += 5;
+                    }
+                },
+                5000
+        );
+    }
+
+    public void rotate(){
+        movement.rotate(direction,baseSpeed);
     }
 
 }
