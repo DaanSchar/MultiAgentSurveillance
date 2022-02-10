@@ -3,6 +3,8 @@ package nl.maastrichtuniversity.dke.areas;
 import lombok.Getter;
 import nl.maastrichtuniversity.dke.util.Vector;
 
+import java.util.List;
+
 public class Circle extends Polygon implements Area{
 
     private static final int FIDELITY = 50; // total vertices representing the circle.
@@ -23,6 +25,11 @@ public class Circle extends Polygon implements Area{
     @Override
     public double getHeight() {
         return radius * 2;
+    }
+
+    @Override
+    public List<Vector> getPositions() {
+        return null;
     }
 
     /**

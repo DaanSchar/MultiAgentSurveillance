@@ -3,6 +3,8 @@ package nl.maastrichtuniversity.dke.areas;
 import lombok.Getter;
 import nl.maastrichtuniversity.dke.util.Vector;
 
+import java.util.List;
+
 public class Rectangle extends Polygon implements Area {
 
     private @Getter final double width;
@@ -20,4 +22,9 @@ public class Rectangle extends Polygon implements Area {
         this.height = y2 - y1;
     }
 
+
+    @Override
+    public List<Vector> getPositions() {
+        return null;
+    }
 }
