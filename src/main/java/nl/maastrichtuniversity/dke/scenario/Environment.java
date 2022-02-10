@@ -48,5 +48,9 @@ public class Environment {
         this.sentrytowers = new ArrayList<>();
     }
 
+    public List<Area> getObjects(){
+        return null;
+    }
+
 
 }
