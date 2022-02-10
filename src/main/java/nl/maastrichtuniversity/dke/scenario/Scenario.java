@@ -53,7 +53,7 @@ public class Scenario {
 
         for (int i = 0; i < numIntruders; i++)
             intruders.add(new Intruder(
-                    new UniformSpawnModule(environment), baseSpeedGuard));
+                    new UniformSpawnModule(environment), baseSpeedIntruder));
 
 
     }
