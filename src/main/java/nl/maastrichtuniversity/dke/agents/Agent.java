@@ -2,6 +2,7 @@ package nl.maastrichtuniversity.dke.agents;
 
 import lombok.Getter;
 import lombok.Setter;
+import nl.maastrichtuniversity.dke.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.util.Vector;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.ISpawnModule;
 import org.slf4j.Logger;
@@ -19,8 +20,9 @@ public class Agent {
     private @Getter @Setter Vector direction;
 
     private ISpawnModule spawnModule;
+    private IMovement movement;
 
-    public Agent(ISpawnModule spawnModule, double baseSpeed) {
+    public Agent(ISpawnModule spawnModule, IMovement movement, double baseSpeed) {
         this.position = null;
         this.spawnModule = spawnModule;
         this.baseSpeed = baseSpeed;
@@ -39,18 +41,16 @@ public class Agent {
         logger.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position);
     }
 
-    public void rotateLeft(){
-        direction = direction.rotate(1);
+    public void goForward(){
+        movement.goForward(position, direction);
     }
 
-    public void rotateRight(){
-        direction = direction.rotate(-1);
-    }
-    public void goForward(){
-        position.add(direction);
-    }
     public void goBackward(){
-        position.add(direction.mul(-1));
+        movement.goBackward(position, direction);
+    }
+
+    public void rotate(){
+        movement.rotate(direction,baseSpeed);
     }
 
 }
