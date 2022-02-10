@@ -7,7 +7,7 @@ import nl.maastrichtuniversity.dke.util.Vector;
 import java.util.List;
 
 public interface IVisionModule {
-    List<Area> getObstacles(Agent a);
+    List<Area> getObstacles();
 
 
 
