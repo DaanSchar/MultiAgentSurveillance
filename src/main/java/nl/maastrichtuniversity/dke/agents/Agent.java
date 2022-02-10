@@ -12,22 +12,26 @@ public class Agent {
     Logger logger = LoggerFactory.getLogger(Agent.class);
 
     private static int agentCount;
-    private @Getter int id;
+    private final @Getter int id;
 
     private @Getter @Setter Vector position;
     private @Getter @Setter double baseSpeed;
     private @Getter @Setter double angle;
 
-    private ISpawnModule spawnModule;
+    private @Getter @Setter Vector direction;
+    private @Getter @Setter double fov;
 
-    public Agent(ISpawnModule spawnModule, double baseSpeed) {
+    private final ISpawnModule spawnModule;
+
+    public Agent(ISpawnModule spawnModule, double baseSpeed, double fov, Vector direction) {
         this.position = null;
         this.spawnModule = spawnModule;
         this.baseSpeed = baseSpeed;
         this.id = agentCount++;
+        this.fov = fov;
+        this.direction = direction;
 
         System.out.println("you should be able to find this");
-
         logger.info("Created new " + this.getClass().getSimpleName() + " " + this.id + " with modules: " + spawnModule.getClass().getSimpleName());
     }
 
