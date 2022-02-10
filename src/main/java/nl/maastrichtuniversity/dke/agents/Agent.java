@@ -25,6 +25,7 @@ public class Agent {
     public Agent(ISpawnModule spawnModule, IMovement movement, double baseSpeed) {
         this.position = null;
         this.spawnModule = spawnModule;
+        this.movement = movement;
         this.baseSpeed = baseSpeed;
         this.id = agentCount++;
 
@@ -47,6 +48,21 @@ public class Agent {
 
     public void goBackward(){
         movement.goBackward(position, direction);
+    }
+
+    public void sprint(){
+        movement.sprint(position, direction);
+        baseSpeed -= 5;
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        // your code here
+                        baseSpeed += 5;
+                    }
+                },
+                5000
+        );
     }
 
     public void rotate(){

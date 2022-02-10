@@ -14,6 +14,11 @@ public class Movement implements IMovement {
     }
 
     @Override
+    public Vector sprint(Vector position, Vector direction) {
+        return position.add(direction.mul(2));
+    }
+
+    @Override
     public Vector goBackward(Vector position, Vector direction) {
         return position.add(direction.mul(-1));
     }
