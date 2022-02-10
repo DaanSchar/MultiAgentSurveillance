@@ -154,4 +154,12 @@ public class Vector {
         return "[" + this.x + ", " + this.y + ", " + this.z + "]";
     }
 
+    private Vector rotate(double angle) {
+        double x1 = (this.x * Math.cos(Math.toRadians(angle)) - this.y * Math.sin(Math.toRadians(angle)));
+        double y1 = (this.x * Math.sin(Math.toRadians(angle)) + this.y * Math.cos(Math.toRadians(angle))) ;
+        return new Vector(x1, y1);
+
+    }
+
+
 }

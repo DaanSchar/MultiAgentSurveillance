@@ -16,6 +16,7 @@ public class Agent {
 
     private @Getter @Setter Vector position;
     private @Getter @Setter double baseSpeed;
+    private @Getter @Setter double angle;
 
     private ISpawnModule spawnModule;
 
@@ -36,6 +37,29 @@ public class Agent {
     public void spawn() {
         this.position = spawnModule.getSpawnPosition();
         logger.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position);
+    }
+
+    public void rotateLeft(){
+        double x = angle + baseSpeed;
+        if(x > 365){
+            angle =  x - 365 ;
+        }else{
+            angle += baseSpeed;
+        }
+    }
+    public void rotateRight(){
+        double x = angle - baseSpeed;
+        if(x < 0){
+            angle = 365 + x;
+        }else{
+            angle -= baseSpeed;
+        }
+    }
+    public void goForward(){
+        position.add(new Vector((Math.cos(Math.toRadians(angle)) * baseSpeed), Math.sin(Math.toRadians(angle)) * baseSpeed));
+    }
+    public void goBackward(){
+        position.add(new Vector((Math.sin(Math.toRadians(angle)) * baseSpeed), Math.cos(Math.toRadians(angle)) * baseSpeed));
     }
 
 }
