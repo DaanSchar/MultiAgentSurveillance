@@ -3,6 +3,7 @@ package nl.maastrichtuniversity.dke.areas;
 import lombok.Getter;
 import nl.maastrichtuniversity.dke.util.Vector;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Rectangle extends Polygon implements Area {
@@ -25,6 +26,23 @@ public class Rectangle extends Polygon implements Area {
 
     @Override
     public List<Vector> getPositions() {
-        return null;
+
+        List<Vector> positionsVector = new ArrayList<>();
+
+        double x1 = super.getVertices()[0].getX();
+        double y1 = super.getVertices()[0].getY();
+        double x2 = super.getVertices()[2].getX();
+        double y2 = super.getVertices()[2].getY();
+
+        int firstpointx = (int) Math.min(x1,x2);
+        int lastpointx = (int) Math.max(x1,x2);
+        int firstpointy= (int) Math.min(y1,y2);
+        int lsatpointy= (int) Math.max(y1,y2);
+        for (int i = firstpointy; i<=lsatpointy ;i++ ) {
+            for (int j =firstpointx;j<=lastpointx ;j++ ) {
+                positionsVector.add(new Vector(j,i));
+            }
+        }
+        return positionsVector;
     }
 }
