@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class UniformSpawnModule implements ISpawnModule {
 
-    private Environment environment;
+    private final Environment environment;
 
     public UniformSpawnModule(Environment environment) {
         this.environment = environment;
@@ -27,6 +27,10 @@ public class UniformSpawnModule implements ISpawnModule {
         double spawnY = position.getY() + new Random().nextDouble() * spawnArea.getHeight();
 
         return new Vector(spawnX, spawnY);
+    }
+
+    public Vector getSpawnDirection() {
+        return null;
     }
 
 }
