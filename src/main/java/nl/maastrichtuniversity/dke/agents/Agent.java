@@ -23,13 +23,12 @@ public class Agent {
 
     private final ISpawnModule spawnModule;
 
-    public Agent(ISpawnModule spawnModule, double baseSpeed, double fov, Vector direction) {
+    public Agent(ISpawnModule spawnModule, double baseSpeed, double fov) {
         this.position = null;
         this.spawnModule = spawnModule;
         this.baseSpeed = baseSpeed;
         this.id = agentCount++;
         this.fov = fov;
-        this.direction = direction;
 
         System.out.println("you should be able to find this");
         logger.info("Created new " + this.getClass().getSimpleName() + " " + this.id + " with modules: " + spawnModule.getClass().getSimpleName());
@@ -40,6 +39,7 @@ public class Agent {
      */
     public void spawn() {
         this.position = spawnModule.getSpawnPosition();
+        this.direction = spawnModule.getSpawnDirection();
         logger.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position);
     }
 
