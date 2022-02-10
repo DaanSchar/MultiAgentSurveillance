@@ -6,9 +6,11 @@ import java.util.List;
 
 public interface Area {
 
-    boolean isHit(Area area);
+    boolean isColliding(Polygon polygon);
 
     Vector getPosition();
+
+    void setPosition(Vector position);
 
     double getWidth();
 
