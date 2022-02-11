@@ -35,7 +35,7 @@ public abstract class Area {
 
     public abstract boolean isColliding(Area area);
 
-    public abstract boolean containsPoint(int x, int y);
+    public abstract boolean containsPoint(double x, double y);
 
     public abstract List<Vector> getPositions();
 

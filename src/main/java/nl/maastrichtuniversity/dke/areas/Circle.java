@@ -20,7 +20,7 @@ public class Circle extends Area {
     }
 
     @Override
-    public boolean containsPoint(int x, int y) {
+    public boolean containsPoint(double x, double y) {
         return getDistance(x, y) >= radius;
     }
 

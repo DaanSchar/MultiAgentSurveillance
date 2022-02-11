@@ -15,6 +15,7 @@ public class Main extends JPanel{
 
     Area a1 = new Rectangle(50, 50, 70, 70);
     Area a2 = new Circle(70, 70, 20);
+    Vector point = new Vector(60, 60);
 
     public Main() {
         KeyLis listener = new KeyLis();
@@ -33,10 +34,10 @@ public class Main extends JPanel{
                 (int) a1.getHeight()
         );
         g.drawOval(
-                (int) a2.getPosition().getX() - (int) a2.getWidth() / 2,
-                (int) a2.getPosition().getY() - (int) a2.getHeight() / 2,
-                (int) a2.getWidth(),
-                (int) a2.getHeight()
+                (int) point.getX() - 2,
+                (int) point.getY() - 2,
+                4,
+                4
         );
     }
 
@@ -74,7 +75,7 @@ public class Main extends JPanel{
                 default -> throw new IllegalStateException("Unexpected value: " + e.getKeyCode());
             }
 
-            System.out.println(a1.isColliding(a2));
+            System.out.println(a1.containsPoint(point.getX(), point.getY()));
 
             repaint();
         }
