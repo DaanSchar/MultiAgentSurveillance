@@ -40,6 +40,11 @@ public class VisionModule implements IVisionModule{
 
         List<Area> obstacles = new ArrayList<>();
 
+        /*
+            important! we need to sort the objects in the environment by their distance to the agent,
+            so that the closest objects is checked first.
+         */
+
         for (Area area : environment.getObjects()) {
             for (Ray ray : rays) {
                 if (ray.hasPointInArea(area)) obstacles.add(area);
