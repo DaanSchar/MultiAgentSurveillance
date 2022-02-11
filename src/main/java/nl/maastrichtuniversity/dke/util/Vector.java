@@ -154,6 +154,11 @@ public class Vector {
         return "[" + this.x + ", " + this.y + ", " + this.z + "]";
     }
 
+    /**
+     * rotates the vector around the z axis (so 2D)
+     * @param angle the angle of rotation in degrees
+     * @return rotated vector
+     */
     public Vector rotate(double angle) {
         double x1 = (this.x * Math.cos(Math.toRadians(angle)) - this.y * Math.sin(Math.toRadians(angle)));
         double y1 = (this.x * Math.sin(Math.toRadians(angle)) + this.y * Math.cos(Math.toRadians(angle))) ;
@@ -161,5 +166,14 @@ public class Vector {
 
     }
 
-
+    /**
+     * returns a vector with the absolute values of the components.
+     */
+    public Vector abs() {
+        return new Vector(
+                Math.abs(this.x),
+                Math.abs(this.y),
+                Math.abs(this.z)
+        );
+    }
 }
