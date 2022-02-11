@@ -1,12 +1,13 @@
 package nl.maastrichtuniversity.dke;
 
-import nl.maastrichtuniversity.dke.areas.Circle;
-import nl.maastrichtuniversity.dke.areas.Collider;
+import nl.maastrichtuniversity.dke.areas.*;
 import nl.maastrichtuniversity.dke.areas.Rectangle;
+import nl.maastrichtuniversity.dke.areas.Shape;
 import nl.maastrichtuniversity.dke.util.Vector;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Polygon;
 import java.awt.event.*;
 
 /**
@@ -14,9 +15,9 @@ import java.awt.event.*;
  */
 public class Main extends JPanel{
 
-    nl.maastrichtuniversity.dke.areas.Polygon r1 = new Circle(50, 50, 100);
-    nl.maastrichtuniversity.dke.areas.Polygon r2 = new Rectangle(60, 70, 150, 200);
-    nl.maastrichtuniversity.dke.areas.Polygon middle = new Circle(300, 300, 5);
+    Area r1 = new Circle(50, 50, 100);
+    Area r2 = new Rectangle(60, 70, 150, 200);
+    Shape middle = new Circle(300, 300, 5);
     Polygon p1;
     Polygon p2;
     Polygon mink;
@@ -36,25 +37,25 @@ public class Main extends JPanel{
         mink = new Polygon();
         Polygon nul = new Polygon();
 
-        var gjk = new Collider(r1, r2);
-
-        for (Vector v : r1.getVertices()) {
-            p1.addPoint((int) v.getX(), (int) v.getY());
-        }
-
-        for (Vector v : r2.getVertices()) {
-            p2.addPoint((int) v.getX(), (int) v.getY());
-        }
-
-        for (Vector v : middle.getVertices()) {
-            nul.addPoint((int) v.getX(), (int) v.getY());
-        }
-
-        gjk.isHit();
-
-        for (Vector v : gjk.getSimplex().getVertices()) {
-            mink.addPoint((int) v.getX() + 300, (int) v.getY() + 300);
-        }
+//        var gjk = new Collider(r1, r2);
+//
+//        for (Vector v : r1.getVertices()) {
+//            p1.addPoint((int) v.getX(), (int) v.getY());
+//        }
+//
+//        for (Vector v : r2.getVertices()) {
+//            p2.addPoint((int) v.getX(), (int) v.getY());
+//        }
+//
+//        for (Vector v : middle.getVertices()) {
+//            nul.addPoint((int) v.getX(), (int) v.getY());
+//        }
+//
+//        gjk.isHit();
+//
+//        for (Vector v : gjk.getSimplex().getVertices()) {
+//            mink.addPoint((int) v.getX() + 300, (int) v.getY() + 300);
+//        }
 
         g.drawPolygon(p1);
         g.drawPolygon(p2);
@@ -91,10 +92,11 @@ public class Main extends JPanel{
         @Override
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_LEFT -> r1.move(new Vector(-10, 0));
-                case KeyEvent.VK_RIGHT -> r1.move(new Vector(10, 0));
-                case KeyEvent.VK_UP -> r1.move(new Vector(0, -10));
-                case KeyEvent.VK_DOWN -> r1.move(new Vector(0, 10));
+//                case KeyEvent.VK_LEFT -> r1.move(new Vector(-10, 0));
+//                case KeyEvent.VK_RIGHT -> r1.move(new Vector(10, 0));
+//                case KeyEvent.VK_UP -> r1.move(new Vector(0, -10));
+//                case KeyEvent.VK_DOWN -> r1.move(new Vector(0, 10));
+                case KeyEvent.VK_LEFT -> System.out.println("left");
                 default -> throw new IllegalStateException("Unexpected value: " + e.getKeyCode());
             }
             System.out.println(r1.isColliding(r2));
