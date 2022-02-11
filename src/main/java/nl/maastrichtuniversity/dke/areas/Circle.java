@@ -5,48 +5,27 @@ import nl.maastrichtuniversity.dke.util.Vector;
 
 import java.util.List;
 
-public class Circle extends Polygon implements Area{
-
-    private static final int FIDELITY = 50; // total vertices representing the circle.
+public class Circle extends Shape implements Area{
 
     private @Getter final double radius;
 
     public Circle(double x, double y, double radius) {
-        super(x, y);
+        super( new Vector(x, y), radius*2, radius*2);
         this.radius = radius;
-        super.setVertices(getVerticesApprox());
     }
 
     @Override
-    public double getWidth() {
-        return radius * 2;
+    public boolean isColliding(Area area) {
+        return false;
     }
 
     @Override
-    public double getHeight() {
-        return radius * 2;
+    public boolean containsPoint(int x, int y) {
+        return false;
     }
 
     @Override
     public List<Vector> getPositions() {
         return null;
-    }
-
-    /**
-     * approximates the circle with a polygon.
-     * @return array of vertices representing the circle polygon.
-     */
-    private Vector[] getVerticesApprox() {
-
-        Vector[] vertices = new Vector[FIDELITY];
-
-        for (int i = 0; i < FIDELITY; i++) {
-            double angle = i * 2 * Math.PI / FIDELITY;
-            double x = super.getPosition().getX() + radius * Math.cos(angle);
-            double y = super.getPosition().getY() + radius * Math.sin(angle);
-            vertices[i] = new Vector(x, y);
-        }
-
-        return vertices;
     }
 }
