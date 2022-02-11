@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class UniformSpawnModule implements ISpawnModule {
 
-    private Environment environment;
+    private final Environment environment;
 
     public UniformSpawnModule(Environment environment) {
         this.environment = environment;
