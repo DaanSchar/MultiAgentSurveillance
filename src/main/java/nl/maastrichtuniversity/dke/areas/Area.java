@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface Area {
 
-    boolean isColliding(Polygon polygon);
+    boolean isColliding(Area area);
 
     Vector getPosition();
 
@@ -15,6 +15,8 @@ public interface Area {
     double getWidth();
 
     double getHeight();
+
+    boolean containsPoint(int x, int y);
 
     List<Vector> getPositions();
 
