@@ -5,7 +5,7 @@ import nl.maastrichtuniversity.dke.util.Vector;
 
 import java.util.List;
 
-public class Circle extends Shape implements Area{
+public class Circle extends Area {
 
     private @Getter final double radius;
 
@@ -16,8 +16,7 @@ public class Circle extends Shape implements Area{
 
     @Override
     public boolean isColliding(Area area) {
-        //TODO: implement this
-        return false;
+        return Collider.collides(this, area);
     }
 
     @Override
@@ -27,9 +26,9 @@ public class Circle extends Shape implements Area{
 
     @Override
     public List<Vector> getPositions() {
+        logger.error("getPositions() not implemented for Circle");
         return null;
     }
-
 
     private double getDistance(double x, double y) {
         return getPosition().getDistance(new Vector(x, y));

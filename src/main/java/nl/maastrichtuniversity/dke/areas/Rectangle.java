@@ -1,12 +1,11 @@
 package nl.maastrichtuniversity.dke.areas;
 
-import lombok.Getter;
 import nl.maastrichtuniversity.dke.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rectangle extends Shape implements Area {
+public class Rectangle extends Area {
 
     public Rectangle(double x1, double y1, double x2, double y2){
         super(new Vector(x1, y1), x2- x1, y2- y1);
@@ -14,8 +13,7 @@ public class Rectangle extends Shape implements Area {
 
     @Override
     public boolean isColliding(Area area) {
-        //TODO: implement this
-        return false;
+        return Collider.collides(this, area);
     }
 
     @Override
