@@ -14,11 +14,13 @@ public class Rectangle extends Shape implements Area {
 
     @Override
     public boolean isColliding(Area area) {
+        //TODO: implement this
         return false;
     }
 
     @Override
     public boolean containsPoint(int x, int y) {
+        //TODO: implement this
         return false;
     }
 

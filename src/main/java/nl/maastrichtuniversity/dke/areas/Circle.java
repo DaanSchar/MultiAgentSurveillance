@@ -16,16 +16,22 @@ public class Circle extends Shape implements Area{
 
     @Override
     public boolean isColliding(Area area) {
+        //TODO: implement this
         return false;
     }
 
     @Override
     public boolean containsPoint(int x, int y) {
-        return false;
+        return getDistance(x, y) >= radius;
     }
 
     @Override
     public List<Vector> getPositions() {
         return null;
+    }
+
+
+    private double getDistance(double x, double y) {
+        return getPosition().getDistance(new Vector(x, y));
     }
 }
