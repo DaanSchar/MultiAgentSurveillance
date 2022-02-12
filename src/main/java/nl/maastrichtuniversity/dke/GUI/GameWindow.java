@@ -189,7 +189,7 @@ class AnimationListener implements ActionListener {
         @Override
         public void mouseDragged(MouseEvent e) {
             Point point1 = e.getLocationOnScreen();
-            if (released=true) {
+            if (released) {
                 game.panning((point1.x-point0.x),(point1.y-point0.y));
             }
             window.repaint();
