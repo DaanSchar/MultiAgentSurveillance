@@ -302,7 +302,7 @@ public class GameSettings implements ActionListener  {
 
     public void createEnvironment(){
 
-        //width , height scalling
+        //width , height scaling
         double widthI = Double.parseDouble(width.getText());
         double heightI = Double.parseDouble(height.getText());
         double scalingI = Double.parseDouble(scaling.getText());
@@ -328,8 +328,8 @@ public class GameSettings implements ActionListener  {
         List<Area> wallsI = new ArrayList<>();
         for (String wallsS1 : wallsS) {
             String[] wallsCord = wallsS1.split(" ");
-            Rectangle wallll = new Rectangle(Integer.parseInt(wallsCord[0]), Integer.parseInt(wallsCord[1]), Integer.parseInt(wallsCord[2]), Integer.parseInt(wallsCord[3]));
-            wallsI.add(wallll);
+            Rectangle wall = new Rectangle(Integer.parseInt(wallsCord[0]), Integer.parseInt(wallsCord[1]), Integer.parseInt(wallsCord[2]), Integer.parseInt(wallsCord[3]));
+            wallsI.add(wall);
         }
 
 
@@ -339,17 +339,17 @@ public class GameSettings implements ActionListener  {
         List<Area> shadedAreasI = new ArrayList<>();
         for (String areasI : shadedAreasIS) {
             String[] shadedAreasCord = areasI.split(" ");
-            Rectangle shadedareee = new Rectangle(Integer.parseInt(shadedAreasCord[0]), Integer.parseInt(shadedAreasCord[1]), Integer.parseInt(shadedAreasCord[2]), Integer.parseInt(shadedAreasCord[3]));
-            shadedAreasI.add(shadedareee);
+            Rectangle shadedArea = new Rectangle(Integer.parseInt(shadedAreasCord[0]), Integer.parseInt(shadedAreasCord[1]), Integer.parseInt(shadedAreasCord[2]), Integer.parseInt(shadedAreasCord[3]));
+            shadedAreasI.add(shadedArea);
         }
 
-        //teleportals
-        String[] teleportss = teleport.getText().split(",");
+        //teleports
+        String[] teleports = teleport.getText().split(",");
         List<Area> teleportPortalsI = new ArrayList<>();
-        for (String element : teleportss) {
-            String[] teleportssCord = element.split(" ");
-            Rectangle teleportssCords = new Rectangle(Integer.parseInt(teleportssCord[0]), Integer.parseInt(teleportssCord[1]), Integer.parseInt(teleportssCord[2]), Integer.parseInt(teleportssCord[3]));
-            teleportPortalsI.add(teleportssCords);
+        for (String element : teleports) {
+            String[] teleportsCord = element.split(" ");
+            Rectangle teleportsCords = new Rectangle(Integer.parseInt(teleportsCord[0]), Integer.parseInt(teleportsCord[1]), Integer.parseInt(teleportsCord[2]), Integer.parseInt(teleportsCord[3]));
+            teleportPortalsI.add(teleportsCords);
         }
 
         //Windows
@@ -370,16 +370,16 @@ public class GameSettings implements ActionListener  {
         }
         //SentryTowers
         String[] towersString = sentryTower.getText().split(",");
-        List<Area> sentrytowersI = new ArrayList<>();
+        List<Area> sentryTowersI = new ArrayList<>();
         for (String s : towersString) {
-            String[] towersStringss = s.split(" ");
-            Rectangle towersStringssC = new Rectangle(Integer.parseInt(towersStringss[0]), Integer.parseInt(towersStringss[1]), Integer.parseInt(towersStringss[2]), Integer.parseInt(towersStringss[3]));
-            sentrytowersI.add(towersStringssC);
+            String[] towersStrings = s.split(" ");
+            Rectangle towersStringsC = new Rectangle(Integer.parseInt(towersStrings[0]), Integer.parseInt(towersStrings[1]), Integer.parseInt(towersStrings[2]), Integer.parseInt(towersStrings[3]));
+            sentryTowersI.add(towersStringsC);
         }
 
 
 
-        environment = new Environment(widthI,heightI,scalingI,spawnAreaIntrudersI,spawnAreaGuardsI,wallsI,shadedAreasI,teleportPortalsI,targetAreaI,windowsI,doorsI,sentrytowersI);
+        environment = new Environment(widthI,heightI,scalingI,spawnAreaIntrudersI,spawnAreaGuardsI,wallsI,shadedAreasI,teleportPortalsI,targetAreaI,windowsI,doorsI,sentryTowersI);
     }
 
     /**
