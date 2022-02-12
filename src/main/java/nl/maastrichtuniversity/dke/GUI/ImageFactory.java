@@ -19,6 +19,9 @@ public class ImageFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(ImageFactory.class);
 
+    /**
+     * Initializes the image factory by loading all images.
+     */
     public static void init() {
         images = new HashMap<>();
 
