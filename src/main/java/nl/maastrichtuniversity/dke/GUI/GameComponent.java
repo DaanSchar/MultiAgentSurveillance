@@ -2,17 +2,17 @@ package nl.maastrichtuniversity.dke.GUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.sql.SQLOutput;
+import java.util.List;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
 import javax.swing.Timer;
 
+import nl.maastrichtuniversity.dke.areas.Area;
 import nl.maastrichtuniversity.dke.scenario.Environment;
+import nl.maastrichtuniversity.dke.util.Vector;
 
 public class GameComponent extends JComponent{
 
@@ -70,91 +70,38 @@ public class GameComponent extends JComponent{
 
 	}
 	public void paintComponent(Graphics g){
-
-		//drawing textures
 		g.drawImage(guard1,panningX+300,panningY+guardy,texturesize,texturesize,null);
-
-
-		
-		//createWalls 
-		for (int i =0;i<environment.getWalls().size() ;i++ ) {
-			for (int j =0; j<environment.getWalls().get(i).getPositions().size() ;j++ ) {
-				g.drawImage(wall,panningX+((int)environment.getWalls().get(i).getPositions().get(j).getX())*texturesize,panningY+((int)environment.getWalls().get(i).getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
-			}
-		}
-
-		System.out.println("github");
-
-		//CreateTeleportPortals
-		 for (int i =0;i<environment.getTeleportPortals().size() ;i++ ) {
-		 	for (int j =0; j<environment.getTeleportPortals().get(i).getPositions().size() ;j++ ) {
-		 		g.drawImage(teleport,panningX+((int)environment.getTeleportPortals().get(i).getPositions().get(j).getX())*texturesize,panningY+((int)environment.getTeleportPortals().get(i).getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
-		 	}
-		 }	
-
-		//createSpawnAreaIntruders
-		for (int i =0;i<environment.getSpawnAreaIntruders().size() ;i++ ) {
-			for (int j =0; j<environment.getSpawnAreaIntruders().get(i).getPositions().size() ;j++ ) {
-				g.drawImage(spawnArea,panningX+((int)environment.getSpawnAreaIntruders().get(i).getPositions().get(j).getX())*texturesize,panningY+((int)environment.getSpawnAreaIntruders().get(i).getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
-			}
-		}	
-
-		//createSpawnAreaGuards
-		for (int i =0;i<environment.getSpawnAreaGuards().size() ;i++ ) {
-			for (int j =0; j<environment.getSpawnAreaGuards().get(i).getPositions().size() ;j++ ) {
-				g.drawImage(spawnArea,panningX+((int)environment.getSpawnAreaGuards().get(i).getPositions().get(j).getX())*texturesize,panningY+((int)environment.getSpawnAreaGuards().get(i).getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
-			}
-		}	
-
-		//setTextures
-
-
-		//createWindows
-		for (int i =0;i<environment.getWindows().size() ;i++ ) {
-			for (int j =0; j<environment.getWindows().get(i).getPositions().size() ;j++ ) {
-				g.drawImage(window,panningX+((int)environment.getWindows().get(i).getPositions().get(j).getX())*texturesize,panningY+((int)environment.getWindows().get(i).getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
-			}
-		}
-
-		//createDoors
-		for (int i =0;i<environment.getDoors().size() ;i++ ) {
-			for (int j =0; j<environment.getDoors().get(i).getPositions().size() ;j++ ) {
-				g.drawImage(door,panningX+((int)environment.getDoors().get(i).getPositions().get(j).getX())*texturesize,panningY+((int)environment.getDoors().get(i).getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
-			}
-		}
-
-		//createSentryTowers
-		for (int i =0;i<environment.getSentrytowers().size() ;i++ ) {
-			for (int j =0; j<environment.getSentrytowers().get(i).getPositions().size() ;j++ ) {
-				g.drawImage(sentrytower,panningX+((int)environment.getSentrytowers().get(i).getPositions().get(j).getX())*texturesize,panningY+((int)environment.getSentrytowers().get(i).getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
-			}
-		}
-
-		//createTargetArea
-		for (int i =0;i<1 ;i++ ) {
-			for (int j =0; j<environment.getTargetArea().getPositions().size() ;j++ ) {
-				g.drawImage(targetArea,panningX+((int)environment.getTargetArea().getPositions().get(j).getX())*texturesize,panningY+((int)environment.getTargetArea().getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
-			if ((environment.getTargetArea().getPositions().size())/2 + 2== j) {
-				g.drawImage(target,panningX+((int)environment.getTargetArea().getPositions().get(j).getX())*texturesize,panningY+((int)environment.getTargetArea().getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
-				}
-			}
-		}
-		//createTrees
-		for (int i =0;i<environment.getShadedAreas().size() ;i++ ) {
-			for (int j =0; j<environment.getShadedAreas().get(i).getPositions().size() ;j++ ) {
-				g.drawImage(tree,panningX+((int)environment.getShadedAreas().get(i).getPositions().get(j).getX())*texturesize,panningY+((int)environment.getShadedAreas().get(i).getPositions().get(j).getY())*texturesize,texturesize,texturesize,null);
-			}
-		}
-
-
-
-
-
-		//move guard
-		//moveGuards();
-
-
+		drawAreas(g, environment.getWalls(), wall);
+		drawAreas(g, environment.getTeleportPortals(), teleport);
+		drawAreas(g, environment.getSpawnAreaIntruders(), spawnArea);
+		drawAreas(g, environment.getSpawnAreaGuards(), spawnArea);
+		drawAreas(g, environment.getWindows(), window);
+		drawAreas(g, environment.getDoors(), door);
+		drawAreas(g, environment.getSentryTowers(), sentrytower);
+		drawAreas(g, environment.getTargetArea(), target);
+		drawAreas(g, environment.getShadedAreas(), tree);
 	}
+
+	private void drawAreas(Graphics g, List<Area> areas, BufferedImage image ) {
+		for (Area area : areas) {
+			drawArea(g, area.getPositions(), image);
+		}
+	}
+
+	private void drawArea(Graphics g, List<Vector> positions, BufferedImage image) {
+		for (Vector position : positions) {
+			g.drawImage(
+					image,
+					panningX + ((int) position.getX()) * texturesize,
+					panningY + ((int) position.getY()) * texturesize,
+					texturesize,
+					texturesize,
+					null
+			);
+		}
+	}
+
+
 	public void moveGuards(){
 		Timer timer = new Timer(1000, e -> {
 			guardy++;
