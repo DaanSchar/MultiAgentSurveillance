@@ -32,22 +32,15 @@ public class Rectangle extends Area {
 
     @Override
     public List<Vector> getPositions() {
-
         List<Vector> positionsVector = new ArrayList<>();
 
-        double x1 = super.getPosition().getX();
-        double y1 = super.getPosition().getY();
-        double x2 = super.getPosition().getX() + super.getWidth();
-        double y2 = super.getPosition().getY() + super.getHeight();
-
-        int firstPointX = (int) Math.min(x1,x2);
-        int lastPointX = (int) Math.max(x1,x2);
-        int firstPointY= (int) Math.min(y1,y2);
-        int lastPointY= (int) Math.max(y1,y2);
-
-        for (int i = firstPointY; i <= lastPointY; i++) {
-            for (int j = firstPointX; j <= lastPointX; j++) {
-                positionsVector.add(new Vector(j,i));
+        for (int i = 0; i <= getWidth(); i++) {
+            for (int j = 0; j <= getHeight(); j++) {
+                positionsVector.add(
+                        new Vector(
+                                i + super.getPosition().getX(),
+                                j + super.getPosition().getY())
+                );
             }
         }
 
