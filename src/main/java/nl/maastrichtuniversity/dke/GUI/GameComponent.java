@@ -82,12 +82,24 @@ public class GameComponent extends JComponent{
 		drawAreas(g, environment.getShadedAreas(), tree);
 	}
 
+	/**
+	 * Draws all the areas in a list on the screen
+	 * @param g graphics given by the paintComponent
+	 * @param areas list of areas to draw
+	 * @param image image corresponding to the area to draw
+	 */
 	private void drawAreas(Graphics g, List<Area> areas, BufferedImage image ) {
 		for (Area area : areas) {
 			drawArea(g, area.getPositions(), image);
 		}
 	}
 
+	/**
+	 * Draws an area on the screen
+	 * @param g graphics given by the paintComponent
+	 * @param positions list of positions of the area
+	 * @param image image of the area
+	 */
 	private void drawArea(Graphics g, List<Vector> positions, BufferedImage image) {
 		for (Vector position : positions) {
 			g.drawImage(
