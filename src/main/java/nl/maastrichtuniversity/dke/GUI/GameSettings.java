@@ -67,7 +67,7 @@ public class GameSettings implements ActionListener  {
 
     /*
      * Create a general label
-     * Creating 3 Buttons and add thier icons (start ,  ).
+     * Creating 3 Buttons and add their icons (start ,  ).
      * create new color
      * create a double for the frame size number
      */
@@ -314,9 +314,9 @@ public class GameSettings implements ActionListener  {
         spawnAreaGuardsI.add(guard1);
 
 
-        String[] targetareass = targetArea.getText().split(" ");
+        String[] targetAreas = targetArea.getText().split(" ");
         List<Area> targetAreaI = new ArrayList<>();
-        targetAreaI.add(new Rectangle(Integer.parseInt(targetareass[0]),Integer.parseInt(targetareass[1]),Integer.parseInt(targetareass[2]),Integer.parseInt(targetareass[3])));
+        targetAreaI.add(new Rectangle(Integer.parseInt(targetAreas[0]),Integer.parseInt(targetAreas[1]),Integer.parseInt(targetAreas[2]),Integer.parseInt(targetAreas[3])));
 
 
         //spawn Area Intruders
