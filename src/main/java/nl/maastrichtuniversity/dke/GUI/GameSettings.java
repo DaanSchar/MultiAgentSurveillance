@@ -307,79 +307,43 @@ public class GameSettings implements ActionListener  {
         double heightI = Double.parseDouble(height.getText());
         double scalingI = Double.parseDouble(scaling.getText());
 
-        //spawn Area Guards
-        String[] valuesSpawnGuards = spawnAreaGuards.getText().split(" ");
-        Rectangle guard1 = new Rectangle(Integer.parseInt(valuesSpawnGuards[0]),Integer.parseInt(valuesSpawnGuards[1]),Integer.parseInt(valuesSpawnGuards[2]),Integer.parseInt(valuesSpawnGuards[3]));
-        List<Area> spawnAreaGuardsI = new ArrayList<>();
-        spawnAreaGuardsI.add(guard1);
+        environment = new Environment(
+                widthI,
+                heightI,
+                scalingI,
+                createAreas(spawnAreaIntruders),
+                createAreas(spawnAreaGuards),
+                createAreas(walls),
+                createAreas(shaded),
+                createAreas(teleport),
+                createAreas(targetArea),
+                createAreas(windows),
+                createAreas(doors),
+                createAreas(sentryTower)
+        );
+    }
 
+    /**
+     * creates a list from the textField
+     * @param textField field containing the data for the areas
+     * @return a list of areas
+     */
+    private List<Area> createAreas(JTextField textField) {
+        String[] text = textField.getText().split(",");
+        List<Area> areas = new ArrayList<>();
 
-        String[] targetAreas = targetArea.getText().split(" ");
-        List<Area> targetAreaI = new ArrayList<>();
-        targetAreaI.add(new Rectangle(Integer.parseInt(targetAreas[0]),Integer.parseInt(targetAreas[1]),Integer.parseInt(targetAreas[2]),Integer.parseInt(targetAreas[3])));
-
-
-        //spawn Area Intruders
-        List<Area> spawnAreaIntrudersI = new ArrayList<>();
-        spawnAreaIntrudersI.add(guard1);
-
-        //walls
-        String[] wallsS = walls.getText().split(",");
-        List<Area> wallsI = new ArrayList<>();
-        for (String wallsS1 : wallsS) {
-            String[] wallsCord = wallsS1.split(" ");
-            Rectangle wall = new Rectangle(Integer.parseInt(wallsCord[0]), Integer.parseInt(wallsCord[1]), Integer.parseInt(wallsCord[2]), Integer.parseInt(wallsCord[3]));
-            wallsI.add(wall);
+        for (String value : text) {
+            String[] coordinates = value.split(" ");
+            Area area = new Rectangle(Integer.parseInt(
+                    coordinates[0]),
+                    Integer.parseInt(coordinates[1]),
+                    Integer.parseInt(coordinates[2]),
+                    Integer.parseInt(coordinates[3])
+            );
+            areas.add(area);
         }
 
-
-
-        //shaded areas
-        String[] shadedAreasIS = shaded.getText().split(",");
-        List<Area> shadedAreasI = new ArrayList<>();
-        for (String areasI : shadedAreasIS) {
-            String[] shadedAreasCord = areasI.split(" ");
-            Rectangle shadedArea = new Rectangle(Integer.parseInt(shadedAreasCord[0]), Integer.parseInt(shadedAreasCord[1]), Integer.parseInt(shadedAreasCord[2]), Integer.parseInt(shadedAreasCord[3]));
-            shadedAreasI.add(shadedArea);
-        }
-
-        //teleports
-        String[] teleports = teleport.getText().split(",");
-        List<Area> teleportPortalsI = new ArrayList<>();
-        for (String element : teleports) {
-            String[] teleportsCord = element.split(" ");
-            Rectangle teleportsCords = new Rectangle(Integer.parseInt(teleportsCord[0]), Integer.parseInt(teleportsCord[1]), Integer.parseInt(teleportsCord[2]), Integer.parseInt(teleportsCord[3]));
-            teleportPortalsI.add(teleportsCords);
-        }
-
-        //Windows
-        String[] windowsString = windows.getText().split(",");
-        List<Area> windowsI = new ArrayList<>();
-        for (String item : windowsString) {
-            String[] windowsStringC = item.split(" ");
-            Rectangle windowsStringCs = new Rectangle(Integer.parseInt(windowsStringC[0]), Integer.parseInt(windowsStringC[1]), Integer.parseInt(windowsStringC[2]), Integer.parseInt(windowsStringC[3]));
-            windowsI.add(windowsStringCs);
-        }
-        //Doors
-        String[] doorsString = doors.getText().split(",");
-        List<Area> doorsI = new ArrayList<>();
-        for (String value : doorsString) {
-            String[] doorsCord = value.split(" ");
-            Rectangle doorsStringRec = new Rectangle(Integer.parseInt(doorsCord[0]), Integer.parseInt(doorsCord[1]), Integer.parseInt(doorsCord[2]), Integer.parseInt(doorsCord[3]));
-            doorsI.add(doorsStringRec);
-        }
-        //SentryTowers
-        String[] towersString = sentryTower.getText().split(",");
-        List<Area> sentryTowersI = new ArrayList<>();
-        for (String s : towersString) {
-            String[] towersStrings = s.split(" ");
-            Rectangle towersStringsC = new Rectangle(Integer.parseInt(towersStrings[0]), Integer.parseInt(towersStrings[1]), Integer.parseInt(towersStrings[2]), Integer.parseInt(towersStrings[3]));
-            sentryTowersI.add(towersStringsC);
-        }
-
-
-
-        environment = new Environment(widthI,heightI,scalingI,spawnAreaIntrudersI,spawnAreaGuardsI,wallsI,shadedAreasI,teleportPortalsI,targetAreaI,windowsI,doorsI,sentryTowersI);
+        return areas;
     }
 
     /**
