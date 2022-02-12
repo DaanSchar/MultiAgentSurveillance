@@ -1,12 +1,9 @@
 package nl.maastrichtuniversity.dke.GUI;
 
-import nl.maastrichtuniversity.dke.scenario.MapParser;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.net.URI;
 import java.util.Objects;
 
 
@@ -27,7 +24,7 @@ public class Menu implements ActionListener  {
     private final ImageIcon manuallyI = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/manually.png")));
     private final ImageIcon selectI = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/select.png")));
     private final ImageIcon label2I = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/mapsettings.jpg")));
-    private final ImageIcon backI = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/bback.png")));
+    private final ImageIcon backI = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/back.png")));
 
     /*
      * Create a general label
@@ -175,6 +172,7 @@ public class Menu implements ActionListener  {
     }
 
     public static void main(String[] args) {
+        ImageFactory.init();
         Menu Menu = new Menu();
     }
 

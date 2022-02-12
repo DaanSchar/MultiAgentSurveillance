@@ -33,7 +33,7 @@ public class GameSettings implements ActionListener  {
     private final ImageIcon setting1Image = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/Settings1.jpg")));
     private final ImageIcon setting2Image = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/Settings2.jpg")));
     private final ImageIcon setting3Image = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/Settings3.jpg")));
-    private final ImageIcon backI = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/bback.png")));
+    private final ImageIcon backI = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/back.png")));
 
     private final ImageIcon icon = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/icon.png")));
 
