@@ -1,121 +1,85 @@
 package nl.maastrichtuniversity.dke.areas;
 
+import nl.maastrichtuniversity.dke.util.DebugSettings;
 import nl.maastrichtuniversity.dke.util.Vector;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Logger;
+
 
 /**
- * GJK algorithm for collision detection between 2 polynomials.
- * source: https://www.youtube.com/watch?v=ajv46BSqcK4
+ * Collision handling class for rectangles and circles.
+ *
+ *
+ * source for circle-rectangle : https://stackoverflow.com/questions/401847/circle-rectangle-collision-detection-intersection
  *
  * @Author Daan
  */
 
 public class Collider {
 
-    public Polygon p1;
-    public Polygon p2;
-    private Vector direction;
-    private List<Vector> simplex;
+    private static Logger logger = Logger.getLogger(Collider.class.getName());
 
-    private static final Vector O = new Vector(0, 0);
-
-    public Collider(Polygon p1, Polygon p2) {
-        this.p1 = p1;
-        this.p2 = p2;
-    }
-
-    public Polygon getSimplex() {
-        return new Polygon(simplex.get(0), simplex.get(1), simplex.get(2));
-    }
-
-    public boolean isHit() {
-        init();
-
-        while (true) {
-            Vector a = support(p1, p2, direction);
-
-            if (a.dot(direction) < 0)
-                return false;
-
-            simplex.add(a);
-
-            if (handleSimplex())
-                return true;
+    public static boolean collides(Area area1, Area area2) {
+        if (isColliding(area1, area2)) {
+            if (DebugSettings.DEBUG_COLLISION)
+                logger.info("Collision detected between shape " +
+                        "[id=" + area1.getId() + " (" + area1.getClass().getSimpleName() + ")] " + " and shape " +
+                        "[id=" + area2.getId() + " (" + area2.getClass().getSimpleName() + ")]"
+                );
+            return true;
         }
+        return false;
     }
 
-    private void init() {
-        direction = p2.getPosition().sub(p1.getPosition()).norm(); // initial direction vector;
-        simplex = new ArrayList<>();
-        simplex.add( support(p1, p2, direction) );
-        direction = simplex.get(0).mul(-1).norm();
-    }
+    private static boolean isColliding(Area s1, Area s2) {
 
-    /**
-     * returns the support vertex of the Minkowski difference of the two polynomials.
-     * sC(d) = sA(d) - sB(-d)
-     */
-    private Vector support(Polygon p1, Polygon p2, Vector d) {
-        Vector dNeg; // -d
-        Vector furthestPoint1; // furthest point in direction d of p1
-        Vector furthestPoint2; // furthest point in direction -d of p2
+        if (s1 instanceof Rectangle)
+            if (s2 instanceof Rectangle)
+                return collides((Rectangle) s1, (Rectangle) s2);
+            else if (s2 instanceof Circle)
+                return collides((Rectangle) s1, (Circle) s2);
 
-        dNeg = d.mul(-1);
-        furthestPoint1 = p1.getSupportVertex(d);
-        furthestPoint2 = p2.getSupportVertex(dNeg);
-
-        return furthestPoint1.sub(furthestPoint2);
-    }
-
-    private boolean handleSimplex() {
-        if (simplex.size() == 2)
-            return lineCase();
-        return triangleCase();
-    }
-
-    private boolean lineCase() {
-        Vector a, b; // vertices from simplex, where A is the lastly added vertex
-        Vector ab, ao; // vector from a to b | vector from a to origin
-        Vector abPerp; // vector perpendicular to ab
-
-        a = simplex.get(1);
-        b = simplex.get(0);
-        ab = b.sub(a);
-        ao = O.sub(a);
-        abPerp = ab.cross(ao).cross(ab); // triple cross product
-
-        this.direction = abPerp.norm();
+        if (s1 instanceof Circle)
+            if (s2 instanceof Rectangle)
+                return collides((Rectangle) s2, (Circle) s1);
+            else if (s2 instanceof Circle)
+                return collides((Circle) s1, (Circle) s2);
 
         return false;
     }
 
-    public boolean triangleCase() {
-        Vector a, b, c; // vertices from simplex, where A is the lastly added vertex
-        Vector ab, ac, ao; // vectors from A to B,  A to C  and  A to origin
-        Vector abPerp, acPerp; // vectors perpendicular to ab and ac
 
-        a = simplex.get(2);
-        b = simplex.get(1);
-        c = simplex.get(0);
-        ab = b.sub(a);
-        ac = c.sub(a);
-        ao = O.sub(a);
-        abPerp = ac.cross(ab).cross(ab).norm();
-        acPerp = ab.cross(ac).cross(ac).norm();
+    // rectangle-rectangle collision detection
+    private static boolean collides(Rectangle r1, Rectangle r2) {
+       return (r1.getPosition().getX() < r2.getPosition().getX() + r2.getWidth() &&
+               r1.getPosition().getX() + r1.getWidth() > r2.getPosition().getX()
+       ) && (
+               r1.getPosition().getY() < r2.getPosition().getY() + r2.getHeight() &&
+               r1.getPosition().getY() + r1.getHeight() > r2.getPosition().getY()
+       );
+    }
 
-        if (abPerp.dot(ao) > 0) {
-            simplex.remove(0);
-            this.direction = abPerp.norm();
-            return false;
-        } else if (acPerp.dot(ao) > 0) {
-            simplex.remove(1);
-            this.direction = acPerp.norm();
-            return false;
-        }
+    // circle-circle collision detection
+    private static boolean collides(Circle c1, Circle c2) {
+        logger.info(c1.getPosition().getDistance(c2.getPosition()) + " < " + (c1.getRadius() + c2.getRadius()));
+        return c1.getPosition().getDistance(c2.getPosition()) < c1.getRadius() + c2.getRadius();
+    }
 
-        return true;
+    // rectangle-circle collision detection
+    private static boolean collides(Rectangle rec, Circle cir) {
+        Vector recCenter = rec.getPosition().add(new Vector(rec.getWidth()/2.0 , rec.getHeight()/2.0 ));
+        Vector circleDistance = cir.getPosition().sub(recCenter).abs();
+
+        if (circleDistance.getX() > (rec.getWidth() / 2.0 + cir.getRadius())) return false;
+        if (circleDistance.getY() > (rec.getHeight() / 2.0 + cir.getRadius())) return false;
+
+        if (circleDistance.getX() <= (rec.getWidth() / 2.0)) return true;
+        if (circleDistance.getY() <= (rec.getHeight() / 2.0)) return true;
+
+        double cornerDistance_sq = Math.pow(circleDistance.getX() - (rec.getWidth() / 2.0), 2) +
+                Math.pow(circleDistance.getY() - (rec.getHeight() / 2.0), 2);
+
+        return (cornerDistance_sq <= Math.pow(cir.getRadius(), 2));
     }
 
 
