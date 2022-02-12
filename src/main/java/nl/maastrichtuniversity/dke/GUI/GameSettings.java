@@ -324,7 +324,7 @@ public class GameSettings implements ActionListener  {
     }
 
     /**
-     * creates a list from the textField
+     * creates a list of areas from a textField
      * @param textField field containing the data for the areas
      * @return a list of areas
      */
