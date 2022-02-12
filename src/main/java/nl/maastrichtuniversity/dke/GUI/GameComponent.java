@@ -25,18 +25,18 @@ public class GameComponent extends JComponent{
     BufferedImage tree;
     BufferedImage door;
     BufferedImage window;
-    BufferedImage sentrytower;
+    BufferedImage sentryTower;
     BufferedImage target;
 
     BufferedImage guard1;
-    BufferedImage guardleft1;
+    BufferedImage guardLeft1;
     BufferedImage spawnArea;
 
 	Environment environment;
-	int texturesize;
+	int textureSize;
 
-	int guardy = 100;
-	int guardx = 0;
+	int guardY = 100;
+	int guardX = 0;
 	int panningX=0;
 	int panningY=0;
 
@@ -44,7 +44,7 @@ public class GameComponent extends JComponent{
 
 		this.environment = environment;
 		double scal = environment.getScaling()*100;
-		texturesize = (int) scal;
+		textureSize = (int) scal;
 
 		/*
 		 * Assign the images of the pieces
@@ -58,10 +58,10 @@ public class GameComponent extends JComponent{
         	tree = ImageIO.read(Objects.requireNonNull(GameComponent.class.getResource("/images/texture/tree.png")));
         	door = ImageIO.read(Objects.requireNonNull(GameComponent.class.getResource("/images/texture/door.png")));
         	window = ImageIO.read(Objects.requireNonNull(GameComponent.class.getResource("/images/texture/window.png")));
-        	sentrytower = ImageIO.read(Objects.requireNonNull(GameComponent.class.getResource("/images/texture/sentrytower.png")));
+        	sentryTower = ImageIO.read(Objects.requireNonNull(GameComponent.class.getResource("/images/texture/sentrytower.png")));
         	target = ImageIO.read(Objects.requireNonNull(GameComponent.class.getResource("/images/texture/target.png")));
         	guard1 = ImageIO.read(Objects.requireNonNull(GameComponent.class.getResource("/images/guard/guard1.png")));
-        	guardleft1 = ImageIO.read(Objects.requireNonNull(GameComponent.class.getResource("/images/guard/guardleft.png")));
+        	guardLeft1 = ImageIO.read(Objects.requireNonNull(GameComponent.class.getResource("/images/guard/guardleft.png")));
 
         }
         catch(IOException e) {
@@ -70,14 +70,14 @@ public class GameComponent extends JComponent{
 
 	}
 	public void paintComponent(Graphics g){
-		g.drawImage(guard1,panningX+300,panningY+guardy,texturesize,texturesize,null);
+		g.drawImage(guard1,panningX+300,panningY+ guardY, textureSize, textureSize,null);
 		drawAreas(g, environment.getWalls(), wall);
 		drawAreas(g, environment.getTeleportPortals(), teleport);
 		drawAreas(g, environment.getSpawnAreaIntruders(), spawnArea);
 		drawAreas(g, environment.getSpawnAreaGuards(), spawnArea);
 		drawAreas(g, environment.getWindows(), window);
 		drawAreas(g, environment.getDoors(), door);
-		drawAreas(g, environment.getSentryTowers(), sentrytower);
+		drawAreas(g, environment.getSentryTowers(), sentryTower);
 		drawAreas(g, environment.getTargetArea(), target);
 		drawAreas(g, environment.getShadedAreas(), tree);
 	}
@@ -104,10 +104,10 @@ public class GameComponent extends JComponent{
 		for (Vector position : positions) {
 			g.drawImage(
 					image,
-					panningX + ((int) position.getX()) * texturesize,
-					panningY + ((int) position.getY()) * texturesize,
-					texturesize,
-					texturesize,
+					panningX + ((int) position.getX()) * textureSize,
+					panningY + ((int) position.getY()) * textureSize,
+					textureSize,
+					textureSize,
 					null
 			);
 		}
@@ -116,8 +116,8 @@ public class GameComponent extends JComponent{
 
 	public void moveGuards(){
 		Timer timer = new Timer(1000, e -> {
-			guardy++;
-			if (guardy>500) {
+			guardY++;
+			if (guardY >500) {
 				((Timer)e.getSource()).stop();
 			}
 			repaint();
@@ -128,10 +128,10 @@ public class GameComponent extends JComponent{
 		
 	}
 	public void zoomIn(){
-		texturesize=texturesize+5;
+		textureSize = textureSize +5;
 	}
 	public void zoomOut(){
-		texturesize=texturesize-5;
+		textureSize = textureSize -5;
 	}
 	public void panning(int x,int y){
 		System.out.println(x);
@@ -140,7 +140,7 @@ public class GameComponent extends JComponent{
 		
 	}
 	public void resize(){
-		texturesize = (int) (environment.getScaling()*100);
+		textureSize = (int) (environment.getScaling()*100);
 		panningX = 0;
 		panningY = 0; 		
 	}
