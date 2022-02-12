@@ -12,20 +12,6 @@ public class Menu implements ActionListener  {
 
     private final JFrame window = new JFrame("GROUP 14");
 
-    // app icon
-    private final ImageIcon icon = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/icon.png")));
-
-    // button images
-    private final ImageIcon image2 = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/play.jpg")));
-    private final ImageIcon image4 = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/exit.jpg")));
-    private final ImageIcon image = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/background.jpg")));
-    private final ImageIcon uploadI = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/upload.png")));
-    private final ImageIcon designI = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/design.png")));
-    private final ImageIcon manuallyI = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/manually.png")));
-    private final ImageIcon selectI = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/select.png")));
-    private final ImageIcon label2I = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/mapsettings.jpg")));
-    private final ImageIcon backI = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/back.png")));
-
     /*
      * Create a general label
      * Creating 3 Buttons and add their icons (play , settings , exit ).
@@ -33,14 +19,14 @@ public class Menu implements ActionListener  {
     private JLabel label = new JLabel();
     private JLabel label2 = new JLabel();
 
-    private JButton upload = new JButton(uploadI);
-    private JButton design = new JButton(designI);
-    private JButton manually = new JButton(manuallyI);
-    private JButton select = new JButton(selectI);
+    private JButton upload = new JButton(new ImageIcon(ImageFactory.get("uploadButton")));
+    private JButton design = new JButton(new ImageIcon(ImageFactory.get("designButton")));
+    private JButton manually = new JButton(new ImageIcon(ImageFactory.get("manuallyButton")));
+    private JButton select = new JButton(new ImageIcon(ImageFactory.get("selectButton")));
 
-    private JButton play = new JButton(image2);
-    private JButton exit = new JButton(image4);
-    private JButton back = new JButton(backI);
+    private JButton play = new JButton(new ImageIcon(ImageFactory.get("playButton")));
+    private JButton exit = new JButton(new ImageIcon(ImageFactory.get("exitButton")));
+    private JButton back = new JButton(new ImageIcon(ImageFactory.get("backButton")));
 
     
     public Menu() {
@@ -68,7 +54,7 @@ public class Menu implements ActionListener  {
         *  Set the label2 background color.
         *  Add the buttons to one label2.
         */
-        label2.setIcon(label2I);
+        label2.setIcon(new ImageIcon(ImageFactory.get("mapSettingsBackground")));
         label2.setHorizontalAlignment(JLabel.CENTER);
         label2.setVerticalAlignment(JLabel.CENTER);
         label2.setBackground(Color.WHITE);
@@ -94,7 +80,7 @@ public class Menu implements ActionListener  {
         *  Set the label background color.
         *  Add the buttons to one label.
         */
-        label.setIcon(image);
+        label.setIcon(new ImageIcon(ImageFactory.get("menuBackground")));
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setVerticalAlignment(JLabel.CENTER);
         label.setBackground(Color.WHITE);
@@ -113,7 +99,7 @@ public class Menu implements ActionListener  {
         window.setSize(800, 600);
         window.setLocationRelativeTo(null);
         window.add(label);
-        window.setIconImage(icon.getImage());
+        window.setIconImage(ImageFactory.get("gameIcon"));
         window.setVisible(true);
 
     }
