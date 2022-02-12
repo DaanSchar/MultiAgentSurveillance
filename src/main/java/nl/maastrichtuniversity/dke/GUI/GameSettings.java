@@ -19,28 +19,11 @@ import java.util.List;
 
 public class GameSettings implements ActionListener  {
 
-    /*
-     * Creating new Frame (window)
-     */
-
     private final JFrame window = new JFrame("GROUP 14");
-
-    /*
-     * Declaring the images of the buttons and the app icon
-     */
-    private final ImageIcon nextImage = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/next.jpg")));
-    private final ImageIcon startImage = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/start.jpg")));
-    private final ImageIcon setting1Image = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/Settings1.jpg")));
-    private final ImageIcon setting2Image = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/Settings2.jpg")));
-    private final ImageIcon setting3Image = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/Settings3.jpg")));
-    private final ImageIcon backI = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/back.png")));
-
-    private final ImageIcon icon = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/icon.png")));
 
     /*
      * Declaring the JTextField for the settings of the game
      */
-
     private JTextField gameMode = new JTextField("0");
     private JTextField height = new JTextField("80");
     private JTextField width = new JTextField("120");
@@ -74,12 +57,12 @@ public class GameSettings implements ActionListener  {
     private JLabel settings3 = new JLabel();
     private JLabel settings2 = new JLabel();
     private JLabel settings1 = new JLabel();
-    private JButton next = new JButton(nextImage);
-    private JButton start = new JButton(startImage);
+    private JButton next = new JButton(new ImageIcon(ImageFactory.get("nextButton")));
+    private JButton start = new JButton(new ImageIcon(ImageFactory.get("startButton")));
 
     private Color color1 = new Color(189,228,247);
     private int nextInt = 0;
-    private JButton back = new JButton(backI);
+    private JButton back = new JButton(new ImageIcon(ImageFactory.get("backButton")));
 
     private Environment environment;
 
@@ -226,7 +209,7 @@ public class GameSettings implements ActionListener  {
          *  Set the settings1 background color.
          *  Add the JTextField to one settings1.
          */
-        settings1.setIcon(setting1Image);
+        settings1.setIcon(new ImageIcon(ImageFactory.get("settingsBackground1")));
         settings1.setHorizontalAlignment(JLabel.CENTER);
         settings1.setVerticalAlignment(JLabel.CENTER);
         settings1.setBackground(Color.WHITE);
@@ -251,7 +234,7 @@ public class GameSettings implements ActionListener  {
          *  Set the settings2 background color.
          *  Add the JTextField to one settings2.
          */
-        settings2.setIcon(setting2Image);
+        settings2.setIcon(new ImageIcon(ImageFactory.get("settingsBackground2")));
         settings2.setHorizontalAlignment(JLabel.CENTER);
         settings2.setVerticalAlignment(JLabel.CENTER);
         settings2.setBackground(Color.WHITE);
@@ -267,7 +250,7 @@ public class GameSettings implements ActionListener  {
          *  Set the settings3 background color.
          *  Add the JTextField to one settings3.
          */
-        settings3.setIcon(setting3Image);
+        settings3.setIcon(new ImageIcon(ImageFactory.get("settingsBackground3")));
         settings3.setHorizontalAlignment(JLabel.CENTER);
         settings3.setVerticalAlignment(JLabel.CENTER);
         settings3.setBackground(Color.WHITE);
@@ -292,7 +275,7 @@ public class GameSettings implements ActionListener  {
         window.add(back);
         window.add(next);
         window.add(settings1);
-        window.setIconImage(icon.getImage());
+        window.setIconImage(ImageFactory.get("gameIcon"));
         window.setVisible(true);
 
     }
