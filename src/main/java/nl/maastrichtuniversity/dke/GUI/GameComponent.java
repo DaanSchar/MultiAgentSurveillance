@@ -16,29 +16,25 @@ import nl.maastrichtuniversity.dke.util.Vector;
 
 public class GameComponent extends JComponent{
 
-    /**
-     * Create variables the images of te pieces
-     */
-    BufferedImage targetArea;
-    BufferedImage wall;
-    BufferedImage teleport;
-    BufferedImage tree;
-    BufferedImage door;
-    BufferedImage window;
-    BufferedImage sentryTower;
-    BufferedImage target;
+    private BufferedImage targetArea;
+    private BufferedImage wall;
+    private BufferedImage teleport;
+    private BufferedImage tree;
+    private BufferedImage door;
+    private BufferedImage window;
+    private BufferedImage sentryTower;
+    private BufferedImage target;
+    private BufferedImage guard1;
+    private BufferedImage guardLeft1;
+    private BufferedImage spawnArea;
 
-    BufferedImage guard1;
-    BufferedImage guardLeft1;
-    BufferedImage spawnArea;
+	private Environment environment;
+	private int textureSize;
 
-	Environment environment;
-	int textureSize;
-
-	int guardY = 100;
-	int guardX = 0;
-	int panningX=0;
-	int panningY=0;
+	private int guardY = 100;
+	private int guardX = 0;
+	private int panningX=0;
+	private int panningY=0;
 
 	public GameComponent(Environment environment){
 
