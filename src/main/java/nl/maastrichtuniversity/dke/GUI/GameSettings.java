@@ -28,14 +28,14 @@ public class GameSettings implements ActionListener  {
     /**
      * Declaring the images of the buttons and the app icon
      */
-    ImageIcon nextImage = new ImageIcon(Menu.class.getResource("/images/settings/next.jpg"));
-    ImageIcon startImage = new ImageIcon(Menu.class.getResource("/images/settings/start.jpg"));
-    ImageIcon setting1Image = new ImageIcon(Menu.class.getResource("/images/settings/Settings1.jpg"));
-    ImageIcon setting2Image = new ImageIcon(Menu.class.getResource("/images/settings/Settings2.jpg"));
-    ImageIcon setting3Image = new ImageIcon(Menu.class.getResource("/images/settings/Settings3.jpg"));
-    ImageIcon backI = new ImageIcon(Menu.class.getResource("/images/settings/bback.png"));
+    ImageIcon nextImage = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/next.jpg")));
+    ImageIcon startImage = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/start.jpg")));
+    ImageIcon setting1Image = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/Settings1.jpg")));
+    ImageIcon setting2Image = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/Settings2.jpg")));
+    ImageIcon setting3Image = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/Settings3.jpg")));
+    ImageIcon backI = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/bback.png")));
 
-    ImageIcon icon = new ImageIcon(Menu.class.getResource("/images/settings/icon.png"));
+    ImageIcon icon = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/icon.png")));
 
     /**
      * Declaring the JTextField for the settings of the game
@@ -315,7 +315,8 @@ public class GameSettings implements ActionListener  {
 
 
             String[] targetareass = targetarea.getText().split(" ");
-            Rectangle targetAreaI = new Rectangle(Integer.parseInt(targetareass[0]),Integer.parseInt(targetareass[1]),Integer.parseInt(targetareass[2]),Integer.parseInt(targetareass[3]));
+            List<Area> targetAreaI = new ArrayList<>();
+            targetAreaI.add(new Rectangle(Integer.parseInt(targetareass[0]),Integer.parseInt(targetareass[1]),Integer.parseInt(targetareass[2]),Integer.parseInt(targetareass[3])));
             
 
             //spawn Area Intruders
@@ -379,7 +380,7 @@ public class GameSettings implements ActionListener  {
 
 
             environment = new Environment(widthI,heightI,scalingI,spawnAreaIntrudersI,spawnAreaGuardsI,wallsI,shadedAreasI,teleportPortalsI,targetAreaI,windowsI,doorsI,sentrytowersI);
-    };
+    }
 
     /**
      *  Creat an Action listener method.
