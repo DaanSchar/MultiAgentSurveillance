@@ -23,45 +23,45 @@ public class GameSettings implements ActionListener  {
      * Creating new Frame (window)
      */
 
-    JFrame window = new JFrame("GROUP 14");
+    private final JFrame window = new JFrame("GROUP 14");
 
     /*
      * Declaring the images of the buttons and the app icon
      */
-    ImageIcon nextImage = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/next.jpg")));
-    ImageIcon startImage = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/start.jpg")));
-    ImageIcon setting1Image = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/Settings1.jpg")));
-    ImageIcon setting2Image = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/Settings2.jpg")));
-    ImageIcon setting3Image = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/Settings3.jpg")));
-    ImageIcon backI = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/bback.png")));
+    private final ImageIcon nextImage = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/next.jpg")));
+    private final ImageIcon startImage = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/start.jpg")));
+    private final ImageIcon setting1Image = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/Settings1.jpg")));
+    private final ImageIcon setting2Image = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/Settings2.jpg")));
+    private final ImageIcon setting3Image = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/Settings3.jpg")));
+    private final ImageIcon backI = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/bback.png")));
 
-    ImageIcon icon = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/icon.png")));
+    private final ImageIcon icon = new ImageIcon(Objects.requireNonNull(Menu.class.getResource("/images/settings/icon.png")));
 
     /*
      * Declaring the JTextField for the settings of the game
      */
 
-    JTextField gameMode = new JTextField("0");
-    JTextField height = new JTextField("80");
-    JTextField width = new JTextField("120");
-    JTextField scaling = new JTextField("0.1");
-    JTextField numGuards = new JTextField("3");
-    JTextField numIntruders = new JTextField("0");
-    JTextField baseSpeedIntruder = new JTextField("14.0");
-    JTextField sprintSpeedIntruder = new JTextField("20.0");
-    JTextField baseSpeedGuard = new JTextField("14.0");
-    JTextField timeStep = new JTextField("0.1");
-    JTextField targetArea = new JTextField("20 40 25 45");
-    JTextField spawnAreaIntruders = new JTextField("2 2 20 10");
-    JTextField spawnAreaGuards = new JTextField("2 2 20 10");
+    private JTextField gameMode = new JTextField("0");
+    private JTextField height = new JTextField("80");
+    private JTextField width = new JTextField("120");
+    private JTextField scaling = new JTextField("0.1");
+    private JTextField numGuards = new JTextField("3");
+    private JTextField numIntruders = new JTextField("0");
+    private JTextField baseSpeedIntruder = new JTextField("14.0");
+    private JTextField sprintSpeedIntruder = new JTextField("20.0");
+    private JTextField baseSpeedGuard = new JTextField("14.0");
+    private JTextField timeStep = new JTextField("0.1");
+    private JTextField targetArea = new JTextField("20 40 25 45");
+    private JTextField spawnAreaIntruders = new JTextField("2 2 20 10");
+    private JTextField spawnAreaGuards = new JTextField("2 2 20 10");
 
-    JTextField walls = new JTextField("50 0 51 20,0 0 1 80,0 79 120 80,119 0 120 80,0 0 120 1");
-    JTextField teleport = new JTextField("20 70 25 75 90 50 0.0");
-    JTextField shaded = new JTextField("10 20 20 40");
-    JTextField texture = new JTextField("10 20 20 40 0 0");
-    JTextField windows = new JTextField("61 61 61 61");
-    JTextField doors = new JTextField("60 60 60 60");
-    JTextField sentryTower = new JTextField("50 50 50 50");
+    private JTextField walls = new JTextField("50 0 51 20,0 0 1 80,0 79 120 80,119 0 120 80,0 0 120 1");
+    private JTextField teleport = new JTextField("20 70 25 75 90 50 0.0");
+    private JTextField shaded = new JTextField("10 20 20 40");
+    private JTextField texture = new JTextField("10 20 20 40 0 0");
+    private JTextField windows = new JTextField("61 61 61 61");
+    private JTextField doors = new JTextField("60 60 60 60");
+    private JTextField sentryTower = new JTextField("50 50 50 50");
 
 
 
@@ -71,26 +71,23 @@ public class GameSettings implements ActionListener  {
      * create new color
      * create a double for the frame size number
      */
-    JLabel settings3 = new JLabel();
-    JLabel settings2 = new JLabel();
-    JLabel settings1 = new JLabel();
-    JButton next = new JButton(nextImage);
-    JButton start = new JButton(startImage);
+    private JLabel settings3 = new JLabel();
+    private JLabel settings2 = new JLabel();
+    private JLabel settings1 = new JLabel();
+    private JButton next = new JButton(nextImage);
+    private JButton start = new JButton(startImage);
 
-    Color color1 = new Color(189,228,247);
+    private Color color1 = new Color(189,228,247);
+    private int nextInt = 0;
+    private JButton back = new JButton(backI);
 
-    int nextInt = 0;
-    JButton back = new JButton(backI);
-
-    Environment environment;
+    private Environment environment;
 
     public GameSettings() {
 
-
-
-    back.setBounds(760,0,40,40);
-    back.addActionListener(this);
-    back.setBackground(new Color(155,223,232));
+        back.setBounds(760,0,40,40);
+        back.addActionListener(this);
+        back.setBackground(new Color(155,223,232));
 
         gameMode.setFont(new Font("Consolas",Font.PLAIN,20));
         gameMode.setForeground(Color.darkGray);
@@ -350,8 +347,6 @@ public class GameSettings implements ActionListener  {
      *  Creat an Action listener method.
      *  @param e which is the buttons that have an ActionListener.
      */
-
-
     @Override
     public void actionPerformed(ActionEvent e){
          window.repaint();  
@@ -362,9 +357,9 @@ public class GameSettings implements ActionListener  {
 
         if(e.getSource()==next){
             if (nextInt==0) {
-            settings2.setVisible(true);
-            settings1.setVisible(false);
-            window.add(settings2);   
+                settings2.setVisible(true);
+                settings1.setVisible(false);
+                window.add(settings2);
             }
 
             nextInt++;
@@ -378,19 +373,17 @@ public class GameSettings implements ActionListener  {
                 next.setVisible(false);
             }
         }
-    if(e.getSource()==back){
-     window.dispose();
-     Menu Menu = new Menu();
- }        
+        if(e.getSource()==back){
+            window.dispose();
+            Menu Menu = new Menu();
+        }
         /*
          *  If start clicked create new game window.
          */
         if(e.getSource()==start){
-
             createEnvironment();
             GameWindow gameWindow = new GameWindow(environment);
             window.dispose();
-            
         }
 
     }
