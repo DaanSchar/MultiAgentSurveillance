@@ -2,6 +2,7 @@ package nl.maastrichtuniversity.dke.util;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Objects;
 
@@ -10,6 +11,7 @@ import java.util.Objects;
  *
  * @Author Daan
  */
+@ToString
 public class Vector {
 
     private @Getter @Setter double x;
@@ -147,11 +149,6 @@ public class Vector {
     @Override
     public int hashCode() {
         return Objects.hash(x, y, z);
-    }
-
-    @Override
-    public String toString() {
-        return "[" + this.x + ", " + this.y + ", " + this.z + "]";
     }
 
     /**
