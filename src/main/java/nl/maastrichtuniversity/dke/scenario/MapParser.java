@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class MapParser {
 
     private Logger logger = LoggerFactory.getLogger(MapParser.class);
-    private final String ROOT = "src/main/resources";
+    private final String ROOT = "src/main/resources/maps/";
 
     private Scanner scanner;
     private Scenario scenario;

@@ -1,4 +1,5 @@
 package nl.maastrichtuniversity.dke.scenario;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -25,7 +26,7 @@ public class Environment {
     private List<Area> sentryTowers;
 
     public Environment() {
-        this(0, 0, 0, null, null,
-                null, null, null, null, null, null, null);
+        this(0, 0, 0, new ArrayList<>(), new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 }
