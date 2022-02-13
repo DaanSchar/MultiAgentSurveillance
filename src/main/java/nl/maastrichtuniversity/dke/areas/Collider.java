@@ -35,22 +35,22 @@ public class Collider {
 
         if (s1 instanceof Rectangle)
             if (s2 instanceof Rectangle)
-                return collides((Rectangle) s1, (Rectangle) s2);
+                return isColliding((Rectangle) s1, (Rectangle) s2);
             else if (s2 instanceof Circle)
-                return collides((Rectangle) s1, (Circle) s2);
+                return isColliding((Rectangle) s1, (Circle) s2);
 
         if (s1 instanceof Circle)
             if (s2 instanceof Rectangle)
-                return collides((Rectangle) s2, (Circle) s1);
+                return isColliding((Rectangle) s2, (Circle) s1);
             else if (s2 instanceof Circle)
-                return collides((Circle) s1, (Circle) s2);
+                return isColliding((Circle) s1, (Circle) s2);
 
         return false;
     }
 
 
     // rectangle-rectangle collision detection
-    private static boolean collides(Rectangle r1, Rectangle r2) {
+    private static boolean isColliding(Rectangle r1, Rectangle r2) {
        return (r1.getPosition().getX() < r2.getPosition().getX() + r2.getWidth() &&
                r1.getPosition().getX() + r1.getWidth() > r2.getPosition().getX()
        ) && (
@@ -60,13 +60,13 @@ public class Collider {
     }
 
     // circle-circle collision detection
-    private static boolean collides(Circle c1, Circle c2) {
+    private static boolean isColliding(Circle c1, Circle c2) {
         logger.info(c1.getPosition().getDistance(c2.getPosition()) + " < " + (c1.getRadius() + c2.getRadius()));
         return c1.getPosition().getDistance(c2.getPosition()) < c1.getRadius() + c2.getRadius();
     }
 
     // rectangle-circle collision detection
-    private static boolean collides(Rectangle rec, Circle cir) {
+    private static boolean isColliding(Rectangle rec, Circle cir) {
         Vector recCenter = rec.getPosition().add(new Vector(rec.getWidth()/2.0 , rec.getHeight()/2.0 ));
         Vector circleDistance = cir.getPosition().sub(recCenter).abs();
 
