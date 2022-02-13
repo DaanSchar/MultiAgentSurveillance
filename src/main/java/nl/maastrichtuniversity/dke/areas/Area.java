@@ -28,7 +28,7 @@ public abstract class Area {
         this.width = width;
         this.id = idCount++;
 
-        if (DebugSettings.AREA_DEBUG) logger.info("Created " + this.getClass().getSimpleName() + " with id=" + this.id + " at position=" + this.position);
+        if (DebugSettings.AREA_DEBUG) logger.info("Created " + this.getClass().getSimpleName() + " " + this);
     }
 
     public void translate(Vector vector) {
