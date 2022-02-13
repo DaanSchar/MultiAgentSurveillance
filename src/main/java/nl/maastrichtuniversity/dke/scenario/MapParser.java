@@ -81,6 +81,7 @@ public class MapParser {
             case "windows" -> environment.getWindows().add(parseRectangle(values));
             case "doors" -> environment.getDoors().add(parseRectangle(values));
             case "sentrytowers" -> environment.getSentryTowers().add(parseRectangle(values));
+            default -> logger.error("Unknown value: " + key);
         }
     }
 
