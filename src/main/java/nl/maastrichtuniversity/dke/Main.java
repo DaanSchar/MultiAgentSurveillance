@@ -16,6 +16,7 @@ public class Main{
            double x = 3;
 //          double x = 3;
           String y = "3";
+        System.out.println("ok");
 
     }
 
