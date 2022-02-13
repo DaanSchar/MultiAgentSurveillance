@@ -9,9 +9,11 @@ public class Main{
     public static void main(String[] args) {
         new Menu();
 
-        while(true) {
-            System.out.println("Hello World");
-        }
+
+        boolean iscool = true;
+         if (iscool=true) {
+           double x = 3;
+         }
 
     }
 
