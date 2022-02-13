@@ -1,12 +1,31 @@
 package nl.maastrichtuniversity.dke.scenario;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import nl.maastrichtuniversity.dke.areas.Area;
 
-public record Environment(
-            double width, double height,double scaling,
-            List<Area> spawnAreaIntruders, List<Area> spawnAreaGuards, List<Area> walls,
-            List<Area> shadedAreas, List<Area> teleportPortals, List<Area> targetArea,
-            List<Area> windows, List<Area> doors,List<Area> sentryTowers
-    ) {
+@AllArgsConstructor
+@Getter
+@Setter
+public class Environment {
+
+    private double width;
+    private double height;
+    private double scaling;
+    private List<Area> spawnAreaIntruders;
+    private List<Area> spawnAreaGuards;
+    private List<Area> walls;
+    private List<Area> shadedAreas;
+    private List<Area> teleportPortals;
+    private List<Area> targetArea;
+    private List<Area> windows;
+    private List<Area> doors;
+    private List<Area> sentryTowers;
+
+    public Environment() {
+        this(0, 0, 0, null, null,
+                null, null, null, null, null, null, null);
+    }
 }
