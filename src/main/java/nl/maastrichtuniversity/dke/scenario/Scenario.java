@@ -33,23 +33,19 @@ public class Scenario {
     private double sprintSpeedIntruder;
     private double baseSpeedGuard;
 
-    public Scenario(Environment environment) {
+    public Scenario() {
         this.guards = new ArrayList<>();
         this.intruders = new ArrayList<>();
-        this.environment = environment;
+        this.environment = new Environment();
     }
 
     public void createAgents() {
-
         for (int i = 0; i < numGuards; i++)
             guards.add(new Guard(
                     new UniformSpawnModule(environment),new Movement(), baseSpeedGuard));
-
         for (int i = 0; i < numIntruders; i++)
             intruders.add(new Intruder(
                     new UniformSpawnModule(environment),new Movement(), baseSpeedIntruder));
-
-
     }
 
 
