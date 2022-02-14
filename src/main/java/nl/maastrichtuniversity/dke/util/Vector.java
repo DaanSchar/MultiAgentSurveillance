@@ -9,6 +9,8 @@ import java.util.Objects;
 /**
  * 3D vector class.
  *
+ * can also be used as a 2D vector, where z is always 0.
+ *
  * @Author Daan
  */
 @ToString
