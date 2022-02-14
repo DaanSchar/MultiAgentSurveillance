@@ -153,5 +153,20 @@ public class AreaTest {
         Assertions.assertFalse(d.isCollidingWith(b));
     }
 
+    @Test
+    public void idTest() {
+        Area a = new Rectangle(0, 0, 10, 10);
+        Area b = new Rectangle(13, 13, 23, 23);
+        Area c = new Circle(10, 10, 15);
+        Area d = new Circle(40, 40, 5);
+
+        Assertions.assertEquals(a.getId(), 0);
+        Assertions.assertEquals(b.getId(), 1);
+        Assertions.assertEquals(c.getId(), 2);
+        Assertions.assertEquals(d.getId(), 3);
+    }
+
+
+
 
 }

@@ -14,7 +14,7 @@ import java.util.List;
 public abstract class Area {
 
     private static int idCount = 0;
-    private @Getter int id;
+    private @Getter final int id;
 
     private @Getter @Setter Vector position;
     private final @Getter double height;
