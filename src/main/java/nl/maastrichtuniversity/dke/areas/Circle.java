@@ -15,13 +15,13 @@ public class Circle extends Area {
     }
 
     @Override
-    public boolean isColliding(Area area) {
+    public boolean isCollidingWith(Area area) {
         return Collider.collides(this, area);
     }
 
     @Override
     public boolean containsPoint(double x, double y) {
-        return getDistance(x, y) >= radius;
+        return getDistance(x, y) <= radius;
     }
 
     @Override
