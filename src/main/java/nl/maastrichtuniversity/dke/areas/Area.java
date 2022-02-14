@@ -35,7 +35,7 @@ public abstract class Area {
         this.position = this.position.add(vector);
     }
 
-    public abstract boolean isColliding(Area area);
+    public abstract boolean isCollidingWith(Area area);
 
     public abstract boolean containsPoint(double x, double y);
 
