@@ -3,6 +3,7 @@ package util;
 import nl.maastrichtuniversity.dke.areas.Area;
 import nl.maastrichtuniversity.dke.areas.Circle;
 import nl.maastrichtuniversity.dke.areas.Rectangle;
+import nl.maastrichtuniversity.dke.util.Vector;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -160,13 +161,32 @@ public class AreaTest {
         Area c = new Circle(10, 10, 15);
         Area d = new Circle(40, 40, 5);
 
-        Assertions.assertEquals(a.getId(), 0);
-        Assertions.assertEquals(b.getId(), 1);
-        Assertions.assertEquals(c.getId(), 2);
-        Assertions.assertEquals(d.getId(), 3);
+        Assertions.assertEquals(0, a.getId());
+        Assertions.assertEquals(1, b.getId());
+        Assertions.assertEquals(2, c.getId());
+        Assertions.assertEquals(3, d.getId());
     }
 
+    @Test
+    public void testTranslate() {
+        Area a = new Rectangle(0, 0, 10, 10);
+        a.translate(new Vector(-5,-5));
 
+        Assertions.assertEquals(-5, a.getPosition().getX());
+        Assertions.assertEquals(-5, a.getPosition().getY());
+
+        a.translate(new Vector(0, 0));
+
+        Assertions.assertEquals(-5, a.getPosition().getX());
+        Assertions.assertEquals(-5, a.getPosition().getY());
+
+        a.translate(new Vector(5, 5));
+
+        Assertions.assertEquals(0, a.getPosition().getX());
+        Assertions.assertEquals(0, a.getPosition().getY());
+
+
+    }
 
 
 }
