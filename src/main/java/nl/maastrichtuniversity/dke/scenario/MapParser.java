@@ -14,18 +14,16 @@ import java.util.Scanner;
  */
 public class MapParser {
 
-    private Logger logger = LoggerFactory.getLogger(MapParser.class);
-    private final String ROOT = "src/main/resources/maps/";
+    private static final Logger logger = LoggerFactory.getLogger(MapParser.class);
 
     private Scanner scanner;
     private Scenario scenario;
 
     public MapParser(String file) {
         try {
-            scanner = new Scanner(new File(ROOT + file));
-            scenario = new Scenario(new Environment());
+            scanner = new Scanner(new File(file));
         } catch (Exception e) {
-            logger.error("Error while parsing file: " + ROOT + file);
+            logger.error("Error while parsing file: " +  file);
             e.printStackTrace();
         }
     }
@@ -34,15 +32,17 @@ public class MapParser {
      * Creates a scenario object from the given input file
      * @return scenario
      */
-    public Scenario parse() {
+    public Scenario createScenario() {
+        scenario = new Scenario();
+
         while (scanner.hasNextLine())
-            parseLine(scanner.nextLine());
+            createFieldFromLine(scanner.nextLine());
 
         scenario.createAgents();
         return scenario;
     }
 
-    private void parseLine(String line) {
+    private void createFieldFromLine(String line) {
         Scanner lineScanner = new Scanner(line);
         lineScanner.useDelimiter("=");
 
@@ -50,11 +50,11 @@ public class MapParser {
             String key = lineScanner.next().trim();
             String value = lineScanner.next().trim();
 
-            createVariables(key, value);
+            createScenarioField(key, value);
         }
     }
 
-    private void createVariables(String key, String value) {
+    private void createScenarioField(String key, String value) {
         String[] values = value.split(" ");
         Environment environment = scenario.getEnvironment();
 
