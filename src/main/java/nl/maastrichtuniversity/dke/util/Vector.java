@@ -12,11 +12,13 @@ import java.util.Objects;
  * @Author Daan
  */
 @ToString
+@Getter
+@Setter
 public class Vector {
 
-    private @Getter @Setter double x;
-    private @Getter @Setter double y;
-    private @Getter @Setter double z;
+    private double x;
+    private double y;
+    private double z;
 
     public Vector(double x, double y) {
         this.x = x;
