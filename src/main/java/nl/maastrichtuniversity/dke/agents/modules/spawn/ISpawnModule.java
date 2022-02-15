@@ -8,5 +8,6 @@ import nl.maastrichtuniversity.dke.util.Vector;
 public interface ISpawnModule {
 
     Vector getSpawnPosition();
+    Vector getSpawnDirection();
 
 }

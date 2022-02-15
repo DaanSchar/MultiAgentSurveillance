@@ -29,4 +29,8 @@ public class UniformSpawnModule implements ISpawnModule {
         return new Vector(spawnX, spawnY);
     }
 
+    public Vector getSpawnDirection() {
+        return null;
+    }
+
 }
