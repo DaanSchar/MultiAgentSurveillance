@@ -197,4 +197,80 @@ public class VectorTest {
     }
 
 
+    // -------------------------------------------- other -------------------------------------------- \\
+
+    @Test
+    public void angle() {
+        var v1 = new Vector(1, 0);
+        var v2 = new Vector(0, 1);
+        var v3 = new Vector(1, 1);
+        var v4 = new Vector(1, -1);
+        var v5  = new Vector(-1, -1);
+
+        Assertions.assertEquals(0, (int) v1.angle());
+        Assertions.assertEquals(90, (int) v2.angle());
+        Assertions.assertEquals(45, (int) v3.angle());
+        Assertions.assertEquals(-45, (int) v4.angle());
+        Assertions.assertEquals(-135, (int) v5.angle());
+
+        Assertions.assertEquals(90, (int) v1.angle(v2));
+        Assertions.assertEquals(90, (int) v2.angle(v1));
+
+        Assertions.assertEquals(45, (int) v1.angle(v3));
+        Assertions.assertEquals(45, (int) v3.angle(v1));
+
+        Assertions.assertEquals(45, (int) v1.angle(v4));
+        Assertions.assertEquals(45, (int) v4.angle(v1));
+    }
+
+    @Test
+    public void length() {
+        var v1 = new Vector(1, 0);
+        var v2 = new Vector(0, 1);
+        var v3 = new Vector(3, 4);
+        var v4 = new Vector(300, 400);
+
+        Assertions.assertEquals(1, v1.length());
+        Assertions.assertEquals(1, v2.length());
+        Assertions.assertEquals(5, v3.length());
+        Assertions.assertEquals(500, v4.length());
+    }
+
+    @Test
+    public void norm() {
+        var v1 = new Vector(3, 0);
+        var v2 = new Vector(25, 31);
+        var v3 = new Vector(-100, 250);
+
+        Assertions.assertEquals(1, (int) v1.norm().length());
+        Assertions.assertEquals(1, (int) v2.norm().length());
+        Assertions.assertEquals(1, (int) v3.norm().length());
+
+        var v4 = new Vector(0, 0);
+
+        Assertions.assertEquals(0, (int) v4.norm().length());
+        Assertions.assertEquals(0, (int) v4.norm().getX());
+        Assertions.assertEquals(0, (int) v4.norm().getY());
+        Assertions.assertFalse(Double.isNaN(v4.norm().getX()));
+        Assertions.assertFalse(Double.isNaN(v4.norm().getY()));
+    }
+
+    @Test
+    public void rotate() {
+        var v1 = new Vector(1, 0);
+        v1 = v1.rotate(90);
+
+        Assertions.assertEquals(0, (int) v1.getX());
+        Assertions.assertEquals(1, (int) v1.getY());
+        Assertions.assertEquals(90, (int) v1.angle());
+
+        v1 = v1.rotate(90);
+
+        Assertions.assertEquals(-1, (int) v1.getX());
+        Assertions.assertEquals(0, (int) v1.getY());
+        Assertions.assertEquals(180, (int) v1.angle());
+
+    }
+
+
 }
