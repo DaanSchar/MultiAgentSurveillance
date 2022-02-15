@@ -31,6 +31,6 @@ public class Circle extends Area {
     }
 
     private double getDistance(double x, double y) {
-        return getPosition().getDistance(new Vector(x, y));
+        return getPosition().distance(new Vector(x, y));
     }
 }
