@@ -8,19 +8,20 @@ import nl.maastrichtuniversity.dke.agents.modules.spawn.ISpawnModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Getter
 public class Agent {
 
-    Logger logger = LoggerFactory.getLogger(Agent.class);
+    private static final Logger logger = LoggerFactory.getLogger(Agent.class);
 
     private static int agentCount;
-    private @Getter int id;
+    private final int id;
 
-    private @Getter @Setter Vector position;
-    private @Getter @Setter double baseSpeed;
-    private @Getter @Setter Vector direction;
+    private @Setter Vector position;
+    private @Setter double baseSpeed;
+    private @Setter Vector direction;
 
-    private ISpawnModule spawnModule;
-    private IMovement movement;
+    private final ISpawnModule spawnModule;
+    private final IMovement movement;
 
     public Agent(ISpawnModule spawnModule, IMovement movement, double baseSpeed) {
         this.position = null;
