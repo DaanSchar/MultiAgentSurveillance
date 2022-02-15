@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.agents.modules.spawn;
 
+import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.scenario.Environment;
 import nl.maastrichtuniversity.dke.util.Vector;
 import nl.maastrichtuniversity.dke.areas.Area;
@@ -7,12 +8,11 @@ import nl.maastrichtuniversity.dke.areas.Area;
 import java.util.List;
 import java.util.Random;
 
-public class UniformSpawnModule implements ISpawnModule {
 
-    private final Environment environment;
+public class UniformSpawnModule extends AgentModule implements ISpawnModule {
 
     public UniformSpawnModule(Environment environment) {
-        this.environment = environment;
+        super(environment);
     }
 
     /**

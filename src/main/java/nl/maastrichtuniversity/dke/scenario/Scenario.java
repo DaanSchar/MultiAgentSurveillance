@@ -42,10 +42,10 @@ public class Scenario {
     public void createAgents() {
         for (int i = 0; i < numGuards; i++)
             guards.add(new Guard(
-                    new UniformSpawnModule(environment),new Movement(), baseSpeedGuard));
+                    new UniformSpawnModule(environment),new Movement(environment), baseSpeedGuard));
         for (int i = 0; i < numIntruders; i++)
             intruders.add(new Intruder(
-                    new UniformSpawnModule(environment),new Movement(), baseSpeedIntruder));
+                    new UniformSpawnModule(environment),new Movement(environment), baseSpeedIntruder));
     }
 
 
