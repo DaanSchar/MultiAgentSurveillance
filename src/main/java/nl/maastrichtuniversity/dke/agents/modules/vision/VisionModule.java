@@ -39,12 +39,10 @@ public class VisionModule implements IVisionModule{
         calculateRays(direction);
 
         List<Area> obstacles = new ArrayList<>();
-
         /*
             important! we need to sort the objects in the environment by their distance to the agent,
             so that the closest objects is checked first.
          */
-
         for (Area area : environment.getObjects()) {
             for (Ray ray : rays) {
                 if (ray.hasPointInArea(area)) obstacles.add(area);
@@ -53,7 +51,6 @@ public class VisionModule implements IVisionModule{
 
         return obstacles;
     }
-
 
     private class Ray {
 
@@ -65,11 +62,11 @@ public class VisionModule implements IVisionModule{
                 points.add(ray.mul(i / (double) RAY_RESOLUTION));
             }
         }
-
         public boolean hasPointInArea(Area area) {
             for (Vector point : points) {
-                if (pointIsInArea(point, area)) {
-                    deleteOtherPoints();
+             //   if (pointIsInArea(point, area)) { can we not just use this one?
+                if(area.containsPoint(point.getX(),point.getY())) {
+                    deleteOtherPoints(point);
                     return true;
                 }
             }
@@ -80,12 +77,14 @@ public class VisionModule implements IVisionModule{
          * Deletes all residual points inside ray, as these points
          * are blocked by the area.
          */
-        private void deleteOtherPoints() {
+        private void deleteOtherPoints(Vector point) {
+            int end_index = points.indexOf(point);
+            points = points.subList(0,end_index);
         }
 
         /**
          * Checks if a point is inside an area.
-
+            kind don't need the method, since Area objects have containsPoint method
          */
         public boolean pointIsInArea(Vector point, Area area) {
             return false;
