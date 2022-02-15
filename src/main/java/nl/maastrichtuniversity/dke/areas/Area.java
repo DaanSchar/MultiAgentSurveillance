@@ -14,7 +14,7 @@ import java.util.List;
 public abstract class Area {
 
     private static int idCount = 0;
-    private @Getter int id;
+    private @Getter final int id;
 
     private @Getter @Setter Vector position;
     private final @Getter double height;
@@ -35,7 +35,7 @@ public abstract class Area {
         this.position = this.position.add(vector);
     }
 
-    public abstract boolean isColliding(Area area);
+    public abstract boolean isCollidingWith(Area area);
 
     public abstract boolean containsPoint(double x, double y);
 

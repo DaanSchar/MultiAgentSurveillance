@@ -13,7 +13,7 @@ public class Rectangle extends Area {
     }
 
     @Override
-    public boolean isColliding(Area area) {
+    public boolean isCollidingWith(Area area) {
         return Collider.collides(this, area);
     }
 

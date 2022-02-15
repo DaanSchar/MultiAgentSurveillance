@@ -61,8 +61,8 @@ public class Collider {
 
     // circle-circle collision detection
     private static boolean isColliding(Circle c1, Circle c2) {
-        logger.info(c1.getPosition().getDistance(c2.getPosition()) + " < " + (c1.getRadius() + c2.getRadius()));
-        return c1.getPosition().getDistance(c2.getPosition()) < c1.getRadius() + c2.getRadius();
+        logger.info(c1.getPosition().distance(c2.getPosition()) + " < " + (c1.getRadius() + c2.getRadius()));
+        return c1.getPosition().distance(c2.getPosition()) < c1.getRadius() + c2.getRadius();
     }
 
     // rectangle-circle collision detection
