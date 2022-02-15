@@ -14,18 +14,16 @@ import java.util.Scanner;
  */
 public class MapParser {
 
-    private Logger logger = LoggerFactory.getLogger(MapParser.class);
-    private final String ROOT = "src/main/resources";
+    private static final Logger logger = LoggerFactory.getLogger(MapParser.class);
 
     private Scanner scanner;
     private Scenario scenario;
 
     public MapParser(String file) {
         try {
-            scanner = new Scanner(new File(ROOT + file));
-            scenario = new Scenario(new Environment());
+            scanner = new Scanner(new File(file));
         } catch (Exception e) {
-            logger.error("Error while parsing file: " + ROOT + file);
+            logger.error("Error while parsing file: " +  file);
             e.printStackTrace();
         }
     }
@@ -34,15 +32,17 @@ public class MapParser {
      * Creates a scenario object from the given input file
      * @return scenario
      */
-    public Scenario parse() {
+    public Scenario createScenario() {
+        scenario = new Scenario();
+
         while (scanner.hasNextLine())
-            parseLine(scanner.nextLine());
+            createFieldFromLine(scanner.nextLine());
 
         scenario.createAgents();
         return scenario;
     }
 
-    private void parseLine(String line) {
+    private void createFieldFromLine(String line) {
         Scanner lineScanner = new Scanner(line);
         lineScanner.useDelimiter("=");
 
@@ -50,81 +50,38 @@ public class MapParser {
             String key = lineScanner.next().trim();
             String value = lineScanner.next().trim();
 
-            createVariables(key, value);
+            createScenarioField(key, value);
         }
     }
 
-    private void createVariables(String key, String value) {
+    private void createScenarioField(String key, String value) {
         String[] values = value.split(" ");
         Environment environment = scenario.getEnvironment();
 
         switch (key) {
-            case "name":
-                scenario.setName(value);
-                break;
-            case "gameFile":
-                logger.error("GameFile not implemented yet");
-                break;
-            case "gameMode":
-                scenario.setGameMode(Integer.parseInt(value));
-                break;
-            case "height":
-                environment.setHeight(Integer.parseInt(value));
-                break;
-            case "width":
-                scenario.getEnvironment().setWidth(Double.parseDouble(value));
-                break;
-            case "scaling":
-                scenario.setScaling(Double.parseDouble(value));
-                break;
-            case "numGuards":
-                scenario.setNumGuards(Integer.parseInt(value));
-                break;
-            case "numIntruders":
-                scenario.setNumIntruders(Integer.parseInt(value));
-                break;
-            case "baseSpeedIntruder":
-                scenario.setBaseSpeedIntruder(Double.parseDouble(value));
-                break;
-            case "sprintSpeedIntruder":
-                scenario.setSprintSpeedIntruder(Double.parseDouble(value));
-                break;
-            case "baseSpeedGuard":
-                scenario.setBaseSpeedGuard(Double.parseDouble(value));
-                break;
-            case "timeStep":
-                scenario.setTimeStep(Double.parseDouble(value));
-                break;
-            case "targetArea":
-                environment.setTargetArea(parseRectangle(values));
-                break;
-            case "spawnAreaIntruders":
-                environment.getSpawnAreaIntruders().add(parseRectangle(values));
-                break;
-            case "spawnAreaGuards":
-                environment.getSpawnAreaGuards().add(parseRectangle(values));
-                break;
-            case "wall":
-                environment.getWalls().add(parseRectangle(values));
-                break;
-            case "teleport":
-                environment.getTeleportPortals().add(parseRectangle(values));
-                break;
-            case "shaded":
-                environment.getShadedAreas().add(parseRectangle(values));
-                break;
-            case "texture":
-                logger.error("Texture not implemented yet");
-                break;
-            case "windows":
-                environment.getWindows().add(parseRectangle(values));
-                break;
-            case "doors":
-                environment.getDoors().add(parseRectangle(values));
-                break;
-            case "sentrytowers":
-                environment.getSentrytowers().add(parseRectangle(values));
-                break;
+            case "name" -> scenario.setName(value);
+            case "gameFile" -> logger.error("GameFile not implemented yet");
+            case "gameMode" -> scenario.setGameMode(Integer.parseInt(value));
+            case "height" -> environment.setHeight(Integer.parseInt(value));
+            case "width" -> scenario.getEnvironment().setWidth(Double.parseDouble(value));
+            case "scaling" -> scenario.setScaling(Double.parseDouble(value));
+            case "numGuards" -> scenario.setNumGuards(Integer.parseInt(value));
+            case "numIntruders" -> scenario.setNumIntruders(Integer.parseInt(value));
+            case "baseSpeedIntruder" -> scenario.setBaseSpeedIntruder(Double.parseDouble(value));
+            case "sprintSpeedIntruder" -> scenario.setSprintSpeedIntruder(Double.parseDouble(value));
+            case "baseSpeedGuard" -> scenario.setBaseSpeedGuard(Double.parseDouble(value));
+            case "timeStep" -> scenario.setTimeStep(Double.parseDouble(value));
+            case "targetArea" -> environment.getTargetArea().add(parseRectangle(values));
+            case "spawnAreaIntruders" -> environment.getSpawnAreaIntruders().add(parseRectangle(values));
+            case "spawnAreaGuards" -> environment.getSpawnAreaGuards().add(parseRectangle(values));
+            case "wall" -> environment.getWalls().add(parseRectangle(values));
+            case "teleport" -> environment.getTeleportPortals().add(parseRectangle(values));
+            case "shaded" -> environment.getShadedAreas().add(parseRectangle(values));
+            case "texture" -> logger.error("Texture not implemented yet");
+            case "windows" -> environment.getWindows().add(parseRectangle(values));
+            case "doors" -> environment.getDoors().add(parseRectangle(values));
+            case "sentrytowers" -> environment.getSentryTowers().add(parseRectangle(values));
+            default -> logger.error("Unknown value: " + key);
         }
     }
 

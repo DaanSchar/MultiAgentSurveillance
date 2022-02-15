@@ -5,57 +5,47 @@ import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.Agent;
 import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
+import nl.maastrichtuniversity.dke.agents.modules.movement.Movement;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.UniformSpawnModule;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 public class Scenario {
 
-    private @Getter @Setter String name;
-    private @Getter @Setter int gameMode;
+    private String name;
+    private int gameMode;
 
-    private @Getter @Setter double scaling;
-    private @Getter @Setter double timeStep ;
+    private double scaling;
+    private double timeStep ;
 
-    private @Getter @Setter List<Agent> guards;
-    private @Getter @Setter List<Agent> intruders;
+    private List<Agent> guards;
+    private List<Agent> intruders;
 
-    private @Getter @Setter Environment environment;
+    private Environment environment;
 
-    private @Getter @Setter int numGuards;
-    private @Getter @Setter int numIntruders;
+    private int numGuards;
+    private int numIntruders;
 
-    private @Getter @Setter double baseSpeedIntruder;
-    private @Getter @Setter double sprintSpeedIntruder;
-    private @Getter @Setter double baseSpeedGuard;
+    private double baseSpeedIntruder;
+    private double sprintSpeedIntruder;
+    private double baseSpeedGuard;
 
-    public Scenario(Environment environment) {
+    public Scenario() {
         this.guards = new ArrayList<>();
         this.intruders = new ArrayList<>();
-        this.environment = environment;
-    }
-
-    public Scenario(String name, int gameMode, double scaling, double timeStep, List<Agent> agents, Environment environment) {
-        this.name = name;
-        this.guards = agents;
-        this.gameMode = gameMode;
-        this.scaling = scaling;
-        this.timeStep = timeStep;
-        this.environment = environment;
+        this.environment = new Environment();
     }
 
     public void createAgents() {
-
         for (int i = 0; i < numGuards; i++)
             guards.add(new Guard(
-                    new UniformSpawnModule(environment), baseSpeedGuard));
-
+                    new UniformSpawnModule(environment),new Movement(), baseSpeedGuard));
         for (int i = 0; i < numIntruders; i++)
             intruders.add(new Intruder(
-                    new UniformSpawnModule(environment), baseSpeedIntruder));
-
-
+                    new UniformSpawnModule(environment),new Movement(), baseSpeedIntruder));
     }
 
 

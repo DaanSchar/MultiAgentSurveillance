@@ -2,19 +2,25 @@ package nl.maastrichtuniversity.dke.util;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Objects;
 
 /**
  * 3D vector class.
  *
+ * can also be used as a 2D vector, where z is always 0.
+ *
  * @Author Daan
  */
+@ToString
+@Getter
+@Setter
 public class Vector {
 
-    private @Getter @Setter double x;
-    private @Getter @Setter double y;
-    private @Getter @Setter double z;
+    private double x;
+    private double y;
+    private double z;
 
     public Vector(double x, double y) {
         this.x = x;
@@ -144,22 +150,16 @@ public class Vector {
         return Double.compare(vector.x, x) == 0 && Double.compare(vector.y, y) == 0 && Double.compare(vector.z, z) == 0;
     }
 
-
-    public Vector copy(){
-        return new Vector(x,y,z);
-    }
-
-
     @Override
     public int hashCode() {
         return Objects.hash(x, y, z);
     }
 
-    @Override
-    public String toString() {
-        return "[" + this.x + ", " + this.y + ", " + this.z + "]";
-    }
-
+    /**
+     * rotates the vector around the z axis (so 2D)
+     * @param angle the angle of rotation in degrees
+     * @return rotated vector
+     */
     public Vector rotate(double angle) {
         double x1 = (this.x * Math.cos(Math.toRadians(angle)) - this.y * Math.sin(Math.toRadians(angle)));
         double y1 = (this.x * Math.sin(Math.toRadians(angle)) + this.y * Math.cos(Math.toRadians(angle))) ;
@@ -167,5 +167,14 @@ public class Vector {
 
     }
 
-
+    /**
+     * returns a vector with the absolute values of the components.
+     */
+    public Vector abs() {
+        return new Vector(
+                Math.abs(this.x),
+                Math.abs(this.y),
+                Math.abs(this.z)
+        );
+    }
 }
