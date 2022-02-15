@@ -1,4 +1,5 @@
 package nl.maastrichtuniversity.dke.scenario;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,5 +29,10 @@ public class Environment {
     public Environment() {
         this(0, 0, 0, new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+    }
+
+
+    public List<Area> getObjects() {
+        return null;
     }
 }
