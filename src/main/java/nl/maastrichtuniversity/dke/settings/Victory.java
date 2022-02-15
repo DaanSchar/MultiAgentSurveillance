@@ -16,25 +16,25 @@ public class Victory {
 
 
     Area targetArea;
-    public Victory(Area targetArea){
-        this.targetArea=targetArea;
+
+    public Victory(Area targetArea) {
+        this.targetArea = targetArea;
     }
+
     /**
      * Should have a global variable denoting Target Area maybe ?
      *
      * @param a current agent
      * @return if in target area
      */
-    public boolean checkVictory(Agent a){
-        if(a.getPosition().equals(targetArea.getPosition())){
+    public boolean checkVictory(Agent a) {
+        //if (a.getPosition().equals(targetArea.getPosition())) {
 
-        }
-
+        //}
 
 
         return false;
     }
-
 
 
 }
