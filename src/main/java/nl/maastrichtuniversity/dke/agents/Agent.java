@@ -3,6 +3,7 @@ package nl.maastrichtuniversity.dke.agents;
 import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.modules.movement.IMovement;
+import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.util.Vector;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.ISpawnModule;
 import org.slf4j.Logger;
@@ -23,15 +24,14 @@ public class Agent {
 
     private final ISpawnModule spawnModule;
     private final IMovement movement;
+    private final IVisionModule visionModule;
 
-    public Agent(ISpawnModule spawnModule, IMovement movement, double baseSpeed, double sprintSpeed) {
-        this.position = null;
+    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, double baseSpeed) {
         this.spawnModule = spawnModule;
+        this.visionModule = visionModule;
         this.movement = movement;
         this.baseSpeed = baseSpeed;
         this.id = agentCount++;
-
-        System.out.println("you should be able to find this");
 
         logger.info("Created new " + this.getClass().getSimpleName() + " " + this.id + " with modules: " + spawnModule.getClass().getSimpleName());
     }
