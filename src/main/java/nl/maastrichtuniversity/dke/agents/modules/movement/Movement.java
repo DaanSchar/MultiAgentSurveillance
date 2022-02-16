@@ -1,8 +1,16 @@
 package nl.maastrichtuniversity.dke.agents.modules.movement;
 
+import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
+import nl.maastrichtuniversity.dke.scenario.Environment;
 import nl.maastrichtuniversity.dke.util.Vector;
 
-public class Movement implements IMovement {
+public class Movement extends AgentModule implements IMovement {
+
+
+    public Movement(Environment environment) {
+        super(environment);
+    }
+
     @Override
     public Vector rotate(Vector direction, double rotationSpeed) {
         return direction.rotate(rotationSpeed);

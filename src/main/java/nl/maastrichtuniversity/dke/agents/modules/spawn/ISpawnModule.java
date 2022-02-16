@@ -7,6 +7,10 @@ import nl.maastrichtuniversity.dke.util.Vector;
  */
 public interface ISpawnModule {
 
+    /**
+     * Returns the position where the agent will spawn.
+     *
+     */
     Vector getSpawnPosition();
     Vector getSpawnDirection();
 

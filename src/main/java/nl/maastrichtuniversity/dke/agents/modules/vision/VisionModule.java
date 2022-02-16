@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.agents.modules.vision;
 
+import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.scenario.Environment;
 import nl.maastrichtuniversity.dke.util.Vector;
 import nl.maastrichtuniversity.dke.areas.Area;
@@ -7,9 +8,7 @@ import nl.maastrichtuniversity.dke.areas.Area;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VisionModule implements IVisionModule{
-
-    private Environment environment;
+public class VisionModule extends AgentModule implements IVisionModule{
 
     private final int FOV_RESOLUTION = 50;
     private final int RAY_RESOLUTION = 50;
@@ -19,7 +18,7 @@ public class VisionModule implements IVisionModule{
     private List<Ray> rays;
 
     public VisionModule(Environment environment, double fov){
-        this.environment = environment;
+        super(environment);
         this.fov = fov;
     }
 
