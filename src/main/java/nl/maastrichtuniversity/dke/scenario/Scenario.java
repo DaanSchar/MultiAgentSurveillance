@@ -48,7 +48,6 @@ public class Scenario {
             areas.add(intruder.getArea());
         }
         return areas;
-        
     }
     
 

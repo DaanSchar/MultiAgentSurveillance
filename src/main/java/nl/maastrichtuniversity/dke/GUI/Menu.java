@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.GUI;
 
+import nl.maastrichtuniversity.dke.scenario.GameRepository;
 import nl.maastrichtuniversity.dke.scenario.MapParser;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
 
@@ -139,11 +140,9 @@ public class Menu implements ActionListener  {
 
             if (response==JFileChooser.APPROVE_OPTION) {
                 File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
-                System.out.println(file);
                 MapParser mapParser = new MapParser(file);
-                Scenario scenario = mapParser.createScenario();
-                GameWindow GameWindow = new GameWindow(scenario);
-                System.out.println(scenario.getStaticEnvironment().getScaling());
+                GameRepository.setScenario(mapParser.createScenario());
+                GameWindow GameWindow = new GameWindow(GameRepository.getScenario());
 
                 window.dispose();
             }

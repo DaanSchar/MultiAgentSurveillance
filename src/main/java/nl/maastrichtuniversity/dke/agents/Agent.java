@@ -24,6 +24,10 @@ public class Agent {
     private static int agentCount;
     private final int id;
 
+    enum Direction{
+        North, East, South, West;
+    }
+
     private @Setter Vector position;
     private @Setter double baseSpeed;
     private @Setter Vector direction;
@@ -53,15 +57,15 @@ public class Agent {
     }
 
     public void goForward(){
-        movement.goForward(position, direction);
+        position = movement.goForward(position, direction);
     }
 
     public void goBackward(){
-        movement.goBackward(position, direction);
+        position = movement.goBackward(position, direction);
     }
 
     public void sprint(){
-        movement.sprint(position, direction);
+        position = movement.sprint(position, direction);
         baseSpeed -= 5;
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {

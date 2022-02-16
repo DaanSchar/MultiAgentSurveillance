@@ -23,12 +23,12 @@ public class GameComponent extends JComponent{
 	private int panningY=0;
 
 	public GameComponent(Scenario scenario){
-
 		this.scenario = scenario;
 		double scale = scenario.getStaticEnvironment().getScaling()*100;
 		textureSize = (int) scale;
-
 	}
+
+
 	public void paintComponent(Graphics g) {
 		var staticEnv = scenario.getStaticEnvironment();
 		var dynamicEnv = scenario.getDynamicEnvironment();
