@@ -26,11 +26,12 @@ public class Agent {
     private final IMovement movement;
     private final IVisionModule visionModule;
 
-    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, double baseSpeed) {
+    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, double baseSpeed, double sprintSpeed) {
         this.spawnModule = spawnModule;
         this.visionModule = visionModule;
         this.movement = movement;
         this.baseSpeed = baseSpeed;
+        this.sprintSpeed = sprintSpeed;
         this.id = agentCount++;
 
         logger.info("Created new " + this.getClass().getSimpleName() + " " + this.id + " with modules: " + spawnModule.getClass().getSimpleName());
@@ -40,7 +41,7 @@ public class Agent {
      * places the agent at a position determined by the spawn module
      */
     public void spawn() {
-        this.position = spawnModule.getSpawnPosition();
+        this.position = spawnModule.getSpawnPosition(this);
         logger.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position);
     }
 

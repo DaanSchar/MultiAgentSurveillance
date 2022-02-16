@@ -1,7 +1,10 @@
 package nl.maastrichtuniversity.dke.agents.modules.movement;
 
 import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
-import nl.maastrichtuniversity.dke.scenario.Environment;
+import nl.maastrichtuniversity.dke.areas.Area;
+import nl.maastrichtuniversity.dke.areas.Circle;
+import nl.maastrichtuniversity.dke.scenario.Scenario;
+import nl.maastrichtuniversity.dke.scenario.StaticEnvironment;
 import nl.maastrichtuniversity.dke.util.Vector;
 
 public class Movement extends AgentModule implements IMovement {

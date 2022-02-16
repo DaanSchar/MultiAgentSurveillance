@@ -2,12 +2,10 @@ package nl.maastrichtuniversity.dke.scenario;
 
 import lombok.Getter;
 import lombok.Setter;
-import nl.maastrichtuniversity.dke.agents.Agent;
 import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
-import nl.maastrichtuniversity.dke.agents.modules.movement.Movement;
-import nl.maastrichtuniversity.dke.agents.modules.spawn.UniformSpawnModule;
-import nl.maastrichtuniversity.dke.agents.modules.vision.VisionModule;
+import nl.maastrichtuniversity.dke.agents.modules.AgentFactory;
+import nl.maastrichtuniversity.dke.areas.Area;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,38 +17,40 @@ public class Scenario {
     private String name;
     private int gameMode;
 
-    private double scaling;
-    private double timeStep ;
+    private double timeStep;
 
-    private Environment environment;
-
-    private int numGuards;
-    private int numIntruders;
-
-    private double baseSpeedIntruder;
-    private double sprintSpeedIntruder;
-    private double baseSpeedGuard;
+    private StaticEnvironment staticEnvironment;
+    private DynamicEnvironment dynamicEnvironment;
 
     public Scenario() {
-        this.environment = new Environment();
+        this.staticEnvironment = new StaticEnvironment();
     }
-
-    public void createAgents() {
-        for (int i = 0; i < numGuards; i++)
-            guards.add(new Guard(
-                    new UniformSpawnModule(environment),
-                    new Movement(environment),
-                    new VisionModule(environment, 90),
-                    baseSpeedGuard)
-            );
-        for (int i = 0; i < numIntruders; i++)
-            intruders.add(new Intruder(
-                    new UniformSpawnModule(environment),
-                    new Movement(environment),
-                    new VisionModule(environment, 90),
-                    baseSpeedIntruder)
-            );
+    
+    public Scenario(String name, int gameMode, double timeStep, StaticEnvironment staticEnvironment, DynamicEnvironment dynamicEnvironment) {
+        this.name = name;
+        this.gameMode = gameMode;
+        this.timeStep = timeStep;
+        this.staticEnvironment = staticEnvironment;
+        this.dynamicEnvironment = dynamicEnvironment;
     }
+    
+    public List<Area> getObjects(){
+        List<Area> areas = new ArrayList<>();
+        for(List<Area> area:staticEnvironment.getAreas().values()){
+            areas.addAll(area);
+        }
+        areas.addAll(dynamicEnvironment.getDoors());
+        areas.addAll(dynamicEnvironment.getWindows());
+        for(Guard guard:dynamicEnvironment.getGuards()){
+            areas.add(guard.getArea());
+        }
+        for(Intruder intruder:dynamicEnvironment.getIntruders()){
+            areas.add(intruder.getArea());
+        }
+        return areas;
+        
+    }
+    
 
 
 }

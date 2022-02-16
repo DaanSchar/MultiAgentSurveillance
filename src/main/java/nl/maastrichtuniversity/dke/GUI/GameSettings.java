@@ -2,7 +2,8 @@ package nl.maastrichtuniversity.dke.GUI;
 
 import nl.maastrichtuniversity.dke.areas.Rectangle;
 import nl.maastrichtuniversity.dke.areas.Area;
-import nl.maastrichtuniversity.dke.scenario.Environment;
+import nl.maastrichtuniversity.dke.scenario.Scenario;
+import nl.maastrichtuniversity.dke.scenario.StaticEnvironment;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,7 +65,7 @@ public class GameSettings implements ActionListener  {
     private int nextInt = 0;
     private JButton back = new JButton(new ImageIcon(ImageFactory.get("backButton")));
 
-    private Environment environment;
+    private Scenario scenario;
 
     public GameSettings() {
 
@@ -283,24 +284,26 @@ public class GameSettings implements ActionListener  {
     public void createEnvironment(){
 
         //width , height scaling
-        double widthI = Double.parseDouble(width.getText());
-        double heightI = Double.parseDouble(height.getText());
-        double scalingI = Double.parseDouble(scaling.getText());
+        double widthFromTextField = Double.parseDouble(width.getText());
+        double heightFromTextField = Double.parseDouble(height.getText());
+        double scalingFromTextField = Double.parseDouble(scaling.getText());
 
-        environment = new Environment(
-                widthI,
-                heightI,
-                scalingI,
-                createAreas(spawnAreaIntruders),
-                createAreas(spawnAreaGuards),
-                createAreas(walls),
-                createAreas(shaded),
-                createAreas(teleport),
-                createAreas(targetArea),
-                createAreas(windows),
-                createAreas(doors),
-                createAreas(sentryTower)
-        );
+//        scenario = new Scenario(
+//                widthFromTextField,
+//                heightFromTextField,
+//                scalingFromTextField,
+//                new ArrayList<>(),
+//                new ArrayList<>(),
+//                createAreas(spawnAreaIntruders),
+//                createAreas(spawnAreaGuards),
+//                createAreas(walls),
+//                createAreas(shaded),
+//                createAreas(teleport),
+//                createAreas(targetArea),
+//                createAreas(windows),
+//                createAreas(doors),
+//                createAreas(sentryTower)
+//        );
     }
 
     /**
@@ -365,7 +368,7 @@ public class GameSettings implements ActionListener  {
          */
         if(e.getSource()==start){
             createEnvironment();
-            GameWindow gameWindow = new GameWindow(environment);
+//            GameWindow gameWindow = new GameWindow(staticEnvironment);
             window.dispose();
         }
 

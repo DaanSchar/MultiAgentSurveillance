@@ -5,7 +5,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Objects;
 
-import nl.maastrichtuniversity.dke.scenario.Environment;
+import nl.maastrichtuniversity.dke.scenario.Scenario;
+import nl.maastrichtuniversity.dke.scenario.StaticEnvironment;
 
 /**
      * GUIboard class
@@ -41,17 +42,17 @@ public class GameWindow  {
 
     private AnimationListener animationListener = new AnimationListener();
 
-    private Environment environment;
+    private Scenario scenario;
 
     private JLabel gameLabel = new JLabel();
     private MouseSpy mouseListener = new MouseSpy();
 
     public GameWindow(Environment environment) {
 
-        this.environment = environment;
-        System.out.println(environment.getHeight());
+        this.scenario = scenario;
+        System.out.println(scenario.getStaticEnvironment().getHeight());
 
-        game = new GameComponent(environment);
+        game = new GameComponent(scenario);
 
 
 

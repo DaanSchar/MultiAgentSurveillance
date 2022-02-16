@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.scenario;
 
+import nl.maastrichtuniversity.dke.agents.modules.AgentFactory;
 import nl.maastrichtuniversity.dke.areas.Rectangle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,21 @@ public class MapParser {
     private static final Logger logger = LoggerFactory.getLogger(MapParser.class);
 
     private Scanner scanner;
+    private StaticEnvironment staticEnvironment;
+    private DynamicEnvironment dynamicEnvironment;
+
     private Scenario scenario;
+
+    private int numberOfGuards;
+    private int numberOfIntruders;
+    private double baseSpeedIntruder;
+    private double baseSpeedGuard;
+    private double sprintSpeedIntruder;
+    private String name;
+    private int gameMode;
+    private double timeStep;
+    private double fov;
+
 
     public MapParser(String file) {
         try {
@@ -33,13 +48,39 @@ public class MapParser {
      * @return scenario
      */
     public Scenario createScenario() {
-        scenario = new Scenario();
+        dynamicEnvironment = new DynamicEnvironment();
+        staticEnvironment = new StaticEnvironment();
 
         while (scanner.hasNextLine())
             createFieldFromLine(scanner.nextLine());
 
-        scenario.createAgents();
+        scenario = new Scenario();
+        createAgents();
+
+        scenario.setDynamicEnvironment(dynamicEnvironment);
+        scenario.setStaticEnvironment(staticEnvironment);
+
+
         return scenario;
+    }
+
+    public void createAgents() {
+        AgentFactory agentFactory = new AgentFactory();
+
+        this.dynamicEnvironment.setGuards(agentFactory.createGuards(
+                this.numberOfGuards,
+                this.scenario,
+                this.baseSpeedGuard,
+                this.baseSpeedGuard,
+                this.fov
+        ));
+        this.dynamicEnvironment.setIntruders(agentFactory.createIntruders(
+                this.numberOfIntruders,
+                this.scenario,
+                this.baseSpeedIntruder,
+                this.sprintSpeedIntruder,
+                this.fov
+        ));
     }
 
     private void createFieldFromLine(String line) {
@@ -56,31 +97,32 @@ public class MapParser {
 
     private void createScenarioField(String key, String value) {
         String[] values = value.split(" ");
-        Environment environment = scenario.getEnvironment();
 
         switch (key) {
-            case "name" -> scenario.setName(value);
+            case "name" -> name = value;
             case "gameFile" -> logger.error("GameFile not implemented yet");
-            case "gameMode" -> scenario.setGameMode(Integer.parseInt(value));
-            case "height" -> environment.setHeight(Integer.parseInt(value));
-            case "width" -> scenario.getEnvironment().setWidth(Double.parseDouble(value));
-            case "scaling" -> scenario.setScaling(Double.parseDouble(value));
-            case "numGuards" -> scenario.setNumGuards(Integer.parseInt(value));
-            case "numIntruders" -> scenario.setNumIntruders(Integer.parseInt(value));
-            case "baseSpeedIntruder" -> scenario.setBaseSpeedIntruder(Double.parseDouble(value));
-            case "sprintSpeedIntruder" -> scenario.setSprintSpeedIntruder(Double.parseDouble(value));
-            case "baseSpeedGuard" -> scenario.setBaseSpeedGuard(Double.parseDouble(value));
-            case "timeStep" -> scenario.setTimeStep(Double.parseDouble(value));
-            case "targetArea" -> environment.getTargetArea().add(parseRectangle(values));
-            case "spawnAreaIntruders" -> environment.getSpawnAreaIntruders().add(parseRectangle(values));
-            case "spawnAreaGuards" -> environment.getSpawnAreaGuards().add(parseRectangle(values));
-            case "wall" -> environment.getWalls().add(parseRectangle(values));
-            case "teleport" -> environment.getTeleportPortals().add(parseRectangle(values));
-            case "shaded" -> environment.getShadedAreas().add(parseRectangle(values));
+            case "gameMode" -> gameMode = (Integer.parseInt(value));
+            case "height" -> staticEnvironment.setHeight(Integer.parseInt(value));
+
+            case "width" -> staticEnvironment.setWidth(Double.parseDouble(value));
+            case "scaling" -> staticEnvironment.setScaling(Double.parseDouble(value));
+            case "numGuards" -> numberOfGuards = (Integer.parseInt(value));
+            case "numIntruders" -> numberOfIntruders = (Integer.parseInt(value));
+            case "baseSpeedIntruder" -> baseSpeedIntruder = (Double.parseDouble(value));
+            case "sprintSpeedIntruder" -> sprintSpeedIntruder = (Double.parseDouble(value));
+            case "baseSpeedGuard" -> baseSpeedGuard = (Double.parseDouble(value));
+            case "timeStep" -> timeStep = (Double.parseDouble(value));
+            case "targetArea" -> staticEnvironment.get("targetArea").add( parseRectangle(values));
+            case "spawnAreaIntruders" -> staticEnvironment.get("spawnAreaIntruders").add( parseRectangle(values));
+            case "spawnAreaGuards" -> staticEnvironment.get("spawnAreaGuards").add( parseRectangle(values));
+            case "wall" -> staticEnvironment.get("wall").add( parseRectangle(values));
+            case "teleport" -> staticEnvironment.get("teleport").add( parseRectangle(values));
+            case "shaded" -> staticEnvironment.get("shaded").add( parseRectangle(values));
             case "texture" -> logger.error("Texture not implemented yet");
-            case "windows" -> environment.getWindows().add(parseRectangle(values));
-            case "doors" -> environment.getDoors().add(parseRectangle(values));
-            case "sentrytowers" -> environment.getSentryTowers().add(parseRectangle(values));
+            case "window" -> dynamicEnvironment.getWindows().add( parseRectangle(values));
+            case "door" -> dynamicEnvironment.getDoors().add( parseRectangle(values));
+            case "sentrytower" -> staticEnvironment.get("sentrytower").add( parseRectangle(values));
+            case "fov" -> fov = (Double.parseDouble(value));
             default -> logger.error("Unknown value: " + key);
         }
     }
