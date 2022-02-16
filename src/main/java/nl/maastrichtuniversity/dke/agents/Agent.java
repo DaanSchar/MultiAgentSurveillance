@@ -19,11 +19,12 @@ public class Agent {
     private @Setter Vector position;
     private @Setter double baseSpeed;
     private @Setter Vector direction;
+    private @Setter double sprintSpeed;
 
     private final ISpawnModule spawnModule;
     private final IMovement movement;
 
-    public Agent(ISpawnModule spawnModule, IMovement movement, double baseSpeed) {
+    public Agent(ISpawnModule spawnModule, IMovement movement, double baseSpeed, double sprintSpeed) {
         this.position = null;
         this.spawnModule = spawnModule;
         this.movement = movement;

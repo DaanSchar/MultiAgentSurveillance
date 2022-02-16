@@ -6,6 +6,8 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import nl.maastrichtuniversity.dke.agents.Guard;
+import nl.maastrichtuniversity.dke.agents.Intruder;
 import nl.maastrichtuniversity.dke.areas.Area;
 
 @AllArgsConstructor
@@ -16,6 +18,10 @@ public class Environment {
     private double width;
     private double height;
     private double scaling;
+
+    private List<Intruder> intruders;
+    private List<Guard> guards;
+
     private List<Area> spawnAreaIntruders;
     private List<Area> spawnAreaGuards;
     private List<Area> walls;
@@ -28,7 +34,7 @@ public class Environment {
 
     public Environment() {
         this(0, 0, 0, new ArrayList<>(), new ArrayList<>(),
-                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 
 

@@ -21,9 +21,6 @@ public class Scenario {
     private double scaling;
     private double timeStep ;
 
-    private List<Agent> guards;
-    private List<Agent> intruders;
-
     private Environment environment;
 
     private int numGuards;
@@ -34,8 +31,6 @@ public class Scenario {
     private double baseSpeedGuard;
 
     public Scenario() {
-        this.guards = new ArrayList<>();
-        this.intruders = new ArrayList<>();
         this.environment = new Environment();
     }
 

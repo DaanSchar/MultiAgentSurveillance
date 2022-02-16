@@ -9,8 +9,13 @@ public class Circle extends Area {
 
     private @Getter final double radius;
 
+    public Circle(double x, double y, double radius, AreaType type) {
+        super( new Vector(x, y), radius*2, radius*2, type);
+        this.radius = radius;
+    }
+
     public Circle(double x, double y, double radius) {
-        super( new Vector(x, y), radius*2, radius*2);
+        super( new Vector(x, y), radius*2, radius*2, AreaType.SHAPE);
         this.radius = radius;
     }
 

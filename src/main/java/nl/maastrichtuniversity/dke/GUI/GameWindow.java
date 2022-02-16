@@ -68,7 +68,7 @@ public class GameWindow  {
         /*
          * Implement the exit button. set the bounds,the background color,the border and add the action listener
          */
-        exit.setBounds(((int)environment.getWidth()*10)-75,0,75,40);
+        exit.setBounds(((int) environment.getWidth()*10)-75,0,75,40);
         exit.addActionListener(animationListener);
         exit.setBackground(color1);
         exit.setFocusable(false);
@@ -96,7 +96,7 @@ public class GameWindow  {
         gameLabel.setVerticalAlignment(JLabel.CENTER);
         gameLabel.setBackground(color2);
         gameLabel.setOpaque(true);
-        gameLabel.setBounds(0,((int)environment.getHeight()*10),(int) environment.getWidth()*10, 40);
+        gameLabel.setBounds(0,((int) environment.getHeight()*10),(int) environment.getWidth()*10, 40);
         gameLabel.add(back);
         gameLabel.add(exit);
         gameLabel.add(zoomIn);
@@ -116,7 +116,7 @@ public class GameWindow  {
         window.addMouseMotionListener(mouseListener);
         window.setUndecorated(true);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setSize((int) environment.getWidth()*10, ((int)environment.getHeight()*10) + 40);
+        window.setSize((int) environment.getWidth()*10, ((int) environment.getHeight()*10) + 40);
         window.setLocationRelativeTo(null);
         window.getContentPane().setBackground(color2);
         window.add(gameLabel);
