@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.agents.modules.spawn;
 
+import nl.maastrichtuniversity.dke.agents.Agent;
 import nl.maastrichtuniversity.dke.util.Vector;
 
 /**
@@ -11,7 +12,7 @@ public interface ISpawnModule {
      * Returns the position where the agent will spawn.
      *
      */
-    Vector getSpawnPosition();
+    Vector getSpawnPosition(Agent agent );
     Vector getSpawnDirection();
 
 }

@@ -4,11 +4,18 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
+import nl.maastrichtuniversity.dke.areas.Area;
+import nl.maastrichtuniversity.dke.areas.Circle;
 import nl.maastrichtuniversity.dke.util.Vector;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.ISpawnModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * agent class parent of guard and intruder
+ *
+ * @Author Parand
+ */
 @Getter
 public class Agent {
 
@@ -70,6 +77,11 @@ public class Agent {
 
     public void rotate(){
         movement.rotate(direction,baseSpeed);
+    }
+
+    public Area getArea(){
+        Area area = new Circle(getPosition().getX(), getPosition().getY(), 0.5);
+        return area;
     }
 
 }

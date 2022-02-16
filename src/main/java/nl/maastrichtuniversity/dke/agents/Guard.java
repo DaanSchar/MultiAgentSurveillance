@@ -10,4 +10,12 @@ public class Guard extends Agent {
         super(spawnModule,movement, visionModule, baseSpeed, sprintSpeed);
     }
 
+    /**
+     * if guard see intruder the intrudet is out otf the game
+     * @param intruder
+     */
+    public void getIntruder(Intruder intruder){
+        intruder.setAlive(false);
+    }
+
 }

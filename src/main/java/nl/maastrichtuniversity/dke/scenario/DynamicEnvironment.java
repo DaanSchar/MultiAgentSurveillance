@@ -1,5 +1,7 @@
 package nl.maastrichtuniversity.dke.scenario;
 
+import lombok.Getter;
+import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
 import nl.maastrichtuniversity.dke.areas.Area;
