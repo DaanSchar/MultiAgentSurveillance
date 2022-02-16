@@ -5,6 +5,7 @@ import lombok.Setter;
 
 public class GameRepository {
 
-    private static @Setter @Getter Scenario scenario;
+    private static @Setter @Getter
+    Environment scenario;
 
 }

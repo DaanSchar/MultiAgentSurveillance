@@ -1,8 +1,7 @@
 package nl.maastrichtuniversity.dke.agents.modules.vision;
 
 import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
-import nl.maastrichtuniversity.dke.scenario.Scenario;
-import nl.maastrichtuniversity.dke.scenario.StaticEnvironment;
+import nl.maastrichtuniversity.dke.discrete.Environment;
 import nl.maastrichtuniversity.dke.util.Vector;
 import nl.maastrichtuniversity.dke.areas.Area;
 
@@ -18,7 +17,7 @@ public class VisionModule extends AgentModule implements IVisionModule{
 
     private List<Ray> rays;
 
-    public VisionModule(Scenario scenario, double fov){
+    public VisionModule(Environment scenario, double fov){
         super(scenario);
         this.fov = fov;
     }
@@ -43,11 +42,11 @@ public class VisionModule extends AgentModule implements IVisionModule{
             important! we need to sort the objects in the environment by their distance to the agent,
             so that the closest objects is checked first.
          */
-        for (Area area : scenario.getObjects()) {
-            for (Ray ray : rays) {
-                if (ray.hasPointInArea(area)) obstacles.add(area);
-            }
-        }
+//        for (Area area : scenario.getObjects()) {
+//            for (Ray ray : rays) {
+//                if (ray.hasPointInArea(area)) obstacles.add(area);
+//            }
+//        }
 
         return obstacles;
     }

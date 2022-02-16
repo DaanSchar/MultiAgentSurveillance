@@ -2,7 +2,6 @@ package nl.maastrichtuniversity.dke.GUI;
 
 import nl.maastrichtuniversity.dke.scenario.GameRepository;
 import nl.maastrichtuniversity.dke.scenario.MapParser;
-import nl.maastrichtuniversity.dke.scenario.Scenario;
 
 import javax.swing.*;
 import java.awt.*;

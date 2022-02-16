@@ -21,7 +21,7 @@ public class MapParser {
     private StaticEnvironment staticEnvironment;
     private DynamicEnvironment dynamicEnvironment;
 
-    private Scenario scenario;
+    private Environment scenario;
 
     private int numberOfGuards;
     private int numberOfIntruders;
@@ -47,14 +47,14 @@ public class MapParser {
      * Creates a scenario object from the given input file
      * @return scenario
      */
-    public Scenario createScenario() {
+    public Environment createScenario() {
         dynamicEnvironment = new DynamicEnvironment();
         staticEnvironment = new StaticEnvironment();
 
         while (scanner.hasNextLine())
             createFieldFromLine(scanner.nextLine());
 
-        scenario = new Scenario();
+        scenario = new Environment();
         createAgents();
 
         scenario.setDynamicEnvironment(dynamicEnvironment);
@@ -67,20 +67,20 @@ public class MapParser {
     public void createAgents() {
         AgentFactory agentFactory = new AgentFactory();
 
-        this.dynamicEnvironment.setGuards(agentFactory.createGuards(
-                this.numberOfGuards,
-                this.scenario,
-                this.baseSpeedGuard,
-                this.baseSpeedGuard,
-                this.fov
-        ));
-        this.dynamicEnvironment.setIntruders(agentFactory.createIntruders(
-                this.numberOfIntruders,
-                this.scenario,
-                this.baseSpeedIntruder,
-                this.sprintSpeedIntruder,
-                this.fov
-        ));
+//        this.dynamicEnvironment.setGuards(agentFactory.createGuards(
+//                this.numberOfGuards,
+//                this.scenario,
+//                this.baseSpeedGuard,
+//                this.baseSpeedGuard,
+//                this.fov
+//        ));
+//        this.dynamicEnvironment.setIntruders(agentFactory.createIntruders(
+//                this.numberOfIntruders,
+//                this.scenario,
+//                this.baseSpeedIntruder,
+//                this.sprintSpeedIntruder,
+//                this.fov
+//        ));
     }
 
     private void createFieldFromLine(String line) {

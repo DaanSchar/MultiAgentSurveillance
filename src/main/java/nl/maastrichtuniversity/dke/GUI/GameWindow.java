@@ -5,8 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Objects;
 
-import nl.maastrichtuniversity.dke.scenario.Scenario;
-import nl.maastrichtuniversity.dke.scenario.StaticEnvironment;
+import nl.maastrichtuniversity.dke.scenario.Environment;
 
 /**
  * GUIboard class
@@ -42,14 +41,14 @@ public class GameWindow  {
 
     private AnimationListener animationListener = new AnimationListener();
 
-    private Scenario scenario;
+    private Environment scenario;
 
     private JLabel gameLabel = new JLabel();
     private MouseSpy mouseListener = new MouseSpy();
 
     int textureSize;
 
-    public GameWindow(Scenario scenario) {
+    public GameWindow(Environment scenario) {
         double scale = scenario.getStaticEnvironment().getScaling()*100;
         textureSize = (int) scale;
 

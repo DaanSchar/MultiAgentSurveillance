@@ -2,8 +2,7 @@ package nl.maastrichtuniversity.dke.GUI;
 
 import nl.maastrichtuniversity.dke.areas.Rectangle;
 import nl.maastrichtuniversity.dke.areas.Area;
-import nl.maastrichtuniversity.dke.scenario.Scenario;
-import nl.maastrichtuniversity.dke.scenario.StaticEnvironment;
+import nl.maastrichtuniversity.dke.scenario.Environment;
 
 import javax.swing.*;
 import java.awt.*;
@@ -65,7 +64,7 @@ public class GameSettings implements ActionListener  {
     private int nextInt = 0;
     private JButton back = new JButton(new ImageIcon(ImageFactory.get("backButton")));
 
-    private Scenario scenario;
+    private Environment scenario;
 
     public GameSettings() {
 

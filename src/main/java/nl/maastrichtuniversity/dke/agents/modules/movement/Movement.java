@@ -3,8 +3,7 @@ package nl.maastrichtuniversity.dke.agents.modules.movement;
 import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.areas.Area;
 import nl.maastrichtuniversity.dke.areas.Circle;
-import nl.maastrichtuniversity.dke.scenario.Scenario;
-import nl.maastrichtuniversity.dke.scenario.StaticEnvironment;
+import nl.maastrichtuniversity.dke.discrete.Environment;
 import nl.maastrichtuniversity.dke.util.Vector;
 
 /**
@@ -14,8 +13,8 @@ import nl.maastrichtuniversity.dke.util.Vector;
  */
 public class Movement extends AgentModule implements IMovement {
 
-    public Movement(Scenario scenario) {
-        super(scenario);
+    public Movement(Environment environment) {
+        super(environment);
     }
 
     @Override
@@ -53,12 +52,12 @@ public class Movement extends AgentModule implements IMovement {
      * @return the area with collision or null if there is no collision
      */
     private Area checkCollision(Vector position ){
-        Circle agent = new Circle(position.getX(), position.getY(), 0.5);
-        for(Area area: scenario.getObjects()){
-            if(area.isCollidingWith(agent)){
-                return area;
-            }
-        }
+//        Circle agent = new Circle(position.getX(), position.getY(), 0.5);
+//        for(Area area: scenario.getObjects()){
+//            if(area.isCollidingWith(agent)){
+//                return area;
+//            }
+//        }
         return null;
     }
 

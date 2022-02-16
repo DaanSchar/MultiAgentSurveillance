@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Scenario {
+public class Environment {
 
     private String name;
     private int gameMode;
@@ -22,11 +22,11 @@ public class Scenario {
     private StaticEnvironment staticEnvironment;
     private DynamicEnvironment dynamicEnvironment;
 
-    public Scenario() {
+    public Environment() {
         this.staticEnvironment = new StaticEnvironment();
     }
     
-    public Scenario(String name, int gameMode, double timeStep, StaticEnvironment staticEnvironment, DynamicEnvironment dynamicEnvironment) {
+    public Environment(String name, int gameMode, double timeStep, StaticEnvironment staticEnvironment, DynamicEnvironment dynamicEnvironment) {
         this.name = name;
         this.gameMode = gameMode;
         this.timeStep = timeStep;

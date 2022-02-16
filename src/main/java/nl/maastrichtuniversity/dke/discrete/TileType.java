@@ -9,7 +9,11 @@ public enum TileType {
     TELEPORT(true),
     SHADED(true),
     SENTRY(true),
+    TARGET(true),
+    SPAWN_INTRUDERS(true),
+    SPAWN_GUARDS(true),
     EMPTY(true),
+
 
     WINDOW(false),
     DOOR(false),

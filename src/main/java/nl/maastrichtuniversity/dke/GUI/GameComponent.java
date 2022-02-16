@@ -8,13 +8,12 @@ import java.util.List;
 import javax.swing.Timer;
 
 import nl.maastrichtuniversity.dke.areas.Area;
-import nl.maastrichtuniversity.dke.scenario.Scenario;
-import nl.maastrichtuniversity.dke.scenario.StaticEnvironment;
+import nl.maastrichtuniversity.dke.scenario.Environment;
 import nl.maastrichtuniversity.dke.util.Vector;
 
 public class GameComponent extends JComponent{
 
-	private final Scenario scenario;
+	private final Environment scenario;
 	private int textureSize;
 
 	private int guardY = 100;
@@ -22,7 +21,7 @@ public class GameComponent extends JComponent{
 	private int panningX=0;
 	private int panningY=0;
 
-	public GameComponent(Scenario scenario){
+	public GameComponent(Environment scenario){
 		this.scenario = scenario;
 		double scale = scenario.getStaticEnvironment().getScaling()*100;
 		textureSize = (int) scale;

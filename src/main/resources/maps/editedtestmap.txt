@@ -1,4 +1,4 @@
-name = test scenario
+name = test environment
 gameFile = /Users/Daan/IdeaProjects/School/Project22/Explorer/src/main/java/gamefile.txt
 gameMode = 1
 height = 80
