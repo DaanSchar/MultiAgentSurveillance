@@ -2,7 +2,8 @@ package nl.maastrichtuniversity.dke.GUI;
 
 import nl.maastrichtuniversity.dke.areas.Rectangle;
 import nl.maastrichtuniversity.dke.areas.Area;
-import nl.maastrichtuniversity.dke.scenario.Environment;
+import nl.maastrichtuniversity.dke.scenario.Scenario;
+import nl.maastrichtuniversity.dke.scenario.StaticEnvironment;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,7 +65,7 @@ public class GameSettings implements ActionListener  {
     private int nextInt = 0;
     private JButton back = new JButton(new ImageIcon(ImageFactory.get("backButton")));
 
-    private Environment environment;
+    private Scenario scenario;
 
     public GameSettings() {
 
@@ -72,125 +73,51 @@ public class GameSettings implements ActionListener  {
         back.addActionListener(this);
         back.setBackground(new Color(155,223,232));
 
-        gameMode.setFont(new Font("Consolas",Font.PLAIN,20));
-        gameMode.setForeground(Color.darkGray);
-        gameMode.setBackground(color1);
-        gameMode.setCaretColor(Color.blue);
-        gameMode.setBounds(170,138,50,25);
+        setProberites(gameMode,170,138,50,25);
 
-        height.setFont(new Font("Consolas",Font.PLAIN,20));
-        height.setForeground(Color.darkGray);
-        height.setBackground(color1);
-        height.setCaretColor(Color.blue);
-        height.setBounds(153,180,50,25);
+        setProberites(height,153,180,50,25);
 
-        width.setFont(new Font("Consolas",Font.PLAIN,20));
-        width.setForeground(Color.darkGray);
-        width.setBackground(color1);
-        width.setCaretColor(Color.blue);
-        width.setBounds(375,180,50,25);
+        setProberites(width,375,180,50,25);
 
-        scaling.setFont(new Font("Consolas",Font.PLAIN,20));
-        scaling.setForeground(Color.darkGray);
-        scaling.setBackground(color1);
-        scaling.setCaretColor(Color.blue);
-        scaling.setBounds(175,223,50,25);
+        setProberites(scaling,175,223,50,25);
 
-        numGuards.setFont(new Font("Consolas",Font.PLAIN,20));
-        numGuards.setForeground(Color.darkGray);
-        numGuards.setBackground(color1);
-        numGuards.setCaretColor(Color.blue);
-        numGuards.setBounds(203,263,50,25);
-        
-        numIntruders.setFont(new Font("Consolas",Font.PLAIN,20));
-        numIntruders.setForeground(Color.darkGray);
-        numIntruders.setBackground(color1);
-        numIntruders.setCaretColor(Color.blue);
-        numIntruders.setBounds(552,263,50,25);
-        
-        baseSpeedIntruder.setFont(new Font("Consolas",Font.PLAIN,20));
-        baseSpeedIntruder.setForeground(Color.darkGray);
-        baseSpeedIntruder.setBackground(color1);
-        baseSpeedIntruder.setCaretColor(Color.blue);
-        baseSpeedIntruder.setBounds(345,307,50,25);
+        setProberites(numGuards,203,263,50,25);
 
-        sprintSpeedIntruder.setFont(new Font("Consolas",Font.PLAIN,20));
-        sprintSpeedIntruder.setForeground(Color.darkGray);
-        sprintSpeedIntruder.setBackground(color1);
-        sprintSpeedIntruder.setCaretColor(Color.blue);
-        sprintSpeedIntruder.setBounds(383,347,50,25);
+        setProberites(numIntruders,552,263,50,25);
 
-        baseSpeedGuard.setFont(new Font("Consolas",Font.PLAIN,20));
-        baseSpeedGuard.setForeground(Color.darkGray);
-        baseSpeedGuard.setBackground(color1);
-        baseSpeedGuard.setCaretColor(Color.blue);
-        baseSpeedGuard.setBounds(280,390,50,25);
+        setProberites(baseSpeedIntruder,345,307,50,25);
 
-        timeStep.setFont(new Font("Consolas",Font.PLAIN,20));
-        timeStep.setForeground(Color.darkGray);
-        timeStep.setBackground(color1);
-        timeStep.setCaretColor(Color.blue);
-        timeStep.setBounds(187,431,50,25);
+        setProberites(sprintSpeedIntruder,383,347,50,25);
 
-        targetArea.setFont(new Font("Consolas",Font.PLAIN,20));
-        targetArea.setForeground(Color.darkGray);
-        targetArea.setBackground(color1);
-        targetArea.setCaretColor(Color.blue);
-        targetArea.setBounds(224,472,200,25);
+        setProberites(baseSpeedGuard,280,390,50,25);
 
-        spawnAreaIntruders.setFont(new Font("Consolas",Font.PLAIN,20));
-        spawnAreaIntruders.setForeground(Color.darkGray);
-        spawnAreaIntruders.setBackground(color1);
-        spawnAreaIntruders.setCaretColor(Color.blue);
-        spawnAreaIntruders.setBounds(367,514,200,25);
+        setProberites(timeStep,187,431,50,25);
 
-        spawnAreaGuards.setFont(new Font("Consolas",Font.PLAIN,20));
-        spawnAreaGuards.setForeground(Color.darkGray);
-        spawnAreaGuards.setBackground(color1);
-        spawnAreaGuards.setCaretColor(Color.blue);
-        spawnAreaGuards.setBounds(315,556,200,25);
+        setProberites(targetArea,224,472,200,25);
 
-        walls.setFont(new Font("Consolas",Font.PLAIN,20));
-        walls.setForeground(Color.darkGray);
-        walls.setBackground(color1);
-        walls.setCaretColor(Color.blue);
-        walls.setBounds(30,40,770,120);
+        setProberites(spawnAreaIntruders,367,514,200,25);
 
-        teleport.setFont(new Font("Consolas",Font.PLAIN,20));
-        teleport.setForeground(Color.darkGray);
-        teleport.setBackground(color1);
-        teleport.setCaretColor(Color.blue);
-        teleport.setBounds(30,210,770,120);
+        setProberites(spawnAreaGuards,315,556,200,25);
 
-        shaded.setFont(new Font("Consolas",Font.PLAIN,20));
-        shaded.setForeground(Color.darkGray);
-        shaded.setBackground(color1);
-        shaded.setCaretColor(Color.blue);
-        shaded.setBounds(30,370,770,120);
+        setProberites(timeStep,187,431,50,25);
 
-        texture.setFont(new Font("Consolas",Font.PLAIN,20));
-        texture.setForeground(Color.darkGray);
-        texture.setBackground(color1);
-        texture.setCaretColor(Color.blue);
-        texture.setBounds(30,540,600,55);
+        setProberites(timeStep,187,431,50,25);
 
-        windows.setFont(new Font("Consolas",Font.PLAIN,20));
-        windows.setForeground(Color.darkGray);
-        windows.setBackground(color1);
-        windows.setCaretColor(Color.blue);
-        windows.setBounds(30,60,760,155);
+        setProberites(walls,30,40,770,120);
 
-        doors.setFont(new Font("Consolas",Font.PLAIN,20));
-        doors.setForeground(Color.darkGray);
-        doors.setBackground(color1);
-        doors.setCaretColor(Color.blue);
-        doors.setBounds(30,255,760,155);
+        setProberites(teleport,30,210,770,120);
 
-        sentryTower.setFont(new Font("Consolas",Font.PLAIN,20));
-        sentryTower.setForeground(Color.darkGray);
-        sentryTower.setBackground(color1);
-        sentryTower.setCaretColor(Color.blue);
-        sentryTower.setBounds(30,460,760,75);
+        setProberites(shaded,30,370,770,120);
+
+        setProberites(texture,30,540,600,55);
+
+        setProberites(windows,30,60,760,155);
+
+        setProberites(doors,30,255,760,155);
+
+        setProberites(sentryTower,30,460,760,75);
+
+
 
         /*
          * Implement the start ,next button. set the bounds and add the actionlistener
@@ -239,7 +166,7 @@ public class GameSettings implements ActionListener  {
         settings2.setVerticalAlignment(JLabel.CENTER);
         settings2.setBackground(Color.WHITE);
         settings2.setOpaque(true);
-        settings2.setVisible(false);    
+        settings2.setVisible(false);
         settings2.add(walls);
         settings2.add(teleport);
         settings2.add(texture);
@@ -255,10 +182,10 @@ public class GameSettings implements ActionListener  {
         settings3.setVerticalAlignment(JLabel.CENTER);
         settings3.setBackground(Color.WHITE);
         settings3.setOpaque(true);
-        settings3.setVisible(false);   
-        settings3.add(start); 
-        settings3.add(windows); 
-        settings3.add(doors); 
+        settings3.setVisible(false);
+        settings3.add(start);
+        settings3.add(windows);
+        settings3.add(doors);
         settings3.add(sentryTower);
 
 
@@ -283,25 +210,34 @@ public class GameSettings implements ActionListener  {
     public void createEnvironment(){
 
         //width , height scaling
-        double widthI = Double.parseDouble(width.getText());
-        double heightI = Double.parseDouble(height.getText());
-        double scalingI = Double.parseDouble(scaling.getText());
+        double widthFromTextField = Double.parseDouble(width.getText());
+        double heightFromTextField = Double.parseDouble(height.getText());
+        double scalingFromTextField = Double.parseDouble(scaling.getText());
 
-        environment = new Environment(
-                widthI,
-                heightI,
-                scalingI,
-                createAreas(spawnAreaIntruders),
-                createAreas(spawnAreaGuards),
-                createAreas(walls),
-                createAreas(shaded),
-                createAreas(teleport),
-                createAreas(targetArea),
-                createAreas(windows),
-                createAreas(doors),
-                createAreas(sentryTower)
-        );
+//        scenario = new Scenario(
+//                widthFromTextField,
+//                heightFromTextField,
+//                scalingFromTextField,
+//                new ArrayList<>(),
+//                new ArrayList<>(),
+//                createAreas(spawnAreaIntruders),
+//                createAreas(spawnAreaGuards),
+//                createAreas(walls),
+//                createAreas(shaded),
+//                createAreas(teleport),
+//                createAreas(targetArea),
+//                createAreas(windows),
+//                createAreas(doors),
+//                createAreas(sentryTower)
+//        );
     }
+    public void setProberites(JTextField text ,int x,int y,int width,int height){
+        text.setFont(new Font("Consolas",Font.PLAIN,20));
+        text.setForeground(Color.darkGray);
+        text.setBackground(color1);
+        text.setCaretColor(Color.blue);
+        text.setBounds(x,y,width,height);
+    };
 
     /**
      * creates a list of areas from a textField
@@ -332,7 +268,7 @@ public class GameSettings implements ActionListener  {
      */
     @Override
     public void actionPerformed(ActionEvent e){
-         window.repaint();  
+        window.repaint();
 
         /*
          *  If next button clicked go to the next page.
@@ -365,7 +301,7 @@ public class GameSettings implements ActionListener  {
          */
         if(e.getSource()==start){
             createEnvironment();
-            GameWindow gameWindow = new GameWindow(environment);
+//            GameWindow gameWindow = new GameWindow(staticEnvironment);
             window.dispose();
         }
 

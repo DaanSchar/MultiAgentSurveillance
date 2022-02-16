@@ -1,10 +1,13 @@
 package nl.maastrichtuniversity.dke.GUI;
 
+import nl.maastrichtuniversity.dke.scenario.GameRepository;
+import nl.maastrichtuniversity.dke.scenario.MapParser;
+import nl.maastrichtuniversity.dke.scenario.Scenario;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.util.Objects;
 
 
 public class Menu implements ActionListener  {
@@ -28,7 +31,7 @@ public class Menu implements ActionListener  {
     private JButton exit = new JButton(new ImageIcon(ImageFactory.get("exitButton")));
     private JButton back = new JButton(new ImageIcon(ImageFactory.get("backButton")));
 
-    
+
     public Menu() {
 
         // Implement the button. set the bounds and add the action listener
@@ -48,12 +51,12 @@ public class Menu implements ActionListener  {
         select.setBounds(310,535,210,44);
         select.addActionListener(this);
 
-       /*
-        *  Set the label2 icon
-        *  Set the label2 location
-        *  Set the label2 background color.
-        *  Add the buttons to one label2.
-        */
+        /*
+         *  Set the label2 icon
+         *  Set the label2 location
+         *  Set the label2 background color.
+         *  Add the buttons to one label2.
+         */
         label2.setIcon(new ImageIcon(ImageFactory.get("mapSettingsBackground")));
         label2.setHorizontalAlignment(JLabel.CENTER);
         label2.setVerticalAlignment(JLabel.CENTER);
@@ -75,11 +78,11 @@ public class Menu implements ActionListener  {
         exit.addActionListener(this);
 
         /*
-        *  Set the label icon
-        *  Set the label location
-        *  Set the label background color.
-        *  Add the buttons to one label.
-        */
+         *  Set the label icon
+         *  Set the label location
+         *  Set the label background color.
+         *  Add the buttons to one label.
+         */
         label.setIcon(new ImageIcon(ImageFactory.get("menuBackground")));
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setVerticalAlignment(JLabel.CENTER);
@@ -120,7 +123,7 @@ public class Menu implements ActionListener  {
             label2.setVisible(true);
             window.add(label2);
         }
-         //GameSettings GameSettings = new GameSettings();
+        //GameSettings GameSettings = new GameSettings();
         if(e.getSource()==back) {
             label.setVisible(true);
             label2.setVisible(false);
@@ -130,17 +133,19 @@ public class Menu implements ActionListener  {
             GameSettings GameSettings = new GameSettings();
         }
         if(e.getSource()==upload){
-           JOptionPane.showMessageDialog(upload,"SELECT THE MAP FILE" );
-           JFileChooser fileChooser = new JFileChooser();
-           fileChooser.setCurrentDirectory(new File("C:"));
-           int response = fileChooser.showOpenDialog(null);
+            JOptionPane.showMessageDialog(upload,"SELECT THE MAP FILE" );
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(new File("C:"));
+            int response = fileChooser.showOpenDialog(null);
 
-           if (response==JFileChooser.APPROVE_OPTION) {
-               File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
-               // System.out.println(file);
-               // MapParser mapParser = new MapParser(file);
-               // Scenario scenario = mapParser.parse();
-           }
+            if (response==JFileChooser.APPROVE_OPTION) {
+                File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
+                MapParser mapParser = new MapParser(file);
+                GameRepository.setScenario(mapParser.createScenario());
+                GameWindow GameWindow = new GameWindow(GameRepository.getScenario());
+
+                window.dispose();
+            }
 
         }
         if(e.getSource()==select){

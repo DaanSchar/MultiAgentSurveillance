@@ -6,8 +6,6 @@ public class Main{
 
    public static void main(String[] args) {
       var map = "src/main/resources/maps/testmap.txt";
-
-      var scenario = new MapParser(map).createScenario();
    }
 
 }

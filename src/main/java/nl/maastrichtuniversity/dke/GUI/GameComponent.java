@@ -8,12 +8,13 @@ import java.util.List;
 import javax.swing.Timer;
 
 import nl.maastrichtuniversity.dke.areas.Area;
-import nl.maastrichtuniversity.dke.scenario.Environment;
+import nl.maastrichtuniversity.dke.scenario.Scenario;
+import nl.maastrichtuniversity.dke.scenario.StaticEnvironment;
 import nl.maastrichtuniversity.dke.util.Vector;
 
 public class GameComponent extends JComponent{
 
-	private final Environment environment;
+	private final Scenario scenario;
 	private int textureSize;
 
 	private int guardY = 100;
@@ -21,24 +22,27 @@ public class GameComponent extends JComponent{
 	private int panningX=0;
 	private int panningY=0;
 
-	public GameComponent(Environment environment){
-
-		this.environment = environment;
-		double scale = environment.getScaling()*100;
+	public GameComponent(Scenario scenario){
+		this.scenario = scenario;
+		double scale = scenario.getStaticEnvironment().getScaling()*100;
 		textureSize = (int) scale;
-
 	}
-	public void paintComponent(Graphics g){
+
+
+	public void paintComponent(Graphics g) {
+		var staticEnv = scenario.getStaticEnvironment();
+		var dynamicEnv = scenario.getDynamicEnvironment();
+
 		g.drawImage(ImageFactory.get("guard1"),panningX+300,panningY+ guardY, textureSize, textureSize,null);
-		drawAreas(g, environment.getWalls(), ImageFactory.get("wallTexture"));
-		drawAreas(g, environment.getTeleportPortals(), ImageFactory.get("teleportTexture"));
-		drawAreas(g, environment.getSpawnAreaIntruders(), ImageFactory.get("spawnAreaTexture"));
-		drawAreas(g, environment.getSpawnAreaGuards(), ImageFactory.get("spawnAreaTexture"));
-		drawAreas(g, environment.getWindows(), ImageFactory.get("windowTexture"));
-		drawAreas(g, environment.getDoors(), ImageFactory.get("doorTexture"));
-		drawAreas(g, environment.getSentryTowers(), ImageFactory.get("sentryTowerTexture"));
-		drawAreas(g, environment.getTargetArea(), ImageFactory.get("targetTexture"));
-		drawAreas(g, environment.getShadedAreas(), ImageFactory.get("shadedTexture"));
+		drawAreas(g, staticEnv.get("wall"), ImageFactory.get("wallTexture"));
+		drawAreas(g, staticEnv.get("teleport"), ImageFactory.get("teleportTexture"));
+		drawAreas(g, staticEnv.get("spawnAreaIntruders"), ImageFactory.get("spawnAreaTexture"));
+		drawAreas(g, staticEnv.get("spawnAreaGuards"), ImageFactory.get("spawnAreaTexture"));
+		drawAreas(g, dynamicEnv.getWindows(), ImageFactory.get("windowTexture"));
+		drawAreas(g, dynamicEnv.getDoors(), ImageFactory.get("doorTexture"));
+		drawAreas(g, staticEnv.get("sentrytower"), ImageFactory.get("sentryTowerTexture"));
+		drawAreas(g, staticEnv.get("targetArea"), ImageFactory.get("targetTexture"));
+		drawAreas(g, staticEnv.get("shaded"), ImageFactory.get("shadedTexture"));
 	}
 
 	/**
@@ -99,7 +103,7 @@ public class GameComponent extends JComponent{
 		
 	}
 	public void resize(){
-		textureSize = (int) (environment.getScaling()*100);
+		textureSize = (int) (scenario.getStaticEnvironment().getScaling()*100);
 		panningX = 0;
 		panningY = 0; 		
 	}

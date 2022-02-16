@@ -4,11 +4,18 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
+import nl.maastrichtuniversity.dke.areas.Area;
+import nl.maastrichtuniversity.dke.areas.Circle;
 import nl.maastrichtuniversity.dke.util.Vector;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.ISpawnModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * agent class parent of guard and intruder
+ *
+ * @Author Parand
+ */
 @Getter
 public class Agent {
 
@@ -17,19 +24,25 @@ public class Agent {
     private static int agentCount;
     private final int id;
 
+    enum Direction{
+        North, East, South, West;
+    }
+
     private @Setter Vector position;
     private @Setter double baseSpeed;
     private @Setter Vector direction;
+    private @Setter double sprintSpeed;
 
     private final ISpawnModule spawnModule;
     private final IMovement movement;
     private final IVisionModule visionModule;
 
-    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, double baseSpeed) {
+    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, double baseSpeed, double sprintSpeed) {
         this.spawnModule = spawnModule;
         this.visionModule = visionModule;
         this.movement = movement;
         this.baseSpeed = baseSpeed;
+        this.sprintSpeed = sprintSpeed;
         this.id = agentCount++;
 
         logger.info("Created new " + this.getClass().getSimpleName() + " " + this.id + " with modules: " + spawnModule.getClass().getSimpleName());
@@ -39,20 +52,20 @@ public class Agent {
      * places the agent at a position determined by the spawn module
      */
     public void spawn() {
-        this.position = spawnModule.getSpawnPosition();
+        this.position = spawnModule.getSpawnPosition(this);
         logger.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position);
     }
 
     public void goForward(){
-        movement.goForward(position, direction);
+        position = movement.goForward(position, direction);
     }
 
     public void goBackward(){
-        movement.goBackward(position, direction);
+        position = movement.goBackward(position, direction);
     }
 
     public void sprint(){
-        movement.sprint(position, direction);
+        position = movement.sprint(position, direction);
         baseSpeed -= 5;
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
@@ -68,6 +81,11 @@ public class Agent {
 
     public void rotate(){
         movement.rotate(direction,baseSpeed);
+    }
+
+    public Area getArea(){
+        Area area = new Circle(getPosition().getX(), getPosition().getY(), 0.5);
+        return area;
     }
 
 }

@@ -19,14 +19,16 @@ public abstract class Area {
     private @Getter @Setter Vector position;
     private final @Getter double height;
     private final @Getter double width;
+    private final @Getter AreaType type;
 
     protected static Logger logger = LoggerFactory.getLogger(Area.class);
 
-    public Area(Vector position, double width, double height) {
+    public Area(Vector position, double width, double height, AreaType type) {
         this.position = position;
         this.height = height;
         this.width = width;
         this.id = idCount++;
+        this.type = type;
 
         if (DebugSettings.AREA_DEBUG) logger.info("Created " + this.getClass().getSimpleName() + " " + this);
     }
