@@ -34,11 +34,11 @@ public class MapParser {
     private double fov;
 
 
-    public MapParser(String file) {
+    public MapParser(File file) {
         try {
-            scanner = new Scanner(new File(file));
+            scanner = new Scanner(file);
         } catch (Exception e) {
-            logger.error("Error while parsing file: " +  file);
+            logger.error("Error while parsing file: ");
             e.printStackTrace();
         }
     }

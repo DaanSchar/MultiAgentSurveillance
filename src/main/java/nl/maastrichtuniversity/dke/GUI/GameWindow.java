@@ -9,17 +9,17 @@ import nl.maastrichtuniversity.dke.scenario.Scenario;
 import nl.maastrichtuniversity.dke.scenario.StaticEnvironment;
 
 /**
-     * GUIboard class
-     */
+ * GUIboard class
+ */
 
 public class GameWindow  {
-		
+
 
 
     // Create GameComponent name it game
     private GameComponent game;
 
-     // set the icon of the game
+    // set the icon of the game
     private ImageIcon icon = new ImageIcon(Objects.requireNonNull(GameWindow.class.getResource("/images/settings/icon.png")));
 
     // creating new frame (window)
@@ -27,7 +27,7 @@ public class GameWindow  {
 
     /*
      * Create variables for the background image
-     * the back button 
+     * the back button
      */
     private ImageIcon backImage = new ImageIcon(Objects.requireNonNull(GameWindow.class.getResource("/images/settings/next.jpg")));
     private JButton back = new JButton("BACK");
@@ -47,7 +47,11 @@ public class GameWindow  {
     private JLabel gameLabel = new JLabel();
     private MouseSpy mouseListener = new MouseSpy();
 
-    public GameWindow(Environment environment) {
+    int textureSize;
+
+    public GameWindow(Scenario scenario) {
+        double scale = scenario.getStaticEnvironment().getScaling()*100;
+        textureSize = (int) scale;
 
         this.scenario = scenario;
         System.out.println(scenario.getStaticEnvironment().getHeight());
@@ -56,48 +60,31 @@ public class GameWindow  {
 
 
 
-       /*
-        * Implement the back button
-        * set the bounds,the background color,the border and add the actionlistener
-        */
-        back.setBounds(0 ,0,75,40);
-        back.addActionListener(animationListener);
-        back.setBackground(color1);
-        back.setFocusable(false);
-        back.setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black));
+        /*
+         * Implement the back button
+         * set the bounds,the background color,the border and add the actionlistener
+         */
 
+        setProberites(back,0 ,0,75,40);
         /*
          * Implement the exit button. set the bounds,the background color,the border and add the action listener
          */
-        exit.setBounds(((int) environment.getWidth()*10)-75,0,75,40);
-        exit.addActionListener(animationListener);
-        exit.setBackground(color1);
-        exit.setFocusable(false);
-        exit.setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black));
+        setProberites(exit,((int) scenario.getStaticEnvironment().getWidth()*textureSize)-75,0,75,40);
 
-        zoomIn.setBounds(80,0,75,40);
-        zoomIn.addActionListener(animationListener);
-        zoomIn.setBackground(color1);
-        zoomIn.setFocusable(false);
-        zoomIn.setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black));
 
-        zoomOut.setBounds(160,0,75,40);
-        zoomOut.addActionListener(animationListener);
-        zoomOut.setBackground(color1);
-        zoomOut.setFocusable(false);
-        zoomOut.setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black));
+        setProberites(zoomIn,80,0,75,40);
 
-        resize.setBounds(240,0,75,40);
-        resize.addActionListener(animationListener);
-        resize.setBackground(color1);
-        resize.setFocusable(false);
-        resize.setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black));
+
+        setProberites(zoomOut,160,0,75,40);
+
+
+        setProberites(resize,240,0,75,40);
 
         gameLabel.setHorizontalAlignment(JLabel.CENTER);
         gameLabel.setVerticalAlignment(JLabel.CENTER);
         gameLabel.setBackground(color2);
         gameLabel.setOpaque(true);
-        gameLabel.setBounds(0,((int) environment.getHeight()*10),(int) environment.getWidth()*10, 40);
+        gameLabel.setBounds(0,((int) scenario.getStaticEnvironment().getHeight()*textureSize),(int) scenario.getStaticEnvironment().getWidth()*textureSize, 40);
         gameLabel.add(back);
         gameLabel.add(exit);
         gameLabel.add(zoomIn);
@@ -117,7 +104,7 @@ public class GameWindow  {
         window.addMouseMotionListener(mouseListener);
         window.setUndecorated(true);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setSize((int) environment.getWidth()*10, ((int) environment.getHeight()*10) + 40);
+        window.setSize((int) scenario.getStaticEnvironment().getWidth()*textureSize, ((int) scenario.getStaticEnvironment().getHeight()*textureSize) + 40);
         window.setLocationRelativeTo(null);
         window.getContentPane().setBackground(color2);
         window.add(gameLabel);
@@ -125,7 +112,13 @@ public class GameWindow  {
         window.setIconImage(icon.getImage());
         window.setVisible(true);
     }
-
+    public void setProberites(JButton button ,int x,int y,int width,int height){
+        button.addActionListener(animationListener);
+        button.setBackground(color1);
+        button.setFocusable(false);
+        button.setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black));
+        button.setBounds(x,y,width,height);
+    };
 
 
     /**
@@ -137,9 +130,9 @@ public class GameWindow  {
         public void actionPerformed(ActionEvent e){
 
             /*
-            * If back button clicked close the frame and go back to GUIplay class
-            * set the bounds
-            */
+             * If back button clicked close the frame and go back to GUIplay class
+             * set the bounds
+             */
             if(e.getSource()==back){
                 window.dispose();
                 Menu Menu = new Menu();
@@ -151,10 +144,10 @@ public class GameWindow  {
                 game.zoomOut();
             }
             if(e.getSource()==zoomIn){
-               game.zoomIn();
+                game.zoomIn();
             }
             if(e.getSource()==resize){
-               game.resize();
+                game.resize();
             }
             window.repaint();
         }
