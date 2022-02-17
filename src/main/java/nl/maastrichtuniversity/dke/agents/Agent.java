@@ -43,6 +43,7 @@ public class Agent {
         this.baseSpeed = baseSpeed;
         this.sprintSpeed = sprintSpeed;
         this.id = agentCount++;
+        this.position =new Position(50, 50);
 
         logger.info("Created new " + this.getClass().getSimpleName() + " " + this.id + " with modules: " + spawnModule.getClass().getSimpleName());
     }

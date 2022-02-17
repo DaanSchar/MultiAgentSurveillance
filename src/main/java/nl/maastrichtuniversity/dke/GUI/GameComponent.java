@@ -30,9 +30,8 @@ public class GameComponent extends JComponent{
 
 	public void paintComponent(Graphics g) {
 		var environment = scenario.getEnvironment();
-		var agent = scenario.getIntruders().get(0);
+		var agent = scenario.getGuards().get(0);
 
-		g.drawImage(ImageFactory.get("guard1"),panningX+agent.getPosition().getX(),panningY+ agent.getPosition().getY(), textureSize, textureSize,null);
 		drawAreas(g, environment.get(TileType.WALL), ImageFactory.get("wallTexture"));
 		drawAreas(g, environment.get(TileType.TELEPORT), ImageFactory.get("teleportTexture"));
 		drawAreas(g, environment.get(TileType.SPAWN_GUARDS), ImageFactory.get("spawnAreaTexture"));
@@ -42,7 +41,9 @@ public class GameComponent extends JComponent{
 		drawAreas(g, environment.get(TileType.SENTRY), ImageFactory.get("sentryTowerTexture"));
 		drawAreas(g, environment.get(TileType.TARGET), ImageFactory.get("targetTexture"));
 		drawAreas(g, environment.get(TileType.SHADED), ImageFactory.get("shadedTexture"));
+		g.drawImage(ImageFactory.get("guard1"),panningX+agent.getPosition().getX(),panningY+ agent.getPosition().getY(), textureSize, textureSize,null);
 
+		System.out.println(agent.getPosition());
 		GameRepository.run();
 	}
 

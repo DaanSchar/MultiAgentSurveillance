@@ -11,7 +11,7 @@ public class GameRepository {
     private static @Setter @Getter GameComponent gameComponent;
 
     public static void run() {
-        scenario.getIntruders().get(0).setPosition(new Position(
+        scenario.getGuards().get(0).setPosition(new Position(
                 (int) Math.random()*80,
                 (int) Math.random()*80
         ));

@@ -11,12 +11,13 @@ public class MapParser {
     private static final Logger logger = LoggerFactory.getLogger(MapParser.class);
     private Scanner scanner;
 
-    private Scenario scenario;
+    private ScenarioFactory scenarioFactory;
     private EnvironmentFactory envBuilder;
 
     public MapParser(File file) {
         try {
             scanner = new Scanner(file);
+            scenarioFactory = new ScenarioFactory();
         } catch (Exception e) {
             logger.error("Error while parsing file: ");
             e.printStackTrace();
@@ -25,11 +26,11 @@ public class MapParser {
 
     public Scenario createScenario() {
         envBuilder = new EnvironmentFactory();
-        scenario = new Scenario();
 
         while (scanner.hasNextLine())
             createFieldFromLine(scanner.nextLine());
 
+        var scenario = scenarioFactory.build();
         scenario.setEnvironment(envBuilder.build());
 
         return scenario;
@@ -51,18 +52,18 @@ public class MapParser {
         String[] values = value.split(" ");
 
         switch (key) {
-            case "name" -> scenario.setName(value);
+            case "name" -> scenarioFactory.setName(value);
             case "gameFile" -> logger.error("GameFile not implemented yet");
-            case "gameMode" -> scenario.setGameMode(Integer.parseInt(value));
+            case "gameMode" -> scenarioFactory.setGameMode(Integer.parseInt(value));
             case "height" -> envBuilder.setHeight(Integer.parseInt(value));
             case "width" -> envBuilder.setWidth(Integer.parseInt(value));
-            case "scaling" -> scenario.setScaling(Double.parseDouble(value));
-            case "numGuards" -> envBuilder.setNumberOfGuards(Integer.parseInt(value));
-            case "numIntruders" -> envBuilder.setNumberOfIntruders(Integer.parseInt(value));
-            case "baseSpeedIntruder" -> envBuilder.setBaseSpeedIntruders(Double.parseDouble(value));
-            case "sprintSpeedIntruder" -> envBuilder.setSprintSpeedIntruders(Double.parseDouble(value));
-            case "baseSpeedGuard" -> envBuilder.setBaseSpeedGuards(Double.parseDouble(value));
-            case "timeStep" -> scenario.setTimeStep(Double.parseDouble(value));
+            case "scaling" -> scenarioFactory.setScaling(Double.parseDouble(value));
+            case "numGuards" -> scenarioFactory.setNumberOfGuards(Integer.parseInt(value));
+            case "numIntruders" -> scenarioFactory.setNumberOfIntruders(Integer.parseInt(value));
+            case "baseSpeedIntruder" -> scenarioFactory.setBaseSpeedIntruders(Double.parseDouble(value));
+            case "sprintSpeedIntruder" -> scenarioFactory.setSprintSpeedIntruders(Double.parseDouble(value));
+            case "baseSpeedGuard" -> scenarioFactory.setBaseSpeedGuards(Double.parseDouble(value));
+            case "timeStep" -> scenarioFactory.setTimeStep(Double.parseDouble(value));
             case "targetArea" -> addArea(values, TileType.TARGET);
             case "spawnAreaIntruders" -> addArea(values, TileType.SPAWN_INTRUDERS);
             case "spawnAreaGuards" -> addArea(values, TileType.SPAWN_GUARDS);
@@ -73,10 +74,10 @@ public class MapParser {
             case "window" -> addArea(values, TileType.WINDOW);
             case "door" -> addArea(values, TileType.DOOR);
             case "sentrytower" -> addArea(values, TileType.SENTRY);
-            case "distanceViewing" -> envBuilder.setViewingDistance(Integer.parseInt(value));
-            case "distanceHearingWalking" -> envBuilder.setHearingDistanceWalking(Integer.parseInt(value));
-            case "distanceHearingSpringting" -> envBuilder.setHearingDistanceSprinting(Integer.parseInt(value));
-            case "distanceSmelling" -> envBuilder.setSmellingDistance(Integer.parseInt(value));
+            case "distanceViewing" -> scenarioFactory.setViewingDistance(Integer.parseInt(value));
+            case "distanceHearingWalking" -> scenarioFactory.setHearingDistanceWalking(Integer.parseInt(value));
+            case "distanceHearingSpringting" -> scenarioFactory.setHearingDistanceSprinting(Integer.parseInt(value));
+            case "distanceSmelling" -> scenarioFactory.setSmellingDistance(Integer.parseInt(value));
             default -> logger.error("Unknown value: " + key);
         }
     }

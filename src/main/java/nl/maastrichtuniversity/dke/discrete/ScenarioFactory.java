@@ -19,8 +19,19 @@ public class ScenarioFactory {
     private int hearingDistanceSprinting;
     private int smellingDistance;
 
-    public void build() {
-        var scenario = new Scenario();
+    private String name;
+    private int gameMode;
+    private double scaling;
+    private double timeStep;
+
+    public Scenario build() {
+        var scenario = new Scenario(
+                name,
+                gameMode,
+                timeStep,
+                scaling
+        );
+
         scenario.setGuards(AgentFactory.createGuards(
                 numberOfGuards,
                 scenario,
@@ -31,6 +42,7 @@ public class ScenarioFactory {
                 hearingDistanceSprinting,
                 smellingDistance
         ));
+
         scenario.setIntruders(AgentFactory.createIntruders(
                 numberOfIntruders,
                 scenario,
@@ -41,6 +53,8 @@ public class ScenarioFactory {
                 hearingDistanceSprinting,
                 smellingDistance
         ));
+
+        return scenario;
     }
 
 }

@@ -20,8 +20,11 @@ public class Scenario {
     private @Setter List<Guard> guards;
     private @Setter List<Intruder> intruders;
 
-    public Scenario() {
-
+    public Scenario(String name, int gameMode, double timeStep, double scaling) {
+        this.name = name;
+        this.gameMode = gameMode;
+        this.timeStep = timeStep;
+        this.scaling = scaling;
     }
 
 
