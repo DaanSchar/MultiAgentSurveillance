@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Objects;
 
+import nl.maastrichtuniversity.dke.discrete.Scenario;
 import nl.maastrichtuniversity.dke.scenario.Environment;
 
 /**
@@ -15,19 +16,12 @@ public class GameWindow  {
 
 
 
-    // Create GameComponent name it game
     private GameComponent game;
 
-    // set the icon of the game
     private ImageIcon icon = new ImageIcon(Objects.requireNonNull(GameWindow.class.getResource("/images/settings/icon.png")));
 
-    // creating new frame (window)
     private JFrame window = new JFrame("GROUP 14");
 
-    /*
-     * Create variables for the background image
-     * the back button
-     */
     private ImageIcon backImage = new ImageIcon(Objects.requireNonNull(GameWindow.class.getResource("/images/settings/next.jpg")));
     private JButton back = new JButton("BACK");
 
@@ -41,7 +35,7 @@ public class GameWindow  {
 
     private AnimationListener animationListener = new AnimationListener();
 
-    private Environment scenario;
+    private Scenario scenario;
 
     private JLabel gameLabel = new JLabel();
     private MouseSpy mouseListener = new MouseSpy();
@@ -53,7 +47,6 @@ public class GameWindow  {
         textureSize = (int) scale;
 
         this.scenario = scenario;
-        System.out.println(scenario.getStaticEnvironment().getHeight());
 
         game = new GameComponent(scenario);
 
@@ -83,7 +76,7 @@ public class GameWindow  {
         gameLabel.setVerticalAlignment(JLabel.CENTER);
         gameLabel.setBackground(color2);
         gameLabel.setOpaque(true);
-        gameLabel.setBounds(0,((int) scenario.getStaticEnvironment().getHeight()*textureSize),(int) scenario.getStaticEnvironment().getWidth()*textureSize, 40);
+        gameLabel.setBounds(0,((int) scenario.getEnvironment().getHeight()*textureSize),(int) scenario.getEnvironment().getWidth()*textureSize, 40);
         gameLabel.add(back);
         gameLabel.add(exit);
         gameLabel.add(zoomIn);

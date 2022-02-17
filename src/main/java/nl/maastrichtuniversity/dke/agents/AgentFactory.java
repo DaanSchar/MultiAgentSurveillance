@@ -1,4 +1,4 @@
-package nl.maastrichtuniversity.dke.agents.modules;
+package nl.maastrichtuniversity.dke.agents;
 
 import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;

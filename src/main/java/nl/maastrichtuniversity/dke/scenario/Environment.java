@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
-import nl.maastrichtuniversity.dke.agents.modules.AgentFactory;
 import nl.maastrichtuniversity.dke.areas.Area;
 
 import java.util.ArrayList;

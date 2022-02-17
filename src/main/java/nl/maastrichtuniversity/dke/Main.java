@@ -2,6 +2,7 @@ package nl.maastrichtuniversity.dke;
 
 
 import nl.maastrichtuniversity.dke.discrete.MapParser;
+import nl.maastrichtuniversity.dke.discrete.Scenario;
 
 import java.io.File;
 

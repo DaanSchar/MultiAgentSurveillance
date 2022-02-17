@@ -1,4 +1,4 @@
-package nl.maastrichtuniversity.dke.scenario;
+package nl.maastrichtuniversity.dke.discrete;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,6 +6,6 @@ import lombok.Setter;
 public class GameRepository {
 
     private static @Setter @Getter
-    Environment scenario;
+    Scenario scenario;
 
 }

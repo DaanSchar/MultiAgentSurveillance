@@ -1,6 +1,6 @@
 package nl.maastrichtuniversity.dke.scenario;
 
-import nl.maastrichtuniversity.dke.agents.modules.AgentFactory;
+import nl.maastrichtuniversity.dke.agents.AgentFactory;
 import nl.maastrichtuniversity.dke.areas.Rectangle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

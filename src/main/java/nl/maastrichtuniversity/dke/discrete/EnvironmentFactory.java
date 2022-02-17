@@ -2,7 +2,7 @@ package nl.maastrichtuniversity.dke.discrete;
 
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import nl.maastrichtuniversity.dke.agents.modules.AgentFactory;
+import nl.maastrichtuniversity.dke.agents.AgentFactory;
 import nl.maastrichtuniversity.dke.util.DebugSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +43,8 @@ public class EnvironmentFactory {
     }
 
     public Environment build() {
+        fillInEmptyTiles();
+
         var environment = new Environment(this.width, this.height, this.tileMap);
 
         environment.setGuards(AgentFactory.createGuards(
@@ -67,6 +69,13 @@ public class EnvironmentFactory {
         ));
 
         return environment;
+    }
+
+    private void fillInEmptyTiles() {
+        for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
+                if (tileMap[x][y] == null)
+                    tileMap[x][y] = new Tile(x, y, TileType.EMPTY);
     }
 
 
