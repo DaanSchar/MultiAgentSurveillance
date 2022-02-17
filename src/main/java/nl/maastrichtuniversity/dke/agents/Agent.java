@@ -78,8 +78,10 @@ public class Agent {
         );
     }
 
-    public void rotate(){
-        direction = movement.rotate(direction);
+    public void rotate(int rotation){
+        logger.info("current direction = " + direction);
+        direction = movement.rotate(direction, rotation);
+        logger.info("new direction = " + direction);
     }
 
 //    public Tile getTile(){

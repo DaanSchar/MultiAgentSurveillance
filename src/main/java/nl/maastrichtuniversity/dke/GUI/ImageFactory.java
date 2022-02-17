@@ -65,7 +65,10 @@ public class ImageFactory {
         images.put("spawnAreaTexture", readImage("texture/spawnarea.png"));
 
         // Guard
-        images.put("guard1", readImage("guard/guard1.png"));
+        images.put("guardSouth", readImage("guard/guard1.png"));
+        images.put("guardNorth", readImage("guard/guardback1.png"));
+        images.put("guardEast", readImage("guard/guardleft.png"));
+        images.put("guardWest", readImage("guard/guardright1.png"));
     }
 
     /**
