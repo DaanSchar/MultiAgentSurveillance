@@ -83,10 +83,9 @@ public class Agent {
         direction = movement.rotate(direction);
     }
 
-    public Tile getTile(){
-//        Area area = new Circle(position.getX(), position.getY(), 0.5);
-//        return area;
-        return null;
-    }
+//    public Tile getTile(){
+//        Tile tile = new Tile(position);
+//        return tile;
+//    }
 
 }
