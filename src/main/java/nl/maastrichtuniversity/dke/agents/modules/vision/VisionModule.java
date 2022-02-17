@@ -5,7 +5,6 @@ import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.discrete.Scenario;
 import nl.maastrichtuniversity.dke.discrete.Tile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class VisionModule extends AgentModule implements IVisionModule{
