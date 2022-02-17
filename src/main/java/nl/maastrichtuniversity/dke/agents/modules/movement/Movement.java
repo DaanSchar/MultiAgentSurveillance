@@ -1,5 +1,7 @@
 package nl.maastrichtuniversity.dke.agents.modules.movement;
 
+import lombok.Getter;
+import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.Direction;
 import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.discrete.Scenario;
@@ -20,6 +22,9 @@ public class Movement extends AgentModule implements IMovement {
 
     public Movement(Scenario scenario,int baseSpeed, int sprintSpeed) {
         super(scenario);
+        this.baseSpeed = baseSpeed;
+        this.sprintSpeed = sprintSpeed;
+
     }
 
     @Override
@@ -57,7 +62,10 @@ public class Movement extends AgentModule implements IMovement {
 
     @Override
     public Position goForward(Position position, Direction direction) {
-        Position newPos = position.add(new Position(direction.getMoveX(), direction.getMoveY()));
+        Position newPos = position.add(new Position(
+                (int)(direction.getMoveX() * baseSpeed * scenario.getTimeStep()),
+                (int)(direction.getMoveY() * baseSpeed * scenario.getTimeStep()))
+        );
         if(checkCollision(newPos)){
             return position;
         }
@@ -76,7 +84,11 @@ public class Movement extends AgentModule implements IMovement {
 
     @Override
     public Position goBackward (Position position, Direction direction) {
-        Position newPos = position.sub(new Position(direction.getMoveX(), direction.getMoveY()));
+        Position newPos = position.sub(new Position(
+                (int)(direction.getMoveX() * baseSpeed * scenario.getTimeStep()),
+                        (int)(direction.getMoveY() * baseSpeed * scenario.getTimeStep()))
+
+                direction.getMoveX(), direction.getMoveY()));
         if (checkCollision(newPos)) {
             return position;
         }
