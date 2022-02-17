@@ -24,12 +24,11 @@ public class Agent {
     private static int agentCount;
     private final int id;
 
-    enum Direction{
-        North, East, South, West;
-    }
+
 
     private @Setter Vector position;
     private @Setter double baseSpeed;
+//    private @Setter Direction direction;
     private @Setter Vector direction;
     private @Setter double sprintSpeed;
 
