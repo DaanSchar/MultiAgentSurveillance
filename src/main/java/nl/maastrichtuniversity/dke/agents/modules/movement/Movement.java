@@ -16,7 +16,9 @@ import org.slf4j.LoggerFactory;
 public class Movement extends AgentModule implements IMovement {
 
     private static final Logger logger = LoggerFactory.getLogger(Movement.class);
-    public Movement(Scenario scenario) {
+    private @Getter @Setter int baseSpeed, sprintSpeed;
+
+    public Movement(Scenario scenario,int baseSpeed, int sprintSpeed) {
         super(scenario);
     }
 

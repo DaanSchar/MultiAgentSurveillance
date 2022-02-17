@@ -102,7 +102,6 @@ public class GameComponent extends JComponent{
 		textureSize = textureSize -5;
 	}
 	public void panning(int x,int y){
-		System.out.println(x);
 		panningX = x;
 		panningY = y;
 		
