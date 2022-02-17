@@ -2,6 +2,10 @@ package nl.maastrichtuniversity.dke.discrete;
 
 import lombok.Getter;
 import lombok.Setter;
+import nl.maastrichtuniversity.dke.agents.Guard;
+import nl.maastrichtuniversity.dke.agents.Intruder;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,8 +17,12 @@ public class Scenario {
     private double scaling;
 
     private Environment environment;
+    private @Setter List<Guard> guards;
+    private @Setter List<Intruder> intruders;
 
-    public Scenario() {}
+    public Scenario() {
+
+    }
 
 
 

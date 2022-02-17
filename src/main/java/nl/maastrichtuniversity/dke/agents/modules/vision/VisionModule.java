@@ -2,6 +2,7 @@ package nl.maastrichtuniversity.dke.agents.modules.vision;
 
 import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.discrete.Environment;
+import nl.maastrichtuniversity.dke.discrete.Scenario;
 import nl.maastrichtuniversity.dke.util.Vector;
 import nl.maastrichtuniversity.dke.areas.Area;
 
@@ -17,7 +18,7 @@ public class VisionModule extends AgentModule implements IVisionModule{
 
     private List<Ray> rays;
 
-    public VisionModule(Environment scenario, double fov){
+    public VisionModule(Scenario scenario, double fov){
         super(scenario);
         this.fov = fov;
     }

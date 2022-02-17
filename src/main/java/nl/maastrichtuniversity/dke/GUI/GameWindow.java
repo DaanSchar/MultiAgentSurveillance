@@ -5,16 +5,14 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Objects;
 
+import nl.maastrichtuniversity.dke.discrete.GameRepository;
 import nl.maastrichtuniversity.dke.discrete.Scenario;
-import nl.maastrichtuniversity.dke.scenario.Environment;
 
 /**
  * GUIboard class
  */
 
 public class GameWindow  {
-
-
 
     private GameComponent game;
 
@@ -49,6 +47,7 @@ public class GameWindow  {
         this.scenario = scenario;
 
         game = new GameComponent(scenario);
+        GameRepository.setGameComponent(game);
 
 
 
@@ -57,20 +56,20 @@ public class GameWindow  {
          * set the bounds,the background color,the border and add the actionlistener
          */
 
-        setProberites(back,0 ,0,75,40);
+        setProperties(back,0 ,0,75,40);
         /*
          * Implement the exit button. set the bounds,the background color,the border and add the action listener
          */
-        setProberites(exit,((int) scenario.getEnvironment().getWidth()*textureSize)-75,0,75,40);
+        setProperties(exit,((int) scenario.getEnvironment().getWidth()*textureSize)-75,0,75,40);
 
 
-        setProberites(zoomIn,80,0,75,40);
+        setProperties(zoomIn,80,0,75,40);
 
 
-        setProberites(zoomOut,160,0,75,40);
+        setProperties(zoomOut,160,0,75,40);
 
 
-        setProberites(resize,240,0,75,40);
+        setProperties(resize,240,0,75,40);
 
         gameLabel.setHorizontalAlignment(JLabel.CENTER);
         gameLabel.setVerticalAlignment(JLabel.CENTER);
@@ -104,7 +103,7 @@ public class GameWindow  {
         window.setIconImage(icon.getImage());
         window.setVisible(true);
     }
-    public void setProberites(JButton button ,int x,int y,int width,int height){
+    public void setProperties(JButton button , int x, int y, int width, int height){
         button.addActionListener(animationListener);
         button.setBackground(color1);
         button.setFocusable(false);

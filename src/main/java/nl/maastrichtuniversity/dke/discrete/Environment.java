@@ -18,9 +18,6 @@ public class Environment {
 
     private final Tile[][] tileMap;
 
-    private @Setter List<Guard> guards;
-    private @Setter List<Intruder> intruders;
-
     public Environment(int width, int height, Tile[][] tileMap) {
         this.width = width;
         this.height = height;

@@ -2,12 +2,12 @@ package nl.maastrichtuniversity.dke.agents.modules;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import nl.maastrichtuniversity.dke.discrete.Environment;
+import nl.maastrichtuniversity.dke.discrete.Scenario;
 
 @EqualsAndHashCode
 @AllArgsConstructor
 public class AgentModule {
 
-    protected final Environment scenario;
+    protected final Scenario scenario;
 
 }

@@ -7,11 +7,10 @@ import java.util.List;
 
 import javax.swing.Timer;
 
-import nl.maastrichtuniversity.dke.areas.Area;
+import nl.maastrichtuniversity.dke.discrete.GameRepository;
 import nl.maastrichtuniversity.dke.discrete.Scenario;
 import nl.maastrichtuniversity.dke.discrete.Tile;
 import nl.maastrichtuniversity.dke.discrete.TileType;
-import nl.maastrichtuniversity.dke.util.Vector;
 
 public class GameComponent extends JComponent{
 
@@ -31,8 +30,9 @@ public class GameComponent extends JComponent{
 
 	public void paintComponent(Graphics g) {
 		var environment = scenario.getEnvironment();
+		var agent = scenario.getIntruders().get(0);
 
-		g.drawImage(ImageFactory.get("guard1"),panningX+300,panningY+ guardY, textureSize, textureSize,null);
+		g.drawImage(ImageFactory.get("guard1"),panningX+agent.getPosition().getX(),panningY+ agent.getPosition().getY(), textureSize, textureSize,null);
 		drawAreas(g, environment.get(TileType.WALL), ImageFactory.get("wallTexture"));
 		drawAreas(g, environment.get(TileType.TELEPORT), ImageFactory.get("teleportTexture"));
 		drawAreas(g, environment.get(TileType.SPAWN_GUARDS), ImageFactory.get("spawnAreaTexture"));
@@ -42,6 +42,8 @@ public class GameComponent extends JComponent{
 		drawAreas(g, environment.get(TileType.SENTRY), ImageFactory.get("sentryTowerTexture"));
 		drawAreas(g, environment.get(TileType.TARGET), ImageFactory.get("targetTexture"));
 		drawAreas(g, environment.get(TileType.SHADED), ImageFactory.get("shadedTexture"));
+
+		GameRepository.run();
 	}
 
 
@@ -51,20 +53,17 @@ public class GameComponent extends JComponent{
 		}
 	}
 
-
 	private void drawArea(Graphics g, Tile tile, BufferedImage image) {
 			g.drawImage(
 					image,
-					panningX +  tile.getX() * textureSize,
-					panningY +  tile.getY() * textureSize,
+					panningX +  tile.getPosition().getX() * textureSize,
+					panningY +  tile.getPosition().getY() * textureSize,
 					textureSize,
 					textureSize,
 					null
 			);
 
 		}
-
-
 
 	public void moveGuards(){
 		Timer timer = new Timer(1000, e -> {
