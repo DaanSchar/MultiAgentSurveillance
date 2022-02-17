@@ -24,9 +24,7 @@ public class Agent {
 
 
     private @Setter Position position;
-    private @Setter double baseSpeed;
     private @Setter Direction direction;
-    private @Setter double sprintSpeed;
 
     private final ISpawnModule spawnModule;
     private final IMovement movement;
@@ -36,8 +34,6 @@ public class Agent {
         this.spawnModule = spawnModule;
         this.visionModule = visionModule;
         this.movement = movement;
-        this.baseSpeed = baseSpeed;
-        this.sprintSpeed = sprintSpeed;
         this.id = agentCount++;
 
         // this should be in spawn module
@@ -64,18 +60,17 @@ public class Agent {
     }
 
     public void sprint(){
-        position = movement.sprint(position, direction);
-        baseSpeed -= 5;
-        new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        // your code here
-                        baseSpeed += 5;
-                    }
-                },
-                5000
-        );
+//        position = movement.sprint(position, direction);
+//        new java.util.Timer().schedule(
+//                new java.util.TimerTask() {
+//                    @Override
+//                    public void run() {
+//                        // your code here
+//                        baseSpeed += 5;
+//                    }
+//                },
+//                5000
+//        );
     }
 
     public void rotate(int rotation){
