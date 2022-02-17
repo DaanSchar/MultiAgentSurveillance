@@ -1,10 +1,12 @@
 package nl.maastrichtuniversity.dke.agents.modules.movement;
 
+import nl.maastrichtuniversity.dke.agents.Direction;
+import nl.maastrichtuniversity.dke.util.Position;
 import nl.maastrichtuniversity.dke.util.Vector;
 
 public interface IMovement {
-     Vector rotate(Vector direction, double speed);
-     Vector goForward(Vector position, Vector direction);
-     Vector sprint(Vector position, Vector direction);
-     Vector goBackward(Vector position, Vector direction);
+     Direction rotate(Direction direction);
+     Position goForward(Position position, Direction direction);
+     Position sprint(Position position, Direction direction);
+     Position goBackward(Position position, Direction direction);
 }

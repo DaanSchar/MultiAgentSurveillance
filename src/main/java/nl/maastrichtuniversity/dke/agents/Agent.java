@@ -6,6 +6,7 @@ import nl.maastrichtuniversity.dke.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.areas.Area;
 import nl.maastrichtuniversity.dke.areas.Circle;
+import nl.maastrichtuniversity.dke.util.Position;
 import nl.maastrichtuniversity.dke.util.Vector;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.ISpawnModule;
 import org.slf4j.Logger;
@@ -25,11 +26,9 @@ public class Agent {
     private final int id;
 
 
-
-    private @Setter Vector position;
+    private @Setter Position position;
     private @Setter double baseSpeed;
-//    private @Setter Direction direction;
-    private @Setter Vector direction;
+    private @Setter Direction direction;
     private @Setter double sprintSpeed;
 
     private final ISpawnModule spawnModule;
@@ -56,7 +55,7 @@ public class Agent {
     }
 
     public void goForward(){
-        position = movement.goForward(position, direction);
+         position = movement.goForward(position, direction);
     }
 
     public void goBackward(){
@@ -79,11 +78,11 @@ public class Agent {
     }
 
     public void rotate(){
-        movement.rotate(direction,baseSpeed);
+        direction = movement.rotate(direction);
     }
 
     public Area getArea(){
-        Area area = new Circle(getPosition().getX(), getPosition().getY(), 0.5);
+        Area area = new Circle(position.getX(), position.getY(), 0.5);
         return area;
     }
 
