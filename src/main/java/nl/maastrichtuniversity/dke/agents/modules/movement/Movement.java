@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Movement extends AgentModule implements IMovement {
 
-    private static Logger logger = LoggerFactory.getLogger(Movement.class);
+    private static final Logger logger = LoggerFactory.getLogger(Movement.class);
     public Movement(Scenario scenario) {
         super(scenario);
     }
@@ -87,12 +87,14 @@ public class Movement extends AgentModule implements IMovement {
      * @return the area with collision or null if there is no collision
      */
     private boolean checkCollision(Position position){
-        if (scenario.getEnvironment().getTileMap()[position.getX()][position.getY()].getType() == TileType.EMPTY) {
+        var tileMap = scenario.getEnvironment().getTileMap();
+        var tile = tileMap[position.getX()][position.getY()];
+
+        if (tile.getType() == TileType.EMPTY) {
             return false;
-        }else if(scenario.getEnvironment().getTileMap()[position.getX()][position.getY()].isOpened()){
-            return false;
+        } else {
+            return !tile.isOpened();
         }
-        return true;
     }
 }
 
