@@ -6,8 +6,8 @@ import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
 
 public class Guard extends Agent {
 
-    public Guard(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, double baseSpeed, double sprintSpeed) {
-        super(spawnModule,movement, visionModule, baseSpeed, sprintSpeed);
+    public Guard(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule) {
+        super(spawnModule,movement, visionModule);
     }
 
     /**

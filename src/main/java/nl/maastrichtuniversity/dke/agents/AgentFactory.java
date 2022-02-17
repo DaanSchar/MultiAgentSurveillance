@@ -10,27 +10,23 @@ import java.util.List;
 
 public class AgentFactory {
 
-    public static Intruder createIntruder(Scenario scenario, double baseSpeed, double sprintSpeed, double viewingDistance, double hearingDistanceWalking, double hearingDistanceSprinting, double smellingDistance) {
+    public static Intruder createIntruder(Scenario scenario, int baseSpeed, int sprintSpeed, double viewingDistance, double hearingDistanceWalking, double hearingDistanceSprinting, double smellingDistance) {
         return new Intruder(
                 new UniformSpawnModule(scenario),
-                new Movement(scenario),
-                new VisionModule(scenario, viewingDistance),
-                baseSpeed,
-                sprintSpeed
+                new Movement(scenario, baseSpeed, sprintSpeed),
+                new VisionModule(scenario, viewingDistance)
         );
     }
 
-    public static Guard createGuard(Scenario scenario, double baseSpeed, double sprintSpeed, double viewingDistance, double hearingDistanceWalking, double hearingDistanceSprinting, double smellingDistance) {
+    public static Guard createGuard(Scenario scenario, int baseSpeed, int sprintSpeed, double viewingDistance, double hearingDistanceWalking, double hearingDistanceSprinting, double smellingDistance) {
         return new Guard(
                 new UniformSpawnModule(scenario),
-                new Movement(scenario),
-                new VisionModule(scenario, viewingDistance),
-                baseSpeed,
-                sprintSpeed
+                new Movement(scenario, baseSpeed, sprintSpeed),
+                new VisionModule(scenario, viewingDistance)
         );
     }
 
-    public static List<Intruder> createIntruders(int numOfAgents, Scenario scenario, double baseSpeed, double sprintSpeed, double viewingDistance, double hearingDistanceWalking, double hearingDistanceSprinting, double smellingDistance) {
+    public static List<Intruder> createIntruders(int numOfAgents, Scenario scenario, int baseSpeed, int sprintSpeed, double viewingDistance, double hearingDistanceWalking, double hearingDistanceSprinting, double smellingDistance) {
         ArrayList<Intruder> agents = new ArrayList<>();
 
         for (int i = 0; i < numOfAgents; i++)
@@ -39,7 +35,7 @@ public class AgentFactory {
         return agents;
     }
 
-    public static List<Guard> createGuards(int numOfAgents, Scenario scenario, double baseSpeed, double sprintSpeed, double viewingDistance, double hearingDistanceWalking, double hearingDistanceSprinting, double smellingDistance) {
+    public static List<Guard> createGuards(int numOfAgents, Scenario scenario, int baseSpeed, int sprintSpeed, double viewingDistance, double hearingDistanceWalking, double hearingDistanceSprinting, double smellingDistance) {
         ArrayList<Guard> agents = new ArrayList<>();
 
         for (int i = 0; i < numOfAgents; i++)

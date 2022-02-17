@@ -59,10 +59,10 @@ public class MapParser {
             case "width" -> envBuilder.setWidth(Integer.parseInt(value));
             case "scaling" -> scenarioFactory.setScaling(Double.parseDouble(value));
             case "numGuards" -> scenarioFactory.setNumberOfGuards(Integer.parseInt(value));
-            case "numIntruders" -> scenarioFactory.setNumberOfIntruders(Integer.parseInt(value));
-            case "baseSpeedIntruder" -> scenarioFactory.setBaseSpeedIntruders(Double.parseDouble(value));
-            case "sprintSpeedIntruder" -> scenarioFactory.setSprintSpeedIntruders(Double.parseDouble(value));
-            case "baseSpeedGuard" -> scenarioFactory.setBaseSpeedGuards(Double.parseDouble(value));
+            case "numIntruders" -> scenarioFactory.setNumberOfIntruders((int)Double.parseDouble(value));
+            case "baseSpeedIntruder" -> scenarioFactory.setBaseSpeedIntruders((int)Double.parseDouble(value));
+            case "sprintSpeedIntruder" -> scenarioFactory.setSprintSpeedIntruders((int)Double.parseDouble(value));
+            case "baseSpeedGuard" -> scenarioFactory.setBaseSpeedGuards((int)Double.parseDouble(value));
             case "timeStep" -> scenarioFactory.setTimeStep(Double.parseDouble(value));
             case "targetArea" -> addArea(values, TileType.TARGET);
             case "spawnAreaIntruders" -> addArea(values, TileType.SPAWN_INTRUDERS);
