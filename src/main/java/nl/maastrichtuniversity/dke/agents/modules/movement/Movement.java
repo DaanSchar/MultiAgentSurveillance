@@ -86,9 +86,9 @@ public class Movement extends AgentModule implements IMovement {
     public Position goBackward (Position position, Direction direction) {
         Position newPos = position.sub(new Position(
                 (int)(direction.getMoveX() * baseSpeed * scenario.getTimeStep()),
-                        (int)(direction.getMoveY() * baseSpeed * scenario.getTimeStep()))
+                (int)(direction.getMoveY() * baseSpeed * scenario.getTimeStep())
+        ));
 
-                direction.getMoveX(), direction.getMoveY()));
         if (checkCollision(newPos)) {
             return position;
         }
