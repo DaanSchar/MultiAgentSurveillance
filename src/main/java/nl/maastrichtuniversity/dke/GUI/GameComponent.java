@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import javax.swing.Timer;
 
+import nl.maastrichtuniversity.dke.agents.Direction;
 import nl.maastrichtuniversity.dke.discrete.GameSystem;
 import nl.maastrichtuniversity.dke.discrete.Scenario;
 import nl.maastrichtuniversity.dke.discrete.Tile;

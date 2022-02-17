@@ -132,7 +132,7 @@ public class Menu implements ActionListener  {
         }
         if(e.getSource()==upload){
             JFileChooser fileChooser = new JFileChooser();
-//            fileChooser.setCurrentDirectory();
+            fileChooser.setCurrentDirectory(new File("src/main/resources/maps"));
             int response = fileChooser.showOpenDialog(null);
 
             if (response==JFileChooser.APPROVE_OPTION) {
