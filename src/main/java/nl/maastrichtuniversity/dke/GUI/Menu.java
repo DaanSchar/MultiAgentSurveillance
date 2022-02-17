@@ -131,9 +131,8 @@ public class Menu implements ActionListener  {
             GameSettings GameSettings = new GameSettings();
         }
         if(e.getSource()==upload){
-            JOptionPane.showMessageDialog(upload,"SELECT THE MAP FILE" );
             JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setCurrentDirectory(new File("C:"));
+//            fileChooser.setCurrentDirectory();
             int response = fileChooser.showOpenDialog(null);
 
             if (response==JFileChooser.APPROVE_OPTION) {
