@@ -89,6 +89,8 @@ public class Movement extends AgentModule implements IMovement {
     private boolean checkCollision(Position position){
         if (scenario.getEnvironment().getTileMap()[position.getX()][position.getY()].getType() == TileType.EMPTY) {
             return false;
+        }else if(scenario.getEnvironment().getTileMap()[position.getX()][position.getY()].isOpened()){
+            return false;
         }
         return true;
     }
