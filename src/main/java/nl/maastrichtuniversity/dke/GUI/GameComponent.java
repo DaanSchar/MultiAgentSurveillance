@@ -7,10 +7,10 @@ import java.util.List;
 
 import javax.swing.Timer;
 
-import nl.maastrichtuniversity.dke.areas.Area;
-import nl.maastrichtuniversity.dke.scenario.Scenario;
-import nl.maastrichtuniversity.dke.scenario.StaticEnvironment;
-import nl.maastrichtuniversity.dke.util.Vector;
+import nl.maastrichtuniversity.dke.discrete.GameSystem;
+import nl.maastrichtuniversity.dke.discrete.Scenario;
+import nl.maastrichtuniversity.dke.discrete.Tile;
+import nl.maastrichtuniversity.dke.discrete.TileType;
 
 public class GameComponent extends JComponent{
 
@@ -24,65 +24,53 @@ public class GameComponent extends JComponent{
 
 	public GameComponent(Scenario scenario){
 		this.scenario = scenario;
-		double scale = scenario.getStaticEnvironment().getScaling()*100;
+		double scale = scenario.getScaling()*100;
 		textureSize = (int) scale;
+		moveGuards();
 	}
-
 
 	public void paintComponent(Graphics g) {
-		var staticEnv = scenario.getStaticEnvironment();
-		var dynamicEnv = scenario.getDynamicEnvironment();
+		var environment = scenario.getEnvironment();
+		var agent = scenario.getGuards().get(0);
 
-		g.drawImage(ImageFactory.get("guard1"),panningX+300,panningY+ guardY, textureSize, textureSize,null);
-		drawAreas(g, staticEnv.get("wall"), ImageFactory.get("wallTexture"));
-		drawAreas(g, staticEnv.get("teleport"), ImageFactory.get("teleportTexture"));
-		drawAreas(g, staticEnv.get("spawnAreaIntruders"), ImageFactory.get("spawnAreaTexture"));
-		drawAreas(g, staticEnv.get("spawnAreaGuards"), ImageFactory.get("spawnAreaTexture"));
-		drawAreas(g, dynamicEnv.getWindows(), ImageFactory.get("windowTexture"));
-		drawAreas(g, dynamicEnv.getDoors(), ImageFactory.get("doorTexture"));
-		drawAreas(g, staticEnv.get("sentrytower"), ImageFactory.get("sentryTowerTexture"));
-		drawAreas(g, staticEnv.get("targetArea"), ImageFactory.get("targetTexture"));
-		drawAreas(g, staticEnv.get("shaded"), ImageFactory.get("shadedTexture"));
+		drawAreas(g, environment.get(TileType.WALL), ImageFactory.get("wallTexture"));
+		drawAreas(g, environment.get(TileType.TELEPORT), ImageFactory.get("teleportTexture"));
+		drawAreas(g, environment.get(TileType.SPAWN_GUARDS), ImageFactory.get("spawnAreaTexture"));
+		drawAreas(g, environment.get(TileType.SPAWN_INTRUDERS), ImageFactory.get("spawnAreaTexture"));
+		drawAreas(g, environment.get(TileType.WINDOW), ImageFactory.get("windowTexture"));
+		drawAreas(g, environment.get(TileType.DOOR), ImageFactory.get("doorTexture"));
+		drawAreas(g, environment.get(TileType.SENTRY), ImageFactory.get("sentryTowerTexture"));
+		drawAreas(g, environment.get(TileType.TARGET), ImageFactory.get("targetTexture"));
+		drawAreas(g, environment.get(TileType.SHADED), ImageFactory.get("shadedTexture"));
+		g.drawImage(ImageFactory.get("guard1"),panningX+agent.getPosition().getX() * textureSize + 100,panningY+ agent.getPosition().getY()*textureSize + 100, textureSize, textureSize,null);
 	}
 
-	/**
-	 * Draws all the areas in a list on the screen
-	 * @param g graphics given by the paintComponent
-	 * @param areas list of areas to draw
-	 * @param image image corresponding to the area to draw
-	 */
-	private void drawAreas(Graphics g, List<Area> areas, BufferedImage image ) {
-		for (Area area : areas) {
-			drawArea(g, area.getPositions(), image);
+
+	private void drawAreas(Graphics g, List<Tile> tiles, BufferedImage image ) {
+		for (Tile tile : tiles) {
+			drawArea(g, tile, image);
 		}
 	}
 
-	/**
-	 * Draws an area on the screen
-	 * @param g graphics given by the paintComponent
-	 * @param positions list of positions of the area
-	 * @param image image of the area
-	 */
-	private void drawArea(Graphics g, List<Vector> positions, BufferedImage image) {
-		for (Vector position : positions) {
+	private void drawArea(Graphics g, Tile tile, BufferedImage image) {
 			g.drawImage(
 					image,
-					panningX + ((int) position.getX()) * textureSize,
-					panningY + ((int) position.getY()) * textureSize,
+					panningX +  (int)(tile.getPosition().getX() * (textureSize+1)),
+					panningY +  (int)(tile.getPosition().getY() * (textureSize+1)),
 					textureSize,
 					textureSize,
 					null
 			);
-		}
-	}
 
+		}
 
 	public void moveGuards(){
-		Timer timer = new Timer(1000, e -> {
-			guardY++;
-			if (guardY >500) {
-				((Timer)e.getSource()).stop();
-			}
+		GameSystem system = new GameSystem(scenario);
+
+		Timer timer = new Timer(300, e -> {
+
+			system.update();
+
 			repaint();
 		});
 		timer.start();
@@ -103,7 +91,7 @@ public class GameComponent extends JComponent{
 		
 	}
 	public void resize(){
-		textureSize = (int) (scenario.getStaticEnvironment().getScaling()*100);
+		textureSize = (int) (scenario.getScaling()*100);
 		panningX = 0;
 		panningY = 0; 		
 	}

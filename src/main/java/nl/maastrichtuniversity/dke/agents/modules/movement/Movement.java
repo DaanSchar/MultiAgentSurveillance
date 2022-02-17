@@ -1,11 +1,10 @@
 package nl.maastrichtuniversity.dke.agents.modules.movement;
 
+import nl.maastrichtuniversity.dke.agents.Direction;
 import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
-import nl.maastrichtuniversity.dke.areas.Area;
-import nl.maastrichtuniversity.dke.areas.Circle;
-import nl.maastrichtuniversity.dke.scenario.Scenario;
-import nl.maastrichtuniversity.dke.scenario.StaticEnvironment;
-import nl.maastrichtuniversity.dke.util.Vector;
+import nl.maastrichtuniversity.dke.discrete.Scenario;
+import nl.maastrichtuniversity.dke.discrete.TileType;
+import nl.maastrichtuniversity.dke.util.Position;
 
 /**
  * move the agent to the desirable position
@@ -19,58 +18,50 @@ public class Movement extends AgentModule implements IMovement {
     }
 
     @Override
-    public Vector rotate(Vector direction, double rotationSpeed) {
-        return direction.rotate(rotationSpeed);
+    public Direction rotate(Direction direction) {
+        return direction; //need work
     }
 
     @Override
-    public Vector goForward(Vector position, Vector direction) {
-        if(checkCollision(position.add(direction)) != null){
-            return positionCollision(checkCollision(position.add(direction)), position, direction);
+    public Position goForward(Position position, Direction direction) {
+        Position newPos = position.add(new Position(direction.getMoveX(), direction.getMoveY()));
+        if(checkCollision(newPos)){
+            return position;
         }
-        return position.add(direction);
+            return newPos;
     }
 
     @Override
-    public Vector sprint(Vector position, Vector direction) {
-        if(checkCollision(position.add(direction.mul(2))) != null){
-            return positionCollision(checkCollision(position.add(direction.mul(2))), position, direction);
+    public Position sprint(Position position, Direction direction) {
+        Position newPos = position.add(new Position(direction.getMoveX() * 2, direction.getMoveY() * 2));
+        if (checkCollision(newPos)) {
+            return position;
         }
-        return position.add(direction.mul(2));
+            return newPos;
+
     }
 
     @Override
-    public Vector goBackward(Vector position, Vector direction) {
-        if(checkCollision(position.add(direction.mul(-1)))!= null){
-            return positionCollision(checkCollision(position.add(direction.mul(-1))), position, direction);
+    public Position goBackward (Position position, Direction direction) {
+        Position newPos = position.sub(new Position(direction.getMoveX(), direction.getMoveY()));
+        if (checkCollision(newPos)) {
+            return position;
         }
-        return position.add(direction.mul(-1));
+        return newPos;
     }
 
     /**
      *  check if there is a collision between agent and an object
-     * @param position
+     * @param position the position want to be checked
      * @return the area with collision or null if there is no collision
      */
-    private Area checkCollision(Vector position ){
-        Circle agent = new Circle(position.getX(), position.getY(), 0.5);
-        for(Area area: scenario.getObjects()){
-            if(area.isCollidingWith(agent)){
-                return area;
-            }
+    private boolean checkCollision(Position position){
+        if (scenario.getEnvironment().getTileMap()[position.getX()][position.getY()].getType() == TileType.EMPTY) {
+            return false;
         }
-        return null;
+        return true;
     }
-
-    /**
-     * calculate the new position after collision
-     * @param area the area agent have collision with
-     * @param position position of the agent
-     * @param direction direction of agent
-     * @return the new position of agent
-     */
-    private Vector positionCollision(Area area, Vector position, Vector direction ){
-        return position;
-    }
-
 }
+
+
+

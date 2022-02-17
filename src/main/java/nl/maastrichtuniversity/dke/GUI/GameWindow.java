@@ -5,8 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Objects;
 
-import nl.maastrichtuniversity.dke.scenario.Scenario;
-import nl.maastrichtuniversity.dke.scenario.StaticEnvironment;
+import nl.maastrichtuniversity.dke.discrete.Scenario;
 
 /**
  * GUIboard class
@@ -14,21 +13,12 @@ import nl.maastrichtuniversity.dke.scenario.StaticEnvironment;
 
 public class GameWindow  {
 
-
-
-    // Create GameComponent name it game
     private GameComponent game;
 
-    // set the icon of the game
     private ImageIcon icon = new ImageIcon(Objects.requireNonNull(GameWindow.class.getResource("/images/settings/icon.png")));
 
-    // creating new frame (window)
     private JFrame window = new JFrame("GROUP 14");
 
-    /*
-     * Create variables for the background image
-     * the back button
-     */
     private ImageIcon backImage = new ImageIcon(Objects.requireNonNull(GameWindow.class.getResource("/images/settings/next.jpg")));
     private JButton back = new JButton("BACK");
 
@@ -50,11 +40,10 @@ public class GameWindow  {
     int textureSize;
 
     public GameWindow(Scenario scenario) {
-        double scale = scenario.getStaticEnvironment().getScaling()*100;
+        double scale = scenario.getScaling()*100;
         textureSize = (int) scale;
 
         this.scenario = scenario;
-        System.out.println(scenario.getStaticEnvironment().getHeight());
 
         game = new GameComponent(scenario);
 
@@ -65,26 +54,26 @@ public class GameWindow  {
          * set the bounds,the background color,the border and add the actionlistener
          */
 
-        setProberites(back,0 ,0,75,40);
+        setProperties(back,0 ,0,75,40);
         /*
          * Implement the exit button. set the bounds,the background color,the border and add the action listener
          */
-        setProberites(exit,((int) scenario.getStaticEnvironment().getWidth()*textureSize)-75,0,75,40);
+        setProperties(exit,((int) scenario.getEnvironment().getWidth()*textureSize)-75,0,75,40);
 
 
-        setProberites(zoomIn,80,0,75,40);
+        setProperties(zoomIn,80,0,75,40);
 
 
-        setProberites(zoomOut,160,0,75,40);
+        setProperties(zoomOut,160,0,75,40);
 
 
-        setProberites(resize,240,0,75,40);
+        setProperties(resize,240,0,75,40);
 
         gameLabel.setHorizontalAlignment(JLabel.CENTER);
         gameLabel.setVerticalAlignment(JLabel.CENTER);
         gameLabel.setBackground(color2);
         gameLabel.setOpaque(true);
-        gameLabel.setBounds(0,((int) scenario.getStaticEnvironment().getHeight()*textureSize),(int) scenario.getStaticEnvironment().getWidth()*textureSize, 40);
+        gameLabel.setBounds(0,((int) scenario.getEnvironment().getHeight()*textureSize),(int) scenario.getEnvironment().getWidth()*textureSize, 40);
         gameLabel.add(back);
         gameLabel.add(exit);
         gameLabel.add(zoomIn);
@@ -104,7 +93,7 @@ public class GameWindow  {
         window.addMouseMotionListener(mouseListener);
         window.setUndecorated(true);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setSize((int) scenario.getStaticEnvironment().getWidth()*textureSize, ((int) scenario.getStaticEnvironment().getHeight()*textureSize) + 40);
+        window.setSize((int) scenario.getEnvironment().getWidth()*textureSize, ((int) scenario.getEnvironment().getHeight()*textureSize) + 40);
         window.setLocationRelativeTo(null);
         window.getContentPane().setBackground(color2);
         window.add(gameLabel);
@@ -112,7 +101,7 @@ public class GameWindow  {
         window.setIconImage(icon.getImage());
         window.setVisible(true);
     }
-    public void setProberites(JButton button ,int x,int y,int width,int height){
+    public void setProperties(JButton button , int x, int y, int width, int height){
         button.addActionListener(animationListener);
         button.setBackground(color1);
         button.setFocusable(false);

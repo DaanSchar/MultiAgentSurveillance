@@ -1,9 +1,5 @@
 package nl.maastrichtuniversity.dke.GUI;
 
-import nl.maastrichtuniversity.dke.areas.Rectangle;
-import nl.maastrichtuniversity.dke.areas.Area;
-import nl.maastrichtuniversity.dke.scenario.Scenario;
-import nl.maastrichtuniversity.dke.scenario.StaticEnvironment;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,8 +60,6 @@ public class GameSettings implements ActionListener  {
     private Color color1 = new Color(189,228,247);
     private int nextInt = 0;
     private JButton back = new JButton(new ImageIcon(ImageFactory.get("backButton")));
-
-    private Scenario scenario;
 
     public GameSettings() {
 
@@ -239,28 +233,7 @@ public class GameSettings implements ActionListener  {
         text.setBounds(x,y,width,height);
     };
 
-    /**
-     * creates a list of areas from a textField
-     * @param textField field containing the data for the areas
-     * @return a list of areas
-     */
-    private List<Area> createAreas(JTextField textField) {
-        String[] text = textField.getText().split(",");
-        List<Area> areas = new ArrayList<>();
 
-        for (String value : text) {
-            String[] coordinates = value.split(" ");
-            Area area = new Rectangle(Integer.parseInt(
-                    coordinates[0]),
-                    Integer.parseInt(coordinates[1]),
-                    Integer.parseInt(coordinates[2]),
-                    Integer.parseInt(coordinates[3])
-            );
-            areas.add(area);
-        }
-
-        return areas;
-    }
 
     /**
      *  Creat an Action listener method.

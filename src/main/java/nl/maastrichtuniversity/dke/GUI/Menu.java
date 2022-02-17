@@ -1,8 +1,6 @@
 package nl.maastrichtuniversity.dke.GUI;
 
-import nl.maastrichtuniversity.dke.scenario.GameRepository;
-import nl.maastrichtuniversity.dke.scenario.MapParser;
-import nl.maastrichtuniversity.dke.scenario.Scenario;
+import nl.maastrichtuniversity.dke.discrete.MapParser;
 
 import javax.swing.*;
 import java.awt.*;
@@ -133,16 +131,14 @@ public class Menu implements ActionListener  {
             GameSettings GameSettings = new GameSettings();
         }
         if(e.getSource()==upload){
-            JOptionPane.showMessageDialog(upload,"SELECT THE MAP FILE" );
             JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setCurrentDirectory(new File("C:"));
+//            fileChooser.setCurrentDirectory();
             int response = fileChooser.showOpenDialog(null);
 
             if (response==JFileChooser.APPROVE_OPTION) {
                 File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
-                MapParser mapParser = new MapParser(file);
-                GameRepository.setScenario(mapParser.createScenario());
-                GameWindow GameWindow = new GameWindow(GameRepository.getScenario());
+
+                new GameWindow(new MapParser(file).createScenario());
 
                 window.dispose();
             }

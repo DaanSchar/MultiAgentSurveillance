@@ -4,9 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
-import nl.maastrichtuniversity.dke.areas.Area;
-import nl.maastrichtuniversity.dke.areas.Circle;
-import nl.maastrichtuniversity.dke.util.Vector;
+import nl.maastrichtuniversity.dke.util.Position;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.ISpawnModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +22,10 @@ public class Agent {
     private static int agentCount;
     private final int id;
 
-    enum Direction{
-        North, East, South, West;
-    }
 
-    private @Setter Vector position;
+    private @Setter Position position;
     private @Setter double baseSpeed;
-    private @Setter Vector direction;
+    private @Setter Direction direction;
     private @Setter double sprintSpeed;
 
     private final ISpawnModule spawnModule;
@@ -45,6 +40,10 @@ public class Agent {
         this.sprintSpeed = sprintSpeed;
         this.id = agentCount++;
 
+        // this should be in spawn module
+        this.position = new Position(50, 50);
+        this.direction = Direction.NORTH;
+
         logger.info("Created new " + this.getClass().getSimpleName() + " " + this.id + " with modules: " + spawnModule.getClass().getSimpleName());
     }
 
@@ -57,7 +56,7 @@ public class Agent {
     }
 
     public void goForward(){
-        position = movement.goForward(position, direction);
+         position = movement.goForward(position, direction);
     }
 
     public void goBackward(){
@@ -80,12 +79,12 @@ public class Agent {
     }
 
     public void rotate(){
-        movement.rotate(direction,baseSpeed);
+        direction = movement.rotate(direction);
     }
 
-    public Area getArea(){
-        Area area = new Circle(getPosition().getX(), getPosition().getY(), 0.5);
-        return area;
-    }
+//    public Tile getTile(){
+//        Tile tile = new Tile(position);
+//        return tile;
+//    }
 
 }
