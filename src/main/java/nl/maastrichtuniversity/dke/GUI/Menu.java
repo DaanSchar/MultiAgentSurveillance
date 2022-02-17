@@ -128,7 +128,7 @@ public class Menu implements ActionListener  {
         }
         if(e.getSource()==manually) {
             window.dispose();
-            GameSettings GameSettings = new GameSettings();
+            new GameSettings();
         }
         if(e.getSource()==upload){
             JFileChooser fileChooser = new JFileChooser();

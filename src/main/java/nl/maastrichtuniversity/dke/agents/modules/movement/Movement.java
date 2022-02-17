@@ -5,6 +5,8 @@ import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.discrete.Scenario;
 import nl.maastrichtuniversity.dke.discrete.TileType;
 import nl.maastrichtuniversity.dke.util.Position;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * move the agent to the desirable position
@@ -13,13 +15,42 @@ import nl.maastrichtuniversity.dke.util.Position;
  */
 public class Movement extends AgentModule implements IMovement {
 
+    private static Logger logger = LoggerFactory.getLogger(Movement.class);
     public Movement(Scenario scenario) {
         super(scenario);
     }
 
     @Override
-    public Direction rotate(Direction direction) {
-        return direction; //need work
+    public Direction rotate(Direction currentDirection, int rotation) {
+        if (currentDirection == Direction.NORTH) {
+            if (rotation == 1)
+                return Direction.EAST;
+            else if (rotation == -1)
+                return Direction.WEST;
+        }
+
+        else if (currentDirection == Direction.EAST) {
+            if (rotation == 1)
+                return Direction.SOUTH;
+            else if (rotation == -1)
+                return Direction.NORTH;
+        }
+
+        else if (currentDirection == Direction.SOUTH) {
+            if (rotation == 1)
+                return Direction.WEST;
+            else if (rotation == -1)
+                return Direction.EAST;
+        }
+
+        else if (currentDirection == Direction.WEST) {
+                if (rotation == 1)
+                    return Direction.NORTH;
+                else if (rotation == -1)
+                    return Direction.SOUTH;
+        }
+
+        return currentDirection;
     }
 
     @Override

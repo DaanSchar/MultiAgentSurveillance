@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.swing.Timer;
 
@@ -42,7 +43,21 @@ public class GameComponent extends JComponent{
 		drawAreas(g, environment.get(TileType.SENTRY), ImageFactory.get("sentryTowerTexture"));
 		drawAreas(g, environment.get(TileType.TARGET), ImageFactory.get("targetTexture"));
 		drawAreas(g, environment.get(TileType.SHADED), ImageFactory.get("shadedTexture"));
-		g.drawImage(ImageFactory.get("guard1"),panningX+agent.getPosition().getX() * textureSize + 100,panningY+ agent.getPosition().getY()*textureSize + 100, textureSize, textureSize,null);
+		if(agent.getDirection() == Direction.NORTH){
+			g.drawImage(ImageFactory.get("guardNorth"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+		}
+		if(agent.getDirection() == Direction.SOUTH){
+			g.drawImage(ImageFactory.get("guardSouth"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+		}
+		if(agent.getDirection() == Direction.EAST){
+			g.drawImage(ImageFactory.get("guardWest"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+		}
+		if(agent.getDirection() == Direction.WEST){
+			g.drawImage(ImageFactory.get("guardEast"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+		}
+
+
+
 	}
 
 
@@ -55,8 +70,8 @@ public class GameComponent extends JComponent{
 	private void drawArea(Graphics g, Tile tile, BufferedImage image) {
 			g.drawImage(
 					image,
-					panningX +  (int)(tile.getPosition().getX() * (textureSize+1)),
-					panningY +  (int)(tile.getPosition().getY() * (textureSize+1)),
+					panningX +  (int)(tile.getPosition().getX() * (textureSize)),
+					panningY +  (int)(tile.getPosition().getY() * (textureSize)),
 					textureSize,
 					textureSize,
 					null
@@ -66,11 +81,12 @@ public class GameComponent extends JComponent{
 
 	public void moveGuards(){
 		GameSystem system = new GameSystem(scenario);
+		AtomicReference<Double> time = new AtomicReference<>((double) 0);
 
 		Timer timer = new Timer(300, e -> {
 
-			system.update();
-
+			system.update(time.get());
+			time.updateAndGet(v -> new Double((double) (v + (double) scenario.getTimeStep())));
 			repaint();
 		});
 		timer.start();
