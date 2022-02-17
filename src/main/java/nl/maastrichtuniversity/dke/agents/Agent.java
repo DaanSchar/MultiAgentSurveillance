@@ -32,7 +32,7 @@ public class Agent {
     private final IMovement movement;
     private final IVisionModule visionModule;
 
-    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, double baseSpeed, double sprintSpeed) {
+    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule) {
         this.spawnModule = spawnModule;
         this.visionModule = visionModule;
         this.movement = movement;
@@ -41,7 +41,7 @@ public class Agent {
         this.id = agentCount++;
 
         // this should be in spawn module
-        this.position = new Position(50, 50);
+        this.position = new Position(10, 10);
         this.direction = Direction.NORTH;
 
         logger.info("Created new " + this.getClass().getSimpleName() + " " + this.id + " with modules: " + spawnModule.getClass().getSimpleName());
@@ -79,9 +79,7 @@ public class Agent {
     }
 
     public void rotate(int rotation){
-        logger.info("current direction = " + direction);
         direction = movement.rotate(direction, rotation);
-        logger.info("new direction = " + direction);
     }
 
 //    public Tile getTile(){
