@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Objects;
 
-import nl.maastrichtuniversity.dke.discrete.GameRepository;
 import nl.maastrichtuniversity.dke.discrete.Scenario;
 
 /**
@@ -47,7 +46,6 @@ public class GameWindow  {
         this.scenario = scenario;
 
         game = new GameComponent(scenario);
-        GameRepository.setGameComponent(game);
 
 
 

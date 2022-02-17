@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.swing.Timer;
 
-import nl.maastrichtuniversity.dke.discrete.GameRepository;
+import nl.maastrichtuniversity.dke.discrete.GameSystem;
 import nl.maastrichtuniversity.dke.discrete.Scenario;
 import nl.maastrichtuniversity.dke.discrete.Tile;
 import nl.maastrichtuniversity.dke.discrete.TileType;
@@ -26,6 +26,7 @@ public class GameComponent extends JComponent{
 		this.scenario = scenario;
 		double scale = scenario.getScaling()*100;
 		textureSize = (int) scale;
+		moveGuards();
 	}
 
 	public void paintComponent(Graphics g) {
@@ -41,10 +42,7 @@ public class GameComponent extends JComponent{
 		drawAreas(g, environment.get(TileType.SENTRY), ImageFactory.get("sentryTowerTexture"));
 		drawAreas(g, environment.get(TileType.TARGET), ImageFactory.get("targetTexture"));
 		drawAreas(g, environment.get(TileType.SHADED), ImageFactory.get("shadedTexture"));
-		g.drawImage(ImageFactory.get("guard1"),panningX+agent.getPosition().getX(),panningY+ agent.getPosition().getY(), textureSize, textureSize,null);
-
-		System.out.println(agent.getPosition());
-		GameRepository.run();
+		g.drawImage(ImageFactory.get("guard1"),panningX+agent.getPosition().getX() * textureSize + 100,panningY+ agent.getPosition().getY()*textureSize + 100, textureSize, textureSize,null);
 	}
 
 
@@ -57,8 +55,8 @@ public class GameComponent extends JComponent{
 	private void drawArea(Graphics g, Tile tile, BufferedImage image) {
 			g.drawImage(
 					image,
-					panningX +  tile.getPosition().getX() * textureSize,
-					panningY +  tile.getPosition().getY() * textureSize,
+					panningX +  (int)(tile.getPosition().getX() * (textureSize+1)),
+					panningY +  (int)(tile.getPosition().getY() * (textureSize+1)),
 					textureSize,
 					textureSize,
 					null
@@ -67,11 +65,12 @@ public class GameComponent extends JComponent{
 		}
 
 	public void moveGuards(){
-		Timer timer = new Timer(1000, e -> {
-			guardY++;
-			if (guardY >500) {
-				((Timer)e.getSource()).stop();
-			}
+		GameSystem system = new GameSystem(scenario);
+
+		Timer timer = new Timer(300, e -> {
+
+			system.update();
+
 			repaint();
 		});
 		timer.start();

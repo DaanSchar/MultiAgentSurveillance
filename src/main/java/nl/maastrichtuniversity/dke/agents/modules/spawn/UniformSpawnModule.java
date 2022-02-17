@@ -9,8 +9,6 @@ import nl.maastrichtuniversity.dke.discrete.Scenario;
 import nl.maastrichtuniversity.dke.discrete.Tile;
 import nl.maastrichtuniversity.dke.discrete.TileType;
 import nl.maastrichtuniversity.dke.util.Position;
-import nl.maastrichtuniversity.dke.util.Vector;
-import nl.maastrichtuniversity.dke.areas.Area;
 
 import java.util.List;
 import java.util.Random;

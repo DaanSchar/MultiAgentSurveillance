@@ -4,11 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
-import nl.maastrichtuniversity.dke.areas.Area;
-import nl.maastrichtuniversity.dke.areas.Circle;
-import nl.maastrichtuniversity.dke.discrete.Tile;
 import nl.maastrichtuniversity.dke.util.Position;
-import nl.maastrichtuniversity.dke.util.Vector;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.ISpawnModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +39,10 @@ public class Agent {
         this.baseSpeed = baseSpeed;
         this.sprintSpeed = sprintSpeed;
         this.id = agentCount++;
-        this.position =new Position(50, 50);
+
+        // this should be in spawn module
+        this.position = new Position(50, 50);
+        this.direction = Direction.NORTH;
 
         logger.info("Created new " + this.getClass().getSimpleName() + " " + this.id + " with modules: " + spawnModule.getClass().getSimpleName());
     }

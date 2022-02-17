@@ -1,12 +1,12 @@
 package nl.maastrichtuniversity.dke.agents.modules.vision;
 
-import nl.maastrichtuniversity.dke.areas.Area;
-import nl.maastrichtuniversity.dke.util.Vector;
+import nl.maastrichtuniversity.dke.agents.Direction;
+import nl.maastrichtuniversity.dke.discrete.Tile;
 
 import java.util.List;
 
 public interface IVisionModule {
-    List<Area> getObstacles(Vector direction);
+    List<Tile> getObstacles(Direction direction);
 
 
 
