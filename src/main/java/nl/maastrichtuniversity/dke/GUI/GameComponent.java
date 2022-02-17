@@ -30,8 +30,7 @@ public class GameComponent extends JComponent{
 	}
 
 	public void paintComponent(Graphics g) {
-		var staticEnv = scenario.getStaticEnvironment();
-		var dynamicEnv = scenario.getDynamicEnvironment();
+		var environment = scenario.getEnvironment();
 
 		g.drawImage(ImageFactory.get("guard1"),panningX+300,panningY+ guardY, textureSize, textureSize,null);
 		drawAreas(g, environment.get(TileType.WALL), ImageFactory.get("wallTexture"));
@@ -62,8 +61,9 @@ public class GameComponent extends JComponent{
 					textureSize,
 					null
 			);
+
 		}
-	}
+
 
 
 	public void moveGuards(){
