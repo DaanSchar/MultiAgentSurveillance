@@ -9,10 +9,10 @@ public class ScenarioFactory {
     private int numberOfIntruders;
     private int numberOfGuards;
 
-    private double baseSpeedGuards;
-    private double baseSpeedIntruders;
-    private double sprintSpeedGuards;
-    private double sprintSpeedIntruders;
+    private int baseSpeedGuards;
+    private int baseSpeedIntruders;
+    private int sprintSpeedGuards;
+    private int sprintSpeedIntruders;
 
     private int viewingDistance;
     private int hearingDistanceWalking;

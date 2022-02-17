@@ -24,24 +24,20 @@ public class Agent {
 
 
     private @Setter Position position;
-    private @Setter double baseSpeed;
     private @Setter Direction direction;
-    private @Setter double sprintSpeed;
 
     private final ISpawnModule spawnModule;
     private final IMovement movement;
     private final IVisionModule visionModule;
 
-    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, double baseSpeed, double sprintSpeed) {
+    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule) {
         this.spawnModule = spawnModule;
         this.visionModule = visionModule;
         this.movement = movement;
-        this.baseSpeed = baseSpeed;
-        this.sprintSpeed = sprintSpeed;
         this.id = agentCount++;
 
         // this should be in spawn module
-        this.position = new Position(50, 50);
+        this.position = new Position(10, 10);
         this.direction = Direction.NORTH;
 
         logger.info("Created new " + this.getClass().getSimpleName() + " " + this.id + " with modules: " + spawnModule.getClass().getSimpleName());
@@ -64,24 +60,21 @@ public class Agent {
     }
 
     public void sprint(){
-        position = movement.sprint(position, direction);
-        baseSpeed -= 5;
-        new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        // your code here
-                        baseSpeed += 5;
-                    }
-                },
-                5000
-        );
+//        position = movement.sprint(position, direction);
+//        new java.util.Timer().schedule(
+//                new java.util.TimerTask() {
+//                    @Override
+//                    public void run() {
+//                        // your code here
+//                        baseSpeed += 5;
+//                    }
+//                },
+//                5000
+//        );
     }
 
     public void rotate(int rotation){
-        logger.info("current direction = " + direction);
         direction = movement.rotate(direction, rotation);
-        logger.info("new direction = " + direction);
     }
 
 //    public Tile getTile(){
