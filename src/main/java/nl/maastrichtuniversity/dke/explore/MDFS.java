@@ -10,7 +10,6 @@ import java.util.List;
 //public class MDFS extends ExploreModule {
 public class MDFS {
     private Node start;
-    private
 
     public MDFS(){
         start = new Node(new AgentTile(new Position(0, 0),AgentTileType.START), null, true);
