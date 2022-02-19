@@ -29,4 +29,15 @@ public class Position {
                 this.y - other.getY()
         );
     }
+
+
+    @Override
+    public boolean equals(Object o){
+        if (getClass() != o.getClass())
+            return false;
+
+        Position other = (Position) o;
+        return x==other.getX() && y== other.getY();
+
+    }
 }

@@ -23,4 +23,10 @@ public class Tile {
         this.type = type;
     }
 
+
+    public boolean isEmpty(){
+        return type == TileType.EMPTY;
+    }
+
+
 }
