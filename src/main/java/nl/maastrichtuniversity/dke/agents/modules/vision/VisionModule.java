@@ -49,24 +49,22 @@ public class VisionModule extends AgentModule implements IVisionModule {
     }
 
 
-
-
-    private boolean addTmp(Tile[][] tilemap,List<Tile> obstacles,Position position,Direction direction,
-                        boolean obstruct,boolean canMove,int moveX,int moveY,int i){
+    private boolean addTmp(Tile[][] tilemap, List<Tile> obstacles, Position position, Direction direction,
+                           boolean obstruct, boolean canMove, int moveX, int moveY, int i) {
         Tile tmp;
         if (!obstruct) {
             if (canMove) {
-                if (direction.name().equals("NORTH")||direction.name().equals("SOUTH")) {
-                    int x = (position.getX() +moveX) + direction.getMoveX() * i;
+                if (direction.name().equals("NORTH") || direction.name().equals("SOUTH")) {
+                    int x = (position.getX() + moveX) + direction.getMoveX() * i;
                     int y = (position.getY()) + direction.getMoveY() * i;
-                    if(x<0 || y<0)return true;
+                    if (x < 0 || y < 0) return true;
 
                     tmp = tilemap[x][y];
                 } else {
                     int x = (position.getX()) + direction.getMoveX() * i;
-                    int y = (position.getY()+moveY) + direction.getMoveY()*i;
+                    int y = (position.getY() + moveY) + direction.getMoveY() * i;
 
-                    if(x<0 || y<0)return true;
+                    if (x < 0 || y < 0) return true;
 
 
                     tmp = tilemap[x][y];
@@ -87,7 +85,7 @@ public class VisionModule extends AgentModule implements IVisionModule {
         boolean canMove1 = false;
         boolean canMove2 = false;
 
-        if (direction.name().equals("NORTH")||direction.name().equals("SOUTH")) {
+        if (direction.name().equals("NORTH") || direction.name().equals("SOUTH")) {
             if (position.getX() - 1 >= 0) {
                 canMove1 = true;
             }
@@ -95,7 +93,7 @@ public class VisionModule extends AgentModule implements IVisionModule {
                 canMove2 = true;
             }
         } else {
-            if (position.getY() - 1 >=0) {
+            if (position.getY() - 1 >= 0) {
                 canMove1 = true;
             }
             if (position.getY() + 1 < scenario.getEnvironment().getHeight()) {
