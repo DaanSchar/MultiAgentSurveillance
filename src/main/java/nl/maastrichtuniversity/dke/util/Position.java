@@ -29,4 +29,21 @@ public class Position {
                 this.y - other.getY()
         );
     }
+
+
+    @Override
+    public boolean equals(Object o){
+
+        if (getClass() != o.getClass())
+            return false;
+
+        Position other = (Position) o;
+        return x==other.getX() && y== other.getY();
+    }
+
+    // added cause had error in CodeFactor with just having equals method
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }
