@@ -32,13 +32,13 @@ public class Node {
 
     public void addChildren(AgentTile agentTile, Direction direction) {
         if(direction == Direction.NORTH)
-            children[0] = new Node(agentTile,  this);
+            children[0] = new Node(agentTile,  this, false);
         else if(direction == Direction.EAST)
-            children[1] = new Node(agentTile,  this);
+            children[1] = new Node(agentTile,  this,false);
         else if(direction == Direction.SOUTH)
-            children[2] = new Node(agentTile, this);
+            children[2] = new Node(agentTile, this, false);
         else if(direction == Direction.WEST)
-            children[3] = new Node(agentTile, this);
+            children[3] = new Node(agentTile, this, false);
 
     }
     public AgentTile getDirection(Direction direction){
