@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.agents;
 
+import nl.maastrichtuniversity.dke.agents.modules.listening.ListeningModule;
 import nl.maastrichtuniversity.dke.agents.modules.movement.Movement;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.UniformSpawnModule;
 import nl.maastrichtuniversity.dke.agents.modules.vision.VisionModule;
@@ -14,7 +15,8 @@ public class AgentFactory {
         return new Intruder(
                 new UniformSpawnModule(scenario),
                 new Movement(scenario, baseSpeed, sprintSpeed),
-                new VisionModule(scenario, viewingDistance)
+                new VisionModule(scenario, viewingDistance),
+                new ListeningModule(scenario,hearingDistanceWalking,hearingDistanceSprinting)
         );
     }
 
@@ -22,7 +24,8 @@ public class AgentFactory {
         return new Guard(
                 new UniformSpawnModule(scenario),
                 new Movement(scenario, baseSpeed, sprintSpeed),
-                new VisionModule(scenario, viewingDistance)
+                new VisionModule(scenario, viewingDistance),
+                new ListeningModule(scenario,hearingDistanceWalking,hearingDistanceSprinting)
         );
     }
 

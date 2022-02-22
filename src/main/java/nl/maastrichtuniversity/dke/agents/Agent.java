@@ -2,6 +2,7 @@ package nl.maastrichtuniversity.dke.agents;
 
 import lombok.Getter;
 import lombok.Setter;
+import nl.maastrichtuniversity.dke.agents.modules.listening.IListeningModule;
 import nl.maastrichtuniversity.dke.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.util.Position;
@@ -29,11 +30,13 @@ public class Agent {
     private final ISpawnModule spawnModule;
     private final IMovement movement;
     private final IVisionModule visionModule;
+    private final IListeningModule listeningModule;
 
-    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule) {
+    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, IListeningModule listeningModule) {
         this.spawnModule = spawnModule;
         this.visionModule = visionModule;
         this.movement = movement;
+        this.listeningModule = listeningModule;
         this.id = agentCount++;
 
         // this should be in spawn module
