@@ -3,6 +3,7 @@ package nl.maastrichtuniversity.dke.agents;
 import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.modules.communication.ICommunicationModule;
+import nl.maastrichtuniversity.dke.agents.modules.memory.IMemoryModule;
 import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.INoiseModule;
 import nl.maastrichtuniversity.dke.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
@@ -32,13 +33,15 @@ public class Agent {
     private final IVisionModule visionModule;
     private final ICommunicationModule communicationModule;
     private final INoiseModule noiseModule;
+    private final IMemoryModule memoryModule;
 
-    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, INoiseModule noiseModule,  ICommunicationModule communicationModule) {
+    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, INoiseModule noiseModule,  ICommunicationModule communicationModule, IMemoryModule memoryModule) {
         this.spawnModule = spawnModule;
         this.visionModule = visionModule;
         this.movement = movement;
         this.noiseModule = noiseModule;
         this.communicationModule = communicationModule;
+        this.memoryModule = memoryModule;
         this.id = agentCount++;
 
         // this should be in spawn module
