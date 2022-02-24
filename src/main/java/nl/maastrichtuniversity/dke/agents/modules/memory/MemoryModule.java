@@ -14,14 +14,14 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
 
     private final Environment map;
 
-    private @Setter Position position;
+    private @Setter Position startPosition;
 
     public MemoryModule(Scenario scenario) {
         super(scenario);
 
-        var builder = new EnvironmentFactory();
-
-        this.map = builder.build();
+        int width = scenario.getEnvironment().getWidth();
+        int height = scenario.getEnvironment().getHeight();
+        this.map = new Environment(width, height, new Tile[width][height]);
     }
 
     public void update(Tile tile) {

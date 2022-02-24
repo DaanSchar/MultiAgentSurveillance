@@ -7,6 +7,7 @@ import nl.maastrichtuniversity.dke.agents.modules.memory.IMemoryModule;
 import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.INoiseModule;
 import nl.maastrichtuniversity.dke.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
+import nl.maastrichtuniversity.dke.discrete.Tile;
 import nl.maastrichtuniversity.dke.util.Position;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.ISpawnModule;
 import org.slf4j.Logger;
@@ -55,32 +56,41 @@ public class Agent {
      * places the agent at a position determined by the spawn module
      */
     public void spawn() {
-        this.position = spawnModule.getSpawnPosition(this);
+        var startPosition = spawnModule.getSpawnPosition(this);
+
+        position = startPosition;
+        memoryModule.setStartPosition(startPosition);
+        updateMemory();
+
         logger.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position);
     }
 
     public void goForward(){
          position = movement.goForward(position, direction);
          var list = visionModule.getObstacles(position, direction);
-         if(list.size() > 0){
+         if (list.size() > 0){
              logger.info("Obstacle detected: {}", list);
          }
-        noiseModule.makeWalkingSound(position);
+         noiseModule.makeWalkingSound(position);
+         updateMemory();
     }
 
     public void goBackward(){
         position = movement.goBackward(position, direction);
+        updateMemory();
     }
 
-//    public void go(Direction direction){
-//        if(dir)
-//    }
+    public void updateMemory() {
+        var visibleTiles = visionModule.getObstacles(position, direction);
 
+        for (Tile tile : visibleTiles) {
+            memoryModule.update(tile);
+        }
+    }
 
     public void rotate(int rotation){
-        logger.info("current direction = " + direction);
         direction = movement.rotate(direction, rotation);
-        logger.info("new direction = " + direction);
+        updateMemory();
     }
 
     public void sprint(){
@@ -97,12 +107,5 @@ public class Agent {
 //                5000
 //        );
     }
-
-
-
-//    public Tile getTile(){
-//        Tile tile = new Tile(position);
-//        return tile;
-//    }
 
 }

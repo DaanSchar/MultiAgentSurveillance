@@ -12,6 +12,8 @@ import java.util.List;
 public class VisionModule extends AgentModule implements IVisionModule {
     private final double viewingDistance;
 
+    //TODO: return also the tiles of type TileType.EMPTY
+
     public VisionModule(Scenario scenario, double viewingDistance) {
         super(scenario);
         this.viewingDistance = viewingDistance;
