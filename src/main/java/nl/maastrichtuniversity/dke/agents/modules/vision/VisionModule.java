@@ -11,19 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VisionModule extends AgentModule implements IVisionModule {
+    private final double viewingDistance;
 
-    private final int FOV_RESOLUTION = 50;
-    private final int RAY_RESOLUTION = 50;
-    private final double VISION_LENGTH = 10;
-    private final double fov;
-
-//    private List<Ray> rays;
-
-    public VisionModule(Scenario scenario, double fov) {
+    public VisionModule(Scenario scenario, double viewingDistance) {
         super(scenario);
-        this.fov = fov;
+        this.viewingDistance = viewingDistance;
     }
-
 
     @Override
     public List<Tile> getObstacles(Position position, Direction direction) {
@@ -38,7 +31,7 @@ public class VisionModule extends AgentModule implements IVisionModule {
         boolean obstruct0 = false;
         boolean obstruct1 = false;
         boolean obstruct2 = false;
-        for (int i = 1; i <tilemap.length; i++) {
+        for (int i = 1; i < tilemap.length; i++) {
 
             obstruct0 = addTmp(tilemap,obstacles,position,direction,obstruct0,true,0,0,i);
             obstruct1 = addTmp(tilemap,obstacles,position,direction,obstruct1,canMove1,-1,-1,i);
@@ -103,6 +96,12 @@ public class VisionModule extends AgentModule implements IVisionModule {
 
         return new boolean[]{canMove1, canMove2};
     }
+}
+//    private final int FOV_RESOLUTION = 50;
+//    private final int RAY_RESOLUTION = 50;
+//    private final double VISION_LENGTH = 10;
+//    private List<Ray> rays;
+//
 //    public List<Area> sortEnvironmentObjects(List<Area> environmentObjects){
 //        List<Area> sortedEnvironmentObjects = new LinkedList<>();
 //        List<Double> distance = new ArrayList<>();
@@ -195,6 +194,3 @@ public class VisionModule extends AgentModule implements IVisionModule {
 //        }
 //
 //    }
-
-
-}
