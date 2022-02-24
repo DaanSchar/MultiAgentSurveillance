@@ -57,8 +57,7 @@ public class GameComponent extends JComponent{
 		if(agent.getDirection() == Direction.WEST){
 			g.drawImage(ImageFactory.get("guardEast"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
 		}
-
-
+		
 	}
 
 

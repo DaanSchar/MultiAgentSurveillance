@@ -23,15 +23,15 @@ public class NoiseModule extends AgentModule implements INoiseModule {
     @Override
     public void makeWalkingSound(Position position) {
         Tile[][] tileMap = scenario.getEnvironment().getTileMap();
-
         for(Tile[] tiles:tileMap){
             for(Tile tile:tiles){
                 if(position.distance(tile.getPosition()) <= hearingDistanceWalking){
-                    //System.out.println("pos" + tile.getPosition());
+
                     scenario.getSoundMap().add(tile.getPosition());
                 }
             }
         }
+
     }
 
     @Override
