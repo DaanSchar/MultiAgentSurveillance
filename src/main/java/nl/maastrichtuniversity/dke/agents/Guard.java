@@ -1,13 +1,14 @@
 package nl.maastrichtuniversity.dke.agents;
 
+import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.INoiseModule;
 import nl.maastrichtuniversity.dke.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.ISpawnModule;
 import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
 
 public class Guard extends Agent {
 
-    public Guard(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule) {
-        super(spawnModule,movement, visionModule);
+    public Guard(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, INoiseModule noiseModule) {
+        super(spawnModule,movement, visionModule, noiseModule);
     }
 
     /**

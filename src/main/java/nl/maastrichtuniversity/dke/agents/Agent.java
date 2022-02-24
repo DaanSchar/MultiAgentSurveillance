@@ -2,6 +2,7 @@ package nl.maastrichtuniversity.dke.agents;
 
 import lombok.Getter;
 import lombok.Setter;
+import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.INoiseModule;
 import nl.maastrichtuniversity.dke.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.util.Position;
@@ -29,11 +30,13 @@ public class Agent {
     private final ISpawnModule spawnModule;
     private final IMovement movement;
     private final IVisionModule visionModule;
+    private final INoiseModule noiseModule;
 
-    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule) {
+    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, INoiseModule noiseModule) {
         this.spawnModule = spawnModule;
         this.visionModule = visionModule;
         this.movement = movement;
+        this.noiseModule = noiseModule;
         this.id = agentCount++;
 
         // this should be in spawn module
@@ -52,7 +55,8 @@ public class Agent {
     }
 
     public void goForward(){
-         position = movement.goForward(position, direction);
+        position = movement.goForward(position, direction);
+        noiseModule.makeWalkingSound(position);
     }
 
     public void goBackward(){
@@ -74,7 +78,9 @@ public class Agent {
     }
 
     public void rotate(int rotation){
+        logger.info("current direction = " + direction);
         direction = movement.rotate(direction, rotation);
+
     }
 
 //    public Tile getTile(){
