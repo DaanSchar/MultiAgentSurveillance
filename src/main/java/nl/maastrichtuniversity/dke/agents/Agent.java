@@ -3,6 +3,7 @@ package nl.maastrichtuniversity.dke.agents;
 import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.modules.communication.ICommunicationModule;
+import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.INoiseModule;
 import nl.maastrichtuniversity.dke.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.util.Position;
@@ -30,11 +31,13 @@ public class Agent {
     private final IMovement movement;
     private final IVisionModule visionModule;
     private final ICommunicationModule communicationModule;
+    private final INoiseModule noiseModule;
 
-    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, ICommunicationModule communicationModule) {
+    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, INoiseModule noiseModule,  ICommunicationModule communicationModule) {
         this.spawnModule = spawnModule;
         this.visionModule = visionModule;
         this.movement = movement;
+        this.noiseModule = noiseModule;
         this.communicationModule = communicationModule;
         this.id = agentCount++;
 
@@ -59,7 +62,7 @@ public class Agent {
          if(list.size() > 0){
              logger.info("Obstacle detected: {}", list);
          }
-
+        noiseModule.makeWalkingSound(position);
     }
 
     public void goBackward(){
@@ -76,6 +79,7 @@ public class Agent {
         direction = movement.rotate(direction, rotation);
         logger.info("new direction = " + direction);
     }
+
     public void sprint(){
 //        position = movement.sprint(position, direction);
 //        baseSpeed -= 5;
@@ -90,6 +94,7 @@ public class Agent {
 //                5000
 //        );
     }
+
 
 
 //    public Tile getTile(){

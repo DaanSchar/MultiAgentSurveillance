@@ -11,7 +11,7 @@ import java.util.List;
 @ToString
 public class Tile {
 
-    private Position position;
+    private @Getter Position position;
     private boolean isOpened;
     private @Setter TileType type;
     private @Getter List<CommunicationMark> communicationMarks;

@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
+import nl.maastrichtuniversity.dke.util.Position;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -19,12 +21,14 @@ public class Scenario {
     private Environment environment;
     private @Setter List<Guard> guards;
     private @Setter List<Intruder> intruders;
+    private @Getter @Setter List<Position> soundMap;
 
     public Scenario(String name, int gameMode, double timeStep, double scaling) {
         this.name = name;
         this.gameMode = gameMode;
         this.timeStep = timeStep;
         this.scaling = scaling;
+        this.soundMap = new ArrayList<Position>();
     }
 
 
