@@ -61,7 +61,8 @@ public class Agent {
 
     public void goForward(){
          position = movement.goForward(position, direction);
-         var list = visionModule.getObstacles(position, direction);
+         visionModule.useVision(position,direction);
+         var list = visionModule.getObstacles();
          if(list.size() > 0){
              logger.info("Obstacle detected: {}", list);
          }
