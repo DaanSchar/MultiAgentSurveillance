@@ -2,6 +2,7 @@ package nl.maastrichtuniversity.dke.agents;
 
 import lombok.Getter;
 import lombok.Setter;
+import nl.maastrichtuniversity.dke.agents.modules.communication.ICommunicationModule;
 import nl.maastrichtuniversity.dke.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.util.Position;
@@ -22,18 +23,19 @@ public class Agent {
     private static int agentCount;
     private final int id;
 
-
     private @Setter Position position;
     private @Setter Direction direction;
 
     private final ISpawnModule spawnModule;
     private final IMovement movement;
     private final IVisionModule visionModule;
+    private final ICommunicationModule communicationModule;
 
-    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule) {
+    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, ICommunicationModule communicationModule) {
         this.spawnModule = spawnModule;
         this.visionModule = visionModule;
         this.movement = movement;
+        this.communicationModule = communicationModule;
         this.id = agentCount++;
 
         // this should be in spawn module
@@ -53,6 +55,10 @@ public class Agent {
 
     public void goForward(){
          position = movement.goForward(position, direction);
+         var list = visionModule.getObstacles(position, direction);
+         if(list.size() > 0){
+             logger.info("Obstacle detected: {}", list);
+         }
     }
 
     public void goBackward(){

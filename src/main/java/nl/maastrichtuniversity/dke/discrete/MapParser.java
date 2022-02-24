@@ -78,6 +78,7 @@ public class MapParser {
             case "distanceHearingWalking" -> scenarioFactory.setHearingDistanceWalking(Integer.parseInt(value));
             case "distanceHearingSpringting" -> scenarioFactory.setHearingDistanceSprinting(Integer.parseInt(value));
             case "distanceSmelling" -> scenarioFactory.setSmellingDistance(Integer.parseInt(value));
+            case "numberOfMarkers" -> scenarioFactory.setNumberOfMarkers(Integer.parseInt(value));
             default -> logger.error("Unknown value: " + key);
         }
     }

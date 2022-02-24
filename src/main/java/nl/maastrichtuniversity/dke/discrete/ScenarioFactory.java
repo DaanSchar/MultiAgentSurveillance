@@ -18,6 +18,7 @@ public class ScenarioFactory {
     private int hearingDistanceWalking;
     private int hearingDistanceSprinting;
     private int smellingDistance;
+    private int numberOfMarkers;
 
     private String name;
     private int gameMode;
@@ -40,7 +41,8 @@ public class ScenarioFactory {
                 viewingDistance,
                 hearingDistanceWalking,
                 hearingDistanceSprinting,
-                smellingDistance
+                smellingDistance,
+                numberOfMarkers
         ));
 
         scenario.setIntruders(AgentFactory.createIntruders(
@@ -51,7 +53,8 @@ public class ScenarioFactory {
                 viewingDistance,
                 hearingDistanceWalking,
                 hearingDistanceSprinting,
-                smellingDistance
+                smellingDistance,
+                numberOfMarkers
         ));
 
         return scenario;
