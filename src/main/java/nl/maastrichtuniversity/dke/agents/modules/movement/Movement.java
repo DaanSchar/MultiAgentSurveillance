@@ -95,6 +95,8 @@ public class Movement extends AgentModule implements IMovement {
         return newPos;
     }
 
+
+
     /**
      *  check if there is a collision between agent and an object
      * @param position the position want to be checked
