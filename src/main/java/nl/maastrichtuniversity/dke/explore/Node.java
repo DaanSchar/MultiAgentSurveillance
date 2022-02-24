@@ -3,12 +3,13 @@ package nl.maastrichtuniversity.dke.explore;
 import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.Direction;
+import nl.maastrichtuniversity.dke.discrete.Tile;
 
 import java.util.ArrayList;
 @Getter
 public class Node {
     public @Setter
-    AgentTile agentTile;
+    Tile agentTile;
     public Node parent;
     public Node[] children;
     private @Setter boolean visited;
@@ -19,7 +20,7 @@ public class Node {
 //        this.parent = parent;
 //        children = new Node[4];
 //    }
-   public Node(AgentTile t, Node parent, boolean visited) {
+   public Node(Tile t, Node parent, boolean visited) {
         this.visited = visited;
         this.agentTile = t;
         this.parent = parent;
@@ -36,7 +37,7 @@ public class Node {
         return count != 0;
     }
 
-    public void addChildren(AgentTile agentTile, Direction direction) {
+    public void addChildren(Tile agentTile, Direction direction) {
         if(direction == Direction.NORTH)
 //            children[0] = new Node(agentTile,  this);
             children[0] = new Node(agentTile,  this, false);
@@ -51,7 +52,7 @@ public class Node {
             children[3] = new Node(agentTile, this, false);
 
     }
-    public AgentTile getDirection(Direction direction){
+    public Tile getDirection(Direction direction){
         if(direction == Direction.NORTH)
             return children[0].getAgentTile();
         else if(direction == Direction.EAST)
