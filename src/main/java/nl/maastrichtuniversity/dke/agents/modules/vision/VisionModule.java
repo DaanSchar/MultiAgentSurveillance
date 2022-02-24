@@ -4,7 +4,6 @@ import nl.maastrichtuniversity.dke.agents.Direction;
 import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.discrete.Scenario;
 import nl.maastrichtuniversity.dke.discrete.Tile;
-import nl.maastrichtuniversity.dke.discrete.TileType;
 import nl.maastrichtuniversity.dke.util.Position;
 
 import java.util.ArrayList;
@@ -12,12 +11,7 @@ import java.util.List;
 
 public class VisionModule extends AgentModule implements IVisionModule {
 
-    private final int FOV_RESOLUTION = 50;
-    private final int RAY_RESOLUTION = 50;
-    private final double VISION_LENGTH = 10;
     private final double fov;
-
-//    private List<Ray> rays;
 
     public VisionModule(Scenario scenario, double fov) {
         super(scenario);

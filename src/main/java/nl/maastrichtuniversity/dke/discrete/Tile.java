@@ -3,6 +3,8 @@ package nl.maastrichtuniversity.dke.discrete;
 import lombok.*;
 import nl.maastrichtuniversity.dke.util.Position;
 
+import java.util.List;
+
 @Getter
 @AllArgsConstructor
 @EqualsAndHashCode
@@ -12,9 +14,10 @@ public class Tile {
     private Position position;
     private boolean isOpened;
     private @Setter TileType type;
+    private @Getter List<CommunicationMark> communicationMarks;
 
-    public Tile(Position postion) {
-        this.position = postion;
+    public Tile(Position position) {
+        this.position = position;
         this.type = TileType.EMPTY;
     }
 
@@ -23,10 +26,10 @@ public class Tile {
         this.type = type;
     }
 
-
     public boolean isEmpty(){
         return type == TileType.EMPTY;
     }
+
 
 
 }
