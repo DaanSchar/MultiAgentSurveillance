@@ -17,8 +17,12 @@ public class AgentTile {
 //        this.type = AgentTileType.DOOR.EMPTY;
 //    }
 
-    public AgentTile(Position position, AgentTileType type) {
-        this.position = position;
+//    public AgentTile(Position position, AgentTileType type ) {
+//        this.position = position;
+//        this.type = type;
+//    }
+    public AgentTile( AgentTileType type ) {
+//        this.position = position;
         this.type = type;
     }
 }
