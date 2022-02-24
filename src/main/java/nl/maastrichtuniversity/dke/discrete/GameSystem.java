@@ -1,10 +1,8 @@
 package nl.maastrichtuniversity.dke.discrete;
 
-import nl.maastrichtuniversity.dke.util.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
 import java.util.Random;
 
 public class GameSystem {
@@ -34,10 +32,6 @@ public class GameSystem {
             agent.goForward();
         }
         hasMoved = !hasMoved;
-
-        //agent.dropMark(new Position(0,1),new Color(50,50,50));
-       // agent.dropMark(new Position(0,0),new Color(88,88,88));
-
     }
 
 }
