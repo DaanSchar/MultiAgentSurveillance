@@ -73,6 +73,7 @@ public class Agent {
         direction = movement.rotate(direction, rotation);
         logger.info("new direction = " + direction);
     }
+
     public void sprint(){
 //        position = movement.sprint(position, direction);
 //        baseSpeed -= 5;
@@ -88,11 +89,7 @@ public class Agent {
 //        );
     }
 
-    public void rotate(int rotation){
-        logger.info("current direction = " + direction);
-        direction = movement.rotate(direction, rotation);
 
-    }
 
 //    public Tile getTile(){
 //        Tile tile = new Tile(position);
