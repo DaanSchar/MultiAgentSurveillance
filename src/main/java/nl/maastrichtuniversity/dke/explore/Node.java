@@ -3,70 +3,57 @@ package nl.maastrichtuniversity.dke.explore;
 import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.Direction;
-import nl.maastrichtuniversity.dke.discrete.Tile;
 
-import java.util.ArrayList;
 @Getter
-public class Node {
-    public @Setter
-    Tile agentTile;
-    public Node parent;
-    public Node[] children;
-    private @Setter boolean visited;
+public class Node<E> {
 
-//    public Node(AgentTile t, Node parent) {
-////        this.visited = visited;
-//        this.agentTile = t;
-//        this.parent = parent;
-//        children = new Node[4];
-//    }
-   public Node(Tile t, Node parent, boolean visited) {
-        this.visited = visited;
-        this.agentTile = t;
-        this.parent = parent;
-        children = new Node[4];
+    public @Setter E element;
+    public Node<E>[] neighbors;
+
+    public Node(E element) {
+        this.neighbors = new Node[4];
+        this.element = element;
     }
 
     public boolean hasChild() {
-        int count = 0;
-        for (Node child : children) {
-            if (child != null && child.getAgentTile() != null) {
-                count++;
+        for (Node<E> child : neighbors) {
+            if (child != null) {
+                if (child.getElement() != null) {
+                    return true;
+                }
             }
         }
-        return count != 0;
+        return false;
     }
 
-    public void addChildren(Tile agentTile, Direction direction) {
+    public void addNeighbor(E element, Direction direction) {
+        int index = getIndex(direction);
+
+        if (index == -1)
+            return;
+
+        neighbors[getIndex(direction)] = new Node<>(element);
+    }
+
+    public Node<E> getNeighbor(Direction direction){
+        int index = getIndex(direction);
+
+        if (index == -1)
+            return null;
+
+        return neighbors[getIndex(direction)];
+    }
+
+    private int getIndex(Direction direction){
         if(direction == Direction.NORTH)
-//            children[0] = new Node(agentTile,  this);
-            children[0] = new Node(agentTile,  this, false);
+            return 0;
         else if(direction == Direction.EAST)
-//            children[1] = new Node(agentTile,  this);
-            children[1] = new Node(agentTile,  this,false);
+            return 1;
         else if(direction == Direction.SOUTH)
-//            children[2] = new Node(agentTile, this);
-            children[2] = new Node(agentTile, this, false);
+            return 2;
         else if(direction == Direction.WEST)
-//            children[3] = new Node(agentTile, this);
-            children[3] = new Node(agentTile, this, false);
-
+            return 3;
+        return -1;
     }
-    public Tile getDirection(Direction direction){
-        if(direction == Direction.NORTH)
-            return children[0].getAgentTile();
-        else if(direction == Direction.EAST)
-            return children[1].getAgentTile();
-        else if(direction == Direction.SOUTH)
-            return children[2].getAgentTile() ;
-        else if(direction == Direction.WEST)
-            return children[3].getAgentTile();
-        return null;
-    }
-
-    public Node getChild(int index) {
-        return children[index];
-    }
-
 
 }
