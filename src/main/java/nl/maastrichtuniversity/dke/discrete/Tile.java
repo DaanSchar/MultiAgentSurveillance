@@ -14,7 +14,7 @@ public class Tile {
     private Position position;
     private boolean isOpened;
     private @Setter TileType type;
-    private @Getter List<CommunicationDevice> communicationDevices;
+    private @Getter List<CommunicationMark> communicationMarks;
 
     public Tile(Position position) {
         this.position = position;

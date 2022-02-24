@@ -16,7 +16,7 @@ public class AgentFactory {
                 new UniformSpawnModule(scenario),
                 new Movement(scenario, baseSpeed, sprintSpeed),
                 new VisionModule(scenario, viewingDistance),
-                new CommunicationModule(numberOfMarkers)
+                new CommunicationModule(scenario, numberOfMarkers)
 
         );
     }
@@ -26,7 +26,7 @@ public class AgentFactory {
                 new UniformSpawnModule(scenario),
                 new Movement(scenario, baseSpeed, sprintSpeed),
                 new VisionModule(scenario, viewingDistance),
-                new CommunicationModule(numberOfMarkers)
+                new CommunicationModule(scenario, numberOfMarkers)
         );
     }
 

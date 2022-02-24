@@ -59,6 +59,7 @@ public class Agent {
          if(list.size() > 0){
              logger.info("Obstacle detected: {}", list);
          }
+
     }
 
     public void goBackward(){
