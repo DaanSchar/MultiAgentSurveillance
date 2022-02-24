@@ -30,8 +30,15 @@ public class GameSystem {
             agent.rotate(rotate);
         } else {
             agent.goForward();
+            System.out.println("size " + scenario.getSoundMap().size());
         }
         hasMoved = !hasMoved;
+        resetNoise();
+
+    }
+
+    public void resetNoise(){
+        scenario.getSoundMap().clear();
     }
 
 }

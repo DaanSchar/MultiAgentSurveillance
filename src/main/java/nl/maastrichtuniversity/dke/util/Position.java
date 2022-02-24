@@ -3,6 +3,7 @@ package nl.maastrichtuniversity.dke.util;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import java.lang.Math;
 
 @Getter
 @Setter
@@ -30,6 +31,10 @@ public class Position {
         );
     }
 
+    public double distance(Position other){
+        double distance = Math.abs(Math.sqrt((other.y - this.y) * (other.y - this.y) + (other.x - this.x) * (other.x - this.x)));
+        return  distance;
+    }
 
     @Override
     public boolean equals(Object o){

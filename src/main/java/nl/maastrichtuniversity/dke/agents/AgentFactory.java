@@ -1,6 +1,6 @@
 package nl.maastrichtuniversity.dke.agents;
 
-import nl.maastrichtuniversity.dke.agents.modules.listening.ListeningModule;
+import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.NoiseModule;
 import nl.maastrichtuniversity.dke.agents.modules.movement.Movement;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.UniformSpawnModule;
 import nl.maastrichtuniversity.dke.agents.modules.vision.VisionModule;
@@ -16,7 +16,7 @@ public class AgentFactory {
                 new UniformSpawnModule(scenario),
                 new Movement(scenario, baseSpeed, sprintSpeed),
                 new VisionModule(scenario, viewingDistance),
-                new ListeningModule(scenario,hearingDistanceWalking,hearingDistanceSprinting)
+                new NoiseModule(scenario,hearingDistanceWalking,hearingDistanceSprinting)
         );
     }
 
@@ -25,7 +25,7 @@ public class AgentFactory {
                 new UniformSpawnModule(scenario),
                 new Movement(scenario, baseSpeed, sprintSpeed),
                 new VisionModule(scenario, viewingDistance),
-                new ListeningModule(scenario,hearingDistanceWalking,hearingDistanceSprinting)
+                new NoiseModule(scenario,hearingDistanceWalking,hearingDistanceSprinting)
         );
     }
 

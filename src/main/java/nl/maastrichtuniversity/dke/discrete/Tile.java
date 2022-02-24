@@ -9,7 +9,7 @@ import nl.maastrichtuniversity.dke.util.Position;
 @ToString
 public class Tile {
 
-    private Position position;
+    private @Getter Position position;
     private boolean isOpened;
     private @Setter TileType type;
 
