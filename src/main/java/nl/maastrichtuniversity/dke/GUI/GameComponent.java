@@ -13,6 +13,7 @@ import nl.maastrichtuniversity.dke.discrete.GameSystem;
 import nl.maastrichtuniversity.dke.discrete.Scenario;
 import nl.maastrichtuniversity.dke.discrete.Tile;
 import nl.maastrichtuniversity.dke.discrete.TileType;
+import nl.maastrichtuniversity.dke.util.Position;
 
 public class GameComponent extends JComponent{
 
@@ -34,7 +35,7 @@ public class GameComponent extends JComponent{
 	public void paintComponent(Graphics g) {
 		var environment = scenario.getEnvironment();
 		var agent = scenario.getGuards().get(0);
-
+		var sound = scenario.getSoundMap();
 		drawAreas(g, environment.get(TileType.WALL), ImageFactory.get("wallTexture"));
 		drawAreas(g, environment.get(TileType.TELEPORT), ImageFactory.get("teleportTexture"));
 		drawAreas(g, environment.get(TileType.SPAWN_GUARDS), ImageFactory.get("spawnAreaTexture"));
@@ -56,15 +57,16 @@ public class GameComponent extends JComponent{
 		if(agent.getDirection() == Direction.WEST){
 			g.drawImage(ImageFactory.get("guardEast"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
 		}
-
-
-
+		
 	}
 
 
 	private void drawAreas(Graphics g, List<Tile> tiles, BufferedImage image ) {
 		for (Tile tile : tiles) {
 			drawArea(g, tile, image);
+			if(tile.getCommunicationMarks().size()>0){
+				drawMark(g, tile);
+			}
 		}
 	}
 
@@ -79,6 +81,17 @@ public class GameComponent extends JComponent{
 			);
 
 		}
+	private void drawMark(Graphics g, Tile tile) {
+		g.setColor(tile.getCommunicationMarks().get(0).getColor());
+		g.fillOval(panningX +  (int)(tile.getPosition().getX() * (textureSize)),
+							panningY +  (int)(tile.getPosition().getY() * (textureSize)),
+							textureSize,
+							textureSize);
+	}
+
+
+
+
 
 	public void moveGuards(){
 		GameSystem system = new GameSystem(scenario);

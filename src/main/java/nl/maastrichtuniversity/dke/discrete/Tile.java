@@ -3,6 +3,7 @@ package nl.maastrichtuniversity.dke.discrete;
 import lombok.*;
 import nl.maastrichtuniversity.dke.util.Position;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -11,7 +12,7 @@ import java.util.List;
 @ToString
 public class Tile {
 
-    private Position position;
+    private @Getter Position position;
     private boolean isOpened;
     private @Setter TileType type;
     private @Getter List<CommunicationMark> communicationMarks;
@@ -19,11 +20,14 @@ public class Tile {
     public Tile(Position position) {
         this.position = position;
         this.type = TileType.EMPTY;
+        this.communicationMarks = new ArrayList<>();
     }
 
     public Tile(Position position, TileType type) {
         this.position = position;
         this.type = type;
+        this.communicationMarks = new ArrayList<>();
+
     }
 
     public boolean isEmpty(){
