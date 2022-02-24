@@ -7,5 +7,6 @@ import java.util.Vector;
 public interface INoiseModule {
     public void makeWalkingSound(Position position); //generates walking sound
     public void makeSprintingSound(Position position); //generates sprinting sound
+    public void Yell(Position position); //generates yelling sound
 
 }
