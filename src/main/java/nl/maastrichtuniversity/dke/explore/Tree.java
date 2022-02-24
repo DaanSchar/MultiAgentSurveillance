@@ -1,18 +1,18 @@
 package nl.maastrichtuniversity.dke.explore;
 
-public class Tree<TreeNode> {
+public class Tree<Node> {
 
-    public TreeNode root;
+    public Node root;
 
-    public Tree(TreeNode root) {
+    public Tree(Node root) {
         this.root = root;
     }
 
-    public TreeNode getRoot() {
+    public Node getRoot() {
         return root;
     }
 
-    public void setRoot(TreeNode n)
+    public void setRoot(Node n)
     {
         root = n;
     }

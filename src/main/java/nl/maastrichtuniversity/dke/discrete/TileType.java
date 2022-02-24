@@ -5,25 +5,25 @@ import lombok.Getter;
 @Getter
 public enum TileType {
 
-    WALL(true),
-    TELEPORT(true),
-    SHADED(true),
-    SENTRY(true),
-    TARGET(true),
-    SPAWN_INTRUDERS(true),
-    SPAWN_GUARDS(true),
-    EMPTY(true),
+    WALL(true, false),
+    TELEPORT(true,true),
+    SHADED(true, true ),
+    SENTRY(true, true),
+    TARGET(true, true),
+    SPAWN_INTRUDERS(true, true),
+    SPAWN_GUARDS(true, true),
+    EMPTY(true, true),
 
 
-    WINDOW(false),
-    DOOR(false),
-    INTRUDER(false),
-    GUARD(false);
+    WINDOW(false, true),
+    DOOR(false, true);
 
     private final boolean isStatic;
+    private boolean passable;
 
-    TileType(boolean isStatic) {
+    TileType(boolean isStatic, boolean passable) {
         this.isStatic = isStatic;
+        this.passable = passable;
     }
 
 

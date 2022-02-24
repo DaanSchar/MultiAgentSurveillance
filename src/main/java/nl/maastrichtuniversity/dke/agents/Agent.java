@@ -37,7 +37,7 @@ public class Agent {
         this.id = agentCount++;
 
         // this should be in spawn module
-        this.position = new Position(10, 10);
+        this.position = new Position(50, 50);
         this.direction = Direction.NORTH;
 
         logger.info("Created new " + this.getClass().getSimpleName() + " " + this.id + " with modules: " + spawnModule.getClass().getSimpleName());
@@ -59,8 +59,19 @@ public class Agent {
         position = movement.goBackward(position, direction);
     }
 
+//    public void go(Direction direction){
+//        if(dir)
+//    }
+
+
+    public void rotate(int rotation){
+        logger.info("current direction = " + direction);
+        direction = movement.rotate(direction, rotation);
+        logger.info("new direction = " + direction);
+    }
     public void sprint(){
 //        position = movement.sprint(position, direction);
+//        baseSpeed -= 5;
 //        new java.util.Timer().schedule(
 //                new java.util.TimerTask() {
 //                    @Override
@@ -73,9 +84,6 @@ public class Agent {
 //        );
     }
 
-    public void rotate(int rotation){
-        direction = movement.rotate(direction, rotation);
-    }
 
 //    public Tile getTile(){
 //        Tile tile = new Tile(position);
