@@ -1,15 +1,16 @@
 package nl.maastrichtuniversity.dke.explore;
 
+import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.discrete.TileType;
 import nl.maastrichtuniversity.dke.util.Position;
 
+@Getter
 public class AgentTile {
 
     private Position position;
-    private boolean isOpened;
-    private @Setter
-    AgentTileType type;
+//    private boolean isOpened;
+    private @Setter AgentTileType type;
 
 //    public AgentTile(Position postion) {
 //        this.position = postion;

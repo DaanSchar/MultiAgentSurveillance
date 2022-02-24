@@ -1,19 +1,26 @@
 package nl.maastrichtuniversity.dke.explore;
 
-public enum AgentTileType {
-    WALL(true),
-    TELEPORT(true),
-    SENTRY(true),
-    TARGET(true),
-    START(true),
+import lombok.Getter;
 
-    EMPTY(false),
-    WINDOW(false),
-    DOOR(false);
+@Getter
+public enum AgentTileType {
+    WALL(true, false),
+    TELEPORT(true,false),
+    SENTRY(true, false),
+    TARGET(true, true),
+    START(true,true),
+//    VISITED(true,true),
+
+    EMPTY(false, true),
+    WINDOW(false, false),
+    DOOR(false, false);
 
     private final boolean isStatic;
+    private boolean passable;
 
-    AgentTileType(boolean isStatic) {
+    AgentTileType(boolean isStatic, boolean passable) {
         this.isStatic = isStatic;
+        this.passable = passable;
     }
+
 }

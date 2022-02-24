@@ -21,7 +21,8 @@ public class MDFS {
     }
 
     public void traversePreOrder(Node node) {
-        if (node != null) {
+        if (!node.isVisited() && node.getAgentTile().getType().isPassable()) {
+            //agent can go to tile
             node.setVisited(true);
             traversePreOrder(node.getChild(0));
             traversePreOrder(node.getChild(1));
@@ -29,6 +30,7 @@ public class MDFS {
             traversePreOrder(node.getChild(3));
         }
     }
+
 
 
 
