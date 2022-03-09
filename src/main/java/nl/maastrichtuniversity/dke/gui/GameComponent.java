@@ -85,6 +85,9 @@ public class GameComponent extends JComponent{
 	private void drawAreas(Graphics g, List<Tile> tiles, BufferedImage image ) {
 		for (Tile tile : tiles) {
 			drawArea(g, tile, image);
+			if(tile.getCommunicationMarks().size()>0){
+				drawMark(g, tile);
+			}
 		}
 	}
 
@@ -99,6 +102,17 @@ public class GameComponent extends JComponent{
 			);
 
 		}
+	private void drawMark(Graphics g, Tile tile) {
+		g.setColor(tile.getCommunicationMarks().get(0).getColor());
+		g.fillOval(panningX +  (int)(tile.getPosition().getX() * (textureSize)),
+							panningY +  (int)(tile.getPosition().getY() * (textureSize)),
+							textureSize,
+							textureSize);
+	}
+
+
+
+
 
 	public void moveGuards(){
 		GameSystem system = new GameSystem(scenario);

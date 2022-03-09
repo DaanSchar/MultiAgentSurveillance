@@ -4,8 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Objects;
+import javax.swing.Timer;
 
 import nl.maastrichtuniversity.dke.discrete.Scenario;
+import nl.maastrichtuniversity.dke.settings.Clock;
 
 /**
  * GUIboard class
@@ -30,6 +32,8 @@ public class GameWindow  {
     private JButton zoomOut = new JButton("zoomOut");
     private JButton resize = new JButton("resize");
 
+    private Clock clock = new Clock();
+
     private AnimationListener animationListener = new AnimationListener();
 
     private Scenario scenario;
@@ -46,8 +50,6 @@ public class GameWindow  {
         this.scenario = scenario;
 
         game = new GameComponent(scenario);
-
-
 
         /*
          * Implement the back button
@@ -69,6 +71,12 @@ public class GameWindow  {
 
         setProperties(resize,240,0,75,40);
 
+        // Set bounds of clock
+        clock.getTime().setBounds(320, 0, 75, 40);
+        clock.getTime().setBackground(color1);
+        clock.getTime().setFocusable(false);
+        clock.getTime().setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black));
+
         gameLabel.setHorizontalAlignment(JLabel.CENTER);
         gameLabel.setVerticalAlignment(JLabel.CENTER);
         gameLabel.setBackground(color2);
@@ -79,6 +87,9 @@ public class GameWindow  {
         gameLabel.add(zoomIn);
         gameLabel.add(zoomOut);
         gameLabel.add(resize);
+        gameLabel.add(clock.getTime());
+
+        clock.start();
 
         /*
          *  Set how to close the frame.
@@ -108,7 +119,6 @@ public class GameWindow  {
         button.setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black));
         button.setBounds(x,y,width,height);
     }
-
 
     /**
      *  Creat an Action listener class.

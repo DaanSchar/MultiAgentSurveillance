@@ -64,8 +64,8 @@ public class VisionModuleTest {
         s.getEnvironment().getTileMap()[0][0].setType(TileType.WALL);
         s.getEnvironment().getTileMap()[2][0].setType(TileType.WALL);
 
-
-        List<Tile> obstacles = vm.getObstacles(new Position(1,1), Direction.NORTH);
+        vm.useVision(new Position(1,1), Direction.NORTH);
+        List<Tile> obstacles =vm.getObstacles();
         System.out.println(obstacles);
         Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(0, 0));
         Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(2, 0));
@@ -86,7 +86,9 @@ public class VisionModuleTest {
         s.getEnvironment().getTileMap()[0][2].setType(TileType.WALL);
         s.getEnvironment().getTileMap()[2][3].setType(TileType.WALL);
 
-        List<Tile> obstacles = vm.getObstacles(new Position(1,0), Direction.SOUTH);
+
+        vm.useVision(new Position(1,0), Direction.SOUTH);
+        List<Tile> obstacles =vm.getObstacles();
 
         Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(1, 1));
         Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(0, 2));
@@ -107,10 +109,9 @@ public class VisionModuleTest {
         s.getEnvironment().getTileMap()[3][1].setType(TileType.WALL);
         s.getEnvironment().getTileMap()[2][0].setType(TileType.WALL);
 
+        vm.useVision(new Position(0,0), Direction.EAST);
+        List<Tile> obstacles =vm.getObstacles();
 
-        List<Tile> obstacles = vm.getObstacles(new Position(0,0), Direction.EAST);
-
-        System.out.println(obstacles);
         Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(2, 0));
         Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(3, 1));
     }
@@ -130,7 +131,8 @@ public class VisionModuleTest {
         s.getEnvironment().getTileMap()[0][1].setType(TileType.WALL);
 
 
-        List<Tile> obstacles = vm.getObstacles(new Position(3,0), Direction.WEST);
+        vm.useVision(new Position(3,0), Direction.WEST);
+        List<Tile> obstacles =vm.getObstacles();
 
         System.out.println(obstacles);
         Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(1, 0));
