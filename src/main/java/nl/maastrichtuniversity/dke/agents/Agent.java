@@ -90,11 +90,12 @@ public class Agent {
 
 
     public void updateMemory() {
-        var visibleTiles = visionModule.getObstacles(position, direction);
-
-        for (Tile tile : visibleTiles) {
-            memoryModule.update(tile);
-        }
+//         TODO: Fix this.
+//        var visibleTiles = visionModule.getObstacles(position, direction);
+//
+//        for (Tile tile : visibleTiles) {
+//            memoryModule.update(tile);
+//        }
     }
 
     public void rotate(int rotation){
