@@ -1,4 +1,4 @@
-package nl.maastrichtuniversity.dke.GUI;
+package nl.maastrichtuniversity.dke.gui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,7 +58,7 @@ public class GameWindow  {
         /*
          * Implement the exit button. set the bounds,the background color,the border and add the action listener
          */
-        setProperties(exit,((int) scenario.getEnvironment().getWidth()*textureSize)-75,0,75,40);
+        setProperties(exit,(scenario.getEnvironment().getWidth()*textureSize)-75,0,75,40);
 
 
         setProperties(zoomIn,80,0,75,40);
@@ -73,7 +73,7 @@ public class GameWindow  {
         gameLabel.setVerticalAlignment(JLabel.CENTER);
         gameLabel.setBackground(color2);
         gameLabel.setOpaque(true);
-        gameLabel.setBounds(0,((int) scenario.getEnvironment().getHeight()*textureSize),(int) scenario.getEnvironment().getWidth()*textureSize, 40);
+        gameLabel.setBounds(0,(scenario.getEnvironment().getHeight()*textureSize),scenario.getEnvironment().getWidth()*textureSize, 40);
         gameLabel.add(back);
         gameLabel.add(exit);
         gameLabel.add(zoomIn);
@@ -93,7 +93,7 @@ public class GameWindow  {
         window.addMouseMotionListener(mouseListener);
         window.setUndecorated(true);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setSize((int) scenario.getEnvironment().getWidth()*textureSize, ((int) scenario.getEnvironment().getHeight()*textureSize) + 40);
+        window.setSize(scenario.getEnvironment().getWidth()*textureSize, (scenario.getEnvironment().getHeight()*textureSize) + 40);
         window.setLocationRelativeTo(null);
         window.getContentPane().setBackground(color2);
         window.add(gameLabel);
@@ -107,7 +107,7 @@ public class GameWindow  {
         button.setFocusable(false);
         button.setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black));
         button.setBounds(x,y,width,height);
-    };
+    }
 
 
     /**

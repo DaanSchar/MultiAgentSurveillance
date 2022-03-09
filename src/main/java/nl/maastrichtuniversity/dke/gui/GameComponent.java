@@ -1,4 +1,4 @@
-package nl.maastrichtuniversity.dke.GUI;
+package nl.maastrichtuniversity.dke.gui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.swing.Timer;
 
 import nl.maastrichtuniversity.dke.agents.Agent;
-import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.discrete.GameSystem;
 import nl.maastrichtuniversity.dke.discrete.Scenario;
 import nl.maastrichtuniversity.dke.discrete.Tile;
