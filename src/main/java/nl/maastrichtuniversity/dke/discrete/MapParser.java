@@ -74,7 +74,7 @@ public class MapParser {
             case "sentrytower" -> addArea(values, TileType.SENTRY);
             case "distanceViewing" -> scenarioFactory.setViewingDistance(Integer.parseInt(value));
             case "distanceHearingWalking" -> scenarioFactory.setHearingDistanceWalking(Integer.parseInt(value));
-            case "distanceHearingSpringting" -> scenarioFactory.setHearingDistanceSprinting(Integer.parseInt(value));
+            case "distanceHearingSprinting" -> scenarioFactory.setHearingDistanceSprinting(Integer.parseInt(value));
             case "distanceSmelling" -> scenarioFactory.setSmellingDistance(Integer.parseInt(value));
             case "numberOfMarkers" -> scenarioFactory.setNumberOfMarkers(Integer.parseInt(value));
             default -> logger.error("Unknown value: " + key);
