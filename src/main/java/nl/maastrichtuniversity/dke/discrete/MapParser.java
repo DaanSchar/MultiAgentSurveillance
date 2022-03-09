@@ -30,10 +30,8 @@ public class MapParser {
         while (scanner.hasNextLine())
             createFieldFromLine(scanner.nextLine());
 
-        var scenario = scenarioFactory.build();
-        scenario.setEnvironment(envBuilder.build());
-
-        return scenario;
+        scenarioFactory.setEnvironment(envBuilder.build());
+        return scenarioFactory.build();
     }
 
     private void createFieldFromLine(String line) {

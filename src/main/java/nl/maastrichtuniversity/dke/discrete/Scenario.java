@@ -23,12 +23,13 @@ public class Scenario {
     private @Setter List<Intruder> intruders;
     private @Getter @Setter List<Position> soundMap;
 
-    public Scenario(String name, int gameMode, double timeStep, double scaling) {
+    public Scenario(String name, int gameMode, double timeStep, double scaling, Environment environment) {
         this.name = name;
         this.gameMode = gameMode;
         this.timeStep = timeStep;
         this.scaling = scaling;
-        this.soundMap = new ArrayList<Position>();
+        this.soundMap = new ArrayList<>();
+        this.environment = environment;
     }
 
 
