@@ -30,10 +30,8 @@ public class MapParser {
         while (scanner.hasNextLine())
             createFieldFromLine(scanner.nextLine());
 
-        var scenario = scenarioFactory.build();
-        scenario.setEnvironment(envBuilder.build());
-
-        return scenario;
+        scenarioFactory.setEnvironment(envBuilder.build());
+        return scenarioFactory.build();
     }
 
     private void createFieldFromLine(String line) {
@@ -76,7 +74,7 @@ public class MapParser {
             case "sentrytower" -> addArea(values, TileType.SENTRY);
             case "distanceViewing" -> scenarioFactory.setViewingDistance(Integer.parseInt(value));
             case "distanceHearingWalking" -> scenarioFactory.setHearingDistanceWalking(Integer.parseInt(value));
-            case "distanceHearingSpringting" -> scenarioFactory.setHearingDistanceSprinting(Integer.parseInt(value));
+            case "distanceHearingSprinting" -> scenarioFactory.setHearingDistanceSprinting(Integer.parseInt(value));
             case "distanceSmelling" -> scenarioFactory.setSmellingDistance(Integer.parseInt(value));
             case "numberOfMarkers" -> scenarioFactory.setNumberOfMarkers(Integer.parseInt(value));
             default -> logger.error("Unknown value: " + key);

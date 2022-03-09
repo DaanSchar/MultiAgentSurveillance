@@ -14,6 +14,8 @@ import java.util.List;
 public class VisionModule extends AgentModule implements IVisionModule {
     private final double viewingDistance;
 
+    //TODO: return also the tiles of type TileType.EMPTY
+
     @Getter private List<Agent> agents = new LinkedList<>();
     @Getter private List<Tile> obstacles = new LinkedList<>();
 

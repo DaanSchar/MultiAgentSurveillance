@@ -30,7 +30,7 @@ public class VisionModuleTest {
      */
     @BeforeEach
     void setup() {
-        s = new Scenario("Test", 0, 0, 0);
+        s = new Scenario("Test", 0, 0, 0, null);
 
         Tile[][] tilemap = new Tile[4][4];
 

@@ -1,4 +1,4 @@
-package nl.maastrichtuniversity.dke.GUI;
+package nl.maastrichtuniversity.dke.gui;
 
 import nl.maastrichtuniversity.dke.discrete.MapParser;
 

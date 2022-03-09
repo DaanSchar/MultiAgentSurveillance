@@ -25,12 +25,15 @@ public class ScenarioFactory {
     private double scaling;
     private double timeStep;
 
+    private Environment environment;
+
     public Scenario build() {
         var scenario = new Scenario(
                 name,
                 gameMode,
                 timeStep,
-                scaling
+                scaling,
+                environment
         );
 
         scenario.setGuards(AgentFactory.createGuards(

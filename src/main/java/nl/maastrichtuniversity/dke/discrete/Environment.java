@@ -24,6 +24,12 @@ public class Environment {
         this.tileMap = tileMap;
     }
 
+    public Environment(int width, int height) {
+        this.width = width;
+        this.height = height;
+        this.tileMap = new Tile[width][height];
+    }
+
     public List<Tile> get(TileType type) {
         List<Tile> tiles = new ArrayList<>();
 

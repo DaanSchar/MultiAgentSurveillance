@@ -13,13 +13,13 @@ public enum TileType {
     SPAWN_INTRUDERS(true, true),
     SPAWN_GUARDS(true, true),
     EMPTY(true, true),
-
+    START(true, true),
 
     WINDOW(false, true),
     DOOR(false, true);
 
     private final boolean isStatic;
-    private boolean passable;
+    private final boolean passable;
 
     TileType(boolean isStatic, boolean passable) {
         this.isStatic = isStatic;
