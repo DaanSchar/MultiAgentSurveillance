@@ -106,11 +106,11 @@ public class GameComponent extends JComponent{
 		AtomicReference<Double> time = new AtomicReference<>((double) 0);
 
 		Timer timer = new Timer(300, e -> {
-
 			system.update(time.get());
-			time.updateAndGet(v ->  (v + scenario.getTimeStep()));
+			time.updateAndGet(v -> (v + scenario.getTimeStep()));
 			repaint();
 		});
+
 		timer.start();
 	}
 

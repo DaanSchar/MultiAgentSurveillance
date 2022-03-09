@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.discrete;
 
+import nl.maastrichtuniversity.dke.agents.Agent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,30 +11,37 @@ public class GameSystem {
     private static final Logger logger = LoggerFactory.getLogger(GameSystem.class);
     private final Scenario scenario;
 
-    private boolean hasMoved = false;
-
     public GameSystem(Scenario scenario) {
         this.scenario = scenario;
     }
 
     public void update(double time) {
-        var agent = scenario.getGuards().get(0);
-        if (Math.random() < 0.50) {
-            int rotate;
-            double random = new Random().nextDouble();
 
-            if (Math.random() < 0.5)
-                rotate = 1;
-            else
-                rotate = -1;
-
-            agent.rotate(rotate);
-        } else {
-            agent.goForward();
+        for (Agent agent : scenario.getGuards()) {
+            moveAgentRandomly(agent);
         }
-        hasMoved = !hasMoved;
+
         resetNoise();
 
+    }
+
+    private void moveAgentRandomly(Agent agent) {
+        int rotation = getRandomRotation();
+
+        if (rotation == 0)
+            agent.goForward();
+        else
+            agent.rotate(rotation);
+    }
+
+    private int getRandomRotation() {
+        if (Math.random() < 0.5)
+            return 0;
+
+        if (Math.random() < 0.5)
+            return 1;
+        else
+            return -1;
     }
 
     public void resetNoise(){
