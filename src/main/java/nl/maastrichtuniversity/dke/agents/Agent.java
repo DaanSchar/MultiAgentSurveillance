@@ -6,10 +6,13 @@ import nl.maastrichtuniversity.dke.agents.modules.communication.ICommunicationMo
 import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.INoiseModule;
 import nl.maastrichtuniversity.dke.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
+import nl.maastrichtuniversity.dke.discrete.CommunicationMark;
 import nl.maastrichtuniversity.dke.util.Position;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.ISpawnModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.awt.*;
 
 /**
  * agent class parent of guard and intruder
@@ -58,7 +61,8 @@ public class Agent {
 
     public void goForward(){
          position = movement.goForward(position, direction);
-         var list = visionModule.getObstacles(position, direction);
+         visionModule.useVision(position,direction);
+         var list = visionModule.getObstacles();
          if(list.size() > 0){
              logger.info("Obstacle detected: {}", list);
          }
@@ -68,6 +72,11 @@ public class Agent {
     public void goBackward(){
         position = movement.goBackward(position, direction);
     }
+    public void dropMark(Position position , Color color){
+        communicationModule.addMark(position.getX(),position.getY(),new CommunicationMark(position,color));
+    }
+
+
 
 //    public void go(Direction direction){
 //        if(dir)

@@ -32,12 +32,6 @@ public class GameSystem {
             agent.goForward();
         }
         hasMoved = !hasMoved;
-        resetNoise();
-
-    }
-
-    public void resetNoise(){
-        scenario.getSoundMap().clear();
     }
 
 }
