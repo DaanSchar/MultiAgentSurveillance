@@ -9,17 +9,14 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.swing.Timer;
 
 import nl.maastrichtuniversity.dke.agents.Agent;
-import nl.maastrichtuniversity.dke.agents.Direction;
 import nl.maastrichtuniversity.dke.discrete.*;
-import nl.maastrichtuniversity.dke.gui.ImageFactory;
-import nl.maastrichtuniversity.dke.util.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class GameComponent extends JComponent{
 
 	private final Scenario scenario;
-	private Environment environment;
+	private final Environment environment;
 	private int textureSize;
 
 	private static final Logger logger = LoggerFactory.getLogger(GameComponent.class);
@@ -29,18 +26,14 @@ public class GameComponent extends JComponent{
 
 	public GameComponent(Scenario scenario ,Environment environment){
 		this.scenario = scenario;
-		double scale = scenario.getScaling()*100;
-		textureSize = (int) scale;
+		textureSize = (int) scenario.getScaling()*100;
 		this.environment = environment;
-		moveGuards();
 
+		moveGuards();
 	}
 
 
 	public void paintComponent(Graphics g) {
-
-		var agent = scenario.getGuards().get(0);
-		var sound = scenario.getSoundMap();
 		drawAreas(g, environment.get(TileType.WALL), ImageFactory.get("wallTexture"));
 		drawAreas(g, environment.get(TileType.TELEPORT), ImageFactory.get("teleportTexture"));
 		drawAreas(g, environment.get(TileType.SPAWN_GUARDS), ImageFactory.get("spawnAreaTexture"));
@@ -52,7 +45,6 @@ public class GameComponent extends JComponent{
 		drawAreas(g, environment.get(TileType.SHADED), ImageFactory.get("shadedTexture"));
 		drawAreas(g, environment.get(TileType.UNKNOWN), ImageFactory.get("unknownTexture"));
 		drawAgents(g);
-		
 	}
 
 	private void drawAgents(Graphics g) {
@@ -72,42 +64,36 @@ public class GameComponent extends JComponent{
 	}
 
 	private void drawAgent(Graphics g, Agent agent, BufferedImage texture) {
-            g.drawImage(
-                    texture,
-                    panningX + agent.getPosition().getX() * textureSize,
-                    panningY + agent.getPosition().getY() * textureSize,
-                    textureSize,
-                    textureSize,
-                    null
-            );
+		g.drawImage(
+				texture,
+				panningX + agent.getPosition().getX() * textureSize,
+				panningY + agent.getPosition().getY() * textureSize,
+				textureSize,
+				textureSize,
+				null
+		);
 	}
 
 	private void drawAreas(Graphics g, List<Tile> tiles, BufferedImage image ) {
-
-			for (Tile tile : tiles) {
-				drawArea(g, tile, image);
-				if(tile.getCommunicationMarks().size()>0){
-					drawMark(g, tile);
-				}
+		for (Tile tile : tiles) {
+			drawArea(g, tile, image);
+			if(tile.getCommunicationMarks().size()>0){
+				drawMark(g, tile);
 			}
-
-
+		}
 	}
 
 	private void drawArea(Graphics g, Tile tile, BufferedImage image) {
+		g.drawImage(
+				image,
+				panningX + tile.getPosition().getX() * (textureSize),
+				panningY + tile.getPosition().getY() * (textureSize),
+				textureSize,
+				textureSize,
+				null
+		);
+	}
 
-			g.drawImage(
-					image,
-					panningX + tile.getPosition().getX() * (textureSize),
-					panningY + tile.getPosition().getY() * (textureSize),
-					textureSize,
-					textureSize,
-					null
-			);
-
-
-
-		}
 	private void drawMark(Graphics g, Tile tile) {
 		g.setColor(tile.getCommunicationMarks().get(0).getColor());
 		g.fillOval(
@@ -118,16 +104,11 @@ public class GameComponent extends JComponent{
 		);
 	}
 
-
-
-
-
 	public void moveGuards(){
 		GameSystem system = new GameSystem(scenario);
 		AtomicReference<Double> time = new AtomicReference<>((double) 0);
 
 		Timer timer = new Timer(300, e -> {
-
 			system.update(time.get());
 			time.updateAndGet(v -> v + scenario.getTimeStep());
 			repaint();
@@ -138,30 +119,24 @@ public class GameComponent extends JComponent{
 	public void zoomIn(){
 		textureSize = textureSize +1;
 	}
+
 	public void zoomOut(){
 		textureSize = textureSize -1;
 	}
+
 	public void panning(int x,int y){
 		panningX = x;
 		panningY = y;
-		
 	}
+
 	public void resize(){
 		textureSize = (int) (scenario.getScaling()*100);
 		panningX = 0;
 		panningY = 0; 		
 	}
+
 	public void isAgentMap(){
 		textureSize = textureSize-7;
 	}
-	public Environment getAgentMap(){
-		return scenario.getGuards().get(0).getMemoryModule().getMap();
-	}
-	public void setAgentMap(Environment environment){
-		this.environment = environment;
-
-	}
-
-
 
 }
