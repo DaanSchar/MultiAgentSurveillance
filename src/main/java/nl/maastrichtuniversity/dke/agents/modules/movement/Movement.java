@@ -28,6 +28,8 @@ public class Movement extends AgentModule implements IMovement {
 
     }
 
+    // 1 is left
+    //-1 is right
     @Override
     public Direction rotate(Direction currentDirection, int rotation) {
         if (currentDirection == Direction.NORTH) {

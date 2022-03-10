@@ -22,21 +22,26 @@ public class MDFS {
         start = new Tile(agent.getPosition(), TileType.EMPTY);
         this.agent = agent;
     }
-//    public MDFS(List<Agent> agentList){
-//        List<Tile> start = new LinkedList<>();
-//        for(Agent agent:agentList){
-//            start.add(new Tile(agent.getPosition(), TileType.EMPTY));
-//        }
-////        start = new Tile(new Position(0 ,0 ), TileType.EMPTY);
-//        this.agent = agent;
-//    }
-
 
     public void explore(){
-
         traversePreOrder(start);
     }
 
+    public void traversePreOrder(Tile tile) {
+        agent.updateMemory();
+        if (tile.getType().isPassable()) {
+//            agent can go to tile
+            agent.goForward();
+            traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition())); // NORTH
+            agent.rotate(1);
+            traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition()));//WEST
+            agent.rotate(1);
+            traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition()));//SOUTH
+            agent.rotate(1);
+            traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition()));//EAST
+        }
+    }
+}
 //    public void traversePreOrder(Node node) {
 //        if (!node.isVisited() && node.getAgentTile().getType().isPassable()) {
 //            //agent can go to tile
@@ -48,19 +53,12 @@ public class MDFS {
 //            traversePreOrder(node.getChild(3));
 //        }
 //    }
-    public void traversePreOrder(Tile tile) {
-        agent.getMemoryModule().update(agent.getVisionModule());
-        if (tile.getType().isPassable()) {
-//            agent can go to tile
-            traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition())); // NORTH
-            traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition()));//EAST
-            traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition()));//SOUTH
-            traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition()));//WEST
-        }
-    }
 
-
-
-
-
-}
+//    public MDFS(List<Agent> agentList){
+//        List<Tile> start = new LinkedList<>();
+//        for(Agent agent:agentList){
+//            start.add(new Tile(agent.getPosition(), TileType.EMPTY));
+//        }
+////        start = new Tile(new Position(0 ,0 ), TileType.EMPTY);
+//        this.agent = agent;
+//    }
