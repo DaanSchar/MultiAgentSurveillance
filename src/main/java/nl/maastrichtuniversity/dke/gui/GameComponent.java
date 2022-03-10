@@ -17,23 +17,42 @@ public class GameComponent extends JComponent{
 
 	private final Scenario scenario;
 	private final Environment environment;
+
 	private int textureSize;
+	private int panningX;
+	private int panningY;
 
 	private static final Logger logger = LoggerFactory.getLogger(GameComponent.class);
 
-	private int panningX=0;
-	private int panningY=0;
-
-	public GameComponent(Scenario scenario ,Environment environment){
+	/**
+	 * Constructor for agent Memory map.
+	 */
+	public GameComponent(Scenario scenario ,Environment environment) {
 		this.scenario = scenario;
-		textureSize = (int) scenario.getScaling()*100;
 		this.environment = environment;
+		this.textureSize = (int) (scenario.getScaling()*100) - 7;
 
-		moveGuards();
+		startGameSystem();
 	}
 
+	/**
+	 * Constructor for regular Game Component.
+	 */
+	public GameComponent(Scenario scenario) {
+		this.scenario = scenario;
+		this.environment = scenario.getEnvironment();
+		this.textureSize = (int) (scenario.getScaling()*100);
+
+		startGameSystem();
+	}
 
 	public void paintComponent(Graphics g) {
+		drawEnvironment(g);
+		drawGuards(g);
+		drawIntruders(g);
+	}
+
+	private void drawEnvironment(Graphics g) {
 		drawAreas(g, environment.get(TileType.WALL), ImageFactory.get("wallTexture"));
 		drawAreas(g, environment.get(TileType.TELEPORT), ImageFactory.get("teleportTexture"));
 		drawAreas(g, environment.get(TileType.SPAWN_GUARDS), ImageFactory.get("spawnAreaTexture"));
@@ -44,11 +63,16 @@ public class GameComponent extends JComponent{
 		drawAreas(g, environment.get(TileType.TARGET), ImageFactory.get("targetTexture"));
 		drawAreas(g, environment.get(TileType.SHADED), ImageFactory.get("shadedTexture"));
 		drawAreas(g, environment.get(TileType.UNKNOWN), ImageFactory.get("unknownTexture"));
-		drawAgents(g);
 	}
 
-	private void drawAgents(Graphics g) {
+	private void drawGuards(Graphics g) {
 		for (Agent agent : scenario.getGuards()) {
+			drawAgent(g, agent);
+		}
+	}
+
+	private void drawIntruders(Graphics g) {
+		for (Agent agent : scenario.getIntruders()) {
             drawAgent(g, agent);
         }
 	}
@@ -77,6 +101,7 @@ public class GameComponent extends JComponent{
 	private void drawAreas(Graphics g, List<Tile> tiles, BufferedImage image ) {
 		for (Tile tile : tiles) {
 			drawArea(g, tile, image);
+
 			if(tile.getCommunicationMarks().size()>0){
 				drawMark(g, tile);
 			}
@@ -104,7 +129,7 @@ public class GameComponent extends JComponent{
 		);
 	}
 
-	public void moveGuards(){
+	public void startGameSystem() {
 		GameSystem system = new GameSystem(scenario);
 		AtomicReference<Double> time = new AtomicReference<>((double) 0);
 
@@ -113,15 +138,8 @@ public class GameComponent extends JComponent{
 			time.updateAndGet(v -> v + scenario.getTimeStep());
 			repaint();
 		});
+
 		timer.start();
-	}
-
-	public void zoomIn(){
-		textureSize = textureSize +1;
-	}
-
-	public void zoomOut(){
-		textureSize = textureSize -1;
 	}
 
 	public void panning(int x,int y){
@@ -135,8 +153,12 @@ public class GameComponent extends JComponent{
 		panningY = 0; 		
 	}
 
-	public void isAgentMap(){
-		textureSize = textureSize-7;
+	public void zoomIn(){
+		textureSize = textureSize +1;
+	}
+
+	public void zoomOut(){
+		textureSize = textureSize -1;
 	}
 
 }
