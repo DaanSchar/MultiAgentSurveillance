@@ -19,6 +19,8 @@ public class GameComponent extends JComponent{
 	private Environment environment;
 	private int textureSize;
 
+	private int guardY = 100;
+	private int guardX = 0;
 	private int panningX=0;
 	private int panningY=0;
 
@@ -36,9 +38,7 @@ public class GameComponent extends JComponent{
 
 		var agent = scenario.getGuards().get(0);
 		var sound = scenario.getSoundMap();
-		if (environment.get(TileType.WALL)!=null){
-			drawAreas(g, environment.get(TileType.WALL), ImageFactory.get("wallTexture"));
-		}
+		drawAreas(g, environment.get(TileType.WALL), ImageFactory.get("wallTexture"));
 		drawAreas(g, environment.get(TileType.TELEPORT), ImageFactory.get("teleportTexture"));
 		drawAreas(g, environment.get(TileType.SPAWN_GUARDS), ImageFactory.get("spawnAreaTexture"));
 		drawAreas(g, environment.get(TileType.SPAWN_INTRUDERS), ImageFactory.get("spawnAreaTexture"));
@@ -47,6 +47,7 @@ public class GameComponent extends JComponent{
 		drawAreas(g, environment.get(TileType.SENTRY), ImageFactory.get("sentryTowerTexture"));
 		drawAreas(g, environment.get(TileType.TARGET), ImageFactory.get("targetTexture"));
 		drawAreas(g, environment.get(TileType.SHADED), ImageFactory.get("shadedTexture"));
+		drawAreas(g, environment.get(TileType.UNKNOWN), ImageFactory.get("unknownTexture"));
 		if(agent.getDirection() == Direction.NORTH){
 			g.drawImage(ImageFactory.get("guardNorth"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
 		}
@@ -79,8 +80,8 @@ public class GameComponent extends JComponent{
 
 			g.drawImage(
 					image,
-					panningX +  (tile.getPosition().getX() * (textureSize)),
-					panningY +  (tile.getPosition().getY() * (textureSize)),
+					panningX +  (int)(tile.getPosition().getX() * (textureSize)),
+					panningY +  (int)(tile.getPosition().getY() * (textureSize)),
 					textureSize,
 					textureSize,
 					null
@@ -91,12 +92,10 @@ public class GameComponent extends JComponent{
 		}
 	private void drawMark(Graphics g, Tile tile) {
 		g.setColor(tile.getCommunicationMarks().get(0).getColor());
-		g.fillOval(
-				panningX + (tile.getPosition().getX() * (textureSize)),
-				panningY + (tile.getPosition().getY() * (textureSize)),
-				textureSize,
-				textureSize
-		);
+		g.fillOval(panningX +  (int)(tile.getPosition().getX() * (textureSize)),
+							panningY +  (int)(tile.getPosition().getY() * (textureSize)),
+							textureSize,
+							textureSize);
 	}
 
 
@@ -110,7 +109,7 @@ public class GameComponent extends JComponent{
 		Timer timer = new Timer(300, e -> {
 
 			system.update(time.get());
-			time.updateAndGet(v -> v + scenario.getTimeStep());
+			time.updateAndGet(v -> new Double((double) (v + (double) scenario.getTimeStep())));
 			repaint();
 		});
 		timer.start();
@@ -140,8 +139,8 @@ public class GameComponent extends JComponent{
 	public Environment getAgentMap(){
 		return scenario.getGuards().get(0).getMemoryModule().getMap();
 	}
-	public void setAgentMap(Environment environmenta){
-		environment = environmenta;
+	public void setAgentMap(Environment environment){
+		this.environment = environment;
 
 	}
 
