@@ -8,10 +8,13 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import javax.swing.Timer;
 
+import nl.maastrichtuniversity.dke.agents.Agent;
 import nl.maastrichtuniversity.dke.agents.Direction;
 import nl.maastrichtuniversity.dke.discrete.*;
 import nl.maastrichtuniversity.dke.gui.ImageFactory;
 import nl.maastrichtuniversity.dke.util.Position;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GameComponent extends JComponent{
 
@@ -19,8 +22,8 @@ public class GameComponent extends JComponent{
 	private Environment environment;
 	private int textureSize;
 
-	private int guardY = 100;
-	private int guardX = 0;
+	private static final Logger logger = LoggerFactory.getLogger(GameComponent.class);
+
 	private int panningX=0;
 	private int panningY=0;
 
@@ -48,21 +51,36 @@ public class GameComponent extends JComponent{
 		drawAreas(g, environment.get(TileType.TARGET), ImageFactory.get("targetTexture"));
 		drawAreas(g, environment.get(TileType.SHADED), ImageFactory.get("shadedTexture"));
 		drawAreas(g, environment.get(TileType.UNKNOWN), ImageFactory.get("unknownTexture"));
-		if(agent.getDirection() == Direction.NORTH){
-			g.drawImage(ImageFactory.get("guardNorth"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
-		}
-		if(agent.getDirection() == Direction.SOUTH){
-			g.drawImage(ImageFactory.get("guardSouth"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
-		}
-		if(agent.getDirection() == Direction.EAST){
-			g.drawImage(ImageFactory.get("guardWest"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
-		}
-		if(agent.getDirection() == Direction.WEST){
-			g.drawImage(ImageFactory.get("guardEast"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
-		}
+		drawAgents(g);
 		
 	}
 
+	private void drawAgents(Graphics g) {
+		for (Agent agent : scenario.getGuards()) {
+            drawAgent(g, agent);
+        }
+	}
+
+	private void drawAgent(Graphics g, Agent agent) {
+		switch (agent.getDirection()) {
+			case NORTH -> drawAgent(g, agent, ImageFactory.get("guardNorth"));
+			case SOUTH -> drawAgent(g, agent, ImageFactory.get("guardSouth"));
+			case EAST -> drawAgent(g, agent, ImageFactory.get("guardWest"));
+			case WEST -> drawAgent(g, agent, ImageFactory.get("guardEast"));
+			default -> logger.error("Unknown direction given for agent!");
+		}
+	}
+
+	private void drawAgent(Graphics g, Agent agent, BufferedImage texture) {
+            g.drawImage(
+                    texture,
+                    panningX + agent.getPosition().getX() * textureSize,
+                    panningY + agent.getPosition().getY() * textureSize,
+                    textureSize,
+                    textureSize,
+                    null
+            );
+	}
 
 	private void drawAreas(Graphics g, List<Tile> tiles, BufferedImage image ) {
 
@@ -80,8 +98,8 @@ public class GameComponent extends JComponent{
 
 			g.drawImage(
 					image,
-					panningX +  (int)(tile.getPosition().getX() * (textureSize)),
-					panningY +  (int)(tile.getPosition().getY() * (textureSize)),
+					panningX + tile.getPosition().getX() * (textureSize),
+					panningY + tile.getPosition().getY() * (textureSize),
 					textureSize,
 					textureSize,
 					null
@@ -92,10 +110,12 @@ public class GameComponent extends JComponent{
 		}
 	private void drawMark(Graphics g, Tile tile) {
 		g.setColor(tile.getCommunicationMarks().get(0).getColor());
-		g.fillOval(panningX +  (int)(tile.getPosition().getX() * (textureSize)),
-							panningY +  (int)(tile.getPosition().getY() * (textureSize)),
-							textureSize,
-							textureSize);
+		g.fillOval(
+				panningX + tile.getPosition().getX() * (textureSize),
+				panningY + tile.getPosition().getY() * (textureSize),
+				textureSize,
+				textureSize
+		);
 	}
 
 
@@ -109,14 +129,12 @@ public class GameComponent extends JComponent{
 		Timer timer = new Timer(300, e -> {
 
 			system.update(time.get());
-			time.updateAndGet(v -> new Double((double) (v + (double) scenario.getTimeStep())));
+			time.updateAndGet(v -> v + scenario.getTimeStep());
 			repaint();
 		});
 		timer.start();
 	}
-	public void moveIntuders(){
-		
-	}
+
 	public void zoomIn(){
 		textureSize = textureSize +1;
 	}
