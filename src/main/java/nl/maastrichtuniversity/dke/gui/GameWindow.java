@@ -145,20 +145,23 @@ public class GameWindow  {
     private void setButtonsProperties() {
         buttonListener = new ButtonListener();
 
-        setButtonProperties(backButton,0 ,0,75,40);
-        setButtonProperties(exitButton,(scenario.getEnvironment().getWidth()*textureSize)-75,0,75,40);
-        setButtonProperties(zoomInButton,80,0,75,40);
-        setButtonProperties(zoomOutButton,160,0,75,40);
-        setButtonProperties(resizeButton,240,0,75,40);
-        setButtonProperties(agentMemoryMapButton,320,0,75,40);
+        setButtonProperties(backButton,0 ,0);
+        setButtonProperties(exitButton,(scenario.getEnvironment().getWidth()*textureSize)-75,0);
+        setButtonProperties(zoomInButton,80,0);
+        setButtonProperties(zoomOutButton,160,0);
+        setButtonProperties(resizeButton,240,0);
+        setButtonProperties(agentMemoryMapButton,320,0);
     }
 
-    private void setButtonProperties(JButton button , int x, int y, int width, int height){
+    private void setButtonProperties(JButton button , int x, int y){
+        int buttonWidth = 75;
+        int buttonHeight = 40;
+
+        button.setBounds(x,y,buttonWidth,buttonHeight);
         button.addActionListener(buttonListener);
         button.setBackground(buttonColor);
         button.setFocusable(false);
         button.setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black));
-        button.setBounds(x,y,width,height);
     }
 
     /**
