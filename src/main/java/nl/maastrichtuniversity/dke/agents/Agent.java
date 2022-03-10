@@ -117,8 +117,8 @@ public class Agent {
         return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule, communicationModule, memoryModule,listeningModule);
     }
 
-    // 1 is left
-    //-1 is right
+    /** 1 is left
+    -1 is right */
     public void rotate(int rotation){
         direction = movement.rotate(direction, rotation);
         updateMemory();
