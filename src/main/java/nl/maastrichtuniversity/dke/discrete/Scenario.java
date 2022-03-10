@@ -21,14 +21,15 @@ public class Scenario {
     private Environment environment;
     private @Setter List<Guard> guards;
     private @Setter List<Intruder> intruders;
-    private @Getter @Setter List<Sound> soundMap;
+    private @Getter @Setter List<Position> soundMap;
 
-    public Scenario(String name, int gameMode, double timeStep, double scaling) {
+    public Scenario(String name, int gameMode, double timeStep, double scaling, Environment environment) {
         this.name = name;
         this.gameMode = gameMode;
         this.timeStep = timeStep;
         this.scaling = scaling;
-        this.soundMap = new ArrayList<Sound>();
+        this.soundMap = new ArrayList<>();
+        this.environment = environment;
     }
 
 

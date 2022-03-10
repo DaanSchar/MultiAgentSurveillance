@@ -1,4 +1,4 @@
-package nl.maastrichtuniversity.dke.GUI;
+package nl.maastrichtuniversity.dke.gui;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,13 +1,9 @@
-package nl.maastrichtuniversity.dke.GUI;
+package nl.maastrichtuniversity.dke.gui;
 
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
-import java.util.List;
-
-
 
 
 /**
@@ -67,49 +63,49 @@ public class GameSettings implements ActionListener  {
         back.addActionListener(this);
         back.setBackground(new Color(155,223,232));
 
-        setProberites(gameMode,170,138,50,25);
+        setProperties(gameMode,170,138,50,25);
 
-        setProberites(height,153,180,50,25);
+        setProperties(height,153,180,50,25);
 
-        setProberites(width,375,180,50,25);
+        setProperties(width,375,180,50,25);
 
-        setProberites(scaling,175,223,50,25);
+        setProperties(scaling,175,223,50,25);
 
-        setProberites(numGuards,203,263,50,25);
+        setProperties(numGuards,203,263,50,25);
 
-        setProberites(numIntruders,552,263,50,25);
+        setProperties(numIntruders,552,263,50,25);
 
-        setProberites(baseSpeedIntruder,345,307,50,25);
+        setProperties(baseSpeedIntruder,345,307,50,25);
 
-        setProberites(sprintSpeedIntruder,383,347,50,25);
+        setProperties(sprintSpeedIntruder,383,347,50,25);
 
-        setProberites(baseSpeedGuard,280,390,50,25);
+        setProperties(baseSpeedGuard,280,390,50,25);
 
-        setProberites(timeStep,187,431,50,25);
+        setProperties(timeStep,187,431,50,25);
 
-        setProberites(targetArea,224,472,200,25);
+        setProperties(targetArea,224,472,200,25);
 
-        setProberites(spawnAreaIntruders,367,514,200,25);
+        setProperties(spawnAreaIntruders,367,514,200,25);
 
-        setProberites(spawnAreaGuards,315,556,200,25);
+        setProperties(spawnAreaGuards,315,556,200,25);
 
-        setProberites(timeStep,187,431,50,25);
+        setProperties(timeStep,187,431,50,25);
 
-        setProberites(timeStep,187,431,50,25);
+        setProperties(timeStep,187,431,50,25);
 
-        setProberites(walls,30,40,770,120);
+        setProperties(walls,30,40,770,120);
 
-        setProberites(teleport,30,210,770,120);
+        setProperties(teleport,30,210,770,120);
 
-        setProberites(shaded,30,370,770,120);
+        setProperties(shaded,30,370,770,120);
 
-        setProberites(texture,30,540,600,55);
+        setProperties(texture,30,540,600,55);
 
-        setProberites(windows,30,60,760,155);
+        setProperties(windows,30,60,760,155);
 
-        setProberites(doors,30,255,760,155);
+        setProperties(doors,30,255,760,155);
 
-        setProberites(sentryTower,30,460,760,75);
+        setProperties(sentryTower,30,460,760,75);
 
 
 
@@ -225,13 +221,13 @@ public class GameSettings implements ActionListener  {
 //                createAreas(sentryTower)
 //        );
     }
-    public void setProberites(JTextField text ,int x,int y,int width,int height){
+    public void setProperties(JTextField text , int x, int y, int width, int height){
         text.setFont(new Font("Consolas",Font.PLAIN,20));
         text.setForeground(Color.darkGray);
         text.setBackground(color1);
         text.setCaretColor(Color.blue);
         text.setBounds(x,y,width,height);
-    };
+    }
 
 
 
