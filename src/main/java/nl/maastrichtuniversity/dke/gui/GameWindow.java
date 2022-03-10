@@ -192,8 +192,6 @@ public class GameWindow  {
 
     }
 
-
-
     class MouseSpy implements MouseWheelListener, MouseMotionListener, MouseListener {
         Point point0;
         boolean released = false;
