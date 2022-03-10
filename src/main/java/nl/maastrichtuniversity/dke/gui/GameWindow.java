@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Objects;
-import javax.swing.Timer;
 
 import nl.maastrichtuniversity.dke.discrete.Scenario;
 import nl.maastrichtuniversity.dke.settings.Clock;
@@ -15,142 +14,158 @@ import nl.maastrichtuniversity.dke.settings.Clock;
 
 public class GameWindow  {
 
-    private GameComponent game;
-    private GameComponent agentMap;
+    private final ImageIcon icon = new ImageIcon(Objects.requireNonNull(GameWindow.class.getResource("/images/settings/icon.png")));
+    private final Color buttonColor = new Color(230,230,230);
+    private final Color backgroundColor = new Color(173,237,153);
 
+    private final int textureSize;
 
-    private ImageIcon icon = new ImageIcon(Objects.requireNonNull(GameWindow.class.getResource("/images/settings/icon.png")));
+    private final Scenario scenario;
 
-    private JFrame window = new JFrame("GROUP 14");
-
-    private ImageIcon backImage = new ImageIcon(Objects.requireNonNull(GameWindow.class.getResource("/images/settings/next.jpg")));
-    private JButton back = new JButton("BACK");
-
-    private Color color1 = new Color(230,230,230);
-    private Color color2 = new Color(173,237,153);
-
-    private JButton exit = new JButton("EXIT");
-    private JButton zoomIn = new JButton("zoomIn");
-    private JButton zoomOut = new JButton("zoomOut");
-    private JButton resize = new JButton("resize");
-    private JButton agentMapB = new JButton("AgentMap");
-
-    private Clock clock = new Clock();
-
-    private AnimationListener animationListener = new AnimationListener();
-
-    private Scenario scenario;
-
-    private JLabel gameLabel = new JLabel();
-    private MouseSpy mouseListener = new MouseSpy();
-
-    int textureSize;
-    boolean map=false;
-    private JPanel agentLapel = new JPanel();
-
-
-
+    private boolean showAgentMemoryMap;
 
     public GameWindow(Scenario scenario) {
-        double scale = scenario.getScaling()*100;
-        textureSize = (int) scale;
-
         this.scenario = scenario;
+        this.textureSize = (int) (scenario.getScaling()*100);
 
-        game = new GameComponent(scenario,scenario.getEnvironment());
+        setUp();
+        start();
+    }
 
-        agentMap = new GameComponent(scenario,scenario.getGuards().get(0).getMemoryModule().getMap());
-        agentMap.isAgentMap();
+    private void setUp() {
+        setUpGameComponents();
+        setUpClock();
+        setUpButtons();
+        setUpButtonContainer();
+        setUpWindow();
+    }
 
-
-
-
-        /*
-         * Implement the back button
-         * set the bounds,the background color,the border and add the actionlistener
-         */
-
-        setProperties(back,0 ,0,75,40);
-        /*
-         * Implement the exit button. set the bounds,the background color,the border and add the action listener
-         */
-        setProperties(exit,(scenario.getEnvironment().getWidth()*textureSize)-75,0,75,40);
-
-
-        setProperties(zoomIn,80,0,75,40);
-
-
-        setProperties(zoomOut,160,0,75,40);
-
-
-        setProperties(resize,240,0,75,40);
-
-        setProperties(agentMapB,320,0,75,40);
-
-
-        // Set bounds of clock
-        clock.getTime().setBounds(400, 0, 75, 40);
-        clock.getTime().setBackground(color1);
-        clock.getTime().setFocusable(false);
-        clock.getTime().setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black));
-
-        gameLabel.setHorizontalAlignment(JLabel.CENTER);
-        gameLabel.setVerticalAlignment(JLabel.CENTER);
-        gameLabel.setBackground(color2);
-        gameLabel.setOpaque(true);
-        gameLabel.setBounds(0,(scenario.getEnvironment().getHeight()*textureSize),scenario.getEnvironment().getWidth()*textureSize, 40);
-        gameLabel.add(back);
-        gameLabel.add(exit);
-        gameLabel.add(zoomIn);
-        gameLabel.add(zoomOut);
-        gameLabel.add(resize);
-        gameLabel.add(agentMapB);
-        gameLabel.add(clock.getTime());
-
+    private void start() {
         clock.start();
+        agentMemoryMap.setVisible(false);
+        window.setVisible(true);
+    }
 
-        game.setPreferredSize(new Dimension(scenario.getEnvironment().getWidth()*textureSize, (scenario.getEnvironment().getHeight()*textureSize) + 40));
-        agentMap.setPreferredSize(new Dimension(scenario.getEnvironment().getWidth()*3,scenario.getEnvironment().getHeight()*3));
+
+    // ------------------------------------------- GameComponents ---------------------------------------------- \\
 
 
-        /*
-         *  Set how to close the frame.
-         *  Set the size of the frame.
-         *  Adding the label to the frame.
-         *  Set the frame visible.
-         *  Add back button to the frame
-         *  Add the gameComponent to the frame
-         */
+    private GameComponent game;
+    private GameComponent agentMemoryMap;
+
+    private void setUpGameComponents() {
+        game = new GameComponent(scenario);
+        agentMemoryMap = new GameComponent(scenario,scenario.getGuards().get(0).getMemoryModule().getMap());
+        game.setPreferredSize(new Dimension(
+                scenario.getEnvironment().getWidth()*textureSize,
+                (scenario.getEnvironment().getHeight()*textureSize) + 40)
+        );
+        agentMemoryMap.setPreferredSize(new Dimension(
+                scenario.getEnvironment().getWidth()*3,
+                scenario.getEnvironment().getHeight()*3)
+        );
+    }
+
+
+    // ----------------------------------------------- Window -------------------------------------------------- \\
+
+
+    private JFrame window;
+
+    private void setUpWindow() {
+        window = new JFrame("GROUP 14");
         window.setLayout(new BorderLayout());
+        MouseListener mouseListener = new MouseListener();
         window.addMouseWheelListener(mouseListener);
         window.addMouseListener(mouseListener);
         window.addMouseMotionListener(mouseListener);
         window.setUndecorated(true);
+        window.setSize(
+                scenario.getEnvironment().getWidth()*textureSize,
+                scenario.getEnvironment().getHeight()*textureSize + 40
+        );
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setSize(scenario.getEnvironment().getWidth()*textureSize, (scenario.getEnvironment().getHeight()*textureSize) + 40);
         window.setLocationRelativeTo(null);
-        window.getContentPane().setBackground(color2);
-        window.add(gameLabel);
+        window.getContentPane().setBackground(backgroundColor);
+        window.add(buttonContainer);
         window.add(game);
-        window.add(agentMap, BorderLayout.NORTH);
-        agentMap.setVisible(false);
-
+        window.add(agentMemoryMap, BorderLayout.NORTH);
         window.setIconImage(icon.getImage());
-        window.setVisible(true);
     }
-    public void setProperties(JButton button , int x, int y, int width, int height){
-        button.addActionListener(animationListener);
-        button.setBackground(color1);
+
+
+    // ------------------------------------------- ButtonContainer ---------------------------------------------- \\
+
+
+    private JLabel buttonContainer;
+
+    private void setUpButtonContainer() {
+        buttonContainer = new JLabel();
+        buttonContainer.setHorizontalAlignment(JLabel.CENTER);
+        buttonContainer.setVerticalAlignment(JLabel.CENTER);
+        buttonContainer.setBackground(backgroundColor);
+        buttonContainer.setOpaque(true);
+        buttonContainer.add(backButton);
+        buttonContainer.add(exitButton);
+        buttonContainer.add(zoomInButton);
+        buttonContainer.add(zoomOutButton);
+        buttonContainer.add(resizeButton);
+        buttonContainer.add(agentMemoryMapButton);
+        buttonContainer.add(clock.getTime());
+        buttonContainer.setBounds(0,
+                scenario.getEnvironment().getHeight()*textureSize,
+                scenario.getEnvironment().getWidth()*textureSize, 40
+        );
+    }
+
+
+    // ----------------------------------------------- Buttons -------------------------------------------------- \\
+
+
+    private JButton backButton;
+    private JButton exitButton;
+    private JButton zoomInButton;
+    private JButton zoomOutButton;
+    private JButton resizeButton;
+    private JButton agentMemoryMapButton;
+
+    private ButtonListener buttonListener;
+
+    private void setUpButtons() {
+        backButton = new JButton("BACK");
+        exitButton = new JButton("EXIT");
+        zoomInButton = new JButton("zoomIn");
+        zoomOutButton = new JButton("zoomOut");
+        resizeButton = new JButton("resize");
+        agentMemoryMapButton = new JButton("AgentMap");
+
+        setButtonsProperties();
+    }
+
+    private void setButtonsProperties() {
+        buttonListener = new ButtonListener();
+
+        setButtonProperties(backButton,0 ,0,75,40);
+        setButtonProperties(exitButton,(scenario.getEnvironment().getWidth()*textureSize)-75,0,75,40);
+        setButtonProperties(zoomInButton,80,0,75,40);
+        setButtonProperties(zoomOutButton,160,0,75,40);
+        setButtonProperties(resizeButton,240,0,75,40);
+        setButtonProperties(agentMemoryMapButton,320,0,75,40);
+    }
+
+    private void setButtonProperties(JButton button , int x, int y, int width, int height){
+        button.addActionListener(buttonListener);
+        button.setBackground(buttonColor);
         button.setFocusable(false);
         button.setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black));
         button.setBounds(x,y,width,height);
     }
 
     /**
-     *  Creat an Action listener class.
-     *  e: which is the buttons that have an ActionListener.
+     * Listener for the buttons.
+     * Declares button behavior.
      */
-    class AnimationListener implements ActionListener {
+    class ButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e){
@@ -159,12 +174,12 @@ public class GameWindow  {
         }
 
         private void performButtonAction(Object button) {
-            if (button == back) { onBackButtonClicked(); }
-            if (button == exit) { onExitButtonClicked(); }
-            if (button == zoomOut) { onZoomInButtonClicked(); }
-            if (button == zoomIn) { onZoomOutButtonClicked(); }
-            if (button == resize) { onResizeButtonClicked(); }
-            if (button == agentMapB) { onAgentMapButtonClicked(); }
+            if (button == backButton) { onBackButtonClicked(); }
+            if (button == exitButton) { onExitButtonClicked(); }
+            if (button == zoomInButton) { onZoomInButtonClicked(); }
+            if (button == zoomOutButton) { onZoomOutButtonClicked(); }
+            if (button == resizeButton) { onResizeButtonClicked(); }
+            if (button == agentMemoryMapButton) { onAgentMapButtonClicked(); }
         }
 
         private void onExitButtonClicked() { System.exit(0); }
@@ -181,29 +196,27 @@ public class GameWindow  {
         }
 
         private void onAgentMapButtonClicked() {
-            if (map){
-                agentMap.setVisible(false);
-                map = false;
-            } else {
-                agentMap.setVisible(true);
-                map = true;
-            }
+            showAgentMemoryMap = !showAgentMemoryMap;
+            agentMemoryMap.setVisible(showAgentMemoryMap);
         }
 
     }
 
-    class MouseSpy implements MouseWheelListener, MouseMotionListener, MouseListener {
+
+    // ------------------------------------------------- Mouse ---------------------------------------------------- \\
+
+
+    /**
+     * Listener for mouse.
+     * Declares mouse behavior.
+     */
+    class MouseListener implements MouseWheelListener, MouseMotionListener, java.awt.event.MouseListener {
         Point point0;
         boolean released = false;
 
         @Override
         public void mouseWheelMoved(MouseWheelEvent e){
-            if (e.getWheelRotation()<0) {
-                game.zoomIn();
-            } else {
-                game.zoomOut();
-            }
-
+            if (e.getWheelRotation() < 0) game.zoomIn(); else game.zoomOut();
             window.repaint();
         }
 
@@ -211,8 +224,9 @@ public class GameWindow  {
         public void mouseDragged(MouseEvent e) {
             Point point1 = e.getLocationOnScreen();
 
-            if (released) { game.panning((point1.x-point0.x),(point1.y-point0.y)); }
-
+            if (released) {
+                game.panning((point1.x-point0.x),(point1.y-point0.y));
+            }
             window.repaint();
         }
 
@@ -236,6 +250,19 @@ public class GameWindow  {
 
         @Override
         public void mouseClicked(MouseEvent e) {}
+    }
+
+
+    // ------------------------------------------------- Clock ---------------------------------------------------- \\
+
+    private Clock clock;
+
+    private void setUpClock() {
+        clock = new Clock();
+        clock.getTime().setBounds(400, 0, 75, 40);
+        clock.getTime().setBackground(buttonColor);
+        clock.getTime().setFocusable(false);
+        clock.getTime().setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black));
     }
 }
 
