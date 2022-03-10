@@ -28,9 +28,10 @@ public class MDFS {
     }
 
     public void traversePreOrder(Tile tile) {
-        agent.updateMemory();
+//        System.out.println("here");
+//        agent.updateMemory();
         if (tile.getType().isPassable()) {
-//            agent can go to tile
+//            agent can go to tiles
             agent.goForward();
             traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition())); // NORTH
             agent.rotate(1);
