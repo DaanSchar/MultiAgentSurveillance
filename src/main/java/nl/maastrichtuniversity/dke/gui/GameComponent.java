@@ -38,7 +38,9 @@ public class GameComponent extends JComponent{
 
 		var agent = scenario.getGuards().get(0);
 		var sound = scenario.getSoundMap();
-		drawAreas(g, environment.get(TileType.WALL), ImageFactory.get("wallTexture"));
+		if (environment.get(TileType.WALL)!=null){
+			drawAreas(g, environment.get(TileType.WALL), ImageFactory.get("wallTexture"));
+		}
 		drawAreas(g, environment.get(TileType.TELEPORT), ImageFactory.get("teleportTexture"));
 		drawAreas(g, environment.get(TileType.SPAWN_GUARDS), ImageFactory.get("spawnAreaTexture"));
 		drawAreas(g, environment.get(TileType.SPAWN_INTRUDERS), ImageFactory.get("spawnAreaTexture"));
@@ -64,15 +66,19 @@ public class GameComponent extends JComponent{
 
 
 	private void drawAreas(Graphics g, List<Tile> tiles, BufferedImage image ) {
-		for (Tile tile : tiles) {
-			drawArea(g, tile, image);
-			if(tile.getCommunicationMarks().size()>0){
-				drawMark(g, tile);
+
+			for (Tile tile : tiles) {
+				drawArea(g, tile, image);
+				if(tile.getCommunicationMarks().size()>0){
+					drawMark(g, tile);
+				}
 			}
-		}
+
+
 	}
 
 	private void drawArea(Graphics g, Tile tile, BufferedImage image) {
+
 			g.drawImage(
 					image,
 					panningX +  (int)(tile.getPosition().getX() * (textureSize)),
@@ -81,6 +87,8 @@ public class GameComponent extends JComponent{
 					textureSize,
 					null
 			);
+
+
 
 		}
 	private void drawMark(Graphics g, Tile tile) {
