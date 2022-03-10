@@ -6,10 +6,7 @@ import nl.maastrichtuniversity.dke.agents.Agent;
 import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.agents.modules.vision.VisionModule;
-import nl.maastrichtuniversity.dke.discrete.Environment;
-import nl.maastrichtuniversity.dke.discrete.EnvironmentFactory;
-import nl.maastrichtuniversity.dke.discrete.Scenario;
-import nl.maastrichtuniversity.dke.discrete.Tile;
+import nl.maastrichtuniversity.dke.discrete.*;
 import nl.maastrichtuniversity.dke.util.Position;
 
 import java.util.ArrayList;
@@ -19,7 +16,7 @@ import java.util.List;
 public class MemoryModule extends AgentModule implements IMemoryModule {
 
     private final Environment map;
-    private List<Agent> agents;
+    private final List<Agent> agents;
 
     private @Setter Position startPosition;
 
@@ -29,7 +26,18 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         int width = scenario.getEnvironment().getWidth();
         int height = scenario.getEnvironment().getHeight();
         this.map = new Environment(width, height, new Tile[width][height]);
+
+        initEnvironment();
+
         agents = new ArrayList<>();
+    }
+
+    private void initEnvironment() {
+        for (int x = 0; x < map.getWidth(); x++) {
+            for (int y = 0; y < map.getHeight(); y++) {
+                map.getTileMap()[x][y] = new Tile(new Position(x, y), TileType.UNKNOWN);
+            }
+        }
     }
 
     //TODO: add sound to update method in memory

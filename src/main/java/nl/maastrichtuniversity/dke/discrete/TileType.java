@@ -14,6 +14,7 @@ public enum TileType {
     SPAWN_GUARDS(true, true),
     EMPTY(true, true),
     START(true, true),
+    UNKNOWN(true, true),
 
     WINDOW(false, true),
     DOOR(false, true);
