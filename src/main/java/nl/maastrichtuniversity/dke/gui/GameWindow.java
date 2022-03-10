@@ -18,6 +18,7 @@ public class GameWindow  {
     private GameComponent game;
     private GameComponent agentMap;
 
+
     private ImageIcon icon = new ImageIcon(Objects.requireNonNull(GameWindow.class.getResource("/images/settings/icon.png")));
 
     private JFrame window = new JFrame("GROUP 14");
@@ -58,8 +59,12 @@ public class GameWindow  {
 
         game = new GameComponent(scenario);
 
+
         agentMap = new GameComponent(scenario);
         agentMap.isAgentMap();
+        agentMap.setAgentMap(game.getAgentMap());
+
+
 
         /*
          * Implement the back button

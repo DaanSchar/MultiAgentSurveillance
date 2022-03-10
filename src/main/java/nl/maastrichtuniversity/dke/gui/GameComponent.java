@@ -1,4 +1,4 @@
-package nl.maastrichtuniversity.dke.GUI;
+package nl.maastrichtuniversity.dke.gui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,15 +9,14 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.swing.Timer;
 
 import nl.maastrichtuniversity.dke.agents.Direction;
-import nl.maastrichtuniversity.dke.discrete.GameSystem;
-import nl.maastrichtuniversity.dke.discrete.Scenario;
-import nl.maastrichtuniversity.dke.discrete.Tile;
-import nl.maastrichtuniversity.dke.discrete.TileType;
+import nl.maastrichtuniversity.dke.discrete.*;
+import nl.maastrichtuniversity.dke.gui.ImageFactory;
 import nl.maastrichtuniversity.dke.util.Position;
 
 public class GameComponent extends JComponent{
 
 	private final Scenario scenario;
+	private Environment environment;
 	private int textureSize;
 
 	private int guardY = 100;
@@ -29,11 +28,13 @@ public class GameComponent extends JComponent{
 		this.scenario = scenario;
 		double scale = scenario.getScaling()*100;
 		textureSize = (int) scale;
+		this.environment = scenario.getEnvironment();
 		moveGuards();
+
 	}
 
 	public void paintComponent(Graphics g) {
-		var environment = scenario.getEnvironment();
+
 		var agent = scenario.getGuards().get(0);
 		var sound = scenario.getSoundMap();
 		drawAreas(g, environment.get(TileType.WALL), ImageFactory.get("wallTexture"));
@@ -126,6 +127,14 @@ public class GameComponent extends JComponent{
 	}
 	public void isAgentMap(){
 		textureSize = textureSize-7;
-
 	}
+	public Environment getAgentMap(){
+		return scenario.getGuards().get(0).getMemoryModule().getMap();
+	}
+	public void setAgentMap(Environment environment){
+		environment = environment;
+	}
+
+
+
 }
