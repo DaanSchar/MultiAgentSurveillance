@@ -3,6 +3,7 @@ package nl.maastrichtuniversity.dke.agents;
 import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.modules.communication.ICommunicationModule;
+import nl.maastrichtuniversity.dke.agents.modules.listening.IListeningModule;
 import nl.maastrichtuniversity.dke.agents.modules.memory.IMemoryModule;
 import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.INoiseModule;
 import nl.maastrichtuniversity.dke.agents.modules.movement.IMovement;
@@ -37,15 +38,17 @@ public class Agent {
     private final IVisionModule visionModule;
     private final ICommunicationModule communicationModule;
     private final INoiseModule noiseModule;
+    private final IListeningModule listeningModule;
     private final IMemoryModule memoryModule;
 
-    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, INoiseModule noiseModule,  ICommunicationModule communicationModule, IMemoryModule memoryModule) {
+    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, INoiseModule noiseModule,  ICommunicationModule communicationModule, IMemoryModule memoryModule, IListeningModule listeningModule) {
         this.spawnModule = spawnModule;
         this.visionModule = visionModule;
         this.movement = movement;
         this.noiseModule = noiseModule;
         this.communicationModule = communicationModule;
         this.memoryModule = memoryModule;
+        this.listeningModule = listeningModule;
         this.id = agentCount++;
 
         // this should be in spawn module
@@ -87,6 +90,9 @@ public class Agent {
         communicationModule.addMark(position.getX(),position.getY(),new CommunicationMark(position,color));
     }
 
+    public void listen(){
+        listeningModule.getDirection(this.position);
+    }
 
 
     public void updateMemory() {

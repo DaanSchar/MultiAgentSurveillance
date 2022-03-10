@@ -19,6 +19,7 @@ public class GameSystem {
 
         for (Agent agent : scenario.getGuards()) {
             moveAgentRandomly(agent);
+            agent.listen();
         }
 
         resetNoise();

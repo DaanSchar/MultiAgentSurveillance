@@ -21,7 +21,7 @@ public class Scenario {
     private Environment environment;
     private @Setter List<Guard> guards;
     private @Setter List<Intruder> intruders;
-    private @Getter @Setter List<Position> soundMap;
+    private @Getter @Setter List<Sound> soundMap;
 
     public Scenario(String name, int gameMode, double timeStep, double scaling, Environment environment) {
         this.name = name;
