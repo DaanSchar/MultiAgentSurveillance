@@ -28,7 +28,7 @@ public class VisionModuleTest {
      *   0  e e e e
      *      0 1 2 3
      */
-    @BeforeEach
+//    @BeforeEach
     void setup() {
         s = new Scenario("Test", 0, 0, 0, null);
 
@@ -57,7 +57,7 @@ public class VisionModuleTest {
      *   0  O e O e
      *      0 1 2 3
      */
-    @Test
+//    @Test
     void testGetObstaclesNORTH() {
         VisionModule vm = new VisionModule(s,90);
         s.getEnvironment().getTileMap()[0][1].setType(TileType.WALL);
@@ -78,7 +78,7 @@ public class VisionModuleTest {
      *   0  e P e O
      *      0 1 2 3
      */
-    @Test
+//    @Test
     void testGetObstaclesSOUTH() {
         VisionModule vm = new VisionModule(s,90);
         s.getEnvironment().getTileMap()[3][0].setType(TileType.WALL);
@@ -102,7 +102,7 @@ public class VisionModuleTest {
      *   0  P e O e
      *      0 1 2 3
      */
-    @Test
+//    @Test
     void testGetObstaclesEAST() {
         VisionModule vm = new VisionModule(s,90);
         s.getEnvironment().getTileMap()[1][0].setType(TileType.EMPTY);
@@ -123,7 +123,7 @@ public class VisionModuleTest {
      *   0  e O e P
      *      0 1 2 3
      */
-    @Test
+//    @Test
     void testGetObstaclesWEST() {
         VisionModule vm = new VisionModule(s,90);
         s.getEnvironment().getTileMap()[3][1].setType(TileType.WALL);
