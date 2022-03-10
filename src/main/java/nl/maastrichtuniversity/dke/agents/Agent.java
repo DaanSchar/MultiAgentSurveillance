@@ -57,13 +57,14 @@ public class Agent {
 
         logger.info("Created new " + this.getClass().getSimpleName() + " " + this.id + " with modules: " + spawnModule.getClass().getSimpleName());
     }
-    private Agent(Direction direction,Position position,int id,ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, INoiseModule noiseModule,  ICommunicationModule communicationModule, IMemoryModule memoryModule){
+    private Agent(Direction direction,Position position,int id,ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, INoiseModule noiseModule,  ICommunicationModule communicationModule, IMemoryModule memoryModule,IListeningModule listeningModule){
         this.spawnModule = spawnModule;
         this.visionModule = visionModule;
         this.movement = movement;
         this.noiseModule = noiseModule;
         this.communicationModule = communicationModule;
         this.memoryModule = memoryModule;
+        this.listeningModule = listeningModule;
         this.id = id;
 
         // this should be in spawn module
@@ -118,7 +119,7 @@ public class Agent {
     }
 
     public Agent newInstance(){
-        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule, communicationModule, memoryModule);
+        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule, communicationModule, memoryModule,listeningModule);
     }
 
     public void rotate(int rotation){
