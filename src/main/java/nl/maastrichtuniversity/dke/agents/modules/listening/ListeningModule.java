@@ -60,8 +60,8 @@ public class ListeningModule extends AgentModule implements IListeningModule {
     public Position deviation(Position position){
         int X = position.getX();
         int Y = position.getY();
-        int deviationX = getRandomNumber(-2,2);
-        int deviationY = getRandomNumber(-2,2);
+        int deviationX = getRandomNumber(-1,1);
+        int deviationY = getRandomNumber(-1,1);
         return new Position(X+deviationX,Y+deviationY);
 
     }

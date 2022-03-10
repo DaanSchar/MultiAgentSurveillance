@@ -19,8 +19,12 @@ public class GameSystem {
     public void update(double time) {
         for (Agent agent : scenario.getGuards()) {
             moveAgentRandomly(agent);
+        }
+
+        for (Agent agent : scenario.getGuards()) {
             agent.listen();
         }
+
         resetNoise();
 
     }
