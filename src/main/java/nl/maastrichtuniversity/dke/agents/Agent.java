@@ -3,9 +3,11 @@ package nl.maastrichtuniversity.dke.agents;
 import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.modules.communication.ICommunicationModule;
+import nl.maastrichtuniversity.dke.agents.modules.memory.IMemoryModule;
 import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.INoiseModule;
 import nl.maastrichtuniversity.dke.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
+import nl.maastrichtuniversity.dke.discrete.Tile;
 import nl.maastrichtuniversity.dke.discrete.CommunicationMark;
 import nl.maastrichtuniversity.dke.util.Position;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.ISpawnModule;
@@ -35,13 +37,15 @@ public class Agent {
     private final IVisionModule visionModule;
     private final ICommunicationModule communicationModule;
     private final INoiseModule noiseModule;
+    private final IMemoryModule memoryModule;
 
-    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, INoiseModule noiseModule,  ICommunicationModule communicationModule) {
+    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, INoiseModule noiseModule,  ICommunicationModule communicationModule, IMemoryModule memoryModule) {
         this.spawnModule = spawnModule;
         this.visionModule = visionModule;
         this.movement = movement;
         this.noiseModule = noiseModule;
         this.communicationModule = communicationModule;
+        this.memoryModule = memoryModule;
         this.id = agentCount++;
 
         // this should be in spawn module
@@ -55,21 +59,29 @@ public class Agent {
      * places the agent at a position determined by the spawn module
      */
     public void spawn() {
-        this.position = spawnModule.getSpawnPosition(this);
+        var startPosition = spawnModule.getSpawnPosition(this);
+
+        position = startPosition;
+        memoryModule.setStartPosition(startPosition);
+        updateMemory();
+
         logger.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position);
     }
 
     public void goForward(){
          position = movement.goForward(position, direction);
-         var list = visionModule.getObstacles(position, direction);
+         visionModule.useVision(position,direction);
+         var list = visionModule.getObstacles();
          if(list.size() > 0){
              logger.info("Obstacle detected: {}", list);
          }
-        noiseModule.makeWalkingSound(position);
+         noiseModule.makeWalkingSound(position);
+         updateMemory();
     }
 
     public void goBackward(){
         position = movement.goBackward(position, direction);
+        updateMemory();
     }
     public void dropMark(Position position , Color color){
         communicationModule.addMark(position.getX(),position.getY(),new CommunicationMark(position,color));
@@ -77,15 +89,18 @@ public class Agent {
 
 
 
-//    public void go(Direction direction){
-//        if(dir)
-//    }
-
+    public void updateMemory() {
+//         TODO: Fix this.
+//        var visibleTiles = visionModule.getObstacles(position, direction);
+//
+//        for (Tile tile : visibleTiles) {
+//            memoryModule.update(tile);
+//        }
+    }
 
     public void rotate(int rotation){
-        logger.info("current direction = " + direction);
         direction = movement.rotate(direction, rotation);
-        logger.info("new direction = " + direction);
+        updateMemory();
     }
 
     public void sprint(){
@@ -102,12 +117,5 @@ public class Agent {
 //                5000
 //        );
     }
-
-
-
-//    public Tile getTile(){
-//        Tile tile = new Tile(position);
-//        return tile;
-//    }
 
 }

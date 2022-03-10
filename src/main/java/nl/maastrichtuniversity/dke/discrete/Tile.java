@@ -17,6 +17,7 @@ public class Tile {
     private @Setter TileType type;
     private @Getter List<CommunicationMark> communicationMarks;
 
+
     public Tile(Position position) {
         this.position = position;
         this.type = TileType.EMPTY;

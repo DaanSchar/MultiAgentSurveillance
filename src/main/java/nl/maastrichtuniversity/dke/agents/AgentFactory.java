@@ -1,9 +1,9 @@
 package nl.maastrichtuniversity.dke.agents;
 
+import nl.maastrichtuniversity.dke.agents.modules.memory.MemoryModule;
 import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.NoiseModule;
 import nl.maastrichtuniversity.dke.agents.modules.movement.Movement;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationModule;
-import nl.maastrichtuniversity.dke.agents.modules.spawn.ISpawnModule;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.UniformSpawnModule;
 import nl.maastrichtuniversity.dke.agents.modules.vision.VisionModule;
 import nl.maastrichtuniversity.dke.discrete.Scenario;
@@ -19,7 +19,8 @@ public class AgentFactory {
                 new Movement(scenario, baseSpeed, sprintSpeed),
                 new VisionModule(scenario, viewingDistance),
                 new CommunicationModule(scenario, numberOfMarkers),
-                new NoiseModule(scenario,hearingDistanceWalking,hearingDistanceSprinting)
+                new NoiseModule(scenario,hearingDistanceWalking,hearingDistanceSprinting),
+                new MemoryModule(scenario)
         );
     }
 
@@ -29,7 +30,8 @@ public class AgentFactory {
                 new Movement(scenario, baseSpeed, sprintSpeed),
                 new NoiseModule(scenario,hearingDistanceWalking,hearingDistanceSprinting),
                 new VisionModule(scenario, viewingDistance),
-                new CommunicationModule(scenario, numberOfMarkers)
+                new CommunicationModule(scenario, numberOfMarkers),
+                new MemoryModule(scenario)
         );
     }
 
