@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.Agent;
 import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
+import nl.maastrichtuniversity.dke.agents.modules.listening.IListeningModule;
 import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
-import nl.maastrichtuniversity.dke.agents.modules.vision.VisionModule;
 import nl.maastrichtuniversity.dke.discrete.*;
 import nl.maastrichtuniversity.dke.util.Position;
 
@@ -17,6 +17,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
 
     private final Environment map;
     private final List<Agent> agents;
+    private List<Position> listening;
 
     private @Setter Position startPosition;
 
@@ -30,6 +31,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         initEnvironment();
 
         agents = new ArrayList<>();
+        listening = new ArrayList<>();
     }
 
     private void initEnvironment() {
@@ -40,8 +42,8 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         }
     }
 
-    //TODO: add sound to update method in memory
-    public void update(IVisionModule vision) {
+    public void update(IVisionModule vision, List<Position> listeningModule ) {
+        listening = listeningModule;
         for(Tile tile: vision.getObstacles()) {
             int x = tile.getPosition().getX();
             int y = tile.getPosition().getY();

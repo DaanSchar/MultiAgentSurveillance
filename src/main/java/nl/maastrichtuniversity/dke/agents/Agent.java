@@ -104,13 +104,8 @@ public class Agent {
         communicationModule.addMark(position.getX(),position.getY(),new CommunicationMark(position,color));
     }
 
-    public void listen(){
-        listeningModule.getDirection(this.position);
-    }
-
-
     public void updateMemory() {
-        memoryModule.update(visionModule);
+        memoryModule.update(visionModule, listeningModule.getDirection(this.position));
     }
 
     public Agent newInstance(){
