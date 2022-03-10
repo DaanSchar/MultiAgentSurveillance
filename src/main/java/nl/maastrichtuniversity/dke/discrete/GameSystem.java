@@ -1,6 +1,7 @@
 package nl.maastrichtuniversity.dke.discrete;
 
 import nl.maastrichtuniversity.dke.agents.Agent;
+import nl.maastrichtuniversity.dke.explore.Explore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +17,6 @@ public class GameSystem {
     }
 
     public void update(double time) {
-
         for (Agent agent : scenario.getGuards()) {
             moveAgentRandomly(agent);
             agent.listen();

@@ -29,6 +29,7 @@ public class VisionModule extends AgentModule implements IVisionModule {
      */
     @Override
     public void useVision(Position position, Direction direction) {
+
         agents.clear();
         obstacles.clear();
 
@@ -43,7 +44,7 @@ public class VisionModule extends AgentModule implements IVisionModule {
         boolean obstruct0 = false;
         boolean obstruct1 = false;
         boolean obstruct2 = false;
-        for (int i = 1; i < viewingDistance; i++) {
+        for (int i = 0; i <= viewingDistance; i++) {
 
             obstruct0 = checkTile(tilemap, scenario_agents, position, direction, obstruct0, true, 0, 0, i);
             obstruct1 = checkTile(tilemap, scenario_agents, position, direction, obstruct1, canMove1, -1, -1, i);
@@ -78,12 +79,13 @@ public class VisionModule extends AgentModule implements IVisionModule {
         return obstruct;
     }
 
+
     private boolean checkIfObstructed(Tile[][] tilemap, int x, int y) {
         boolean obstruct = false;
         Tile tmp = tilemap[x][y];
 
 //        if (!tmp.isEmpty()) {
-            if (!tmp.isOpened()) {
+            if (!tmp.isOpened() && !tmp.isEmpty()) {
                 obstruct = true;
             }
             obstacles.add(tmp);

@@ -60,6 +60,7 @@ public class GameWindow  {
         game = new GameComponent(scenario,scenario.getEnvironment());
 
         agentMap = new GameComponent(scenario,scenario.getGuards().get(0).getMemoryModule().getMap());
+        agentMap.isAgentMap();
 
 
 
@@ -233,8 +234,8 @@ public class GameWindow  {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            released =true;
             point0 = MouseInfo.getPointerInfo().getLocation();
+            released =true;
         }
 
         @Override
