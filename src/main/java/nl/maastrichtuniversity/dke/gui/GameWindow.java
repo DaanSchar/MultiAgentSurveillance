@@ -56,6 +56,7 @@ public class GameWindow  {
         textureSize = (int) scale;
 
         this.scenario = scenario;
+        var memoryEnvironment = scenario.getGuards().get(0).getMemoryModule().getMap();
 
         game = new GameComponent(scenario);
 

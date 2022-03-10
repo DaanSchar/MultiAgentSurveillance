@@ -131,9 +131,9 @@ public class GameComponent extends JComponent{
 	public Environment getAgentMap(){
 		return scenario.getGuards().get(0).getMemoryModule().getMap();
 	}
-	public void setAgentMap(Environment environment){
-		environment = environment;
-	}
+//	public void setAgentMap(Environment environment){
+//		environment = environment;
+//	}
 
 
 
