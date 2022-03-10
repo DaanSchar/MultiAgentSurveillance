@@ -110,18 +110,15 @@ public class Agent {
 
 
     public void updateMemory() {
-//         TODO: Fix this.
-//        var visibleTiles = visionModule.getObstacles(position, direction);
-//
-//        for (Tile tile : visibleTiles) {
-//            memoryModule.update(tile);
-//        }
+        memoryModule.update(visionModule);
     }
 
     public Agent newInstance(){
         return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule, communicationModule, memoryModule,listeningModule);
     }
 
+    /** 1 is left
+    -1 is right */
     public void rotate(int rotation){
         direction = movement.rotate(direction, rotation);
         updateMemory();
