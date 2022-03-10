@@ -8,17 +8,15 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import javax.swing.Timer;
 
-import nl.maastrichtuniversity.dke.agents.Agent;
-import nl.maastrichtuniversity.dke.discrete.GameSystem;
-import nl.maastrichtuniversity.dke.discrete.Scenario;
-import nl.maastrichtuniversity.dke.discrete.Tile;
-import nl.maastrichtuniversity.dke.discrete.TileType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import nl.maastrichtuniversity.dke.agents.Direction;
+import nl.maastrichtuniversity.dke.discrete.*;
+import nl.maastrichtuniversity.dke.gui.ImageFactory;
+import nl.maastrichtuniversity.dke.util.Position;
 
 public class GameComponent extends JComponent{
 
 	private final Scenario scenario;
+	private Environment environment;
 	private int textureSize;
 
 	private int guardY = 100;
@@ -26,18 +24,23 @@ public class GameComponent extends JComponent{
 	private int panningX=0;
 	private int panningY=0;
 
-	private static Logger logger = LoggerFactory.getLogger(GameComponent.class);
-
-	public GameComponent(Scenario scenario){
+	public GameComponent(Scenario scenario ,Environment environment){
 		this.scenario = scenario;
 		double scale = scenario.getScaling()*100;
 		textureSize = (int) scale;
+		this.environment = environment;
 		moveGuards();
+
 	}
 
+
 	public void paintComponent(Graphics g) {
-		var environment = scenario.getEnvironment();
-		drawAreas(g, environment.get(TileType.WALL), ImageFactory.get("wallTexture"));
+
+		var agent = scenario.getGuards().get(0);
+		var sound = scenario.getSoundMap();
+		if (environment.get(TileType.WALL)!=null){
+			drawAreas(g, environment.get(TileType.WALL), ImageFactory.get("wallTexture"));
+		}
 		drawAreas(g, environment.get(TileType.TELEPORT), ImageFactory.get("teleportTexture"));
 		drawAreas(g, environment.get(TileType.SPAWN_GUARDS), ImageFactory.get("spawnAreaTexture"));
 		drawAreas(g, environment.get(TileType.SPAWN_INTRUDERS), ImageFactory.get("spawnAreaTexture"));
@@ -46,60 +49,46 @@ public class GameComponent extends JComponent{
 		drawAreas(g, environment.get(TileType.SENTRY), ImageFactory.get("sentryTowerTexture"));
 		drawAreas(g, environment.get(TileType.TARGET), ImageFactory.get("targetTexture"));
 		drawAreas(g, environment.get(TileType.SHADED), ImageFactory.get("shadedTexture"));
-		drawAgents(g);
-	}
-
-	private void drawAgents(Graphics g) {
-		var guards = scenario.getGuards();
-
-		for (Agent agent : guards) {
-			drawAgent(agent, g);
+		if(agent.getDirection() == Direction.NORTH){
+			g.drawImage(ImageFactory.get("guardNorth"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
 		}
-	}
-
-	private void drawAgent(Agent agent, Graphics g) {
-		switch (agent.getDirection()) {
-			case NORTH -> drawAgent(agent, ImageFactory.get("guardNorth"), g);
-			case SOUTH -> drawAgent(agent, ImageFactory.get("guardSouth"), g);
-
-			// west and east are swapped deliberately
-			case EAST -> drawAgent(agent, ImageFactory.get("guardWest"), g);
-			case WEST -> drawAgent(agent, ImageFactory.get("guardEast"), g);
-
-			default -> logger.error("Unknown direction");
+		if(agent.getDirection() == Direction.SOUTH){
+			g.drawImage(ImageFactory.get("guardSouth"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
 		}
-	}
-
-	private void drawAgent(Agent agent, BufferedImage texture, Graphics g) {
-		g.drawImage(
-				texture,
-				panningX+agent.getPosition().getX() * textureSize,
-				panningY+ agent.getPosition().getY()*textureSize,
-				textureSize,
-				textureSize,
-				null
-		);
+		if(agent.getDirection() == Direction.EAST){
+			g.drawImage(ImageFactory.get("guardWest"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+		}
+		if(agent.getDirection() == Direction.WEST){
+			g.drawImage(ImageFactory.get("guardEast"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+		}
+		
 	}
 
 
 	private void drawAreas(Graphics g, List<Tile> tiles, BufferedImage image ) {
-		for (Tile tile : tiles) {
-			drawArea(g, tile, image);
-			if(tile.getCommunicationMarks().size()>0){
-				drawMark(g, tile);
+
+			for (Tile tile : tiles) {
+				drawArea(g, tile, image);
+				if(tile.getCommunicationMarks().size()>0){
+					drawMark(g, tile);
+				}
 			}
-		}
+
+
 	}
 
 	private void drawArea(Graphics g, Tile tile, BufferedImage image) {
+
 			g.drawImage(
 					image,
-					panningX + (tile.getPosition().getX() * (textureSize)),
-					panningY + (tile.getPosition().getY() * (textureSize)),
+					panningX +  (int)(tile.getPosition().getX() * (textureSize)),
+					panningY +  (int)(tile.getPosition().getY() * (textureSize)),
 					textureSize,
 					textureSize,
 					null
 			);
+
+
 
 		}
 	private void drawMark(Graphics g, Tile tile) {
@@ -119,31 +108,43 @@ public class GameComponent extends JComponent{
 		AtomicReference<Double> time = new AtomicReference<>((double) 0);
 
 		Timer timer = new Timer(300, e -> {
+
 			system.update(time.get());
-			time.updateAndGet(v -> (v + scenario.getTimeStep()));
+			time.updateAndGet(v -> new Double((double) (v + (double) scenario.getTimeStep())));
 			repaint();
 		});
-
 		timer.start();
 	}
-
+	public void moveIntuders(){
+		
+	}
 	public void zoomIn(){
-		textureSize = textureSize +5;
+		textureSize = textureSize +1;
 	}
-
 	public void zoomOut(){
-		textureSize = textureSize -5;
+		textureSize = textureSize -1;
 	}
-
 	public void panning(int x,int y){
 		panningX = x;
 		panningY = y;
+		
 	}
-
 	public void resize(){
 		textureSize = (int) (scenario.getScaling()*100);
 		panningX = 0;
 		panningY = 0; 		
 	}
+	public void isAgentMap(){
+		textureSize = textureSize-7;
+	}
+	public Environment getAgentMap(){
+		return scenario.getGuards().get(0).getMemoryModule().getMap();
+	}
+	public void setAgentMap(Environment environmenta){
+		environment = environmenta;
+
+	}
+
+
 
 }
