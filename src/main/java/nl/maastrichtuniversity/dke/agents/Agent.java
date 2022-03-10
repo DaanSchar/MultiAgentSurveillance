@@ -57,6 +57,19 @@ public class Agent {
 
         logger.info("Created new " + this.getClass().getSimpleName() + " " + this.id + " with modules: " + spawnModule.getClass().getSimpleName());
     }
+    private Agent(Direction direction,Position position,int id,ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, INoiseModule noiseModule,  ICommunicationModule communicationModule, IMemoryModule memoryModule){
+        this.spawnModule = spawnModule;
+        this.visionModule = visionModule;
+        this.movement = movement;
+        this.noiseModule = noiseModule;
+        this.communicationModule = communicationModule;
+        this.memoryModule = memoryModule;
+        this.id = id;
+
+        // this should be in spawn module
+        this.position = position;
+        this.direction = direction;
+    }
 
     /**
      * places the agent at a position determined by the spawn module
@@ -102,6 +115,10 @@ public class Agent {
 //        for (Tile tile : visibleTiles) {
 //            memoryModule.update(tile);
 //        }
+    }
+
+    public Agent newInstance(){
+        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule, communicationModule, memoryModule);
     }
 
     public void rotate(int rotation){
