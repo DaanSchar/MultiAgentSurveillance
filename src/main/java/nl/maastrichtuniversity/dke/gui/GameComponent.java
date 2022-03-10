@@ -19,8 +19,6 @@ public class GameComponent extends JComponent{
 	private Environment environment;
 	private int textureSize;
 
-	private int guardY = 100;
-	private int guardX = 0;
 	private int panningX=0;
 	private int panningY=0;
 
@@ -81,8 +79,8 @@ public class GameComponent extends JComponent{
 
 			g.drawImage(
 					image,
-					panningX +  (int)(tile.getPosition().getX() * (textureSize)),
-					panningY +  (int)(tile.getPosition().getY() * (textureSize)),
+					panningX +  (tile.getPosition().getX() * (textureSize)),
+					panningY +  (tile.getPosition().getY() * (textureSize)),
 					textureSize,
 					textureSize,
 					null
@@ -93,10 +91,12 @@ public class GameComponent extends JComponent{
 		}
 	private void drawMark(Graphics g, Tile tile) {
 		g.setColor(tile.getCommunicationMarks().get(0).getColor());
-		g.fillOval(panningX +  (int)(tile.getPosition().getX() * (textureSize)),
-							panningY +  (int)(tile.getPosition().getY() * (textureSize)),
-							textureSize,
-							textureSize);
+		g.fillOval(
+				panningX + (tile.getPosition().getX() * (textureSize)),
+				panningY + (tile.getPosition().getY() * (textureSize)),
+				textureSize,
+				textureSize
+		);
 	}
 
 
@@ -110,7 +110,7 @@ public class GameComponent extends JComponent{
 		Timer timer = new Timer(300, e -> {
 
 			system.update(time.get());
-			time.updateAndGet(v -> new Double((double) (v + (double) scenario.getTimeStep())));
+			time.updateAndGet(v -> v + scenario.getTimeStep());
 			repaint();
 		});
 		timer.start();
