@@ -5,6 +5,8 @@ import nl.maastrichtuniversity.dke.discrete.Environment;
 import nl.maastrichtuniversity.dke.discrete.Scenario;
 import nl.maastrichtuniversity.dke.discrete.Tile;
 import nl.maastrichtuniversity.dke.util.Position;
+import nl.maastrichtuniversity.dke.discrete.Sound;
+
 
 import java.util.Vector;
 
@@ -26,8 +28,8 @@ public class NoiseModule extends AgentModule implements INoiseModule {
         for(Tile[] tiles:tileMap){
             for(Tile tile:tiles){
                 if(position.distance(tile.getPosition()) <= hearingDistanceWalking){
-
-                    scenario.getSoundMap().add(tile.getPosition());
+                    Sound sound = new Sound(tile.getPosition(),position,false);
+                    scenario.getSoundMap().add(sound);
                 }
             }
         }
@@ -40,7 +42,21 @@ public class NoiseModule extends AgentModule implements INoiseModule {
         for(Tile[] tiles:tileMap){
             for(Tile tile:tiles){
                 if(position.distance(tile.getPosition()) <= hearingDistanceSprinting){
-                    scenario.getSoundMap().add(position);
+                    Sound sound = new Sound(tile.getPosition(),position,false);
+                    scenario.getSoundMap().add(sound);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void Yell(Position position) {
+        Tile[][] tileMap = scenario.getEnvironment().getTileMap();
+        for(Tile[] tiles:tileMap){
+            for(Tile tile:tiles){
+                if(position.distance(tile.getPosition()) <= hearingDistanceSprinting){
+                    Sound sound = new Sound(tile.getPosition(),position,true);
+                    scenario.getSoundMap().add(sound);
                 }
             }
         }

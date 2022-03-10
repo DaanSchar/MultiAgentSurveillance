@@ -1,11 +1,13 @@
 package nl.maastrichtuniversity.dke.agents;
 
+import nl.maastrichtuniversity.dke.agents.modules.listening.ListeningModule;
 import nl.maastrichtuniversity.dke.agents.modules.memory.MemoryModule;
 import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.NoiseModule;
 import nl.maastrichtuniversity.dke.agents.modules.movement.Movement;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationModule;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.UniformSpawnModule;
 import nl.maastrichtuniversity.dke.agents.modules.vision.VisionModule;
+import nl.maastrichtuniversity.dke.agents.modules.listening.ListeningModule;
 import nl.maastrichtuniversity.dke.discrete.Scenario;
 
 import java.util.ArrayList;
@@ -20,7 +22,8 @@ public class AgentFactory {
                 new VisionModule(scenario, viewingDistance),
                 new CommunicationModule(scenario, numberOfMarkers),
                 new NoiseModule(scenario,hearingDistanceWalking,hearingDistanceSprinting),
-                new MemoryModule(scenario)
+                new MemoryModule(scenario),
+                new ListeningModule(scenario)
         );
     }
 
@@ -31,7 +34,8 @@ public class AgentFactory {
                 new NoiseModule(scenario,hearingDistanceWalking,hearingDistanceSprinting),
                 new VisionModule(scenario, viewingDistance),
                 new CommunicationModule(scenario, numberOfMarkers),
-                new MemoryModule(scenario)
+                new MemoryModule(scenario),
+                new ListeningModule(scenario)
         );
     }
 
