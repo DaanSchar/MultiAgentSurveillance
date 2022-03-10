@@ -16,6 +16,7 @@ import nl.maastrichtuniversity.dke.settings.Clock;
 public class GameWindow  {
 
     private GameComponent game;
+    private GameComponent agentMap;
 
     private ImageIcon icon = new ImageIcon(Objects.requireNonNull(GameWindow.class.getResource("/images/settings/icon.png")));
 
@@ -31,6 +32,7 @@ public class GameWindow  {
     private JButton zoomIn = new JButton("zoomIn");
     private JButton zoomOut = new JButton("zoomOut");
     private JButton resize = new JButton("resize");
+    private JButton agentMapB = new JButton("AgentMap");
 
     private Clock clock = new Clock();
 
@@ -42,6 +44,11 @@ public class GameWindow  {
     private MouseSpy mouseListener = new MouseSpy();
 
     int textureSize;
+    boolean map=false;
+    private JPanel agentLapel = new JPanel();
+
+
+
 
     public GameWindow(Scenario scenario) {
         double scale = scenario.getScaling()*100;
@@ -50,6 +57,9 @@ public class GameWindow  {
         this.scenario = scenario;
 
         game = new GameComponent(scenario);
+
+        agentMap = new GameComponent(scenario);
+        agentMap.isAgentMap();
 
         /*
          * Implement the back button
@@ -71,8 +81,11 @@ public class GameWindow  {
 
         setProperties(resize,240,0,75,40);
 
+        setProperties(agentMapB,320,0,75,40);
+
+
         // Set bounds of clock
-        clock.getTime().setBounds(320, 0, 75, 40);
+        clock.getTime().setBounds(400, 0, 75, 40);
         clock.getTime().setBackground(color1);
         clock.getTime().setFocusable(false);
         clock.getTime().setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black));
@@ -87,9 +100,14 @@ public class GameWindow  {
         gameLabel.add(zoomIn);
         gameLabel.add(zoomOut);
         gameLabel.add(resize);
+        gameLabel.add(agentMapB);
         gameLabel.add(clock.getTime());
 
         clock.start();
+
+        game.setPreferredSize(new Dimension((int) scenario.getEnvironment().getWidth()*textureSize, ((int) scenario.getEnvironment().getHeight()*textureSize) + 40));
+        agentMap.setPreferredSize(new Dimension(scenario.getEnvironment().getWidth()*3,scenario.getEnvironment().getHeight()*3));
+
 
         /*
          *  Set how to close the frame.
@@ -99,6 +117,7 @@ public class GameWindow  {
          *  Add back button to the frame
          *  Add the gameComponent to the frame
          */
+        window.setLayout(new BorderLayout());
         window.addMouseWheelListener(mouseListener);
         window.addMouseListener(mouseListener);
         window.addMouseMotionListener(mouseListener);
@@ -109,6 +128,9 @@ public class GameWindow  {
         window.getContentPane().setBackground(color2);
         window.add(gameLabel);
         window.add(game);
+        window.add(agentMap, BorderLayout.NORTH);
+        agentMap.setVisible(false);
+
         window.setIconImage(icon.getImage());
         window.setVisible(true);
     }
@@ -127,6 +149,9 @@ public class GameWindow  {
     class AnimationListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e){
+
+            int num = 0;
+
 
             /*
              * If back button clicked close the frame and go back to GUIplay class
@@ -148,6 +173,20 @@ public class GameWindow  {
             if(e.getSource()==resize){
                 game.resize();
             }
+
+            if(e.getSource()==agentMapB ){
+                if (map){
+                    agentMap.setVisible(false);
+                    map=false;
+                }
+                else {
+                    agentMap.setVisible(true);
+                    map=true;
+                }
+
+            }
+
+
             window.repaint();
         }
 
