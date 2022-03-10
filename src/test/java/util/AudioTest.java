@@ -57,7 +57,7 @@ public class AudioTest {
         Position agentPosition = new Position(0,0);
         noiseModule.makeWalkingSound(agentPosition);
         List<Sound> soundMap = s.getSoundMap();
-        for(Sound sound:soundMap){s
+        for(Sound sound:soundMap){
             int X = sound.getPosition().getX();
             int Y = sound.getPosition().getY();
             assert(Math.abs(X)-Math.abs(agentPosition.getX()) <= 2);
