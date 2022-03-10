@@ -109,7 +109,7 @@ public class GameWindow  {
 
         clock.start();
 
-        game.setPreferredSize(new Dimension((int) scenario.getEnvironment().getWidth()*textureSize, ((int) scenario.getEnvironment().getHeight()*textureSize) + 40));
+        game.setPreferredSize(new Dimension(scenario.getEnvironment().getWidth()*textureSize, (scenario.getEnvironment().getHeight()*textureSize) + 40));
         agentMap.setPreferredSize(new Dimension(scenario.getEnvironment().getWidth()*3,scenario.getEnvironment().getHeight()*3));
 
 
@@ -152,49 +152,47 @@ public class GameWindow  {
      */
     class AnimationListener implements ActionListener {
 
+        @Override
         public void actionPerformed(ActionEvent e){
-
-            int num = 0;
-
-
-            /*
-             * If back button clicked close the frame and go back to GUIplay class
-             * set the bounds
-             */
-            if(e.getSource()==back){
-                window.dispose();
-                Menu Menu = new Menu();
-            }
-            if(e.getSource()==exit){
-                System.exit(0);
-            }
-            if(e.getSource()==zoomOut){
-                game.zoomOut();
-            }
-            if(e.getSource()==zoomIn){
-                game.zoomIn();
-            }
-            if(e.getSource()==resize){
-                game.resize();
-            }
-
-            if(e.getSource()==agentMapB ){
-                if (map){
-                    agentMap.setVisible(false);
-                    map=false;
-                }
-                else {
-                    agentMap.setVisible(true);
-                    map=true;
-                }
-
-            }
-
-
+            performButtonAction(e.getSource());
             window.repaint();
         }
 
+        private void performButtonAction(Object button) {
+            if (button == back) { onBackButtonClicked(); }
+            if (button == exit) { onExitButtonClicked(); }
+            if (button == zoomOut) { onZoomInButtonClicked(); }
+            if (button == zoomIn) { onZoomOutButtonClicked(); }
+            if (button == resize) { onResizeButtonClicked(); }
+            if (button == agentMapB) { onAgentMapButtonClicked(); }
+        }
+
+        private void onExitButtonClicked() { System.exit(0); }
+
+        private void onZoomOutButtonClicked() { game.zoomOut(); }
+
+        private void onZoomInButtonClicked() { game.zoomIn(); }
+
+        private void onResizeButtonClicked() { game.resize(); }
+
+        private void onBackButtonClicked() {
+            window.dispose();
+            new Menu();
+        }
+
+        private void onAgentMapButtonClicked() {
+            if (map){
+                agentMap.setVisible(false);
+                map = false;
+            } else {
+                agentMap.setVisible(true);
+                map = true;
+            }
+        }
+
     }
+
+
 
     class MouseSpy implements MouseWheelListener, MouseMotionListener, MouseListener {
         Point point0;
@@ -204,8 +202,7 @@ public class GameWindow  {
         public void mouseWheelMoved(MouseWheelEvent e){
             if (e.getWheelRotation()<0) {
                 game.zoomIn();
-            }
-            else {
+            } else {
                 game.zoomOut();
             }
 
@@ -215,43 +212,32 @@ public class GameWindow  {
         @Override
         public void mouseDragged(MouseEvent e) {
             Point point1 = e.getLocationOnScreen();
-            if (released) {
-                game.panning((point1.x-point0.x),(point1.y-point0.y));
-            }
+
+            if (released) { game.panning((point1.x-point0.x),(point1.y-point0.y)); }
 
             window.repaint();
         }
 
         @Override
-        public void mouseMoved(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-
-        }
-
-        @Override
         public void mousePressed(MouseEvent e) {
             point0 = MouseInfo.getPointerInfo().getLocation();
-            released =true;
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
             released = true;
         }
 
         @Override
-        public void mouseEntered(MouseEvent e) {
-            // TODO Auto-generated method stub
-        }
+        public void mouseReleased(MouseEvent e) { released = true; }
 
         @Override
-        public void mouseExited(MouseEvent e) {
-            // TODO Auto-generated method stub
-        }
+        public void mouseEntered(MouseEvent e) {}
+
+        @Override
+        public void mouseExited(MouseEvent e) {}
+
+        @Override
+        public void mouseMoved(MouseEvent e) {}
+
+        @Override
+        public void mouseClicked(MouseEvent e) {}
     }
 }
 
