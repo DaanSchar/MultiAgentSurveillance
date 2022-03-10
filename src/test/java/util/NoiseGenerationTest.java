@@ -28,7 +28,7 @@ public class NoiseGenerationTest {
      */
     @BeforeEach
     void setup() {
-        s = new Scenario("Test", 0, 0, 0);
+        /*s = new Scenario("Test", 0, 0, 0);
 
         Tile[][] tilemap = new Tile[4][4];
 
@@ -45,7 +45,7 @@ public class NoiseGenerationTest {
         Environment e = new Environment(4,4,tilemap);
         s.setEnvironment(e);
 
-
+    */
     }
     /*
     @Test
