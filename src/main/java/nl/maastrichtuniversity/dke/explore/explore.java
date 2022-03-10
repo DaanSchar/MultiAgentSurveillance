@@ -14,6 +14,9 @@ public class explore extends ExploreModule{
     private List<MDFS> mdfs;
     public explore(Scenario scenario) {
         super(scenario);
+        for(Agent agent: scenario.getGuards()){
+            mdfs.add(new MDFS(agent));
+        }
 //        for(int ){
 //            mdfs
 //        }
@@ -24,10 +27,13 @@ public class explore extends ExploreModule{
 //    private VisionModule vision;
 
     private void update (IVisionModule vision){
-        for(Agent agent: scenario.getGuards()){
-            agent.getMemoryModule().update(agent.getVisionModule());
-//            explore(agent.getVisionModule());
+        for(MDFS md:mdfs){
+            md.explore();
         }
+//        for(Agent agent: scenario.getGuards()){
+//            agent.getMemoryModule().update(agent.getVisionModule());
+//            explore(agent.getVisionModule());
+//        }
 
 //        for(Tile tile: vision.getObstacles()){
 //            if (tile.getType() == TileType.TARGET){
