@@ -13,12 +13,16 @@ import nl.maastrichtuniversity.dke.agents.Direction;
 import nl.maastrichtuniversity.dke.discrete.*;
 import nl.maastrichtuniversity.dke.gui.ImageFactory;
 import nl.maastrichtuniversity.dke.util.Position;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GameComponent extends JComponent{
 
 	private final Scenario scenario;
 	private Environment environment;
 	private int textureSize;
+
+	private static final Logger logger = LoggerFactory.getLogger(GameComponent.class);
 
 	private int panningX=0;
 	private int panningY=0;
@@ -63,6 +67,7 @@ public class GameComponent extends JComponent{
 			case SOUTH -> drawAgent(g, agent, ImageFactory.get("guardSouth"));
 			case EAST -> drawAgent(g, agent, ImageFactory.get("guardWest"));
 			case WEST -> drawAgent(g, agent, ImageFactory.get("guardEast"));
+			default -> logger.error("Unknown direction given for agent!");
 		}
 	}
 
