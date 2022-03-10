@@ -14,8 +14,6 @@ import java.util.List;
 public class VisionModule extends AgentModule implements IVisionModule {
     private final double viewingDistance;
 
-    //TODO: return also the tiles of type TileType.EMPTY
-
     @Getter private List<Agent> agents = new LinkedList<>();
     @Getter private List<Tile> obstacles = new LinkedList<>();
 
@@ -84,13 +82,13 @@ public class VisionModule extends AgentModule implements IVisionModule {
         boolean obstruct = false;
         Tile tmp = tilemap[x][y];
 
-        if (!tmp.isEmpty()) {
+//        if (!tmp.isEmpty()) {
             if (!tmp.isOpened()) {
                 obstruct = true;
             }
             obstacles.add(tmp);
 
-        }
+//        }
         return obstruct;
     }
 
