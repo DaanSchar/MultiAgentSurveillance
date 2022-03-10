@@ -24,14 +24,15 @@ public class GameComponent extends JComponent{
 	private int panningX=0;
 	private int panningY=0;
 
-	public GameComponent(Scenario scenario){
+	public GameComponent(Scenario scenario ,Environment environment){
 		this.scenario = scenario;
 		double scale = scenario.getScaling()*100;
 		textureSize = (int) scale;
-		this.environment = scenario.getEnvironment();
+		this.environment = environment;
 		moveGuards();
 
 	}
+
 
 	public void paintComponent(Graphics g) {
 
@@ -131,9 +132,10 @@ public class GameComponent extends JComponent{
 	public Environment getAgentMap(){
 		return scenario.getGuards().get(0).getMemoryModule().getMap();
 	}
-//	public void setAgentMap(Environment environment){
-//		environment = environment;
-//	}
+	public void setAgentMap(Environment environmenta){
+		environment = environmenta;
+
+	}
 
 
 

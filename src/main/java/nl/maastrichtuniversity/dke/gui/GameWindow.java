@@ -56,14 +56,11 @@ public class GameWindow  {
         textureSize = (int) scale;
 
         this.scenario = scenario;
-        var memoryEnvironment = scenario.getGuards().get(0).getMemoryModule().getMap();
 
-        game = new GameComponent(scenario);
+        game = new GameComponent(scenario,scenario.getEnvironment());
 
+        agentMap = new GameComponent(scenario,scenario.getGuards().get(0).getMemoryModule().getMap());
 
-        agentMap = new GameComponent(scenario);
-        agentMap.isAgentMap();
-        agentMap.setAgentMap(game.getAgentMap());
 
 
 
