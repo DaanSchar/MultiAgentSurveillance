@@ -8,6 +8,7 @@ import nl.maastrichtuniversity.dke.discrete.Tile;
 import nl.maastrichtuniversity.dke.discrete.TileType;
 import nl.maastrichtuniversity.dke.util.Position;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Getter
@@ -17,12 +18,22 @@ public class MDFS {
     private Agent agent;
 
     public MDFS(Agent agent){
-        start = new Tile(new Position(0 ,0 ), TileType.EMPTY);
+
+        start = new Tile(agent.getPosition(), TileType.EMPTY);
         this.agent = agent;
     }
+//    public MDFS(List<Agent> agentList){
+//        List<Tile> start = new LinkedList<>();
+//        for(Agent agent:agentList){
+//            start.add(new Tile(agent.getPosition(), TileType.EMPTY));
+//        }
+////        start = new Tile(new Position(0 ,0 ), TileType.EMPTY);
+//        this.agent = agent;
+//    }
 
 
     public void explore(){
+
         traversePreOrder(start);
     }
 
@@ -38,13 +49,14 @@ public class MDFS {
 //        }
 //    }
     public void traversePreOrder(Tile tile) {
-//        if (tile.getType().isPassable()) {
-            //agent can go to tile
-//            traversePreOrder(new Tile(agent.getVisionModule().getObstacles(Direction.NORTH).get(0)));
-//            traversePreOrder(new Tile(agent.getVisionModule().getObstacles(Direction.WEST).get(0)));
-//            traversePreOrder(new Tile(agent.getVisionModule().getObstacles(Direction.SOUTH).get(0)));
-//            traversePreOrder(new Tile(agent.getVisionModule().getObstacles(Direction.EAST).get(0)));
-//        }
+        agent.getMemoryModule().update(agent.getVisionModule());
+        if (tile.getType().isPassable()) {
+//            agent can go to tile
+            traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition())); // NORTH
+            traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition()));//EAST
+            traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition()));//SOUTH
+            traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition()));//WEST
+        }
     }
 
 
