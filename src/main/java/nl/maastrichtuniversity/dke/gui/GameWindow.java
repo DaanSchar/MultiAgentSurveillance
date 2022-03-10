@@ -217,6 +217,7 @@ public class GameWindow  {
             if (released) {
                 game.panning((point1.x-point0.x),(point1.y-point0.y));
             }
+
             window.repaint();
         }
 
@@ -232,7 +233,7 @@ public class GameWindow  {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            released =false;
+            released =true;
             point0 = MouseInfo.getPointerInfo().getLocation();
         }
 
