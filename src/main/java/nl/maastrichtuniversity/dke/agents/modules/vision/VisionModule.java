@@ -104,17 +104,21 @@ public class VisionModule extends AgentModule implements IVisionModule {
     }
 
     private Position getCoordinates(Direction direction, Position position, int iteration, int moveX, int moveY) {
-        int x_coordinate;
-        int y_coordinate;
-        if (direction.name().equals("NORTH") || direction.name().equals("SOUTH")) {
-            x_coordinate = (position.getX() + moveX) + direction.getMoveX() * iteration;
-            y_coordinate = (position.getY()) + direction.getMoveY() * iteration;
+        Position coordinate;
+
+        if (direction == Direction.NORTH || direction == Direction.SOUTH) {
+            coordinate = new Position(
+                    (position.getX() + moveX) + direction.getMoveX() * iteration,
+                    (position.getY()) + direction.getMoveY() * iteration
+            );
         } else {
-            x_coordinate = (position.getX()) + direction.getMoveX() * iteration;
-            y_coordinate = (position.getY() + moveY) + direction.getMoveY() * iteration;
+            coordinate = new Position(
+                    (position.getX()) + direction.getMoveX() * iteration,
+                    (position.getY() + moveY) + direction.getMoveY() * iteration
+            );
         }
 
-        return new Position(x_coordinate, y_coordinate);
+        return coordinate;
     }
 
 
@@ -122,7 +126,7 @@ public class VisionModule extends AgentModule implements IVisionModule {
         boolean canMove1 = false;
         boolean canMove2 = false;
 
-        if (direction.name().equals("NORTH") || direction.name().equals("SOUTH")) {
+        if (direction == Direction.NORTH || direction == Direction.SOUTH) {
             if (position.getX() - 1 >= 0) {
                 canMove1 = true;
             }
