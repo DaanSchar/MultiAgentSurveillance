@@ -28,7 +28,7 @@ public class VisionModuleTest {
      *   0  e e e e
      *      0 1 2 3
      */
-//    @BeforeEach
+    @BeforeEach
     void setup() {
         s = new Scenario("Test", 0, 0, 0, null);
 
