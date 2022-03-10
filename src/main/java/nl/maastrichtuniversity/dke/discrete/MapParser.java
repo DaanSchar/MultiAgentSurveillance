@@ -66,7 +66,10 @@ public class MapParser {
             case "spawnAreaIntruders" -> addArea(values, TileType.SPAWN_INTRUDERS);
             case "spawnAreaGuards" -> addArea(values, TileType.SPAWN_GUARDS);
             case "wall" -> addArea(values, TileType.WALL);
-            case "teleport" -> addArea(values, TileType.TELEPORT);
+            case "teleport" -> {
+                addArea(values, TileType.TELEPORT);
+                addArea(new String[]{values[4], values[5], values[4], values[5]}, TileType.DESTINATIONTELEPORT);
+            }
             case "shaded" -> addArea(values, TileType.SHADED);
             case "texture" -> logger.error("Texture not implemented yet");
             case "window" -> addArea(values, TileType.WINDOW);
@@ -89,6 +92,7 @@ public class MapParser {
                 Integer.parseInt(values[3]),
                 type
         );
+
     }
 
 }

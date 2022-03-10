@@ -21,6 +21,7 @@ public class GameSystem {
             moveAgentRandomly(agent);
             agent.listen();
         }
+
         resetNoise();
 
     }
