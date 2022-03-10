@@ -5,6 +5,7 @@ import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.Direction;
 import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.discrete.Scenario;
+import nl.maastrichtuniversity.dke.discrete.Tile;
 import nl.maastrichtuniversity.dke.discrete.TileType;
 import nl.maastrichtuniversity.dke.util.Position;
 import org.slf4j.Logger;
@@ -104,7 +105,14 @@ public class Movement extends AgentModule implements IMovement {
      */
     private boolean checkCollision(Position position){
         var tileMap = scenario.getEnvironment().getTileMap();
-        var tile = tileMap[position.getX()][position.getY()];
+        Tile tile;
+
+        try {
+            tile = tileMap[position.getX()][position.getY()];
+        } catch (IndexOutOfBoundsException e) {
+            logger.info("Cannot move as it is trying to walk off of the map");
+            return true;
+        }
 
         if (tile.getType() == TileType.EMPTY) {
             return false;
