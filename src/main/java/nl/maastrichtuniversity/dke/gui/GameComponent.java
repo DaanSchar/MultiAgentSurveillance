@@ -52,7 +52,7 @@ public class GameComponent extends JComponent{
 		drawAreas(g, environment.get(TileType.SHADED), ImageFactory.get("shadedTexture"));
 		drawAreas(g, environment.get(TileType.UNKNOWN), ImageFactory.get("unknownTexture"));
 		drawAgents(g);
-		
+
 	}
 
 	private void drawAgents(Graphics g) {
@@ -86,11 +86,13 @@ public class GameComponent extends JComponent{
 
 			for (Tile tile : tiles) {
 				drawArea(g, tile, image);
-				if(tile.getCommunicationMarks().size()>0){
-					drawMark(g, tile);
-				}
+				//if(tile.getCommunicationMarks().size()>0){
+				//	drawMark(g, tile);
+				//}
 			}
-
+			for(CommunicationMark cm : scenario.getCommunicationMarks()){
+				drawMark(g,cm);
+			}
 
 	}
 
@@ -108,14 +110,12 @@ public class GameComponent extends JComponent{
 
 
 		}
-	private void drawMark(Graphics g, Tile tile) {
-		g.setColor(tile.getCommunicationMarks().get(0).getColor());
-		g.fillOval(
-				panningX + tile.getPosition().getX() * (textureSize),
-				panningY + tile.getPosition().getY() * (textureSize),
-				textureSize,
-				textureSize
-		);
+	private void drawMark(Graphics g, CommunicationMark cm) {
+		g.setColor(cm.getColor());
+		g.fillOval(panningX +  (cm.getPosition().getX() * (textureSize)),
+							panningY +  (cm.getPosition().getY() * (textureSize)),
+							textureSize,
+							textureSize);
 	}
 
 
