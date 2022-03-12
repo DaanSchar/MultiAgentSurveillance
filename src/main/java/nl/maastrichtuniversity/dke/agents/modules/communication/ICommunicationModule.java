@@ -11,6 +11,6 @@ public interface ICommunicationModule {
 
     boolean hasMark(int x, int y);
 
-    List<CommunicationMark> getMarks(int x, int y);
+    //List<CommunicationMark> getMarks(int x, int y);
 
 }

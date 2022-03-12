@@ -7,6 +7,7 @@ import nl.maastrichtuniversity.dke.agents.Intruder;
 import nl.maastrichtuniversity.dke.util.Position;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Getter
@@ -22,6 +23,7 @@ public class Scenario {
     private @Setter List<Guard> guards;
     private @Setter List<Intruder> intruders;
     private @Getter @Setter List<Sound> soundMap;
+    private @Getter @Setter List<CommunicationMark> communicationMarks;
 
     public Scenario(String name, int gameMode, double timeStep, double scaling, Environment environment) {
         this.name = name;
@@ -29,7 +31,9 @@ public class Scenario {
         this.timeStep = timeStep;
         this.scaling = scaling;
         this.soundMap = new ArrayList<>();
+        this.communicationMarks = new ArrayList<>();
         this.environment = environment;
+
     }
 
 
