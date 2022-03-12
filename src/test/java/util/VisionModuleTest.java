@@ -57,7 +57,7 @@ public class VisionModuleTest {
      *   0  O e O e
      *      0 1 2 3
      */
-//    @Test
+    @Test
     void testGetObstaclesNORTH() {
         VisionModule vm = new VisionModule(s,90);
         s.getEnvironment().getTileMap()[0][1].setType(TileType.WALL);
@@ -67,8 +67,13 @@ public class VisionModuleTest {
         vm.useVision(new Position(1,1), Direction.NORTH);
         List<Tile> obstacles =vm.getObstacles();
         System.out.println(obstacles);
-      //  Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(0, 0));
-       // Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(2, 0));
+
+
+        Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(1, 1));
+        Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(0, 1));
+        Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(2, 1));
+        Assertions.assertEquals(obstacles.get(3).getPosition(), new Position(1, 0));
+        Assertions.assertEquals(obstacles.get(4).getPosition(), new Position(2, 0));
     }
 
     /** south direction is x:0 y:1, so up from P
@@ -78,7 +83,7 @@ public class VisionModuleTest {
      *   0  e P e O
      *      0 1 2 3
      */
-//    @Test
+   @Test
     void testGetObstaclesSOUTH() {
         VisionModule vm = new VisionModule(s,90);
         s.getEnvironment().getTileMap()[3][0].setType(TileType.WALL);
@@ -90,9 +95,15 @@ public class VisionModuleTest {
         vm.useVision(new Position(1,0), Direction.SOUTH);
         List<Tile> obstacles =vm.getObstacles();
 
-        Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(1, 1));
-        Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(0, 2));
-        Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(2, 3));
+        Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(1,0));
+        Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(0,0));
+        Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(2,0));
+        Assertions.assertEquals(obstacles.get(3).getPosition(), new Position(1,1));
+        Assertions.assertEquals(obstacles.get(4).getPosition(), new Position(0,1));
+        Assertions.assertEquals(obstacles.get(5).getPosition(), new Position(2,1));
+        Assertions.assertEquals(obstacles.get(6).getPosition(), new Position(0,2));
+        Assertions.assertEquals(obstacles.get(7).getPosition(), new Position(2,2));
+        Assertions.assertEquals(obstacles.get(8).getPosition(), new Position(2, 3));
     }
 
     /** east direction is x:1 y:0, so right from P
@@ -102,7 +113,7 @@ public class VisionModuleTest {
      *   0  P e O e
      *      0 1 2 3
      */
-//    @Test
+    @Test
     void testGetObstaclesEAST() {
         VisionModule vm = new VisionModule(s,90);
         s.getEnvironment().getTileMap()[1][0].setType(TileType.EMPTY);
@@ -111,9 +122,16 @@ public class VisionModuleTest {
 
         vm.useVision(new Position(0,0), Direction.EAST);
         List<Tile> obstacles =vm.getObstacles();
-
-        Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(2, 0));
-        Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(3, 1));
+        for(Tile t : obstacles){
+            System.out.println("new Position("+t.getPosition().getX()+","+t.getPosition().getY()+"));");
+        }
+        Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(0,0));
+        Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(0,1));
+        Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(1,0));
+        Assertions.assertEquals(obstacles.get(3).getPosition(), new Position(1,1));
+        Assertions.assertEquals(obstacles.get(4).getPosition(), new Position(2,0));
+        Assertions.assertEquals(obstacles.get(5).getPosition(), new Position(2,1));
+        Assertions.assertEquals(obstacles.get(6).getPosition(), new Position(3,1));
     }
 
     /** west direction is x:-1 y:0, so left from P
@@ -123,7 +141,7 @@ public class VisionModuleTest {
      *   0  e O e P
      *      0 1 2 3
      */
-//    @Test
+    @Test
     void testGetObstaclesWEST() {
         VisionModule vm = new VisionModule(s,90);
         s.getEnvironment().getTileMap()[3][1].setType(TileType.WALL);
@@ -134,9 +152,10 @@ public class VisionModuleTest {
         vm.useVision(new Position(3,0), Direction.WEST);
         List<Tile> obstacles =vm.getObstacles();
 
-        System.out.println(obstacles);
-        Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(1, 0));
-        Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(0, 1));
+         Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(3,0));
+         Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(3,1));
+         Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(2,0));
+         Assertions.assertEquals(obstacles.get(3).getPosition(), new Position(1,0));
     }
 
 
