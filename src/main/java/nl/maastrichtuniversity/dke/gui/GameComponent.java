@@ -38,6 +38,9 @@ public class GameComponent extends JComponent{
 
 		var agent = scenario.getGuards().get(0);
 		var sound = scenario.getSoundMap();
+
+		drawSound(g,sound, ImageFactory.get("soundTexture"));
+
 		drawAreas(g, environment.get(TileType.WALL), ImageFactory.get("wallTexture"));
 		drawAreas(g, environment.get(TileType.TELEPORT), ImageFactory.get("teleportTexture"));
 		drawAreas(g, environment.get(TileType.SPAWN_GUARDS), ImageFactory.get("spawnAreaTexture"));
@@ -75,6 +78,23 @@ public class GameComponent extends JComponent{
 
 
 	}
+	private void drawSound(Graphics g, List<Sound> sounds, BufferedImage image ) {
+		System.out.println(sounds.size());
+		for (Sound sound : sounds) {
+			g.drawImage(
+					image,
+					panningX +  (int)(sound.getPosition().getX() * (textureSize)),
+					panningY +  (int)(sound.getPosition().getY() * (textureSize)),
+					textureSize,
+					textureSize,
+					null
+			);
+			System.out.println("ss" + sound.getPosition().getX());
+		}
+
+
+	}
+
 
 	private void drawArea(Graphics g, Tile tile, BufferedImage image) {
 
@@ -110,7 +130,10 @@ public class GameComponent extends JComponent{
 
 			system.update(time.get());
 			time.updateAndGet(v -> new Double((double) (v + (double) scenario.getTimeStep())));
+			system.resetNoise();
 			repaint();
+
+
 		});
 		timer.start();
 	}
@@ -124,8 +147,8 @@ public class GameComponent extends JComponent{
 		textureSize = textureSize -1;
 	}
 	public void panning(int x,int y){
-		panningX = x;
-		panningY = y;
+		panningX += x/15;
+		panningY += y/15;
 		
 	}
 	public void resize(){

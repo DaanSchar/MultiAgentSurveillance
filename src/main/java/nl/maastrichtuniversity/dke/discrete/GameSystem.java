@@ -22,7 +22,7 @@ public class GameSystem {
             agent.listen();
         }
 
-        resetNoise();
+        //resetNoise();
 
     }
 

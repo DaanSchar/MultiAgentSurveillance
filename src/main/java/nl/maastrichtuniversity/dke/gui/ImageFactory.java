@@ -64,6 +64,7 @@ public class ImageFactory {
         images.put("targetTexture", readImage("texture/target.png"));
         images.put("spawnAreaTexture", readImage("texture/spawnarea.png"));
         images.put("unknownTexture", readImage("texture/unknown.png"));
+        images.put("soundTexture", readImage("texture/sound.png"));
 
 
         // Guard
