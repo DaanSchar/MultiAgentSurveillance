@@ -8,7 +8,6 @@ import nl.maastrichtuniversity.dke.agents.modules.memory.IMemoryModule;
 import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.INoiseModule;
 import nl.maastrichtuniversity.dke.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
-import nl.maastrichtuniversity.dke.discrete.Tile;
 import nl.maastrichtuniversity.dke.discrete.CommunicationMark;
 import nl.maastrichtuniversity.dke.util.Position;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.ISpawnModule;
@@ -100,6 +99,7 @@ public class Agent {
         position = movement.goBackward(position, direction);
         updateMemory();
     }
+
     public void dropMark(Position position , Color color){
         communicationModule.addMark(position.getX(),position.getY(),new CommunicationMark(position,color));
     }
@@ -113,7 +113,7 @@ public class Agent {
         memoryModule.update(visionModule);
     }
 
-    public Agent newInstance(){
+    public Agent newInstance() {
         return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule, communicationModule, memoryModule,listeningModule);
     }
 
