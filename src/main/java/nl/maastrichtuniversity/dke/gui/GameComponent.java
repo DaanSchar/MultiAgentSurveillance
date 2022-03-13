@@ -24,6 +24,10 @@ public class GameComponent extends JComponent{
 	private int panningX=0;
 	private int panningY=0;
 
+	int frame = 0;//Current animation fram
+    int frameInterval = 0;//Interval to load next frame
+
+
 	public GameComponent(Scenario scenario ,Environment environment){
 		this.scenario = scenario;
 		double scale = scenario.getScaling()*100;
@@ -52,17 +56,77 @@ public class GameComponent extends JComponent{
 		drawAreas(g, environment.get(TileType.SHADED), ImageFactory.get("shadedTexture"));
 		drawAreas(g, environment.get(TileType.UNKNOWN), ImageFactory.get("unknownTexture"));
 		if(agent.getDirection() == Direction.NORTH){
-			g.drawImage(ImageFactory.get("guardNorth"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			if (frame==0) {
+				g.drawImage(ImageFactory.get("guardNorth"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==1) {
+				g.drawImage(ImageFactory.get("guardNorth2"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==2) {
+				g.drawImage(ImageFactory.get("guardNorth3"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==3) {
+				g.drawImage(ImageFactory.get("guardNorth4"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+
 		}
 		if(agent.getDirection() == Direction.SOUTH){
-			g.drawImage(ImageFactory.get("guardSouth"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
-		}
+			if (frame==0) {
+				g.drawImage(ImageFactory.get("guardSouth"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==1) {
+				g.drawImage(ImageFactory.get("guardSouth2"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==2) {
+				g.drawImage(ImageFactory.get("guardSouth3"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==3) {
+				g.drawImage(ImageFactory.get("guardSouth4"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}		}
 		if(agent.getDirection() == Direction.EAST){
-			g.drawImage(ImageFactory.get("guardWest"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
-		}
+			if (frame==0) {
+				g.drawImage(ImageFactory.get("guardWest"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==1) {
+				g.drawImage(ImageFactory.get("guardWest2"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==2) {
+				g.drawImage(ImageFactory.get("guardWest3"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==3) {
+				g.drawImage(ImageFactory.get("guardWest4"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}		}
 		if(agent.getDirection() == Direction.WEST){
-			g.drawImage(ImageFactory.get("guardEast"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
-		}
+			if (frame==0) {
+				g.drawImage(ImageFactory.get("guardEast"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==1) {
+				g.drawImage(ImageFactory.get("guardEast2"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==2) {
+				g.drawImage(ImageFactory.get("guardEast3"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==3) {
+				g.drawImage(ImageFactory.get("guardEast4"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}		}
+		//HandleFrames
+        if(frameInterval % 1 == 0)
+        {
+            if(frame < 3)
+            {
+                frame++;
+            }
+            else
+            {
+                frame = 0;
+            }
+            frameInterval = 0;
+        }
+        System.out.println(frame);
+		System.out.println(frameInterval);
+
+
+        frameInterval++;
 		
 	}
 
