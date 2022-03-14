@@ -1,6 +1,6 @@
 package nl.maastrichtuniversity.dke.gui;
 
-import nl.maastrichtuniversity.dke.discrete.MapParser;
+import nl.maastrichtuniversity.dke.logic.scenario.util.MapParser;
 
 import javax.swing.*;
 import java.awt.*;
