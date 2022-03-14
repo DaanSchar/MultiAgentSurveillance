@@ -64,13 +64,32 @@ public class ImageFactory {
         images.put("targetTexture", readImage("texture/target.png"));
         images.put("spawnAreaTexture", readImage("texture/spawnarea.png"));
         images.put("unknownTexture", readImage("texture/unknown.png"));
+        images.put("soundTexture", readImage("texture/sound.png"));
 
 
         // Guard
         images.put("guardSouth", readImage("guard/guard1.png"));
+        images.put("guardSouth2", readImage("guard/guard2.png"));
+        images.put("guardSouth3", readImage("guard/guard3.png"));
+        images.put("guardSouth4", readImage("guard/guard4.png"));
+
         images.put("guardNorth", readImage("guard/guardback1.png"));
+        images.put("guardNorth2", readImage("guard/guardback2.png"));
+        images.put("guardNorth3", readImage("guard/guardback3.png"));
+        images.put("guardNorth4", readImage("guard/guardback4.png"));
+
+
         images.put("guardEast", readImage("guard/guardleft.png"));
+        images.put("guardEast2", readImage("guard/guardleft2.png"));
+        images.put("guardEast3", readImage("guard/guardleft3.png"));
+        images.put("guardEast4", readImage("guard/guardleft4.png"));
+
         images.put("guardWest", readImage("guard/guardright1.png"));
+        images.put("guardWest2", readImage("guard/guardright2.png"));
+        images.put("guardWest3", readImage("guard/guardright3.png"));
+        images.put("guardWest4", readImage("guard/guardright4.png"));
+
+
     }
 
     /**

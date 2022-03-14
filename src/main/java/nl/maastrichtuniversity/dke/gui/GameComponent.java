@@ -22,6 +22,9 @@ public class GameComponent extends JComponent{
 	private int panningX;
 	private int panningY;
 
+	private int frame = 0; //Current animation frame
+	private int frameInterval = 0; //Interval to load next frame
+
 	private static final Logger logger = LoggerFactory.getLogger(GameComponent.class);
 
 	/**
@@ -54,6 +57,11 @@ public class GameComponent extends JComponent{
 	}
 
 	private void drawEnvironment(Graphics g) {
+		var agent = scenario.getGuards().get(0);
+		var sound = scenario.getSoundMap();
+
+		drawSound(g,sound, ImageFactory.get("soundTexture"));
+
 		drawAreas(g, environment.get(TileType.WALL), ImageFactory.get("wallTexture"));
 		drawAreas(g, environment.get(TileType.TELEPORT), ImageFactory.get("teleportTexture"));
 		drawAreas(g, environment.get(TileType.SPAWN_GUARDS), ImageFactory.get("spawnAreaTexture"));
@@ -86,6 +94,79 @@ public class GameComponent extends JComponent{
 			case WEST -> drawAgent(g, agent, ImageFactory.get("guardEast"));
 			default -> logger.error("Unknown direction given for agent!");
 		}
+		if(agent.getDirection() == Direction.NORTH){
+			if (frame==0) {
+				g.drawImage(ImageFactory.get("guardNorth"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==1) {
+				g.drawImage(ImageFactory.get("guardNorth2"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==2) {
+				g.drawImage(ImageFactory.get("guardNorth3"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==3) {
+				g.drawImage(ImageFactory.get("guardNorth4"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+
+		}
+		if(agent.getDirection() == Direction.SOUTH){
+			if (frame==0) {
+				g.drawImage(ImageFactory.get("guardSouth"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==1) {
+				g.drawImage(ImageFactory.get("guardSouth2"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==2) {
+				g.drawImage(ImageFactory.get("guardSouth3"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==3) {
+				g.drawImage(ImageFactory.get("guardSouth4"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}		}
+		if(agent.getDirection() == Direction.EAST){
+			if (frame==0) {
+				g.drawImage(ImageFactory.get("guardWest"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==1) {
+				g.drawImage(ImageFactory.get("guardWest2"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==2) {
+				g.drawImage(ImageFactory.get("guardWest3"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==3) {
+				g.drawImage(ImageFactory.get("guardWest4"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}		}
+		if(agent.getDirection() == Direction.WEST){
+			if (frame==0) {
+				g.drawImage(ImageFactory.get("guardEast"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==1) {
+				g.drawImage(ImageFactory.get("guardEast2"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==2) {
+				g.drawImage(ImageFactory.get("guardEast3"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}
+			if (frame==3) {
+				g.drawImage(ImageFactory.get("guardEast4"),panningX+agent.getPosition().getX() * textureSize,panningY+ agent.getPosition().getY()*textureSize, textureSize, textureSize,null);
+			}		}
+		//HandleFrames
+        if(frameInterval % 1 == 0)
+        {
+            if(frame < 3)
+            {
+                frame++;
+            }
+            else
+            {
+                frame = 0;
+            }
+            frameInterval = 0;
+        }
+        System.out.println(frame);
+		System.out.println(frameInterval);
+
+
+        frameInterval++;
+
 	}
 
 	private void drawAgent(Graphics g, Agent agent, BufferedImage texture) {
@@ -104,6 +185,23 @@ public class GameComponent extends JComponent{
 			drawArea(g, tile, image);
 		}
 	}
+	private void drawSound(Graphics g, List<Sound> sounds, BufferedImage image ) {
+		System.out.println(sounds.size());
+		for (Sound sound : sounds) {
+			g.drawImage(
+					image,
+					panningX +  (int)(sound.getPosition().getX() * (textureSize)),
+					panningY +  (int)(sound.getPosition().getY() * (textureSize)),
+					textureSize,
+					textureSize,
+					null
+			);
+			System.out.println("ss" + sound.getPosition().getX());
+		}
+
+
+	}
+
 
 	private void drawArea(Graphics g, Tile tile, BufferedImage image) {
 		g.drawImage(
@@ -146,8 +244,9 @@ public class GameComponent extends JComponent{
 	}
 
 	public void panning(int x,int y){
-		panningX = x;
-		panningY = y;
+		panningX += x/15;
+		panningY += y/15;
+		
 	}
 
 	public void resize(){
