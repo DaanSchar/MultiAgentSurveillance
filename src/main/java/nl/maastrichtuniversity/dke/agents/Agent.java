@@ -88,9 +88,6 @@ public class Agent {
          position = movement.goForward(position, direction);
          visionModule.useVision(position,direction);
          var list = visionModule.getObstacles();
-         if(list.size() > 0){
-             logger.info("Obstacle detected: {}", list);
-         }
          noiseModule.makeWalkingSound(position);
          updateMemory();
     }
