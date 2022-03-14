@@ -9,7 +9,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.swing.Timer;
 
 import nl.maastrichtuniversity.dke.agents.Agent;
-import nl.maastrichtuniversity.dke.agents.Direction;
 import nl.maastrichtuniversity.dke.discrete.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,12 +51,13 @@ public class GameComponent extends JComponent{
 	public void paintComponent(Graphics g) {
 		drawEnvironment(g);
 		drawMarks(g);
+		drawSounds(g);
 		drawGuards(g);
 		drawIntruders(g);
+		updateFrames();
 	}
 
 	private void drawEnvironment(Graphics g) {
-		drawSound(g, scenario.getSoundMap(), ImageFactory.get("soundTexture"));
 		drawAreas(g, environment.get(TileType.WALL), ImageFactory.get("wallTexture"));
 		drawAreas(g, environment.get(TileType.TELEPORT), ImageFactory.get("teleportTexture"));
 		drawAreas(g, environment.get(TileType.SPAWN_GUARDS), ImageFactory.get("spawnAreaTexture"));
@@ -68,8 +68,6 @@ public class GameComponent extends JComponent{
 		drawAreas(g, environment.get(TileType.TARGET), ImageFactory.get("targetTexture"));
 		drawAreas(g, environment.get(TileType.SHADED), ImageFactory.get("shadedTexture"));
 		drawAreas(g, environment.get(TileType.UNKNOWN), ImageFactory.get("unknownTexture"));
-
-		updateFrames();
 	}
 
 	private void drawGuards(Graphics g) {
@@ -94,18 +92,9 @@ public class GameComponent extends JComponent{
 		}
 	}
 
-	private void updateFrames() {
-		if(frame < 3) {
-			frame++;
-		}
-		else {
-			frame = 0;
-		}
-	}
-
 	private void drawAgent(Graphics g, Agent agent, String textureName) {
 		g.drawImage(
-				getTexture(textureName),
+				getFramedAgentTexture(textureName),
 				panningX + agent.getPosition().getX() * textureSize,
 				panningY + agent.getPosition().getY() * textureSize,
 				textureSize,
@@ -114,28 +103,10 @@ public class GameComponent extends JComponent{
 		);
 	}
 
-	private BufferedImage getTexture(String name) {
-		name += Integer.toString(frame+1);
-		return ImageFactory.get(name);
-	}
-
 	private void drawAreas(Graphics g, List<Tile> tiles, BufferedImage image ) {
 		for (Tile tile : tiles) {
 			drawArea(g, tile, image);
 		}
-	}
-	private void drawSound(Graphics g, List<Sound> sounds, BufferedImage image ) {
-		for (Sound sound : sounds) {
-			g.drawImage(
-					image,
-					panningX +  sound.getPosition().getX() * (textureSize),
-					panningY +  sound.getPosition().getY() * (textureSize),
-					textureSize,
-					textureSize,
-					null
-			);
-		}
-
 	}
 
 	private void drawArea(Graphics g, Tile tile, BufferedImage image) {
@@ -143,6 +114,23 @@ public class GameComponent extends JComponent{
 				image,
 				panningX + tile.getPosition().getX() * (textureSize),
 				panningY + tile.getPosition().getY() * (textureSize),
+				textureSize,
+				textureSize,
+				null
+		);
+	}
+
+	private void drawSounds(Graphics g) {
+		for (Sound sound : scenario.getSoundMap()) {
+			drawSound(g, sound);
+		}
+	}
+
+	private void drawSound(Graphics g, Sound sound) {
+		g.drawImage(
+				ImageFactory.get("soundTexture"),
+				panningX +  sound.getPosition().getX() * (textureSize),
+				panningY +  sound.getPosition().getY() * (textureSize),
 				textureSize,
 				textureSize,
 				null
@@ -163,6 +151,20 @@ public class GameComponent extends JComponent{
 				textureSize,
 				textureSize
 		);
+	}
+
+	private BufferedImage getFramedAgentTexture(String name) {
+		name += Integer.toString(frame+1);
+		return ImageFactory.get(name);
+	}
+
+	private void updateFrames() {
+		if(frame < 3) {
+			frame++;
+		}
+		else {
+			frame = 0;
+		}
 	}
 
 	public void startGameSystem() {
