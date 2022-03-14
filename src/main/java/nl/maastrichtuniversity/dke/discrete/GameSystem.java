@@ -14,6 +14,7 @@ public class GameSystem {
 
     public GameSystem(Scenario scenario) {
         this.scenario = scenario;
+        scenario.getGuards().forEach(Agent::spawn);
     }
 
     public void update(double time) {

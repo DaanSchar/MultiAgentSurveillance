@@ -31,8 +31,6 @@ public class GameComponent extends JComponent{
 		this.scenario = scenario;
 		this.environment = environment;
 		this.textureSize = (int) (scenario.getScaling()*100) - 7;
-
-		startGameSystem();
 	}
 
 	/**
