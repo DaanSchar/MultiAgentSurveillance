@@ -8,8 +8,13 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import javax.swing.Timer;
 
-import nl.maastrichtuniversity.dke.agents.Agent;
-import nl.maastrichtuniversity.dke.discrete.*;
+import nl.maastrichtuniversity.dke.logic.agents.Agent;
+import nl.maastrichtuniversity.dke.logic.*;
+import nl.maastrichtuniversity.dke.logic.scenario.CommunicationMark;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
+import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -131,7 +136,7 @@ public class GameComponent extends JComponent{
 	}
 
 	public void startGameSystem() {
-		GameSystem system = new GameSystem(scenario);
+		GameLoop system = new GameLoop(scenario);
 		AtomicReference<Double> time = new AtomicReference<>((double) 0);
 
 		Timer timer = new Timer(300, e -> {
