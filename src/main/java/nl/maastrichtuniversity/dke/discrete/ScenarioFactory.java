@@ -6,28 +6,17 @@ import nl.maastrichtuniversity.dke.agents.AgentFactory;
 @Setter
 public class ScenarioFactory {
 
-    private int numberOfIntruders;
-    private int numberOfGuards;
-
-    private int baseSpeedGuards;
-    private int baseSpeedIntruders;
-    private int sprintSpeedGuards;
-    private int sprintSpeedIntruders;
-
-    private int viewingDistance;
-    private int hearingDistanceWalking;
-    private int hearingDistanceSprinting;
-    private int smellingDistance;
-    private int numberOfMarkers;
-
     private String name;
     private int gameMode;
     private double scaling;
     private double timeStep;
 
+    private int numberOfGuards;
+    private int numberOfIntruders;
+
     private Environment environment;
 
-    public Scenario build() {
+    public Scenario build(AgentFactory agentFactory) {
         var scenario = new Scenario(
                 name,
                 gameMode,
@@ -36,29 +25,9 @@ public class ScenarioFactory {
                 environment
         );
 
-        scenario.setGuards(AgentFactory.createGuards(
-                numberOfGuards,
-                scenario,
-                baseSpeedGuards,
-                sprintSpeedGuards,
-                viewingDistance,
-                hearingDistanceWalking,
-                hearingDistanceSprinting,
-                smellingDistance,
-                numberOfMarkers
-        ));
-
-        scenario.setIntruders(AgentFactory.createIntruders(
-                numberOfIntruders,
-                scenario,
-                baseSpeedIntruders,
-                sprintSpeedIntruders,
-                viewingDistance,
-                hearingDistanceWalking,
-                hearingDistanceSprinting,
-                smellingDistance,
-                numberOfMarkers
-        ));
+        agentFactory.setScenario(scenario);
+        scenario.setGuards(agentFactory.buildGuards(numberOfGuards));
+        scenario.setIntruders(agentFactory.buildIntruders(numberOfIntruders));
 
         return scenario;
     }

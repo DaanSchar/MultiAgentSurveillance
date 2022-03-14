@@ -32,56 +32,28 @@ public class Agent {
     private @Setter Position position;
     private @Setter Direction direction;
 
-    private final ISpawnModule spawnModule;
-    private final IMovement movement;
-    private final IVisionModule visionModule;
-    private final ICommunicationModule communicationModule;
-    private final INoiseModule noiseModule;
-    private final IListeningModule listeningModule;
-    private final IMemoryModule memoryModule;
+    private @Setter ISpawnModule spawnModule;
+    private @Setter IMovement movement;
+    private @Setter IVisionModule visionModule;
+    private @Setter ICommunicationModule communicationModule;
+    private @Setter INoiseModule noiseModule;
+    private @Setter IListeningModule listeningModule;
+    private @Setter IMemoryModule memoryModule;
 
-    public Agent(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, INoiseModule noiseModule,  ICommunicationModule communicationModule, IMemoryModule memoryModule, IListeningModule listeningModule) {
-        this.spawnModule = spawnModule;
-        this.visionModule = visionModule;
-        this.movement = movement;
-        this.noiseModule = noiseModule;
-        this.communicationModule = communicationModule;
-        this.memoryModule = memoryModule;
-        this.listeningModule = listeningModule;
+    public Agent() {
         this.id = agentCount++;
-
-        // this should be in spawn module
-        this.position = new Position(50, 50);
-        this.direction = Direction.NORTH;
-
-        logger.info("Created new " + this.getClass().getSimpleName() + " " + this.id + " with modules: " + spawnModule.getClass().getSimpleName());
-    }
-    private Agent(Direction direction,Position position,int id,ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, INoiseModule noiseModule,  ICommunicationModule communicationModule, IMemoryModule memoryModule,IListeningModule listeningModule){
-        this.spawnModule = spawnModule;
-        this.visionModule = visionModule;
-        this.movement = movement;
-        this.noiseModule = noiseModule;
-        this.communicationModule = communicationModule;
-        this.memoryModule = memoryModule;
-        this.listeningModule = listeningModule;
-        this.id = id;
-
-        // this should be in spawn module
-        this.position = position;
-        this.direction = direction;
     }
 
     /**
      * places the agent at a position determined by the spawn module
      */
     public void spawn() {
-        var startPosition = spawnModule.getSpawnPosition(this);
-
-        position = startPosition;
-        memoryModule.setStartPosition(startPosition);
+        position = spawnModule.getSpawnPosition(this);
+        direction = spawnModule.getSpawnDirection();
+        memoryModule.setStartPosition(position);
         updateMemory();
 
-        logger.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position);
+        logger.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position + " facing " + this.direction);
     }
 
     public void goForward(){
@@ -105,7 +77,6 @@ public class Agent {
         listeningModule.getDirection(this.position);
     }
 
-
     public void updateMemory() {
         memoryModule.update(visionModule);
     }
@@ -121,19 +92,23 @@ public class Agent {
         updateMemory();
     }
 
-    public void sprint(){
-//        position = movement.sprint(position, direction);
-//        baseSpeed -= 5;
-//        new java.util.Timer().schedule(
-//                new java.util.TimerTask() {
-//                    @Override
-//                    public void run() {
-//                        // your code here
-//                        baseSpeed += 5;
-//                    }
-//                },
-//                5000
-//        );
+    private Agent(Direction direction,Position position,int id,ISpawnModule spawnModule, IMovement movement,
+                  IVisionModule visionModule, INoiseModule noiseModule,  ICommunicationModule communicationModule,
+                  IMemoryModule memoryModule,IListeningModule listeningModule){
+
+        this.spawnModule = spawnModule;
+        this.visionModule = visionModule;
+        this.movement = movement;
+        this.noiseModule = noiseModule;
+        this.communicationModule = communicationModule;
+        this.memoryModule = memoryModule;
+        this.listeningModule = listeningModule;
+        this.id = id;
+
+        // this should be in spawn module
+        this.position = position;
+        this.direction = direction;
     }
+
 
 }

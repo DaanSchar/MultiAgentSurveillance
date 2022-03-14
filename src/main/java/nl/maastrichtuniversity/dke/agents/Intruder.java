@@ -13,8 +13,8 @@ import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
 
 public class Intruder extends Agent {
     private @Getter @Setter boolean alive;
-    public Intruder(ISpawnModule spawnModule, IMovement movement, IVisionModule visionModule, CommunicationModule communicationModule, INoiseModule noiseModule, IMemoryModule memoryModule, IListeningModule listeningModule) {
-        super(spawnModule,movement,visionModule, noiseModule, communicationModule, memoryModule, listeningModule);
+    public Intruder() {
+        super();
         this.alive= true; //all the intruders are alive at start
     }
 

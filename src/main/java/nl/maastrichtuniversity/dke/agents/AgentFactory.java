@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.agents;
 
+import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.modules.listening.ListeningModule;
 import nl.maastrichtuniversity.dke.agents.modules.memory.MemoryModule;
 import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.NoiseModule;
@@ -9,52 +10,79 @@ import nl.maastrichtuniversity.dke.agents.modules.spawn.UniformSpawnModule;
 import nl.maastrichtuniversity.dke.agents.modules.vision.VisionModule;
 import nl.maastrichtuniversity.dke.agents.modules.listening.ListeningModule;
 import nl.maastrichtuniversity.dke.discrete.Scenario;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Setter
 public class AgentFactory {
 
-    public static Intruder createIntruder(Scenario scenario, int baseSpeed, int sprintSpeed, double viewingDistance, double hearingDistanceWalking, double hearingDistanceSprinting, double smellingDistance, int numberOfMarkers) {
-        return new Intruder(
-                new UniformSpawnModule(scenario),
-                new Movement(scenario, baseSpeed, sprintSpeed),
-                new VisionModule(scenario, viewingDistance),
-                new CommunicationModule(scenario, numberOfMarkers),
-                new NoiseModule(scenario,hearingDistanceWalking,hearingDistanceSprinting),
-                new MemoryModule(scenario),
-                new ListeningModule(scenario)
-        );
-    }
+    private Scenario scenario;
 
-    public static Guard createGuard(Scenario scenario, int baseSpeed, int sprintSpeed, double viewingDistance, double hearingDistanceWalking, double hearingDistanceSprinting, double smellingDistance, int numberOfMarkers) {
-        return new Guard(
-                new UniformSpawnModule(scenario),
-                new Movement(scenario, baseSpeed, sprintSpeed),
-                new NoiseModule(scenario,hearingDistanceWalking,hearingDistanceSprinting),
-                new VisionModule(scenario, viewingDistance),
-                new CommunicationModule(scenario, numberOfMarkers),
-                new MemoryModule(scenario),
-                new ListeningModule(scenario)
-        );
-    }
+    private int baseSpeedGuards;
 
-    public static List<Intruder> createIntruders(int numOfAgents, Scenario scenario, int baseSpeed, int sprintSpeed, double viewingDistance, double hearingDistanceWalking, double hearingDistanceSprinting, double smellingDistance, int numberOfMarkers) {
-        ArrayList<Intruder> agents = new ArrayList<>();
+    private int baseSpeedIntruders;
+    private int sprintSpeedIntruders;
 
-        for (int i = 0; i < numOfAgents; i++)
-            agents.add(createIntruder(scenario, baseSpeed, sprintSpeed, viewingDistance, hearingDistanceWalking, hearingDistanceSprinting, smellingDistance, numberOfMarkers));
+    private int viewingDistance;
+    private int hearingDistanceWalking;
+    private int hearingDistanceSprinting;
+    private int smellingDistance;
 
-        return agents;
-    }
+    private int numberOfMarkers;
 
-    public static List<Guard> createGuards(int numOfAgents, Scenario scenario, int baseSpeed, int sprintSpeed, double viewingDistance, double hearingDistanceWalking, double hearingDistanceSprinting, double smellingDistance, int numberOfMarkers) {
+    private static Logger logger = LoggerFactory.getLogger(AgentFactory.class);
+
+    public AgentFactory() {}
+
+    public List<Guard> buildGuards(int numOfAgents) {
         ArrayList<Guard> agents = new ArrayList<>();
 
         for (int i = 0; i < numOfAgents; i++)
-            agents.add(createGuard(scenario, baseSpeed, sprintSpeed, viewingDistance, hearingDistanceWalking, hearingDistanceSprinting, smellingDistance, numberOfMarkers));
+            agents.add(buildGuard());
+
+        logger.info("Created {} Guards", numOfAgents);
 
         return agents;
     }
 
+    public List<Intruder> buildIntruders(int numOfAgents) {
+        ArrayList<Intruder> agents = new ArrayList<>();
+
+        for (int i = 0; i < numOfAgents; i++)
+            agents.add(buildIntruder());
+
+        logger.info("Created {} intruders", numOfAgents);
+
+        return agents;
+    }
+
+    public Guard buildGuard() {
+        var guard = new Guard();
+        guard.setSpawnModule(new UniformSpawnModule(scenario));
+        guard.setMovement(new Movement(scenario, baseSpeedGuards, 0));
+        guard.setVisionModule(new VisionModule(scenario, viewingDistance));
+        guard.setCommunicationModule(new CommunicationModule(scenario, numberOfMarkers));
+        guard.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
+        guard.setMemoryModule(new MemoryModule(scenario));
+        guard.setListeningModule(new ListeningModule(scenario));
+
+        return guard;
+    }
+
+    public Intruder buildIntruder() {
+        var intruder = new Intruder();
+        intruder.setSpawnModule(new UniformSpawnModule(scenario));
+        intruder.setMovement(new Movement(scenario, baseSpeedIntruders, sprintSpeedIntruders));
+        intruder.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
+        intruder.setVisionModule(new VisionModule(scenario, viewingDistance));
+        intruder.setCommunicationModule(new CommunicationModule(scenario, numberOfMarkers));
+        intruder.setMemoryModule(new MemoryModule(scenario));
+        intruder.setListeningModule(new ListeningModule(scenario));
+
+        return intruder;
+    }
 }
+

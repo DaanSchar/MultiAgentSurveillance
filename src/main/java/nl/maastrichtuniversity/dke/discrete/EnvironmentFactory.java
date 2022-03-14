@@ -34,8 +34,7 @@ public class EnvironmentFactory {
     public Environment build() {
         fillInEmptyTiles();
 
-        var environment = new Environment(this.width, this.height, this.tileMap);
-        return environment;
+        return new Environment(this.width, this.height, this.tileMap);
     }
 
     private void fillInEmptyTiles() {

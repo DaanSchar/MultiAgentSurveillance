@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.discrete;
 
+import nl.maastrichtuniversity.dke.agents.AgentFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,11 +14,13 @@ public class MapParser {
 
     private ScenarioFactory scenarioFactory;
     private EnvironmentFactory envBuilder;
+    private AgentFactory agentFactory;
 
     public MapParser(File file) {
         try {
             scanner = new Scanner(file);
             scenarioFactory = new ScenarioFactory();
+            agentFactory = new AgentFactory();
         } catch (Exception e) {
             logger.error("Error while parsing file: ");
             e.printStackTrace();
@@ -31,7 +34,7 @@ public class MapParser {
             createFieldFromLine(scanner.nextLine());
 
         scenarioFactory.setEnvironment(envBuilder.build());
-        return scenarioFactory.build();
+        return scenarioFactory.build(agentFactory);
     }
 
     private void createFieldFromLine(String line) {
@@ -58,9 +61,9 @@ public class MapParser {
             case "scaling" -> scenarioFactory.setScaling(Double.parseDouble(value));
             case "numGuards" -> scenarioFactory.setNumberOfGuards(Integer.parseInt(value));
             case "numIntruders" -> scenarioFactory.setNumberOfIntruders((int)Double.parseDouble(value));
-            case "baseSpeedIntruder" -> scenarioFactory.setBaseSpeedIntruders((int)Double.parseDouble(value));
-            case "sprintSpeedIntruder" -> scenarioFactory.setSprintSpeedIntruders((int)Double.parseDouble(value));
-            case "baseSpeedGuard" -> scenarioFactory.setBaseSpeedGuards((int)Double.parseDouble(value));
+            case "baseSpeedIntruder" -> agentFactory.setBaseSpeedIntruders((int)Double.parseDouble(value));
+            case "sprintSpeedIntruder" -> agentFactory.setSprintSpeedIntruders((int)Double.parseDouble(value));
+            case "baseSpeedGuard" -> agentFactory.setBaseSpeedGuards((int)Double.parseDouble(value));
             case "timeStep" -> scenarioFactory.setTimeStep(Double.parseDouble(value));
             case "targetArea" -> addArea(values, TileType.TARGET);
             case "spawnAreaIntruders" -> addArea(values, TileType.SPAWN_INTRUDERS);
@@ -72,11 +75,11 @@ public class MapParser {
             case "window" -> addArea(values, TileType.WINDOW);
             case "door" -> addArea(values, TileType.DOOR);
             case "sentrytower" -> addArea(values, TileType.SENTRY);
-            case "distanceViewing" -> scenarioFactory.setViewingDistance(Integer.parseInt(value));
-            case "distanceHearingWalking" -> scenarioFactory.setHearingDistanceWalking(Integer.parseInt(value));
-            case "distanceHearingSprinting" -> scenarioFactory.setHearingDistanceSprinting(Integer.parseInt(value));
-            case "distanceSmelling" -> scenarioFactory.setSmellingDistance(Integer.parseInt(value));
-            case "numberOfMarkers" -> scenarioFactory.setNumberOfMarkers(Integer.parseInt(value));
+            case "distanceViewing" -> agentFactory.setViewingDistance(Integer.parseInt(value));
+            case "distanceHearingWalking" -> agentFactory.setHearingDistanceWalking(Integer.parseInt(value));
+            case "distanceHearingSprinting" -> agentFactory.setHearingDistanceSprinting(Integer.parseInt(value));
+            case "distanceSmelling" -> agentFactory.setSmellingDistance(Integer.parseInt(value));
+            case "numberOfMarkers" -> agentFactory.setNumberOfMarkers(Integer.parseInt(value));
             default -> logger.error("Unknown value: " + key);
         }
     }
