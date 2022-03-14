@@ -5,8 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Objects;
 
-import nl.maastrichtuniversity.dke.discrete.Scenario;
-import nl.maastrichtuniversity.dke.settings.Clock;
+import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 
 /**
  * GUIboard class
