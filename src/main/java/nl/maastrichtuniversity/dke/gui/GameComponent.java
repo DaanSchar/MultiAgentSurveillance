@@ -22,6 +22,8 @@ public class GameComponent extends JComponent{
 	private int panningX;
 	private int panningY;
 
+	private int frame = 0; //Current animation frame
+
 	private static final Logger logger = LoggerFactory.getLogger(GameComponent.class);
 
 	/**
@@ -49,8 +51,10 @@ public class GameComponent extends JComponent{
 	public void paintComponent(Graphics g) {
 		drawEnvironment(g);
 		drawMarks(g);
+		drawSounds(g);
 		drawGuards(g);
 		drawIntruders(g);
+		updateFrames();
 	}
 
 	private void drawEnvironment(Graphics g) {
@@ -80,17 +84,17 @@ public class GameComponent extends JComponent{
 
 	private void drawAgent(Graphics g, Agent agent) {
 		switch (agent.getDirection()) {
-			case NORTH -> drawAgent(g, agent, ImageFactory.get("guardNorth"));
-			case SOUTH -> drawAgent(g, agent, ImageFactory.get("guardSouth"));
-			case EAST -> drawAgent(g, agent, ImageFactory.get("guardWest"));
-			case WEST -> drawAgent(g, agent, ImageFactory.get("guardEast"));
+			case NORTH -> drawAgent(g, agent, "guardback");
+			case SOUTH -> drawAgent(g, agent, "guard");
+			case EAST -> drawAgent(g, agent, "guardright");
+			case WEST -> drawAgent(g, agent, "guardleft");
 			default -> logger.error("Unknown direction given for agent!");
 		}
 	}
 
-	private void drawAgent(Graphics g, Agent agent, BufferedImage texture) {
+	private void drawAgent(Graphics g, Agent agent, String textureName) {
 		g.drawImage(
-				texture,
+				getFramedAgentTexture(textureName),
 				panningX + agent.getPosition().getX() * textureSize,
 				panningY + agent.getPosition().getY() * textureSize,
 				textureSize,
@@ -116,6 +120,23 @@ public class GameComponent extends JComponent{
 		);
 	}
 
+	private void drawSounds(Graphics g) {
+		for (Sound sound : scenario.getSoundMap()) {
+			drawSound(g, sound);
+		}
+	}
+
+	private void drawSound(Graphics g, Sound sound) {
+		g.drawImage(
+				ImageFactory.get("soundTexture"),
+				panningX +  sound.getPosition().getX() * (textureSize),
+				panningY +  sound.getPosition().getY() * (textureSize),
+				textureSize,
+				textureSize,
+				null
+		);
+	}
+
 	private void drawMarks(Graphics g) {
 		for(CommunicationMark cm : scenario.getCommunicationMarks()){
 			drawMark(g,cm);
@@ -132,6 +153,20 @@ public class GameComponent extends JComponent{
 		);
 	}
 
+	private BufferedImage getFramedAgentTexture(String name) {
+		name += Integer.toString(frame+1);
+		return ImageFactory.get(name);
+	}
+
+	private void updateFrames() {
+		if(frame < 3) {
+			frame++;
+		}
+		else {
+			frame = 0;
+		}
+	}
+
 	public void startGameSystem() {
 		GameSystem system = new GameSystem(scenario);
 		AtomicReference<Double> time = new AtomicReference<>((double) 0);
@@ -146,8 +181,9 @@ public class GameComponent extends JComponent{
 	}
 
 	public void panning(int x,int y){
-		panningX = x;
-		panningY = y;
+		panningX += x/15;
+		panningY += y/15;
+		
 	}
 
 	public void resize(){
