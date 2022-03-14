@@ -40,7 +40,14 @@ public class UniformSpawnModule extends AgentModule implements ISpawnModule {
     }
 
     public Direction getSpawnDirection() {
-        return null;
+        int random = new Random().nextInt(4);
+
+        switch (random) {
+            case 1 -> {return Direction.EAST;}
+            case 2 -> {return Direction.SOUTH;}
+            case 3 -> {return Direction.WEST;}
+            default -> { return Direction.NORTH; }
+        }
     }
 
 }
