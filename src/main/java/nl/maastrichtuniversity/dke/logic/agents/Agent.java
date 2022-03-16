@@ -90,7 +90,7 @@ public class Agent {
     /** 1 is left
     -1 is right */
     public void rotate(int rotation, double time){
-        direction = movement.rotate(direction, rotation);
+        direction = movement.rotate(direction, rotation, time);
         updateMemory();
     }
 

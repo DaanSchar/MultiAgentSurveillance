@@ -19,10 +19,10 @@ import org.slf4j.LoggerFactory;
 public class Movement extends AgentModule implements IMovement {
 
     private static final Logger logger = LoggerFactory.getLogger(Movement.class);
-    private @Getter @Setter int baseSpeed, sprintSpeed;
+    private @Getter @Setter double baseSpeed, sprintSpeed;
     private double lastTimeMoved;
 
-    public Movement(Scenario scenario,int baseSpeed, int sprintSpeed) {
+    public Movement(Scenario scenario,double baseSpeed, double sprintSpeed) {
         super(scenario);
         this.baseSpeed = baseSpeed;
         this.sprintSpeed = sprintSpeed;
@@ -31,33 +31,30 @@ public class Movement extends AgentModule implements IMovement {
     // 1 is left
     //-1 is right
     @Override
-    public Direction rotate(Direction currentDirection, int rotation) {
-        if (currentDirection == Direction.NORTH) {
-            if (rotation == 1)
-                return Direction.EAST;
-            else if (rotation == -1)
-                return Direction.WEST;
-        }
-
-        else if (currentDirection == Direction.EAST) {
-            if (rotation == 1)
-                return Direction.SOUTH;
-            else if (rotation == -1)
-                return Direction.NORTH;
-        }
-
-        else if (currentDirection == Direction.SOUTH) {
-            if (rotation == 1)
-                return Direction.WEST;
-            else if (rotation == -1)
-                return Direction.EAST;
-        }
-
-        else if (currentDirection == Direction.WEST) {
+    public Direction rotate(Direction currentDirection, int rotation, double time) {
+        if (isTimeToMove(time)) {
+            lastTimeMoved = time;
+            if (currentDirection == Direction.NORTH) {
+                if (rotation == 1)
+                    return Direction.EAST;
+                else if (rotation == -1)
+                    return Direction.WEST;
+            } else if (currentDirection == Direction.EAST) {
+                if (rotation == 1)
+                    return Direction.SOUTH;
+                else if (rotation == -1)
+                    return Direction.NORTH;
+            } else if (currentDirection == Direction.SOUTH) {
+                if (rotation == 1)
+                    return Direction.WEST;
+                else if (rotation == -1)
+                    return Direction.EAST;
+            } else if (currentDirection == Direction.WEST) {
                 if (rotation == 1)
                     return Direction.NORTH;
                 else if (rotation == -1)
                     return Direction.SOUTH;
+            }
         }
 
         return currentDirection;
@@ -67,7 +64,7 @@ public class Movement extends AgentModule implements IMovement {
     public Position goForward(Position position, Direction direction, double time) {
         if (isTimeToMove(time)) {
             Position newPos = position.add( new Position(direction.getMoveX(), direction.getMoveY()) );
-
+            lastTimeMoved = time;
             if (isColliding(newPos)) {
                 return position;
             }
@@ -77,7 +74,7 @@ public class Movement extends AgentModule implements IMovement {
     }
 
     private boolean isTimeToMove(double time) {
-        return time - lastTimeMoved > 1.0/baseSpeed;
+        return time - lastTimeMoved > 1.0/(baseSpeed/10.0);
     }
 
     @Override
