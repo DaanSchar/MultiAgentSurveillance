@@ -19,67 +19,68 @@ import org.slf4j.LoggerFactory;
 public class Movement extends AgentModule implements IMovement {
 
     private static final Logger logger = LoggerFactory.getLogger(Movement.class);
-    private @Getter @Setter int baseSpeed, sprintSpeed;
+    private @Getter @Setter double baseSpeed, sprintSpeed;
+    private double lastTimeMoved;
 
-    public Movement(Scenario scenario,int baseSpeed, int sprintSpeed) {
+    public Movement(Scenario scenario,double baseSpeed, double sprintSpeed) {
         super(scenario);
         this.baseSpeed = baseSpeed;
         this.sprintSpeed = sprintSpeed;
-
     }
 
     // 1 is left
     //-1 is right
     @Override
-    public Direction rotate(Direction currentDirection, int rotation) {
-        if (currentDirection == Direction.NORTH) {
-            if (rotation == 1)
-                return Direction.EAST;
-            else if (rotation == -1)
-                return Direction.WEST;
-        }
-
-        else if (currentDirection == Direction.EAST) {
-            if (rotation == 1)
-                return Direction.SOUTH;
-            else if (rotation == -1)
-                return Direction.NORTH;
-        }
-
-        else if (currentDirection == Direction.SOUTH) {
-            if (rotation == 1)
-                return Direction.WEST;
-            else if (rotation == -1)
-                return Direction.EAST;
-        }
-
-        else if (currentDirection == Direction.WEST) {
+    public Direction rotate(Direction currentDirection, int rotation, double time) {
+        if (isTimeToMove(time)) {
+            lastTimeMoved = time;
+            if (currentDirection == Direction.NORTH) {
+                if (rotation == 1)
+                    return Direction.EAST;
+                else if (rotation == -1)
+                    return Direction.WEST;
+            } else if (currentDirection == Direction.EAST) {
+                if (rotation == 1)
+                    return Direction.SOUTH;
+                else if (rotation == -1)
+                    return Direction.NORTH;
+            } else if (currentDirection == Direction.SOUTH) {
+                if (rotation == 1)
+                    return Direction.WEST;
+                else if (rotation == -1)
+                    return Direction.EAST;
+            } else if (currentDirection == Direction.WEST) {
                 if (rotation == 1)
                     return Direction.NORTH;
                 else if (rotation == -1)
                     return Direction.SOUTH;
+            }
         }
 
         return currentDirection;
     }
 
     @Override
-    public Position goForward(Position position, Direction direction) {
-        Position newPos = position.add(new Position(
-                (int)(direction.getMoveX() * baseSpeed * scenario.getTimeStep()),
-                (int)(direction.getMoveY() * baseSpeed * scenario.getTimeStep()))
-        );
-
-        if(checkCollision(newPos)){
-            return position;
-        }
+    public Position goForward(Position position, Direction direction, double time) {
+        if (isTimeToMove(time)) {
+            Position newPos = position.add( new Position(direction.getMoveX(), direction.getMoveY()) );
+            lastTimeMoved = time;
+            if (isColliding(newPos)) {
+                return position;
+            }
             return newPos;
+        }
+        return position;
+    }
+
+    private boolean isTimeToMove(double time) {
+        return time - lastTimeMoved > 1.0/(baseSpeed/10.0);
     }
 
     @Override
     public Position sprint(Position position, Direction direction) {
         Position newPos = position.add(new Position(direction.getMoveX() * 2, direction.getMoveY() * 2));
-        if (checkCollision(newPos)) {
+        if (isColliding(newPos)) {
             return position;
         }
             return newPos;
@@ -93,7 +94,7 @@ public class Movement extends AgentModule implements IMovement {
                 (int)(direction.getMoveY() * baseSpeed * scenario.getTimeStep())
         ));
 
-        if (checkCollision(newPos)) {
+        if (isColliding(newPos)) {
             return position;
         }
         return newPos;
@@ -106,7 +107,7 @@ public class Movement extends AgentModule implements IMovement {
      * @param position the position want to be checked
      * @return the area with collision or null if there is no collision
      */
-    private boolean checkCollision(Position position){
+    private boolean isColliding(Position position){
         var tileMap = scenario.getEnvironment().getTileMap();
         Tile tile;
 
