@@ -11,7 +11,7 @@ import java.io.File;
 
 public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace> {
 
-    private final Scenario scenario = new MapParser(new File("maps/testmap.txt")).createScenario();
+    private Scenario scenario;
 
 
     @Override
@@ -26,6 +26,8 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
 
     @Override
     public NeuralGameState reset() {
+        scenario = getNewGame();
+
         return null;
     }
 
@@ -47,5 +49,9 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
     @Override
     public MDP<NeuralGameState, Integer, DiscreteSpace> newInstance() {
         return new Environment();
+    }
+
+    private Scenario getNewGame() {
+        return new MapParser(new File("maps/testmap.txt")).createScenario();
     }
 }

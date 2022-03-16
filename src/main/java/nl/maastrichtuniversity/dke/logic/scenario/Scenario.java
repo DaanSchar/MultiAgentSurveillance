@@ -32,9 +32,6 @@ public class Scenario {
         this.soundMap = new ArrayList<>();
         this.communicationMarks = new ArrayList<>();
         this.environment = environment;
-
     }
-
-
 
 }
