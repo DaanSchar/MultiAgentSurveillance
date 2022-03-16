@@ -13,6 +13,13 @@ repositories {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    implementation group: 'org.deeplearning4j', name: 'deeplearning4j-nn', version: '1.0.0-beta7'
+    implementation group: 'org.deeplearning4j', name: 'rl4j', version: '1.0.0-M1.1'
+    implementation group: 'org.deeplearning4j', name: 'rl4j-api', version: '1.0.0-M1.1'
+    implementation group: 'org.deeplearning4j', name: 'rl4j-core', version: '1.0.0-M1.1'
+    implementation group: 'org.nd4j', name: 'nd4j-backends', version: '1.0.0-beta7'
+    implementation group: 'org.nd4j', name: 'nd4j-cuda-10.1', version: '1.0.0-beta7'
+    implementation group: 'org.nd4j', name: 'nd4j-native-platform', version: '1.0.0-beta7'
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.35'
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.35'
     compileOnly 'org.projectlombok:lombok:1.18.22'
