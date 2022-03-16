@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
+import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 
 import java.util.ArrayList;

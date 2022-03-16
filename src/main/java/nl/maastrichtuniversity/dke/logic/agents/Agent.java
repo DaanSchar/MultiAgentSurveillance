@@ -2,6 +2,7 @@ package nl.maastrichtuniversity.dke.logic.agents;
 
 import lombok.Getter;
 import lombok.Setter;
+import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.ICommunicationModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.memory.IMemoryModule;
@@ -9,13 +10,11 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.INoiseMo
 import nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
-import nl.maastrichtuniversity.dke.logic.scenario.CommunicationMark;
+import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.ISpawnModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.awt.*;
 
 /**
  * agent class parent of guard and intruder
@@ -71,8 +70,13 @@ public class Agent {
         updateMemory();
     }
 
-    public void dropMark(Position position , Color color){
-        communicationModule.addMark(position.getX(),position.getY(),new CommunicationMark(position,color));
+    public boolean dropMark(CommunicationType type){
+        if(communicationModule.hasMark(type)){
+            communicationModule.dropMark(new CommunicationMark(this.position, type));
+            return true;
+        }
+        return false;
+
     }
 
     public void listen(){

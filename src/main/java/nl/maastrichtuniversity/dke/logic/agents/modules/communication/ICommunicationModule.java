@@ -1,14 +1,9 @@
 package nl.maastrichtuniversity.dke.logic.agents.modules.communication;
 
-import nl.maastrichtuniversity.dke.logic.scenario.CommunicationMark;
-
 public interface ICommunicationModule {
 
-
-    void addMark(int x, int y, CommunicationMark device);
-
-    boolean hasMark(int x, int y);
-
-    //List<CommunicationMark> getMarks(int x, int y);
-
+    boolean hasMark(CommunicationType type);
+    int countMark(CommunicationType type);
+    void findMarker(CommunicationType marker);
+    void dropMark(CommunicationMark device);
 }
