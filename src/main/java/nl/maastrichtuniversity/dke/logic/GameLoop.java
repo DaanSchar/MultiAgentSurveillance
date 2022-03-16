@@ -9,15 +9,19 @@ public class GameLoop {
 
     private static final Logger logger = LoggerFactory.getLogger(GameLoop.class);
     private final Scenario scenario;
+    private double time;
 
     public GameLoop(Scenario scenario) {
         this.scenario = scenario;
+        this.time = 0.0;
         scenario.getGuards().forEach(Agent::spawn);
     }
 
-    public void update(double time) {
+    public void update(double timeStep) {
+        time += timeStep;
+
         for (Agent agent : scenario.getGuards()) {
-            moveAgentRandomly(agent, time);
+            moveAgentRandomly(agent);
         }
 
         for (Agent agent : scenario.getGuards()) {
@@ -25,7 +29,7 @@ public class GameLoop {
         }
     }
 
-    private void moveAgentRandomly(Agent agent, double time) {
+    private void moveAgentRandomly(Agent agent) {
         int rotation = getRandomRotation();
 
         if (rotation == 0)

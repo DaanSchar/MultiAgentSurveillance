@@ -34,4 +34,9 @@ public class Scenario {
         this.environment = environment;
     }
 
+    //TODO: add memory modules of guards here
+    public double[] getStateVector() {
+        return new double[]{};
+    }
+
 }

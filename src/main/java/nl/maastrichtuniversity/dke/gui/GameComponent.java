@@ -177,7 +177,7 @@ public class GameComponent extends JComponent{
 
 		Timer timer = new Timer(20, e -> {
 			system.resetNoise();
-			system.update(time.get());
+			system.update(scenario.getTimeStep());
 			time.updateAndGet(v -> v + scenario.getTimeStep());
 			repaint();
 		});
@@ -188,7 +188,6 @@ public class GameComponent extends JComponent{
 	public void panning(int x,int y){
 		panningX += x/15;
 		panningY += y/15;
-		
 	}
 
 	public void resize(){
