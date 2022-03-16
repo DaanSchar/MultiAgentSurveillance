@@ -11,7 +11,7 @@ import java.io.File;
 public class Menu implements ActionListener  {
 
 
-    private final JFrame window = new JFrame("GROUP 14");
+    private final JFrame window = Window.getInstance();
 
     /*
      * Create a general label
@@ -97,12 +97,12 @@ public class Menu implements ActionListener  {
          *  Adding the label to the frame.
          *  Set the frame visible.
          */
-        window.setUndecorated(true);
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setSize(800, 600);
-        window.setLocationRelativeTo(null);
+//        window.setUndecorated(true);
+//        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        window.setSize(800, 600);
+//        window.setLocationRelativeTo(null);
         window.add(label);
-        window.setIconImage(imageFactory.get("gameIcon"));
+//        window.setIconImage(imageFactory.get("gameIcon"));
         window.setVisible(true);
 
     }
