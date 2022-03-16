@@ -94,7 +94,7 @@ public class AgentFactory {
             markersIntru.add(CommunicationType.SMELL);
             markersIntru.add(CommunicationType.SOUND);
         }
-        intruder.setCommunicationModule(new CommunicationModule(scenario, markersIntru));
+        intruder.setCommunicationModule(new CommunicationModule(scenario, markersIntru,smellingDistance));
         intruder.setMemoryModule(new MemoryModule(scenario));
         intruder.setListeningModule(new ListeningModule(scenario));
 
