@@ -116,11 +116,12 @@ public class Movement extends AgentModule implements IMovement {
             return true;
         }
 
-        if (tile.getType() == TileType.EMPTY) {
-            return false;
-        } else {
-            return !tile.isOpened();
-        }
+        return !tile.getType().isPassable();
+
+//  Not working: to be implemented!
+//        else {
+//            return !tile.isOpened();
+//        }
     }
 }
 
