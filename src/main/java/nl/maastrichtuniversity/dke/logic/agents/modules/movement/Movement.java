@@ -69,6 +69,7 @@ public class Movement extends AgentModule implements IMovement {
                 (int)(direction.getMoveX() * baseSpeed * scenario.getTimeStep()),
                 (int)(direction.getMoveY() * baseSpeed * scenario.getTimeStep()))
         );
+
         if(checkCollision(newPos)){
             return position;
         }
