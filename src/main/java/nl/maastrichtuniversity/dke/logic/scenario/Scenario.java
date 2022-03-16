@@ -22,6 +22,7 @@ public class Scenario {
     private Environment environment;
     private @Setter List<Guard> guards;
     private @Setter List<Intruder> intruders;
+    private @Getter @Setter List<Smell> smellMap;
     private @Getter @Setter List<Sound> soundMap;
     private @Getter @Setter List<CommunicationMark> communicationMarks;
 
