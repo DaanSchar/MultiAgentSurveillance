@@ -23,12 +23,12 @@ public class GameObservationSpace implements ObservationSpace<NeuralGameState> {
 
     @Override
     public INDArray getLow() {
-        return Nd4j.create(createArray(Network.LOW_VALUE));
+        return Nd4j.create(createArray(Network.LOW_VALUE_INPUT));
     }
 
     @Override
     public INDArray getHigh() {
-        return Nd4j.create(createArray(Network.HIGH_VALUE));
+        return Nd4j.create(createArray(Network.HIGH_VALUE_INPUT));
     }
 
     private static double[] createArray(double value) {

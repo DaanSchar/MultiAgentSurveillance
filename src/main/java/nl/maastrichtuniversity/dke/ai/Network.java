@@ -7,16 +7,25 @@ import org.nd4j.linalg.learning.config.RmsProp;
 
 public class Network {
 
-    public static final int NUM_INPUTS = 61;
-    public static final double LOW_VALUE = 0;
-    public static final double HIGH_VALUE = 2;
-    private static final int stepsPerEpoch = 100;
+    public static final int NUM_INPUTS = 28800;
+    public static final int NUM_OUTPUTS = 3;
+
+    private static final int NUM_LAYERS = 2;
+    private static final int NUM_HIDDEN_NODES = 128;
+
+    public static final double LOW_VALUE_INPUT = 0;
+    public static final double HIGH_VALUE_INPUT = 12;
+
+    private static final int MIN_EPOCHS = 100;
+    private static final int STEPS_PER_EPOCH = 1000;
+
+    private static final double LEARNING_RATE = 0.01;
 
     public QLearningConfiguration buildConfig() {
         return QLearningConfiguration.builder()
                 .seed(123L)
-                .maxEpochStep(stepsPerEpoch)
-                .maxStep(stepsPerEpoch * NetworkSettings.getMinEpochs())
+                .maxEpochStep(STEPS_PER_EPOCH)
+                .maxStep(STEPS_PER_EPOCH * MIN_EPOCHS)
                 .expRepMaxSize(1500000)
                 .batchSize(128)
                 .targetDqnUpdateFreq(500)
@@ -34,9 +43,9 @@ public class Network {
         DQNDenseNetworkConfiguration build = DQNDenseNetworkConfiguration.builder()
                 .l2(0.001)
                 .updater(new RmsProp(0.000025))
-                .numHiddenNodes(300)
-                .numLayers(NetworkSettings.getNumLayers())
-                .learningRate(NetworkSettings.getLearningRate())
+                .numHiddenNodes(NUM_HIDDEN_NODES)
+                .numLayers(NUM_LAYERS)
+                .learningRate(LEARNING_RATE)
                 .build();
         return new DQNFactoryStdDense(build);
     }

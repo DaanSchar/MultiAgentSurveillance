@@ -16,41 +16,42 @@ import java.util.LinkedList;
  */
 public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace> {
 
-    private final DiscreteSpace actionSpace = new DiscreteSpace(Network.NUM_INPUTS);
+    private final DiscreteSpace actionSpace = new DiscreteSpace(Network.NUM_OUTPUTS);
     private final Game game = Game.getInstance();
 
     @Override
     public StepReply<NeuralGameState> step(Integer integer) {
-
         game.update(integer);
 
         return new StepReply<>(
                 new NeuralGameState(game.getScenario().getStateVector()),
                 0.0,
-                false,
+                isDone(),
                 null
         );
     }
 
     @Override
     public boolean isDone() {
-        var scenario = game.getScenario();
-        int numberOfTiles = scenario.getEnvironment().getHeight() * scenario.getEnvironment().getWidth();
-        LinkedList<Tile> exploredTiles = new LinkedList<>();
+//        var scenario = game.getScenario();
+//        int numberOfTiles = scenario.getEnvironment().getHeight() * scenario.getEnvironment().getWidth();
+//        LinkedList<Tile> exploredTiles = new LinkedList<>();
+//
+//        for (Agent a : scenario.getGuards()) {
+//            for (Tile[] tCol : a.getMemoryModule().getMap().getTileMap()) {
+//                for (Tile t : tCol) {
+//                    if (!exploredTiles.contains(t)) {
+//                        exploredTiles.add(t);
+//                    }
+//                    if (exploredTiles.size() == numberOfTiles) {
+//                        return true;
+//                    }
+//                }
+//            }
+//        }
+//        return exploredTiles.size() == numberOfTiles;
+        return false;
 
-        for (Agent a : scenario.getGuards()) {
-            for (Tile[] tCol : a.getMemoryModule().getMap().getTileMap()) {
-                for (Tile t : tCol) {
-                    if (!exploredTiles.contains(t)) {
-                        exploredTiles.add(t);
-                    }
-                    if (exploredTiles.size() == numberOfTiles) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return exploredTiles.size() == numberOfTiles;
     }
 
     @Override
@@ -60,9 +61,7 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
     }
 
     @Override
-    public MDP<NeuralGameState, Integer, DiscreteSpace> newInstance() {
-        return new Environment();
-    }
+    public MDP<NeuralGameState, Integer, DiscreteSpace> newInstance() { return new Environment(); }
 
     @Override
     public ObservationSpace<NeuralGameState> getObservationSpace() { return new GameObservationSpace(); }
@@ -71,5 +70,5 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
     public DiscreteSpace getActionSpace() { return actionSpace; }
 
     @Override
-    public void close() {  }
+    public void close() {}
 }

@@ -23,8 +23,10 @@ public class Game {
      * @return the only allowed instance of the game.
      */
     public static Game getInstance() {
-        if (game == null)
+        if (game == null) {
             setMapFile(DEFAULT_MAP);
+        }
+
         return game;
     }
 
@@ -32,8 +34,10 @@ public class Game {
         Game.mapFile = mapFile;
 
         if (game == null) {
+            logger.info("Creating new game instance.");
             game = new Game();
         } else {
+            logger.info("Map file changed, resetting game.");
             game.reset();
         }
     }
@@ -50,6 +54,7 @@ public class Game {
      * setting the time to 0 and re-initializing the agents.
      */
     public void reset() {
+        logger.info("Resetting game.");
         scenario = new MapParser(mapFile).createScenario();
         game.time = 0.0;
         init();
@@ -67,11 +72,13 @@ public class Game {
      */
     public void update(int action) {
         time += scenario.getTimeStep();
+        action -=1;
 
         logger.info("Time: " + time + ". action: " + action);
 
         for (Agent agent : scenario.getGuards()) {
-            moveAgentRandomly(agent);
+            if (action == 0) agent.goForward(time);
+            else agent.rotate(action, time);
         }
 
         for (Agent agent : scenario.getGuards()) {

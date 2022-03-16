@@ -20,7 +20,6 @@ public class Train {
 
         var env = new Environment();
         var dql = getDQL(env);
-        new GameWindow();
 
         dql.train();
         env.close();
