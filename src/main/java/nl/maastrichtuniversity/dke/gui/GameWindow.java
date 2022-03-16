@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Objects;
 
+import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 
 /**
@@ -23,8 +24,8 @@ public class GameWindow  {
 
     private boolean showAgentMemoryMap;
 
-    public GameWindow(Scenario scenario) {
-        this.scenario = scenario;
+    public GameWindow() {
+        this.scenario = Game.getInstance().getScenario();
         this.textureSize = (int) (scenario.getScaling()*100);
 
         setUp();
@@ -49,13 +50,13 @@ public class GameWindow  {
     // ------------------------------------------- GameComponents ---------------------------------------------- \\
 
 
-    private GameComponent game;
+    private GameComponent gameComponent;
     private GameComponent agentMemoryMap;
 
     private void setUpGameComponents() {
-        game = new GameComponent(scenario);
+        gameComponent = new GameComponent();
         agentMemoryMap = new GameComponent(scenario,scenario.getGuards().get(0).getMemoryModule().getMap());
-        game.setPreferredSize(new Dimension(
+        gameComponent.setPreferredSize(new Dimension(
                 scenario.getEnvironment().getWidth()*textureSize,
                 (scenario.getEnvironment().getHeight()*textureSize) + 40)
         );
@@ -87,7 +88,7 @@ public class GameWindow  {
         window.setLocationRelativeTo(null);
         window.getContentPane().setBackground(backgroundColor);
         window.add(buttonContainer);
-        window.add(game);
+        window.add(gameComponent);
         window.add(agentMemoryMap, BorderLayout.NORTH);
         window.setIconImage(icon.getImage());
     }
@@ -186,11 +187,11 @@ public class GameWindow  {
 
         private void onExitButtonClicked() { System.exit(0); }
 
-        private void onZoomOutButtonClicked() { game.zoomOut(); }
+        private void onZoomOutButtonClicked() { gameComponent.zoomOut(); }
 
-        private void onZoomInButtonClicked() { game.zoomIn(); }
+        private void onZoomInButtonClicked() { gameComponent.zoomIn(); }
 
-        private void onResizeButtonClicked() { game.resize(); }
+        private void onResizeButtonClicked() { gameComponent.resize(); }
 
         private void onBackButtonClicked() {
             window.dispose();
@@ -218,7 +219,7 @@ public class GameWindow  {
 
         @Override
         public void mouseWheelMoved(MouseWheelEvent e){
-            if (e.getWheelRotation() < 0) game.zoomIn(); else game.zoomOut();
+            if (e.getWheelRotation() < 0) gameComponent.zoomIn(); else gameComponent.zoomOut();
             window.repaint();
         }
 
@@ -227,7 +228,7 @@ public class GameWindow  {
             Point point1 = e.getLocationOnScreen();
 
             if (released) {
-                game.panning((point1.x-point0.x),(point1.y-point0.y));
+                gameComponent.panning((point1.x-point0.x),(point1.y-point0.y));
             }
             window.repaint();
         }

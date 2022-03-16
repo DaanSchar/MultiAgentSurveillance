@@ -1,4 +1,4 @@
-package nl.maastrichtuniversity.dke.reinforcement;
+package nl.maastrichtuniversity.dke.ai;
 
 import org.deeplearning4j.rl4j.space.ObservationSpace;
 import org.nd4j.linalg.api.ndarray.INDArray;

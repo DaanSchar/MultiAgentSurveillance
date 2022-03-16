@@ -1,16 +1,13 @@
-package nl.maastrichtuniversity.dke.reinforcement;
+package nl.maastrichtuniversity.dke.ai;
 
-import nl.maastrichtuniversity.dke.logic.GameLoop;
+import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
-import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
-import nl.maastrichtuniversity.dke.logic.scenario.util.MapParser;
 import org.deeplearning4j.gym.StepReply;
 import org.deeplearning4j.rl4j.mdp.MDP;
 import org.deeplearning4j.rl4j.space.DiscreteSpace;
 import org.deeplearning4j.rl4j.space.ObservationSpace;
 
-import java.io.File;
 import java.util.LinkedList;
 
 /**
@@ -20,25 +17,24 @@ import java.util.LinkedList;
 public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace> {
 
     private final DiscreteSpace actionSpace = new DiscreteSpace(Network.NUM_INPUTS);
-    private GameLoop gameLoop;
+    private final Game game = Game.getInstance();
 
     @Override
     public StepReply<NeuralGameState> step(Integer integer) {
+
+        game.update(integer);
+
         return new StepReply<>(
-                new NeuralGameState(gameLoop.getScenario().getStateVector()),
+                new NeuralGameState(game.getScenario().getStateVector()),
                 0.0,
-                isDone(),
+                false,
                 null
         );
     }
 
-    private void updateEnvironment() {
-        gameLoop.update();
-    }
-
     @Override
     public boolean isDone() {
-        var scenario = gameLoop.getScenario();
+        var scenario = game.getScenario();
         int numberOfTiles = scenario.getEnvironment().getHeight() * scenario.getEnvironment().getWidth();
         LinkedList<Tile> exploredTiles = new LinkedList<>();
 
@@ -59,8 +55,8 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
 
     @Override
     public NeuralGameState reset() {
-        gameLoop.reset();
-        return new NeuralGameState(gameLoop.getScenario().getStateVector());
+        game.reset();
+        return new NeuralGameState(game.getScenario().getStateVector());
     }
 
     @Override

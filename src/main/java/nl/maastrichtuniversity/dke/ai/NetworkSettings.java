@@ -1,4 +1,4 @@
-package nl.maastrichtuniversity.dke.reinforcement;
+package nl.maastrichtuniversity.dke.ai;
 
 import lombok.Getter;
 

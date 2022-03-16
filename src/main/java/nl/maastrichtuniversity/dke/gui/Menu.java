@@ -1,6 +1,6 @@
 package nl.maastrichtuniversity.dke.gui;
 
-import nl.maastrichtuniversity.dke.logic.scenario.util.MapParser;
+import nl.maastrichtuniversity.dke.logic.Game;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,17 +17,19 @@ public class Menu implements ActionListener  {
      * Create a general label
      * Creating 3 Buttons and add their icons (play , settings , exit ).
      */
-    private JLabel label = new JLabel();
-    private JLabel label2 = new JLabel();
+    private final JLabel label = new JLabel();
+    private final JLabel label2 = new JLabel();
 
-    private JButton upload = new JButton(new ImageIcon(ImageFactory.get("uploadButton")));
-    private JButton design = new JButton(new ImageIcon(ImageFactory.get("designButton")));
-    private JButton manually = new JButton(new ImageIcon(ImageFactory.get("manuallyButton")));
-    private JButton select = new JButton(new ImageIcon(ImageFactory.get("selectButton")));
+    private final ImageFactory imageFactory = ImageFactory.getInstance();
 
-    private JButton play = new JButton(new ImageIcon(ImageFactory.get("playButton")));
-    private JButton exit = new JButton(new ImageIcon(ImageFactory.get("exitButton")));
-    private JButton back = new JButton(new ImageIcon(ImageFactory.get("backButton")));
+    private final JButton upload = new JButton(new ImageIcon(imageFactory.get("uploadButton")));
+    private final JButton design = new JButton(new ImageIcon(imageFactory.get("designButton")));
+    private final JButton manually = new JButton(new ImageIcon(imageFactory.get("manuallyButton")));
+    private final JButton select = new JButton(new ImageIcon(imageFactory.get("selectButton")));
+
+    private final JButton play = new JButton(new ImageIcon(imageFactory.get("playButton")));
+    private final JButton exit = new JButton(new ImageIcon(imageFactory.get("exitButton")));
+    private final JButton back = new JButton(new ImageIcon(imageFactory.get("backButton")));
 
 
     public Menu() {
@@ -55,7 +57,7 @@ public class Menu implements ActionListener  {
          *  Set the label2 background color.
          *  Add the buttons to one label2.
          */
-        label2.setIcon(new ImageIcon(ImageFactory.get("mapSettingsBackground")));
+        label2.setIcon(new ImageIcon(imageFactory.get("mapSettingsBackground")));
         label2.setHorizontalAlignment(JLabel.CENTER);
         label2.setVerticalAlignment(JLabel.CENTER);
         label2.setBackground(Color.WHITE);
@@ -81,7 +83,7 @@ public class Menu implements ActionListener  {
          *  Set the label background color.
          *  Add the buttons to one label.
          */
-        label.setIcon(new ImageIcon(ImageFactory.get("menuBackground")));
+        label.setIcon(new ImageIcon(imageFactory.get("menuBackground")));
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setVerticalAlignment(JLabel.CENTER);
         label.setBackground(Color.WHITE);
@@ -100,7 +102,7 @@ public class Menu implements ActionListener  {
         window.setSize(800, 600);
         window.setLocationRelativeTo(null);
         window.add(label);
-        window.setIconImage(ImageFactory.get("gameIcon"));
+        window.setIconImage(imageFactory.get("gameIcon"));
         window.setVisible(true);
 
     }
@@ -136,8 +138,9 @@ public class Menu implements ActionListener  {
 
             if (response==JFileChooser.APPROVE_OPTION) {
                 File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
+                Game.setMapFile(file);
 
-                new GameWindow(new MapParser(file).createScenario());
+                new GameWindow();
 
                 window.dispose();
             }
@@ -158,7 +161,6 @@ public class Menu implements ActionListener  {
     }
 
     public static void main(String[] args) {
-        ImageFactory.init();
         Menu Menu = new Menu();
     }
 
