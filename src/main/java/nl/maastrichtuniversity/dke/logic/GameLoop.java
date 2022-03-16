@@ -3,13 +3,16 @@ package nl.maastrichtuniversity.dke.logic;
 import lombok.Getter;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.scenario.util.MapParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
 
 public class GameLoop {
 
     private static final Logger logger = LoggerFactory.getLogger(GameLoop.class);
-    private final @Getter Scenario scenario;
+    private @Getter Scenario scenario;
     private double time;
 
     public GameLoop(Scenario scenario) {
@@ -18,8 +21,8 @@ public class GameLoop {
         scenario.getGuards().forEach(Agent::spawn);
     }
 
-    public void update(double timeStep) {
-        time += timeStep;
+    public void update() {
+        time += scenario.getTimeStep();
 
         for (Agent agent : scenario.getGuards()) {
             moveAgentRandomly(agent);
@@ -51,6 +54,10 @@ public class GameLoop {
 
     public void resetNoise(){
         scenario.getSoundMap().clear();
+    }
+
+    public void reset() {
+        scenario = new MapParser(new File("map/testmap.txt")).createScenario();
     }
 
 }

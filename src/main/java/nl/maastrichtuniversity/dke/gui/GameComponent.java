@@ -173,12 +173,9 @@ public class GameComponent extends JComponent{
 
 	public void startGameSystem() {
 		GameLoop system = new GameLoop(scenario);
-		AtomicReference<Double> time = new AtomicReference<>((double) 0);
-
 		Timer timer = new Timer(20, e -> {
 			system.resetNoise();
-			system.update(scenario.getTimeStep());
-			time.updateAndGet(v -> v + scenario.getTimeStep());
+			system.update();
 			repaint();
 		});
 

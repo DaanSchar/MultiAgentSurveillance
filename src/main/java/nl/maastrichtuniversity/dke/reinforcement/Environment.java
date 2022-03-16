@@ -33,7 +33,7 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
     }
 
     private void updateEnvironment() {
-        gameLoop.update(gameLoop.getScenario().getTimeStep());
+        gameLoop.update();
     }
 
     @Override
@@ -59,11 +59,9 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
 
     @Override
     public NeuralGameState reset() {
-        gameLoop = getNewGame();
+        gameLoop.reset();
         return new NeuralGameState(gameLoop.getScenario().getStateVector());
     }
-
-    private GameLoop getNewGame() { return new GameLoop(new MapParser(new File("maps/testmap.txt")).createScenario()); }
 
     @Override
     public MDP<NeuralGameState, Integer, DiscreteSpace> newInstance() {
