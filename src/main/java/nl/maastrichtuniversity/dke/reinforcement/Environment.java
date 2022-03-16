@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.reinforcement;
 
+import nl.maastrichtuniversity.dke.logic.GameLoop;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
@@ -12,33 +13,20 @@ import org.deeplearning4j.rl4j.space.ObservationSpace;
 import java.io.File;
 import java.util.LinkedList;
 
+/**
+ * This is the environment that is used in the reinforcement learning.
+ * It is kind of like a playground for the agents to play in.
+ */
 public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace> {
 
-    private final Scenario scenario = new MapParser(new File("maps/testmap.txt")).createScenario();
-
-
-    @Override
-    public ObservationSpace<NeuralGameState> getObservationSpace() {
-        return null;
-    }
-
-    @Override
-    public DiscreteSpace getActionSpace() {
-        return null;
-    }
-
-    @Override
-    public NeuralGameState reset() {
-        return null;
-    }
-
-    @Override
-    public void close() {
-
-    }
+    private Scenario scenario;
+    private DiscreteSpace actionSpace = new DiscreteSpace(Network.NUM_INPUTS);
 
     @Override
     public StepReply<NeuralGameState> step(Integer integer) {
+        GameLoop system = new GameLoop(scenario);
+        system.update(scenario.getTimeStep());
+
         return null;
     }
 
@@ -63,7 +51,24 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
     }
 
     @Override
+    public NeuralGameState reset() {
+        scenario = getNewGame();
+        return new NeuralGameState(scenario.getStateVector());
+    }
+
+    private Scenario getNewGame() { return new MapParser(new File("maps/testmap.txt")).createScenario(); }
+
+    @Override
     public MDP<NeuralGameState, Integer, DiscreteSpace> newInstance() {
         return new Environment();
     }
+
+    @Override
+    public ObservationSpace<NeuralGameState> getObservationSpace() { return new GameObservationSpace(); }
+
+    @Override
+    public DiscreteSpace getActionSpace() { return actionSpace; }
+
+    @Override
+    public void close() {}
 }

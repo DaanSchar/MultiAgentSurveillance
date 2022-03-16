@@ -32,9 +32,11 @@ public class Scenario {
         this.soundMap = new ArrayList<>();
         this.communicationMarks = new ArrayList<>();
         this.environment = environment;
-
     }
 
-
+    //TODO: add memory modules of guards here
+    public double[] getStateVector() {
+        return new double[]{};
+    }
 
 }

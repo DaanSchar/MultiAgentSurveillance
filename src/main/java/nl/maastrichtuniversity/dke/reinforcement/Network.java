@@ -38,7 +38,6 @@ public class Network {
                 .numLayers(NetworkSettings.getNumLayers())
                 .learningRate(NetworkSettings.getLearningRate())
                 .build();
-
         return new DQNFactoryStdDense(build);
     }
 
