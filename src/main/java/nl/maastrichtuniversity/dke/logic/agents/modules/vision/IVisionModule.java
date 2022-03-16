@@ -13,7 +13,4 @@ public interface IVisionModule {
     List<Tile> getObstacles();
     List<Agent> getAgents();
 
-
-
-
 }
