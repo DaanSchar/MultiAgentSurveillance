@@ -3,7 +3,6 @@ package nl.maastrichtuniversity.dke.logic.agents.modules.communication;
 import lombok.Getter;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
-import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.List;
 
@@ -13,7 +12,6 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
 
     public CommunicationModule(Scenario scenario, List<CommunicationType> marks) {
         super(scenario);
-//        this.numberOfMarkers = numberOfMarkers;
         this.marks = marks;
     }
 
@@ -30,12 +28,10 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
     }
 
     @Override
-    public boolean hasMark(int x, int y) {
-        Position p = new Position(x, y);
-        for (CommunicationMark cm : scenario.getCommunicationMarks()) {
-            if (cm.getPosition().equals(p)) {
-                return true;
-            }
+    public boolean hasMark(CommunicationType type) {
+        boolean check = false;
+        for (CommunicationType m : marks) {
+            check = m == type;
         }
         return check;
     }
