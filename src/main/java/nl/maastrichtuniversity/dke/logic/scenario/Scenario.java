@@ -34,7 +34,6 @@ public class Scenario {
         this.environment = environment;
     }
 
-    //TODO: add memory modules of guards here
     public double[] getStateVector() {
         int mapSize = environment.getWidth() * environment.getHeight();
         double[] stateVector = new double[mapSize * guards.size()];

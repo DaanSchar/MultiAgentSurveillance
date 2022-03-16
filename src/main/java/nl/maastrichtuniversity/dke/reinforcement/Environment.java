@@ -20,14 +20,19 @@ import java.util.LinkedList;
 public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace> {
 
     private Scenario scenario;
-    private DiscreteSpace actionSpace = new DiscreteSpace(Network.NUM_INPUTS);
+    private final DiscreteSpace actionSpace = new DiscreteSpace(Network.NUM_INPUTS);
 
     @Override
     public StepReply<NeuralGameState> step(Integer integer) {
         GameLoop system = new GameLoop(scenario);
         system.update(scenario.getTimeStep());
 
-        return null;
+        return new StepReply<>(
+                new NeuralGameState(scenario.getStateVector()),
+                0.0,
+                isDone(),
+                null
+        );
     }
 
     @Override
