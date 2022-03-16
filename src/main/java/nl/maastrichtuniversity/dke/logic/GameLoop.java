@@ -17,22 +17,21 @@ public class GameLoop {
 
     public void update(double time) {
         for (Agent agent : scenario.getGuards()) {
-            moveAgentRandomly(agent);
+            moveAgentRandomly(agent, time);
         }
 
         for (Agent agent : scenario.getGuards()) {
             agent.listen();
         }
-
     }
 
-    private void moveAgentRandomly(Agent agent) {
+    private void moveAgentRandomly(Agent agent, double time) {
         int rotation = getRandomRotation();
 
         if (rotation == 0)
-            agent.goForward();
+            agent.goForward(time);
         else
-            agent.rotate(rotation);
+            agent.rotate(rotation, time);
     }
 
     private int getRandomRotation() {
