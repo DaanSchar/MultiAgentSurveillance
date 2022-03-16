@@ -74,7 +74,7 @@ public class AgentFactory {
             markersGar.add(CommunicationType.SOUND);
         }
 
-        guard.setCommunicationModule(new CommunicationModule(scenario, markersGar));
+        guard.setCommunicationModule(new CommunicationModule(scenario, markersGar, smellingDistance));
         guard.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
         guard.setMemoryModule(new MemoryModule(scenario));
         guard.setListeningModule(new ListeningModule(scenario));
