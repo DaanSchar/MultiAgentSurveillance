@@ -25,4 +25,11 @@ public class Window {
         windowInstance.setIconImage(ImageFactory.getInstance().get("gameIcon"));
     }
 
+    public static void main(String[] args) {
+        var frame = getInstance();
+
+        frame.setContentPane(SplashMenu.getInstance().getPanel());
+        frame.setVisible(true);
+    }
+
 }

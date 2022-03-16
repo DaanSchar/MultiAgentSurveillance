@@ -91,18 +91,7 @@ public class Menu implements ActionListener  {
         label.add(play);
         label.add(exit);
 
-        /*
-         *  Set how to close the frame.
-         *  Set the size of the frame.
-         *  Adding the label to the frame.
-         *  Set the frame visible.
-         */
-//        window.setUndecorated(true);
-//        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        window.setSize(800, 600);
-//        window.setLocationRelativeTo(null);
         window.add(label);
-//        window.setIconImage(imageFactory.get("gameIcon"));
         window.setVisible(true);
 
     }
