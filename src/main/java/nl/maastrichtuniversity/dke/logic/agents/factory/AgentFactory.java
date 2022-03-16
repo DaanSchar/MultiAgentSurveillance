@@ -44,7 +44,7 @@ public class AgentFactory {
         ArrayList<Guard> agents = new ArrayList<>();
 
         for (int i = 0; i < numOfAgents; i++)
-            agents.add(buildGuard(i));
+            agents.add(buildGuard());
 
         logger.info("Created {} Guards", numOfAgents);
 
@@ -62,12 +62,11 @@ public class AgentFactory {
         return agents;
     }
 
-    public Guard buildGuard(int i) {
+    public Guard buildGuard() {
         var guard = new Guard();
         guard.setSpawnModule(new UniformSpawnModule(scenario));
         guard.setMovement(new Movement(scenario, baseSpeedGuards, 0));
         guard.setVisionModule(new VisionModule(scenario, viewingDistance));
-//        guard.setCommunicationModule(new CommunicationModule(scenario, numberOfMarkers));
         List<CommunicationType> markersGar = new ArrayList<>();
         for(int i = 0; i < numberOfMarkers; i++){
             markersGar.add(CommunicationType.VISION);
