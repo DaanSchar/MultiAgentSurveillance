@@ -20,12 +20,12 @@ public class Movement extends AgentModule implements IMovement {
 
     private static final Logger logger = LoggerFactory.getLogger(Movement.class);
     private @Getter @Setter int baseSpeed, sprintSpeed;
+    private double lastTimeMoved;
 
     public Movement(Scenario scenario,int baseSpeed, int sprintSpeed) {
         super(scenario);
         this.baseSpeed = baseSpeed;
         this.sprintSpeed = sprintSpeed;
-
     }
 
     // 1 is left
@@ -64,22 +64,26 @@ public class Movement extends AgentModule implements IMovement {
     }
 
     @Override
-    public Position goForward(Position position, Direction direction) {
-        Position newPos = position.add(new Position(
-                (int)(direction.getMoveX() * baseSpeed * scenario.getTimeStep()),
-                (int)(direction.getMoveY() * baseSpeed * scenario.getTimeStep()))
-        );
+    public Position goForward(Position position, Direction direction, double time) {
+        if (isTimeToMove(time)) {
+            Position newPos = position.add( new Position(direction.getMoveX(), direction.getMoveY()) );
 
-        if(checkCollision(newPos)){
-            return position;
-        }
+            if (isColliding(newPos)) {
+                return position;
+            }
             return newPos;
+        }
+        return position;
+    }
+
+    private boolean isTimeToMove(double time) {
+        return time - lastTimeMoved > 1.0/baseSpeed;
     }
 
     @Override
     public Position sprint(Position position, Direction direction) {
         Position newPos = position.add(new Position(direction.getMoveX() * 2, direction.getMoveY() * 2));
-        if (checkCollision(newPos)) {
+        if (isColliding(newPos)) {
             return position;
         }
             return newPos;
@@ -93,7 +97,7 @@ public class Movement extends AgentModule implements IMovement {
                 (int)(direction.getMoveY() * baseSpeed * scenario.getTimeStep())
         ));
 
-        if (checkCollision(newPos)) {
+        if (isColliding(newPos)) {
             return position;
         }
         return newPos;
@@ -106,7 +110,7 @@ public class Movement extends AgentModule implements IMovement {
      * @param position the position want to be checked
      * @return the area with collision or null if there is no collision
      */
-    private boolean checkCollision(Position position){
+    private boolean isColliding(Position position){
         var tileMap = scenario.getEnvironment().getTileMap();
         Tile tile;
 
@@ -120,7 +124,7 @@ public class Movement extends AgentModule implements IMovement {
         if (tile.getType() == TileType.EMPTY) {
             return false;
         } else {
-            return !tile.isOpened();
+            return !tile.isOpened() || tile.getType().isPassable();
         }
     }
 }
