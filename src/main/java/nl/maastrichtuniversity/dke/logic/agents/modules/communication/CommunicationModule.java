@@ -6,15 +6,20 @@ import nl.maastrichtuniversity.dke.logic.scenario.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CommunicationModule extends AgentModule implements ICommunicationModule {
 
     private final @Getter
-    int numberOfMarkers;
+    List<CommunicationMark> marks = new ArrayList<>();
 
-    public CommunicationModule(Scenario scenario, int numberOfMarkers) {
+    public CommunicationModule(Scenario scenario, List<CommunicationMark> marks) {
         super(scenario);
-        this.numberOfMarkers = numberOfMarkers;
+//        this.numberOfMarkers = numberOfMarkers;
+        this.marks = marks;
     }
+
 
     @Override
     public void addMark(int x, int y, CommunicationMark device) {
