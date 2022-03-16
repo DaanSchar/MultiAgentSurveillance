@@ -24,8 +24,6 @@ public class GameLoop {
             agent.listen();
         }
 
-        //resetNoise();
-
     }
 
     private void moveAgentRandomly(Agent agent) {
