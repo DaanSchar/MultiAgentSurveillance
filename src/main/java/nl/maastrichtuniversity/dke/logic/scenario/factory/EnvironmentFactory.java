@@ -3,6 +3,7 @@ package nl.maastrichtuniversity.dke.logic.scenario.factory;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TeleportTile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
@@ -43,6 +44,18 @@ public class EnvironmentFactory {
             for (int y = 0; y < height; y++)
                 if (tileMap[x][y] == null)
                     tileMap[x][y] = new Tile(new Position(x, y), TileType.EMPTY);
+    }
+
+    public void addTeleportArea(int x1, int y1, int x2, int y2, int targetX, int targetY, int rotation) {
+        logger.info("adding teleport area: " + x1 + " " + y1 + " " + x2 + " " + y2 + " with target coordinates "
+                + targetX + " " + targetY + " and rotation " + rotation);
+
+        if (this.tileMap == null && width > 0 && height > 0)
+            this.tileMap = new Tile[width][height];
+
+        for (int x = x1; x < x2; x++)
+            for (int y = y1; y < y2; y++)
+                tileMap[x][y] = new TeleportTile(new Position(x, y),targetX, targetY, rotation);
     }
 
 

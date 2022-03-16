@@ -5,6 +5,7 @@ import lombok.Setter;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TeleportTile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
@@ -68,6 +69,18 @@ public class Movement extends AgentModule implements IMovement {
             if (isColliding(newPos)) {
                 return position;
             }
+
+            var tileMap = scenario.getEnvironment().get(TileType.TELEPORT);
+            System.out.println(newPos);
+            for (Tile t : tileMap) {
+                System.out.println(t.getPosition());
+                if (newPos == t.getPosition()) {
+                    System.out.println("hello)");
+                    t = (TeleportTile) t;
+                    newPos = ((TeleportTile) t).getTargetPosition();
+                }
+            }
+
             return newPos;
         }
         return position;
@@ -93,6 +106,14 @@ public class Movement extends AgentModule implements IMovement {
                 (int)(direction.getMoveX() * baseSpeed * scenario.getTimeStep()),
                 (int)(direction.getMoveY() * baseSpeed * scenario.getTimeStep())
         ));
+
+        var tileMap = scenario.getEnvironment().get(TileType.TELEPORT);
+        for (Tile t : tileMap) {
+            if (newPos == t.getPosition()) {
+                t = (TeleportTile) t;
+                newPos = ((TeleportTile) t).getTargetPosition();
+            }
+        }
 
         if (isColliding(newPos)) {
             return position;
