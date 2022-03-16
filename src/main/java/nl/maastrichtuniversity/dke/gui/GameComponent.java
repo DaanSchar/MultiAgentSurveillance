@@ -175,9 +175,9 @@ public class GameComponent extends JComponent{
 		GameLoop system = new GameLoop(scenario);
 		AtomicReference<Double> time = new AtomicReference<>((double) 0);
 
-		Timer timer = new Timer(50, e -> {
+		Timer timer = new Timer(20, e -> {
 			system.update(time.get());
-			time.updateAndGet(v -> v + scenario.getTimeStep()/10.0);
+			time.updateAndGet(v -> v + scenario.getTimeStep());
 			repaint();
 		});
 

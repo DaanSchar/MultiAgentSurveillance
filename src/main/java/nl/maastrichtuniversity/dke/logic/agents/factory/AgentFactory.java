@@ -63,7 +63,7 @@ public class AgentFactory {
     public Guard buildGuard(int i) {
         var guard = new Guard();
         guard.setSpawnModule(new UniformSpawnModule(scenario));
-        guard.setMovement(new Movement(scenario, baseSpeedGuards + i, 0));
+        guard.setMovement(new Movement(scenario, baseSpeedGuards, 0));
         guard.setVisionModule(new VisionModule(scenario, viewingDistance));
         guard.setCommunicationModule(new CommunicationModule(scenario, numberOfMarkers));
         guard.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
