@@ -26,14 +26,14 @@ public class MDFS {
 //        agent.updateMemory();
         if (tile.getType().isPassable()) {
 //            agent can go to tiles
-            agent.goForward();
-            traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition())); // NORTH
-            agent.rotate(1);
-            traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition()));//WEST
-            agent.rotate(1);
-            traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition()));//SOUTH
-            agent.rotate(1);
-            traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition()));//EAST
+//            agent.goForward();
+//            traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition())); // NORTH
+//            agent.rotate(1);
+//            traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition()));//WEST
+//            agent.rotate(1);
+//            traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition()));//SOUTH
+//            agent.rotate(1);
+//            traversePreOrder(new Tile(agent.getVisionModule().getObstacles().get(0).getPosition()));//EAST
         }
     }
 }

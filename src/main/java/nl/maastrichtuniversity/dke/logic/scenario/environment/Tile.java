@@ -25,7 +25,6 @@ public class Tile {
         this.position = position;
         this.type = type;
        // this.communicationMarks = new ArrayList<>();
-
     }
 
     public boolean isEmpty(){

@@ -57,8 +57,8 @@ public class Agent {
         logger.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position + " facing " + this.direction);
     }
 
-    public void goForward(){
-         position = movement.goForward(position, direction);
+    public void goForward(double time){
+         position = movement.goForward(position, direction, time);
          visionModule.useVision(position,direction);
          var list = visionModule.getObstacles();
          noiseModule.makeWalkingSound(position);
@@ -93,8 +93,8 @@ public class Agent {
 
     /** 1 is left
     -1 is right */
-    public void rotate(int rotation){
-        direction = movement.rotate(direction, rotation);
+    public void rotate(int rotation, double time){
+        direction = movement.rotate(direction, rotation, time);
         updateMemory();
     }
 
