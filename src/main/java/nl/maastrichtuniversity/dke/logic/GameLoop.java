@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.logic;
 
+import lombok.Getter;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import org.slf4j.Logger;
@@ -8,7 +9,7 @@ import org.slf4j.LoggerFactory;
 public class GameLoop {
 
     private static final Logger logger = LoggerFactory.getLogger(GameLoop.class);
-    private final Scenario scenario;
+    private final @Getter Scenario scenario;
     private double time;
 
     public GameLoop(Scenario scenario) {

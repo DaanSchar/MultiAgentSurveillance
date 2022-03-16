@@ -19,24 +19,26 @@ import java.util.LinkedList;
  */
 public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace> {
 
-    private Scenario scenario;
     private final DiscreteSpace actionSpace = new DiscreteSpace(Network.NUM_INPUTS);
+    private GameLoop gameLoop;
 
     @Override
     public StepReply<NeuralGameState> step(Integer integer) {
-        GameLoop system = new GameLoop(scenario);
-        system.update(scenario.getTimeStep());
-
         return new StepReply<>(
-                new NeuralGameState(scenario.getStateVector()),
+                new NeuralGameState(gameLoop.getScenario().getStateVector()),
                 0.0,
                 isDone(),
                 null
         );
     }
 
+    private void updateEnvironment() {
+        gameLoop.update(gameLoop.getScenario().getTimeStep());
+    }
+
     @Override
     public boolean isDone() {
+        var scenario = gameLoop.getScenario();
         int numberOfTiles = scenario.getEnvironment().getHeight() * scenario.getEnvironment().getWidth();
         LinkedList<Tile> exploredTiles = new LinkedList<>();
 
@@ -57,11 +59,11 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
 
     @Override
     public NeuralGameState reset() {
-        scenario = getNewGame();
-        return new NeuralGameState(scenario.getStateVector());
+        gameLoop = getNewGame();
+        return new NeuralGameState(gameLoop.getScenario().getStateVector());
     }
 
-    private Scenario getNewGame() { return new MapParser(new File("maps/testmap.txt")).createScenario(); }
+    private GameLoop getNewGame() { return new GameLoop(new MapParser(new File("maps/testmap.txt")).createScenario()); }
 
     @Override
     public MDP<NeuralGameState, Integer, DiscreteSpace> newInstance() {
@@ -75,5 +77,5 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
     public DiscreteSpace getActionSpace() { return actionSpace; }
 
     @Override
-    public void close() {}
+    public void close() {  }
 }
