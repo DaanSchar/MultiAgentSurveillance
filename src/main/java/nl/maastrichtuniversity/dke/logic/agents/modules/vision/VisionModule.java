@@ -84,13 +84,12 @@ public class VisionModule extends AgentModule implements IVisionModule {
         boolean obstruct = false;
         Tile tmp = tilemap[x][y];
 
-//        if (!tmp.isEmpty()) {
+
             if (!tmp.isOpened() && !tmp.isEmpty()) {
                 obstruct = true;
             }
             obstacles.add(tmp);
 
-//        }
         return obstruct;
     }
 
