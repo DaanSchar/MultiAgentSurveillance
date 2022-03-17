@@ -2,6 +2,7 @@ package util;
 
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.ListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.NoiseModule;
+import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
@@ -99,6 +100,51 @@ public class AudioTest {
                 }
             }
         }
+
+    }
+
+
+    /**
+     *  x = positions from where we are checking the direction of sound S
+     *   0  e e x e x
+     *   1  x e e e e
+     *   2  x e S e x
+     *   3  x e e e x
+     *   4  e e x e e
+     *      0 1 2 3 4
+     */
+    @Test
+    public void directionSoundTest1(){
+        NoiseModule noiseModule = new NoiseModule(s,2,3);
+        ListeningModule listeningModule = new ListeningModule(s);
+        Position sourceSound = new Position(2,2);
+        noiseModule.makeWalkingSound(sourceSound);
+        List<Sound> soundMap = s.getSoundMap();
+        List<Direction> directions = listeningModule.getDirection(new Position(0,2));
+        assert (directions.get(0).equals(Direction.EAST));
+        directions = listeningModule.getDirection(new Position(2,0));
+        assert (directions.get(0).equals(Direction.SOUTH));
+        directions = listeningModule.getDirection(new Position(4,2));
+        assert (directions.get(0).equals(Direction.WEST));
+        directions = listeningModule.getDirection(new Position(2,4));
+        assert (directions.get(0).equals(Direction.NORTH));
+    }
+
+    @Test
+    public void directionSoundTest2(){
+        NoiseModule noiseModule = new NoiseModule(s,5,3);
+        ListeningModule listeningModule = new ListeningModule(s);
+        Position sourceSound = new Position(2,2);
+        noiseModule.makeWalkingSound(sourceSound);
+        List<Sound> soundMap = s.getSoundMap();
+        List<Direction> directions = listeningModule.getDirection(new Position(0,3));
+        assert (directions.get(0).equals(Direction.NORTHEAST));
+        directions = listeningModule.getDirection(new Position(0,1));
+        assert (directions.get(0).equals(Direction.SOUTHEAST));;
+        directions = listeningModule.getDirection(new Position(4,0));
+        assert (directions.get(0).equals(Direction.SOUTHWEST));
+        directions = listeningModule.getDirection(new Position(4,3));
+        assert (directions.get(0).equals(Direction.NORTHWEST));
 
     }
 
