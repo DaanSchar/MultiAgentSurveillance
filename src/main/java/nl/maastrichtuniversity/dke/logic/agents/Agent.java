@@ -39,8 +39,7 @@ public class Agent {
     private final int id;
 
     private @Setter Position position;
-    private @Setter
-    Direction direction;
+    private @Setter Direction direction;
 
     private @Setter ISpawnModule spawnModule;
     private @Setter IMovement movement;

@@ -102,8 +102,6 @@ public class Game {
             moveAgentRandomly(agent);
         }
 
-        agentActions.clear();
-
         for (Agent agent : scenario.getGuards()) {
             agent.listen();
         }
@@ -131,7 +129,7 @@ public class Game {
      * @param agent to be moved
      */
     private void moveAgentRandomly(Agent agent) {
-        int rotation = getRandomAcion();
+        int rotation = getRandomAction();
 
         if (rotation == 0)
             agent.dropMark(CommunicationType.SMELL);
@@ -148,7 +146,7 @@ public class Game {
      *
      * @return a random rotation
      */
-    private int getRandomAcion() {
+    private int getRandomAction() {
         if (Math.random() < 0.5)
             return 0;
 

@@ -33,7 +33,7 @@ public class Movement extends AgentModule implements IMovement {
     //-1 is right
     @Override
     public Direction rotate(Direction currentDirection, int rotation, double time) {
-        if (isTimeToMove(time)) {
+//        if (isTimeToMove(time)) {
             lastTimeMoved = time;
             if (currentDirection == Direction.NORTH) {
                 if (rotation == 1)
@@ -56,7 +56,7 @@ public class Movement extends AgentModule implements IMovement {
                 else if (rotation == -1)
                     return Direction.SOUTH;
             }
-        }
+//        }
 
         return currentDirection;
     }
@@ -64,7 +64,7 @@ public class Movement extends AgentModule implements IMovement {
     @Override
     public Position goForward(Position position, Direction direction, double time) {
 //        if (isTimeToMove(time)) {
-            Position newPos = position.add( new Position(direction.getMoveX() * (int)baseSpeed, direction.getMoveY() * (int) baseSpeed ));
+            Position newPos = position.add( new Position(direction.getMoveX(), direction.getMoveY()));
             lastTimeMoved = time;
             if (isColliding(newPos)) {
                 return position;
@@ -99,8 +99,8 @@ public class Movement extends AgentModule implements IMovement {
     @Override
     public Position goBackward (Position position, Direction direction) {
         Position newPos = position.sub(new Position(
-                (int)(direction.getMoveX() * baseSpeed),
-                (int)(direction.getMoveY() * baseSpeed)
+                (int)(direction.getMoveX()),
+                (int)(direction.getMoveY())
         ));
 
         var tileMap = scenario.getEnvironment().get(TileType.TELEPORT);
