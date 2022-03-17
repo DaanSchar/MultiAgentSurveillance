@@ -55,6 +55,7 @@ public class GameWindow  {
 
     private void setUpGameComponents() {
         gameComponent = new GameComponent();
+//        gameComponent.startGameSystem();
         agentMemoryMap = new GameComponent(scenario,scenario.getGuards().get(0).getMemoryModule().getMap());
         gameComponent.setPreferredSize(new Dimension(
                 scenario.getEnvironment().getWidth()*textureSize,

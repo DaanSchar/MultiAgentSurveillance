@@ -21,12 +21,10 @@ import org.slf4j.LoggerFactory;
 public class Movement extends AgentModule implements IMovement {
 
     private static final Logger logger = LoggerFactory.getLogger(Movement.class);
-    private @Getter
-    @Setter
-    double baseSpeed, sprintSpeed;
+    private @Getter @Setter double baseSpeed, sprintSpeed;
     private double lastTimeMoved;
 
-    public Movement(Scenario scenario, double baseSpeed, double sprintSpeed) {
+    public Movement(Scenario scenario,double baseSpeed, double sprintSpeed) {
         super(scenario);
         this.baseSpeed = baseSpeed;
         this.sprintSpeed = sprintSpeed;
@@ -82,13 +80,13 @@ public class Movement extends AgentModule implements IMovement {
             }
         }
 
-        return newPos;
+            return newPos;
 //        }
 //        return position;
     }
 
     private boolean isTimeToMove(double time) {
-        return time - lastTimeMoved > 1.0 / (baseSpeed / 10.0);
+        return time - lastTimeMoved > 1.0/(baseSpeed/10.0);
     }
 
 
@@ -139,12 +137,11 @@ public class Movement extends AgentModule implements IMovement {
 
 
     /**
-     * check if there is a collision between agent and an object
-     *
+     *  check if there is a collision between agent and an object
      * @param position the position want to be checked
      * @return the area with collision or null if there is no collision
      */
-    private boolean isColliding(Position position) {
+    private boolean isColliding(Position position){
         var tileMap = scenario.getEnvironment().getTileMap();
         Tile tile;
 
