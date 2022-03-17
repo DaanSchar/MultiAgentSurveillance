@@ -1,9 +1,12 @@
 package nl.maastrichtuniversity.dke.logic.agents.modules.communication;
 
 public enum CommunicationType {
-    VISION(false, true,false),
+    VISIONBLUE(false, true,false),
+    VISIONRED(false, true,false),
+    VISIONGREEN(false, true,false),
     SOUND(true, false, false),
     SMELL(false, false , true);
+
 
     private final boolean hear;
     private final boolean see;

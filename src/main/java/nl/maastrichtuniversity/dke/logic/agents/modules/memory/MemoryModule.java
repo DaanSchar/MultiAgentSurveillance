@@ -26,7 +26,6 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     private List<Position> sounds;
     private List<Position> smells;
     private @Setter Position position;
-    private @Setter Position startPosition;
 
 
     public MemoryModule(Scenario scenario) {
@@ -44,6 +43,8 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     }
 
     public void setSpawnPosition(Position position){
+        map.getTileMap()[position.getX()][position.getY()] = new Tile(position, TileType.SPAWN_GUARDS);
+        setPosition(position);
 
     }
 
