@@ -12,6 +12,6 @@ public interface IMemoryModule {
 
     Environment getMap();
 
-    void setStartPosition(Position position);
+    void setSpawnPosition(Position position);
 
 }

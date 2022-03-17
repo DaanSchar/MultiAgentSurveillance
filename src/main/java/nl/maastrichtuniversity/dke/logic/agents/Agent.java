@@ -53,8 +53,8 @@ public class Agent {
     public void spawn() {
         position = spawnModule.getSpawnPosition(this);
         direction = spawnModule.getSpawnDirection();
-        memoryModule.setStartPosition(position);
-//        updateMemory();
+        memoryModule.setSpawnPosition(position);
+        updateMemory();
 
         logger.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position + " facing " + this.direction);
     }
