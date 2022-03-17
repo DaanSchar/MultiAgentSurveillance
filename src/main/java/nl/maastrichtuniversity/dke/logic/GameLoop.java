@@ -1,6 +1,7 @@
 package nl.maastrichtuniversity.dke.logic;
 
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
+import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ public class GameLoop {
     public void update(double time) {
         for (Agent agent : scenario.getGuards()) {
             moveAgentRandomly(agent, time);
+
         }
 
         for (Agent agent : scenario.getGuards()) {
@@ -30,8 +32,12 @@ public class GameLoop {
 
         if (rotation == 0)
             agent.goForward(time);
+//            agent.dropMark(CommunicationType.VISIONBLUE);
         else
             agent.rotate(rotation, time);
+//            agent.goForward(time);
+//            agent.dropMark(CommunicationType.VISIONRED);
+
     }
 
     private int getRandomRotation() {

@@ -29,10 +29,12 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
                     dropSmell(device.getPosition(), device.getAgentSource());
                 }
                 marks.remove(i);
-                break;
+
             }
+            break;
         }
         scenario.getCommunicationMarks().add(device);
+
     }
 
     private void dropSmell(Position position, Agent source){
@@ -49,11 +51,12 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
 
     @Override
     public boolean hasMark(CommunicationType type) {
-        boolean check = false;
         for (CommunicationType m : marks) {
-            check = m == type;
+            if(m.equals(type)){
+                return true;
+            }
         }
-        return check;
+        return false;
     }
 
     @Override

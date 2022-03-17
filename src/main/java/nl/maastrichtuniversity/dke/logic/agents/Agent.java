@@ -17,6 +17,8 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.ISpawnModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.*;
+
 /**
  * agent class parent of guard and intruder
  *
@@ -78,8 +80,16 @@ public class Agent {
      */
     public boolean dropMark(CommunicationType type){
         if(communicationModule.hasMark(type)){
-            communicationModule.dropMark(new CommunicationMark(this.position, type, this));
+            if(type.equals(CommunicationType.VISIONBLUE))
+                communicationModule.dropMark(new CommunicationMark(this.position, type, this, Color.BLUE));
+            else if(type.equals(CommunicationType.VISIONRED))
+                communicationModule.dropMark(new CommunicationMark(this.position, type, this, Color.RED));
+            else if(type.equals(CommunicationType.VISIONGREEN))
+                communicationModule.dropMark(new CommunicationMark(this.position, type, this, Color.GREEN));
+            else
+                communicationModule.dropMark(new CommunicationMark(this.position, type, this, null));
             updateMemory();
+
             return true;
         }
         return false;
