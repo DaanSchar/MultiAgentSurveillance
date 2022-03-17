@@ -13,12 +13,16 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.VisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
+import nl.maastrichtuniversity.dke.logic.scenario.Smell;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.ISpawnModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * agent class parent of guard and intruder
@@ -90,18 +94,33 @@ public class Agent {
     public boolean dropMark(CommunicationType type){
         if(communicationModule.hasMark(type)){
             if(type.equals(CommunicationType.VISIONBLUE))
-                communicationModule.dropMark(new CommunicationMark(this.position, type, this, Color.BLUE));
+                communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, Color.BLUE));
             else if(type.equals(CommunicationType.VISIONRED))
-                communicationModule.dropMark(new CommunicationMark(this.position, type, this, Color.RED));
+                communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, Color.RED));
             else if(type.equals(CommunicationType.VISIONGREEN))
-                communicationModule.dropMark(new CommunicationMark(this.position, type, this, Color.GREEN));
+                communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, Color.GREEN));
             else
-                communicationModule.dropMark(new CommunicationMark(this.position, type, this, null));
+                communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, null));
             updateMemory();
 
             return true;
         }
         return false;
+    }
+
+    public List<Position> smellingDistance() {
+        List<Position> l = new ArrayList<>();
+        l.add(getPosition());
+
+        for(int i =0; i< smellModule.getSmellingDistance(); i++){
+            l.add(getPosition().add(new Position(i,0)));
+            l.add(getPosition().add(new Position(-i,0)));
+            l.add(getPosition().add(new Position(0,i)));
+            l.add(getPosition().add(new Position(0,-i)));
+            l.add(getPosition().add(new Position(-i,-i)));
+            l.add(getPosition().add(new Position(i,i)));
+        }
+        return l;
     }
 
     public void listen(){

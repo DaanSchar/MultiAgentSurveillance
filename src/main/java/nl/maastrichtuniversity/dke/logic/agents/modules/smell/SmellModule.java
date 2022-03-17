@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.logic.agents.modules.smell;
 
+import lombok.Getter;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.Smell;
@@ -7,10 +8,13 @@ import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.List;
 
+@Getter
 public class SmellModule extends AgentModule implements ISmellModule {
+    private int smellingDistance;
 
-    public SmellModule(Scenario scenario) {
+    public SmellModule(Scenario scenario, int smellingDistance) {
         super(scenario);
+        this.smellingDistance=smellingDistance;
     }
 
     @Override

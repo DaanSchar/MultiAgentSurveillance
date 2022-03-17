@@ -78,11 +78,11 @@ public class AgentFactory {
             markersGar.add(CommunicationType.SOUND);
         }
 
-        guard.setCommunicationModule(new CommunicationModule(scenario, markersGar, smellingDistance));
+        guard.setCommunicationModule(new CommunicationModule(scenario, markersGar));
         guard.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
         guard.setMemoryModule(new MemoryModule(scenario));
         guard.setListeningModule(new ListeningModule(scenario));
-        guard.setSmellModule(new SmellModule(scenario));
+        guard.setSmellModule(new SmellModule(scenario, smellingDistance));
 
         return guard;
     }
@@ -101,11 +101,11 @@ public class AgentFactory {
             markersIntru.add(CommunicationType.SMELL);
             markersIntru.add(CommunicationType.SOUND);
         }
-        intruder.setCommunicationModule(new CommunicationModule(scenario, markersIntru,smellingDistance));
+        intruder.setCommunicationModule(new CommunicationModule(scenario, markersIntru));
         intruder.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
         intruder.setMemoryModule(new MemoryModule(scenario));
         intruder.setListeningModule(new ListeningModule(scenario));
-        intruder.setSmellModule(new SmellModule(scenario));
+        intruder.setSmellModule(new SmellModule(scenario,smellingDistance));
 
         return intruder;
     }

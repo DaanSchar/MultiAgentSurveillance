@@ -15,6 +15,7 @@ import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
+import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,7 +57,8 @@ public class GameComponent extends JComponent{
 	public void paintComponent(Graphics g) {
 		drawEnvironment(g);
 		drawMarks(g);
-		drawSounds(g);
+//		drawSounds(g);
+		drawSmells(g);
 		drawGuards(g);
 		drawIntruders(g);
 		updateFrames();
@@ -127,6 +129,26 @@ public class GameComponent extends JComponent{
 		);
 	}
 
+	private void drawSmells(Graphics g) {
+		for (Agent agent : scenario.getGuards()) {
+			for(Position position: agent.smellingDistance()){
+				drawSmell(g, position);
+			}
+
+		}
+	}
+
+	private void drawSmell(Graphics g, Position position) {
+		g.drawImage(
+				imageFactory.get("smellTexture"),
+				panningX +  position.getX() * (textureSize),
+				panningY +  position.getY() * (textureSize),
+				textureSize,
+				textureSize,
+				null
+		);
+	}
+
 	private void drawSounds(Graphics g) {
 		for (int i = 0; i < scenario.getSoundMap().size(); i++) {
 			Sound sound = scenario.getSoundMap().get(i);
@@ -177,7 +199,7 @@ public class GameComponent extends JComponent{
 
 	public void startGameSystem() {
 		Game system = Game.getInstance();
-		Timer timer = new Timer(20, e -> {
+		Timer timer = new Timer(200, e -> {
 			system.update(0);
 			repaint();
 		});
