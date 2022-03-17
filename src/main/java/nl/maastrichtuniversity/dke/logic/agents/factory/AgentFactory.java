@@ -9,6 +9,7 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.memory.MemoryModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.NoiseModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.movement.Movement;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.smell.SmellModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.UniformSpawnModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.VisionModule;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
@@ -78,6 +79,7 @@ public class AgentFactory {
         guard.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
         guard.setMemoryModule(new MemoryModule(scenario));
         guard.setListeningModule(new ListeningModule(scenario));
+        guard.setSmellModule(new SmellModule(scenario));
 
         return guard;
     }
@@ -95,8 +97,10 @@ public class AgentFactory {
             markersIntru.add(CommunicationType.SOUND);
         }
         intruder.setCommunicationModule(new CommunicationModule(scenario, markersIntru,smellingDistance));
+        intruder.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
         intruder.setMemoryModule(new MemoryModule(scenario));
         intruder.setListeningModule(new ListeningModule(scenario));
+        intruder.setSmellModule(new SmellModule(scenario));
 
         return intruder;
     }

@@ -32,7 +32,7 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
                 break;
             }
         }
-        marks.remove(device.getType());
+//        marks.remove(device.getType());
         scenario.getCommunicationMarks().add(device);
     }
 
