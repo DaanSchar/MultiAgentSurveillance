@@ -3,7 +3,6 @@ package nl.maastrichtuniversity.dke.logic.agents.factory;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
-import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.ListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.memory.MemoryModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.NoiseModule;
@@ -70,7 +69,9 @@ public class AgentFactory {
         guard.setVisionModule(new VisionModule(scenario, viewingDistance));
         List<CommunicationType> markersGar = new ArrayList<>();
         for(int i = 0; i < numberOfMarkers; i++){
-            markersGar.add(CommunicationType.VISION);
+            markersGar.add(CommunicationType.VISIONRED);
+            markersGar.add(CommunicationType.VISIONBLUE);
+            markersGar.add(CommunicationType.VISIONGREEN);
             markersGar.add(CommunicationType.SMELL);
             markersGar.add(CommunicationType.SOUND);
         }
@@ -92,7 +93,9 @@ public class AgentFactory {
         intruder.setVisionModule(new VisionModule(scenario, viewingDistance));
         List<CommunicationType> markersIntru = new ArrayList<>();
         for(int i = 0; i < numberOfMarkers; i++){
-            markersIntru.add(CommunicationType.VISION);
+            markersIntru.add(CommunicationType.VISIONRED);
+            markersIntru.add(CommunicationType.VISIONBLUE);
+            markersIntru.add(CommunicationType.VISIONGREEN);
             markersIntru.add(CommunicationType.SMELL);
             markersIntru.add(CommunicationType.SOUND);
         }
