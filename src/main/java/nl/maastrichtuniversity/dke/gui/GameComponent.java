@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 public class GameComponent extends JComponent{
 
 	private final Scenario scenario;
-	private final Environment environment;
+	private Environment environment;
 
 	private int textureSize;
 	private int panningX;
@@ -37,7 +37,9 @@ public class GameComponent extends JComponent{
 	public GameComponent(Scenario scenario, Environment environment) {
 		this.scenario = scenario;
 		this.environment = environment;
-		this.textureSize = (int) (scenario.getScaling()*100) - 2;
+		this.textureSize = (int) (scenario.getScaling()*100) /2;
+
+		startGameSystem();
 	}
 
 	/**
@@ -47,6 +49,8 @@ public class GameComponent extends JComponent{
 		this.scenario = Game.getInstance().getScenario();
 		this.environment = scenario.getEnvironment();
 		this.textureSize = (int) (scenario.getScaling()*100);
+
+		startGameSystem();
 	}
 
 	public void paintComponent(Graphics g) {
@@ -173,7 +177,7 @@ public class GameComponent extends JComponent{
 
 	public void startGameSystem() {
 		Game system = Game.getInstance();
-		Timer timer = new Timer(1, e -> {
+		Timer timer = new Timer(20, e -> {
 			system.update(0);
 			repaint();
 		});
@@ -198,6 +202,9 @@ public class GameComponent extends JComponent{
 
 	public void zoomOut(){
 		textureSize = textureSize -1;
+	}
+	public void setEnvironment(Environment environment){
+		this.environment=environment;
 	}
 
 }

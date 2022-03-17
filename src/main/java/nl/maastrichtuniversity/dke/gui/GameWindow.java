@@ -4,9 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Objects;
+import java.util.List;
+import java.util.ArrayList;
 
 import nl.maastrichtuniversity.dke.logic.Game;
+import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 
 /**
  * GUIboard class
@@ -52,18 +56,30 @@ public class GameWindow  {
 
     private GameComponent gameComponent;
     private GameComponent agentMemoryMap;
+    private List<Environment> agentsEnvironments;
+    private JComboBox agentsMapsBox;
+    private int agentsMapsBoxNum;
+    private Environment agentEnvironment;
 
     private void setUpGameComponents() {
         gameComponent = new GameComponent();
-//        gameComponent.startGameSystem();
-        agentMemoryMap = new GameComponent(scenario,scenario.getGuards().get(0).getMemoryModule().getMap());
+
+        agentsEnvironments = new ArrayList<>();
+        agentsMapsBoxNum =1;
+        agentsMapsBox = new JComboBox();
+        for (Agent agent : scenario.getGuards()){
+            agentsEnvironments.add(agent.getMemoryModule().getMap());
+            agentsMapsBox.addItem("Agent "+agentsMapsBoxNum);
+            agentsMapsBoxNum++;
+        }
+        agentMemoryMap = new GameComponent(scenario,agentsEnvironments.get(0));
         gameComponent.setPreferredSize(new Dimension(
                 scenario.getEnvironment().getWidth()*textureSize,
                 (scenario.getEnvironment().getHeight()*textureSize) + 40)
         );
         agentMemoryMap.setPreferredSize(new Dimension(
-                scenario.getEnvironment().getWidth()*3,
-                scenario.getEnvironment().getHeight()*3)
+                scenario.getEnvironment().getWidth()*(textureSize/2),
+                scenario.getEnvironment().getHeight()*(textureSize/2))
         );
     }
 
@@ -117,6 +133,7 @@ public class GameWindow  {
         buttonContainer.add(zoomOutButton);
         buttonContainer.add(resizeButton);
         buttonContainer.add(agentMemoryMapButton);
+        buttonContainer.add(agentsMapsBox);
         buttonContainer.add(clock.getTime());
         buttonContainer.setBounds(0,
                 scenario.getEnvironment().getHeight()*textureSize,
@@ -157,9 +174,21 @@ public class GameWindow  {
         setButtonProperties(zoomOutButton,160,0);
         setButtonProperties(resizeButton,240,0);
         setButtonProperties(agentMemoryMapButton,320,0);
+        setButtonPropertiesBox(agentsMapsBox,400,0);
+
     }
 
     private void setButtonProperties(JButton button , int x, int y){
+        int buttonWidth = 75;
+        int buttonHeight = 40;
+
+        button.setBounds(x,y,buttonWidth,buttonHeight);
+        button.addActionListener(buttonListener);
+        button.setBackground(buttonColor);
+        button.setFocusable(false);
+        button.setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black));
+    }
+    private void setButtonPropertiesBox(JComboBox button , int x, int y){
         int buttonWidth = 75;
         int buttonHeight = 40;
 
@@ -178,6 +207,8 @@ public class GameWindow  {
 
         @Override
         public void actionPerformed(ActionEvent e){
+            agentEnvironment=agentsEnvironments.get(agentsMapsBox.getSelectedIndex());
+            agentMemoryMap.setEnvironment(agentEnvironment);
             performButtonAction(e.getSource());
             window.repaint();
         }
@@ -268,7 +299,7 @@ public class GameWindow  {
 
     private void setUpClock() {
         clock = new Clock();
-        clock.getTime().setBounds(400, 0, 75, 40);
+        clock.getTime().setBounds(480, 0, 75, 40);
         clock.getTime().setBackground(buttonColor);
         clock.getTime().setFocusable(false);
         clock.getTime().setBorder(BorderFactory.createBevelBorder(0, Color.gray , Color.black));
