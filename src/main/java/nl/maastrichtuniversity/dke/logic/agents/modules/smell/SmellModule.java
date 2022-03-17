@@ -4,7 +4,10 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.scenario.Smell;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+
+import java.util.List;
 
 public class SmellModule extends AgentModule implements ISmellModule {
 
@@ -14,11 +17,13 @@ public class SmellModule extends AgentModule implements ISmellModule {
 
     @Override
     public boolean getSmell(Position position) {
-        for(CommunicationMark mark:scenario.getCommunicationMarks()){
-            if(mark.getType().equals(CommunicationType.SMELL)){
-                if (mark.getPosition().equals(position)) {
-                    return true;
-                }
+        List<Smell> smellMap = scenario.getSmellMap();
+        if(smellMap.isEmpty())
+            return false;
+
+        for(Smell smell: smellMap){
+            if(smell.getPosition().equals(position)){
+                return true;
             }
         }
         return false;

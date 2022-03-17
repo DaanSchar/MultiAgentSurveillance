@@ -32,6 +32,7 @@ public class Scenario {
         this.timeStep = timeStep;
         this.scaling = scaling;
         this.soundMap = new ArrayList<>();
+        this.smellMap = new ArrayList<>();
         this.communicationMarks = new ArrayList<>();
         this.environment = environment;
 

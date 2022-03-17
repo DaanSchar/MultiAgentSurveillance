@@ -26,8 +26,8 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     private List<Position> sounds;
     private List<Position> smells;
     private @Setter Position position;
-
     private @Setter Position startPosition;
+
 
     public MemoryModule(Scenario scenario) {
         super(scenario);
@@ -38,7 +38,13 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
 
         initEnvironment();
 
+        smells = new ArrayList<>();
+        sounds = new ArrayList<>();
         agents = new ArrayList<>();
+    }
+
+    public void setSpawnPosition(Position position){
+
     }
 
     private void initEnvironment() {
@@ -56,14 +62,21 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         updateSmell(smellModule);
     }
 
-    public void updateSmell(ISmellModule smellModule){
+    private void updateSound(IListeningModule listeningModule){
+        if (listeningModule.getSound(position)){
+            sounds.add(position);
+            sounds.addAll(listeningModule.getDirection(position));
+        }
+    }
+
+    private void updateSmell(ISmellModule smellModule){
         if (smellModule.getSmell(position)){
             smells.add(position);
 //            smells.addAll(smellModule.getDirection(position));
         }
     }
 
-    public void updateVision(IVisionModule vision){
+    private void updateVision(IVisionModule vision){
         for(Tile tile: vision.getObstacles()) {
             int x = tile.getPosition().getX();
             int y = tile.getPosition().getY();
@@ -80,12 +93,6 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         }
     }
 
-    public void updateSound(IListeningModule listeningModule){
-        if (listeningModule.getSound(position)){
-            sounds.add(position);
-            sounds.addAll(listeningModule.getDirection(position));
-        }
-    }
 
 
 
