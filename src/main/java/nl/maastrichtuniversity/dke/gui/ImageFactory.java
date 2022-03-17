@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.HashMap;
@@ -13,16 +14,28 @@ import java.util.HashMap;
  */
 public class ImageFactory {
 
-    private static HashMap<String, BufferedImage> images;
+    private HashMap<String, BufferedImage> images;
 
     private static final String ROOT = "src/main/resources/images/";
 
     private static final Logger logger = LoggerFactory.getLogger(ImageFactory.class);
 
+    private static ImageFactory factoryInstance;
+
+    public static ImageFactory getInstance() {
+        if (factoryInstance == null) { factoryInstance = new ImageFactory(); }
+
+        return factoryInstance;
+    }
+
+    private ImageFactory() {
+        init();
+    }
+
     /**
      * Initializes the image factory by loading all images.
      */
-    public static void init() {
+    public void init() {
         images = new HashMap<>();
 
         // Icons
@@ -88,8 +101,6 @@ public class ImageFactory {
         images.put("guardright2", readImage("guard/guardright2.png"));
         images.put("guardright3", readImage("guard/guardright3.png"));
         images.put("guardright4", readImage("guard/guardright4.png"));
-
-
     }
 
     /**
@@ -97,7 +108,7 @@ public class ImageFactory {
      * @param key the name of the image
      * @return the image
      */
-    public static BufferedImage get(String key) {
+    public BufferedImage get(String key) {
         BufferedImage image = images.get(key);
 
         if (image == null)
@@ -106,7 +117,7 @@ public class ImageFactory {
         return image;
     }
 
-    private static BufferedImage readImage(String imagePath) {
+    private BufferedImage readImage(String imagePath) {
         try {
             return ImageIO.read(new File(ROOT + imagePath));
         } catch (Exception e) {

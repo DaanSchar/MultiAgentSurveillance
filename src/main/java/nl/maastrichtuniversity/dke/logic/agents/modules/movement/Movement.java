@@ -63,8 +63,8 @@ public class Movement extends AgentModule implements IMovement {
 
     @Override
     public Position goForward(Position position, Direction direction, double time) {
-        if (isTimeToMove(time)) {
-            Position newPos = position.add( new Position(direction.getMoveX(), direction.getMoveY()) );
+//        if (isTimeToMove(time)) {
+            Position newPos = position.add( new Position(direction.getMoveX() * (int)baseSpeed, direction.getMoveY() * (int) baseSpeed ));
             lastTimeMoved = time;
             if (isColliding(newPos)) {
                 return position;
@@ -78,8 +78,8 @@ public class Movement extends AgentModule implements IMovement {
             }
 
             return newPos;
-        }
-        return position;
+//        }
+//        return position;
     }
 
     private boolean isTimeToMove(double time) {
@@ -99,8 +99,8 @@ public class Movement extends AgentModule implements IMovement {
     @Override
     public Position goBackward (Position position, Direction direction) {
         Position newPos = position.sub(new Position(
-                (int)(direction.getMoveX() * baseSpeed * scenario.getTimeStep()),
-                (int)(direction.getMoveY() * baseSpeed * scenario.getTimeStep())
+                (int)(direction.getMoveX() * baseSpeed),
+                (int)(direction.getMoveY() * baseSpeed)
         ));
 
         var tileMap = scenario.getEnvironment().get(TileType.TELEPORT);
@@ -116,7 +116,6 @@ public class Movement extends AgentModule implements IMovement {
         }
         return newPos;
     }
-
 
 
     /**

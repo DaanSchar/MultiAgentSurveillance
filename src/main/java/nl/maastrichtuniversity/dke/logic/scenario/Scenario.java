@@ -35,9 +35,20 @@ public class Scenario {
         this.smellMap = new ArrayList<>();
         this.communicationMarks = new ArrayList<>();
         this.environment = environment;
-
     }
 
+    public double[] getStateVector() {
+        int mapSize = environment.getWidth() * environment.getHeight();
+        double[] stateVector = new double[mapSize * guards.size()];
 
+        for (int i = 0; i < guards.size(); i++) {
+            Environment memoryMap = guards.get(i).getMemoryModule().getMap();
+            double[] mapStateVector = memoryMap.getStateVector();
+
+            System.arraycopy(mapStateVector, 0, stateVector, i * mapSize, mapSize);
+        }
+
+        return stateVector;
+    }
 
 }

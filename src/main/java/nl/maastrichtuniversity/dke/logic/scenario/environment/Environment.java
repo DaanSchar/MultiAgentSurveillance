@@ -38,4 +38,16 @@ public class Environment {
         return tiles;
     }
 
+    public double[] getStateVector() {
+        double[] stateVector = new double[width * height];
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                stateVector[i * height + j] = tileMap[i][j].getType().getValue();
+            }
+        }
+
+        return stateVector;
+    }
+
 }
