@@ -17,7 +17,7 @@ public enum TileType {
     SPAWN_INTRUDERS(true, true, 7),
     SPAWN_GUARDS(true, true, 8),
     START(true, true, 9),
-    DESTINATIONTELEPORT(true, true, 10),
+    DESTINATION_TELEPORT(true, true, 10),
 
     WINDOW(false, true, 11),
     DOOR(false, true, 12);
