@@ -91,7 +91,21 @@ public class Game {
         for (Agent agent : scenario.getGuards()) {
             agent.listen();
         }
+    }
 
+    public void update(int i) {
+        resetNoise();
+        time += scenario.getTimeStep();
+
+        for (Agent agent : scenario.getGuards()) {
+            moveAgentRandomly(agent);
+        }
+
+        agentActions.clear();
+
+        for (Agent agent : scenario.getGuards()) {
+            agent.listen();
+        }
     }
 
     /**
@@ -116,7 +130,7 @@ public class Game {
      * @param agent to be moved
      */
     private void moveAgentRandomly(Agent agent) {
-        int rotation = getRandomRotation();
+        int rotation = getRandomAcion();
 
         if (rotation == 0)
             agent.goForward(time);
@@ -129,7 +143,7 @@ public class Game {
      *
      * @return a random rotation
      */
-    private int getRandomRotation() {
+    private int getRandomAcion() {
         if (Math.random() < 0.5)
             return 0;
 
