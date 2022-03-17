@@ -16,12 +16,14 @@ import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Getter
 public class MemoryModule extends AgentModule implements IMemoryModule {
 
     private final Environment map;
+    private final List<Tile> discoveredTiles;
     private final List<Agent> agents;
     private List<Position> sounds;
     private List<Position> smells;
@@ -34,6 +36,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         int width = scenario.getEnvironment().getWidth();
         int height = scenario.getEnvironment().getHeight();
         this.map = new Environment(width, height, new Tile[width][height]);
+        this.discoveredTiles = new LinkedList<>();
 
         initEnvironment();
 
@@ -77,10 +80,17 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         }
     }
 
+    //TODO: add sound to update method in memory
     private void updateVision(IVisionModule vision){
+        discoveredTiles.clear();
         for(Tile tile: vision.getObstacles()) {
             int x = tile.getPosition().getX();
             int y = tile.getPosition().getY();
+
+            if(map.getTileMap()[x][y].getType()==TileType.UNKNOWN){
+                discoveredTiles.add(tile);
+            }
+
             map.getTileMap()[x][y] = tile;
         }
         for(Agent agentSee: vision.getAgents()){

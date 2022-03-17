@@ -1,29 +1,30 @@
 package nl.maastrichtuniversity.dke.logic.scenario.environment;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public enum TileType {
 
-    WALL(true, false),
-    TELEPORT(true,true),
-    SHADED(true, true ),
-    SENTRY(true, true),
-    TARGET(true, true),
-    SPAWN_INTRUDERS(true, true),
-    SPAWN_GUARDS(true, true),
-    EMPTY(true, true),
-    START(true, true),
-    UNKNOWN(true, true),
-    TELEPORT_DESTINATION(true, true),
-    WINDOW(false, true),
-    DOOR(false, true);
+    UNKNOWN(true, true, 0),
+    EMPTY(true, true, 1),
+    WALL(true, false, 2),
+    TELEPORT(true,true, 3),
+    SHADED(true, true, 4),
+    SENTRY(true, true, 5),
+    TARGET(true, true, 6),
+    SPAWN_INTRUDERS(true, true, 7),
+    SPAWN_GUARDS(true, true, 8),
+    START(true, true, 9),
+    DESTINATION_TELEPORT(true, true, 10),
+
+    WINDOW(false, true, 11),
+    DOOR(false, true, 12);
 
     private final boolean isStatic;
     private final boolean passable;
+    private final int value; // for reinforcement learning
 
-    TileType(boolean isStatic, boolean passable) {
-        this.isStatic = isStatic;
-        this.passable = passable;
-    }
+
 }

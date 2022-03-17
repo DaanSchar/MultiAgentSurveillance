@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 import javax.swing.Timer;
 
@@ -35,7 +34,7 @@ public class GameComponent extends JComponent{
 	/**
 	 * Constructor for agent Memory map.
 	 */
-	public GameComponent(Scenario scenario ,Environment environment) {
+	public GameComponent(Scenario scenario, Environment environment) {
 		this.scenario = scenario;
 		this.environment = environment;
 		this.textureSize = (int) (scenario.getScaling()*100) - 2;
@@ -46,12 +45,12 @@ public class GameComponent extends JComponent{
 	/**
 	 * Constructor for regular Game Component.
 	 */
-	public GameComponent(Scenario scenario) {
-		this.scenario = scenario;
+	public GameComponent() {
+		this.scenario = Game.getInstance().getScenario();
 		this.environment = scenario.getEnvironment();
 		this.textureSize = (int) (scenario.getScaling()*100);
 
-		startGameSystem();
+//		startGameSystem();
 	}
 
 	public void paintComponent(Graphics g) {
@@ -63,17 +62,19 @@ public class GameComponent extends JComponent{
 		updateFrames();
 	}
 
+	private final ImageFactory imageFactory = ImageFactory.getInstance();
+
 	private void drawEnvironment(Graphics g) {
-		drawAreas(g, environment.get(TileType.WALL), ImageFactory.get("wallTexture"));
-		drawAreas(g, environment.get(TileType.TELEPORT), ImageFactory.get("teleportTexture"));
-		drawAreas(g, environment.get(TileType.SPAWN_GUARDS), ImageFactory.get("spawnAreaTexture"));
-		drawAreas(g, environment.get(TileType.SPAWN_INTRUDERS), ImageFactory.get("spawnAreaTexture"));
-		drawAreas(g, environment.get(TileType.WINDOW), ImageFactory.get("windowTexture"));
-		drawAreas(g, environment.get(TileType.DOOR), ImageFactory.get("doorTexture"));
-		drawAreas(g, environment.get(TileType.SENTRY), ImageFactory.get("sentryTowerTexture"));
-		drawAreas(g, environment.get(TileType.TARGET), ImageFactory.get("targetTexture"));
-		drawAreas(g, environment.get(TileType.SHADED), ImageFactory.get("shadedTexture"));
-		drawAreas(g, environment.get(TileType.UNKNOWN), ImageFactory.get("unknownTexture"));
+		drawAreas(g, environment.get(TileType.WALL), imageFactory.get("wallTexture"));
+		drawAreas(g, environment.get(TileType.TELEPORT), imageFactory.get("teleportTexture"));
+		drawAreas(g, environment.get(TileType.SPAWN_GUARDS), imageFactory.get("spawnAreaTexture"));
+		drawAreas(g, environment.get(TileType.SPAWN_INTRUDERS), imageFactory.get("spawnAreaTexture"));
+		drawAreas(g, environment.get(TileType.WINDOW), imageFactory.get("windowTexture"));
+		drawAreas(g, environment.get(TileType.DOOR), imageFactory.get("doorTexture"));
+		drawAreas(g, environment.get(TileType.SENTRY), imageFactory.get("sentryTowerTexture"));
+		drawAreas(g, environment.get(TileType.TARGET), imageFactory.get("targetTexture"));
+		drawAreas(g, environment.get(TileType.SHADED), imageFactory.get("shadedTexture"));
+		drawAreas(g, environment.get(TileType.UNKNOWN), imageFactory.get("unknownTexture"));
 	}
 
 	private void drawGuards(Graphics g) {
@@ -127,14 +128,15 @@ public class GameComponent extends JComponent{
 	}
 
 	private void drawSounds(Graphics g) {
-		for (Sound sound : scenario.getSoundMap()) {
+		for (int i = 0; i < scenario.getSoundMap().size(); i++) {
+			Sound sound = scenario.getSoundMap().get(i);
 			drawSound(g, sound);
 		}
 	}
 
 	private void drawSound(Graphics g, Sound sound) {
 		g.drawImage(
-				ImageFactory.get("soundTexture"),
+				imageFactory.get("soundTexture"),
 				panningX +  sound.getPosition().getX() * (textureSize),
 				panningY +  sound.getPosition().getY() * (textureSize),
 				textureSize,
@@ -161,7 +163,7 @@ public class GameComponent extends JComponent{
 
 	private BufferedImage getFramedAgentTexture(String name) {
 		name += Integer.toString(frame+1);
-		return ImageFactory.get(name);
+		return imageFactory.get(name);
 	}
 
 	private void updateFrames() {
@@ -174,13 +176,9 @@ public class GameComponent extends JComponent{
 	}
 
 	public void startGameSystem() {
-		GameLoop system = new GameLoop(scenario);
-		AtomicReference<Double> time = new AtomicReference<>((double) 0);
-
+		Game system = Game.getInstance();
 		Timer timer = new Timer(20, e -> {
-			system.resetNoise();
-			system.update(time.get());
-			time.updateAndGet(v -> v + scenario.getTimeStep());
+			system.update();
 			repaint();
 		});
 
@@ -190,7 +188,6 @@ public class GameComponent extends JComponent{
 	public void panning(int x,int y){
 		panningX += x/15;
 		panningY += y/15;
-		
 	}
 
 	public void resize(){

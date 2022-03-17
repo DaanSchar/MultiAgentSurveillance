@@ -6,18 +6,21 @@ import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.LinkedList;
 import java.util.List;
 
+@Getter
 public class VisionModule extends AgentModule implements IVisionModule {
-    private final double viewingDistance;
 
-    @Getter private List<Agent> agents = new LinkedList<>();
-    @Getter private List<Tile> obstacles = new LinkedList<>();
+    private final int viewingDistance;
 
-    public VisionModule(Scenario scenario, double viewingDistance) {
+    private List<Agent> agents = new LinkedList<>();
+    private List<Tile> obstacles = new LinkedList<>();
+
+    public VisionModule(Scenario scenario, int viewingDistance) {
         super(scenario);
         this.viewingDistance = viewingDistance;
     }
@@ -29,7 +32,6 @@ public class VisionModule extends AgentModule implements IVisionModule {
      */
     @Override
     public void useVision(Position position, Direction direction) {
-
         agents.clear();
         obstacles.clear();
 
@@ -84,13 +86,12 @@ public class VisionModule extends AgentModule implements IVisionModule {
         boolean obstruct = false;
         Tile tmp = tilemap[x][y];
 
-//        if (!tmp.isEmpty()) {
-            if (!tmp.isOpened() && !tmp.isEmpty()) {
+
+            if (!tmp.isOpened() && tmp.getType()== TileType.WALL) { // only non-transparent tile-type is wall?
                 obstruct = true;
             }
             obstacles.add(tmp);
 
-//        }
         return obstruct;
     }
 
