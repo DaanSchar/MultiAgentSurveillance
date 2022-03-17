@@ -69,11 +69,15 @@ public class Agent {
 
     public double[] getStateVector() {
         var obstacles = visionModule.getObstacles();
-        var size = ((VisionModule)visionModule).getViewingDistance();
-        var stateVector = new double[obstacles.size()];
+        var size = ((VisionModule)visionModule).getViewingDistance() * 3 + 2;
 
-        for (int i = 0; i < stateVector.length; i++) {
-            stateVector[i] = obstacles.get(i).getType().getValue();
+        System.out.println(((VisionModule)visionModule).getViewingDistance());
+        var stateVector = new double[size];
+
+
+        for (int i = 0; i < size; i++) {
+            if (i < obstacles.size()) { stateVector[i] = obstacles.get(i).getType().getValue(); }
+            else { stateVector[i] = 0; }
         }
 
         return stateVector;

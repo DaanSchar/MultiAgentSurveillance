@@ -12,6 +12,7 @@ import org.deeplearning4j.rl4j.space.ObservationSpace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
@@ -44,11 +45,8 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
             agent = agents.get(agentActions.size()-1);
         }
 
-
-        var input = agent.getStateVector();
-
         return new StepReply<>(
-                new NeuralGameState(input),
+                new NeuralGameState(agent.getStateVector()),
                 0.0,
                 isDone(),
                 null
@@ -84,7 +82,8 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
         } else {
             game.reset();
         }
-        return new NeuralGameState(game.getScenario().getGuards().get(0).getMemoryModule().getMap().getStateVector());
+
+        return new NeuralGameState(game.getScenario().getGuards().get(0).getStateVector());
     }
 
     @Override
