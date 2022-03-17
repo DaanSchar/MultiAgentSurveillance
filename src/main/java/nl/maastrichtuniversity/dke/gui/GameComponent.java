@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 public class GameComponent extends JComponent{
 
 	private final Scenario scenario;
-	private final Environment environment;
+	private Environment environment;
 
 	private int textureSize;
 	private int panningX;
@@ -204,4 +204,7 @@ public class GameComponent extends JComponent{
 		textureSize = textureSize -1;
 	}
 
+	public void setEnvironment(Environment environment) {
+		this.environment=environment;
+	}
 }
