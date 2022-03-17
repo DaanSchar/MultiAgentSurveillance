@@ -69,13 +69,9 @@ public class Movement extends AgentModule implements IMovement {
             if (isColliding(newPos)) {
                 return position;
             }
-
             var tileMap = scenario.getEnvironment().get(TileType.TELEPORT);
-            System.out.println(newPos);
             for (Tile t : tileMap) {
-                System.out.println(t.getPosition());
-                if (newPos == t.getPosition()) {
-                    System.out.println("hello)");
+                if (newPos.equals(t.getPosition())) {
                     t = (TeleportTile) t;
                     newPos = ((TeleportTile) t).getTargetPosition();
                 }
