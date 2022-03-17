@@ -1,7 +1,10 @@
 package util;
 
+import nl.maastrichtuniversity.dke.logic.agents.modules.movement.Movement;
+import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TeleportTile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
@@ -10,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 public class TeleportTest {
     Scenario s;
+    Tile[][] tilemap;
     /** setup empty environment
      *  e- empty
      *  P - player
@@ -26,14 +30,14 @@ public class TeleportTest {
     void setup() {
         s = new Scenario("Test", 0, 0, 0, null);
 
-        Tile[][] tilemap = new Tile[5][5];
+        tilemap = new Tile[5][5];
 
         for (int i = 0; i < tilemap.length; i++) {
             for (int j = 0; j < tilemap.length; j++) {
                 if (i < 2) {
                     tilemap[i][j] = new Tile(new Position(i, j), TileType.EMPTY);
                 } else if (i == 2) {
-                    tilemap[i][j] = new Tile(new Position(i, j), TileType.EMPTY);
+                    tilemap[i][j] = new TeleportTile(new Position(i, j), 4,4,1);
                 } else tilemap[i][j] = new Tile(new Position(i, j), TileType.EMPTY);
 
             }
@@ -41,6 +45,20 @@ public class TeleportTest {
         Environment e = new Environment(5,5,tilemap);
         s.setEnvironment(e);
     }
+
     @Test
-    void test1(){}
+    void testTeleportTiles(){
+        assert (tilemap[2][0].getType().equals(TileType.TELEPORT));
+        assert (tilemap[2][1].getType().equals(TileType.TELEPORT));
+        assert (tilemap[2][2].getType().equals(TileType.TELEPORT));
+        assert (tilemap[2][3].getType().equals(TileType.TELEPORT));
+        assert (tilemap[2][4].getType().equals(TileType.TELEPORT));
+    }
+
+    @Test
+    void testTeleport(){
+        Movement movement = new Movement(s,10,1);
+        Position position = movement.goForward(new Position(1,2), Direction.EAST,4);
+        assert (position.equals(new Position(4,4)));
+    }
 }
