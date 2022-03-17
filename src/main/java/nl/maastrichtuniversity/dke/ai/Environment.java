@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.ai;
 
+import nl.maastrichtuniversity.dke.gui.GameWindow;
 import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
@@ -17,11 +18,14 @@ import java.util.LinkedList;
 public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace> {
 
     private final DiscreteSpace actionSpace = new DiscreteSpace(Network.NUM_OUTPUTS);
-    private final Game game = Game.getInstance();
+    private Game game;
+    private final GameWindow gameWindow = new GameWindow();
+
 
     @Override
     public StepReply<NeuralGameState> step(Integer integer) {
         game.update(integer);
+        gameWindow.draw();
 
         return new StepReply<>(
                 new NeuralGameState(game.getScenario().getStateVector()),
@@ -56,7 +60,11 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
 
     @Override
     public NeuralGameState reset() {
-        game.reset();
+        if (game == null) {
+            game = Game.getInstance();
+        } else {
+            game.reset();
+        }
         return new NeuralGameState(game.getScenario().getStateVector());
     }
 

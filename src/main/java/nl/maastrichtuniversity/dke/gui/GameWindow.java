@@ -66,6 +66,11 @@ public class GameWindow  {
         );
     }
 
+    public void draw() {
+        gameComponent.repaint();
+        agentMemoryMap.repaint();
+    }
+
 
     // ----------------------------------------------- Window -------------------------------------------------- \\
 

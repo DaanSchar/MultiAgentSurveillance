@@ -48,7 +48,7 @@ public class GameComponent extends JComponent{
 		this.environment = scenario.getEnvironment();
 		this.textureSize = (int) (scenario.getScaling()*100);
 
-		startGameSystem();
+//		startGameSystem();
 	}
 
 	public void paintComponent(Graphics g) {
@@ -60,7 +60,7 @@ public class GameComponent extends JComponent{
 		updateFrames();
 	}
 
-	private ImageFactory imageFactory = ImageFactory.getInstance();
+	private final ImageFactory imageFactory = ImageFactory.getInstance();
 
 	private void drawEnvironment(Graphics g) {
 		drawAreas(g, environment.get(TileType.WALL), imageFactory.get("wallTexture"));
@@ -126,7 +126,8 @@ public class GameComponent extends JComponent{
 	}
 
 	private void drawSounds(Graphics g) {
-		for (Sound sound : scenario.getSoundMap()) {
+		for (int i = 0; i < scenario.getSoundMap().size(); i++) {
+			Sound sound = scenario.getSoundMap().get(i);
 			drawSound(g, sound);
 		}
 	}
@@ -175,7 +176,6 @@ public class GameComponent extends JComponent{
 	public void startGameSystem() {
 		Game system = Game.getInstance();
 		Timer timer = new Timer(20, e -> {
-			system.resetNoise();
 			system.update(0);
 			repaint();
 		});

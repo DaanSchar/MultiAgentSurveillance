@@ -71,19 +71,24 @@ public class Game {
      * Updates the state of the game.
      */
     public void update(int action) {
+        resetNoise();
         time += scenario.getTimeStep();
-        action -=1;
-
-        logger.info("Time: " + time + ". action: " + action);
+//        action -=1;
+        logger.info("time: " + time + ". action: " + action);
 
         for (Agent agent : scenario.getGuards()) {
-            if (action == 0) agent.goForward(time);
-            else agent.rotate(action, time);
+            if (action == 0) {
+                agent.goForward(time);
+            }
+            else {
+                agent.rotate(action, time);
+            }
         }
 
         for (Agent agent : scenario.getGuards()) {
             agent.listen();
         }
+
     }
 
     /**
