@@ -8,6 +8,7 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.memory.IMemoryModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.INoiseModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.vision.VisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.scenario.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
@@ -66,9 +67,20 @@ public class Agent {
          updateMemory();
     }
 
-    public void goBackward(){
-        position = movement.goBackward(position, direction);
-        updateMemory();
+    public double[] getStateVector() {
+        var obstacles = visionModule.getObstacles();
+        var size = ((VisionModule)visionModule).getViewingDistance() * 3 + 2;
+
+        System.out.println(((VisionModule)visionModule).getViewingDistance());
+        var stateVector = new double[size];
+
+
+        for (int i = 0; i < size; i++) {
+            if (i < obstacles.size()) { stateVector[i] = obstacles.get(i).getType().getValue(); }
+            else { stateVector[i] = 0; }
+        }
+
+        return stateVector;
     }
 
     public void dropMark(Position position , Color color){

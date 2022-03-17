@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class Game {
 
@@ -70,20 +71,22 @@ public class Game {
     /**
      * Updates the state of the game.
      */
-    public void update(int action) {
+    public void update() {
         resetNoise();
         time += scenario.getTimeStep();
-//        action -=1;
-        logger.info("time: " + time + ". action: " + action);
 
-        for (Agent agent : scenario.getGuards()) {
+        for (int i = 0; i < scenario.getGuards().size(); i++) {
+            var action = agentActions.get(i);
+            var agent = scenario.getGuards().get(i);
+
             if (action == 0) {
                 agent.goForward(time);
-            }
-            else {
+            } else {
                 agent.rotate(action, time);
             }
         }
+
+        agentActions.clear();
 
         for (Agent agent : scenario.getGuards()) {
             agent.listen();
@@ -101,8 +104,9 @@ public class Game {
     /**
      * Private constructor to prevent instantiation.
      */
-    private Game() {
+    protected Game() {
         this.scenario = new MapParser(mapFile).createScenario();
+        this.agentActions = new ArrayList<>();
         this.time = 0.0;
         init();
     }
@@ -134,5 +138,10 @@ public class Game {
         else
             return -1;
     }
+
+
+    private final @Getter ArrayList<Integer> agentActions;
+
+
 
 }

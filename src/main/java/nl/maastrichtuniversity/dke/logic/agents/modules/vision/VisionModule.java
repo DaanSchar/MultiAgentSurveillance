@@ -12,13 +12,15 @@ import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import java.util.LinkedList;
 import java.util.List;
 
+@Getter
 public class VisionModule extends AgentModule implements IVisionModule {
-    private final double viewingDistance;
 
-    @Getter private List<Agent> agents = new LinkedList<>();
-    @Getter private List<Tile> obstacles = new LinkedList<>();
+    private final int viewingDistance;
 
-    public VisionModule(Scenario scenario, double viewingDistance) {
+    private List<Agent> agents = new LinkedList<>();
+    private List<Tile> obstacles = new LinkedList<>();
+
+    public VisionModule(Scenario scenario, int viewingDistance) {
         super(scenario);
         this.viewingDistance = viewingDistance;
     }
