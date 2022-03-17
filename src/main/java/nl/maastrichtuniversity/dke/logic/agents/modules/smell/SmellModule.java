@@ -23,4 +23,6 @@ public class SmellModule extends AgentModule implements ISmellModule {
         }
         return false;
     }
+
+
 }

@@ -8,6 +8,7 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModu
 import nl.maastrichtuniversity.dke.logic.agents.modules.memory.IMemoryModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.INoiseModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovement;
+import nl.maastrichtuniversity.dke.logic.agents.modules.smell.ISmellModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
@@ -40,6 +41,7 @@ public class Agent {
     private @Setter INoiseModule noiseModule;
     private @Setter IListeningModule listeningModule;
     private @Setter IMemoryModule memoryModule;
+    private @Setter ISmellModule smellModule;
 
     public Agent() {
         this.id = agentCount++;
@@ -70,13 +72,17 @@ public class Agent {
         updateMemory();
     }
 
+    /**
+     * @param type a type of communication device want to drop
+     * @return if the type was available and agent droped it
+     */
     public boolean dropMark(CommunicationType type){
         if(communicationModule.hasMark(type)){
             communicationModule.dropMark(new CommunicationMark(this.position, type));
+            updateMemory();
             return true;
         }
         return false;
-
     }
 
     public void listen(){
@@ -84,7 +90,7 @@ public class Agent {
     }
 
     public void updateMemory() {
-        memoryModule.update(visionModule);
+        memoryModule.update(visionModule, listeningModule, smellModule, getPosition());
     }
 
     public Agent newInstance() {

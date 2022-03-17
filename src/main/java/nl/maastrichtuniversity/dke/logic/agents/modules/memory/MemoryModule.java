@@ -4,7 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.INoiseModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.smell.ISmellModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
+import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
@@ -19,6 +23,9 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
 
     private final Environment map;
     private final List<Agent> agents;
+    private List<Position> sounds;
+    private List<Position> smells;
+    private @Setter Position position;
 
     private @Setter Position startPosition;
 
@@ -42,8 +49,21 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         }
     }
 
-    //TODO: add sound to update method in memory
-    public void update(IVisionModule vision) {
+    public void update(IVisionModule visionModule, IListeningModule listeningModule, ISmellModule smellModule, Position position) {
+        setPosition(position);
+        updateVision(visionModule);
+        updateSound(listeningModule);
+        updateSmell(smellModule);
+    }
+
+    public void updateSmell(ISmellModule smellModule){
+        if (smellModule.getSmell(position)){
+            smells.add(position);
+//            smells.addAll(smellModule.getDirection(position));
+        }
+    }
+
+    public void updateVision(IVisionModule vision){
         for(Tile tile: vision.getObstacles()) {
             int x = tile.getPosition().getX();
             int y = tile.getPosition().getY();
@@ -58,7 +78,13 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
             }
 
         }
+    }
 
+    public void updateSound(IListeningModule listeningModule){
+        if (listeningModule.getSound(position)){
+            sounds.add(position);
+            sounds.addAll(listeningModule.getDirection(position));
+        }
     }
 
 
