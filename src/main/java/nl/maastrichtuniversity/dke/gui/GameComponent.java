@@ -10,6 +10,7 @@ import javax.swing.Timer;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.*;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
+import nl.maastrichtuniversity.dke.logic.scenario.Smell;
 import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
@@ -57,7 +58,7 @@ public class GameComponent extends JComponent{
 	public void paintComponent(Graphics g) {
 		drawEnvironment(g);
 		drawMarks(g);
-//		drawSounds(g);
+		drawSounds(g);
 		drawSmells(g);
 		drawGuards(g);
 		drawIntruders(g);
@@ -130,19 +131,16 @@ public class GameComponent extends JComponent{
 	}
 
 	private void drawSmells(Graphics g) {
-		for (Agent agent : scenario.getGuards()) {
-			for(Position position: agent.smellingDistance()){
-				drawSmell(g, position);
-			}
-
+		for (int i = 0; i < scenario.getSmellMap().size(); i++) {
+			drawSmell(g, scenario.getSmellMap().get(i));
 		}
 	}
 
-	private void drawSmell(Graphics g, Position position) {
+	private void drawSmell(Graphics g, Smell smell) {
 		g.drawImage(
 				imageFactory.get("smellTexture"),
-				panningX +  position.getX() * (textureSize),
-				panningY +  position.getY() * (textureSize),
+				panningX +  smell.getPosition().getX() * (textureSize),
+				panningY +  smell.getPosition().getY() * (textureSize),
 				textureSize,
 				textureSize,
 				null

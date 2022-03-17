@@ -14,6 +14,7 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.vision.VisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.scenario.Smell;
+import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.ISpawnModule;
@@ -100,27 +101,13 @@ public class Agent {
             else if(type.equals(CommunicationType.VISIONGREEN))
                 communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, Color.GREEN));
             else
-                communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, null));
+                //here you cant see so its just background color
+                communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, new Color(173,237,153)));
             updateMemory();
 
             return true;
         }
         return false;
-    }
-
-    public List<Position> smellingDistance() {
-        List<Position> l = new ArrayList<>();
-        l.add(getPosition());
-
-        for(int i =0; i< smellModule.getSmellingDistance(); i++){
-            l.add(getPosition().add(new Position(i,0)));
-            l.add(getPosition().add(new Position(-i,0)));
-            l.add(getPosition().add(new Position(0,i)));
-            l.add(getPosition().add(new Position(0,-i)));
-            l.add(getPosition().add(new Position(-i,-i)));
-            l.add(getPosition().add(new Position(i,i)));
-        }
-        return l;
     }
 
     public void listen(){
