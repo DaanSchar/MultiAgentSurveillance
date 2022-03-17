@@ -21,7 +21,6 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
     private Game game;
     private final GameWindow gameWindow = new GameWindow();
 
-
     @Override
     public StepReply<NeuralGameState> step(Integer integer) {
         game.update(integer);
@@ -55,7 +54,6 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
 //        }
 //        return exploredTiles.size() == numberOfTiles;
         return false;
-
     }
 
     @Override
