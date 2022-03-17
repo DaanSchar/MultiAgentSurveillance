@@ -60,5 +60,10 @@ public class EnvironmentFactory {
                 tileMap[x][y] = new TeleportTile(new Position(x, y),targetX, targetY, rotation);
     }
 
-
+    public void addTile(int x, int y, TileType type) {
+        if (x < 0 || x > tileMap.length || y < 0 || y > tileMap[0].length) {
+           return;
+        }
+        tileMap[x][y] = new Tile(new Position(x,y), type);
+    }
 }

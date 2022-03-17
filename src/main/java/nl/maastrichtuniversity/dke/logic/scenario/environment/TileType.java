@@ -15,7 +15,7 @@ public enum TileType {
     EMPTY(true, true),
     START(true, true),
     UNKNOWN(true, true),
-    DESTINATIONTELEPORT(true, true),
+    TELEPORT_DESTINATION(true, true),
     WINDOW(false, true),
     DOOR(false, true);
 
@@ -26,6 +26,4 @@ public enum TileType {
         this.isStatic = isStatic;
         this.passable = passable;
     }
-
-
 }
