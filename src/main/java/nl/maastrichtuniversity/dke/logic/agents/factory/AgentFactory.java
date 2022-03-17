@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.logic.agents.factory;
 
+import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Setter
+@Getter
 public class AgentFactory {
 
     private Scenario scenario;
