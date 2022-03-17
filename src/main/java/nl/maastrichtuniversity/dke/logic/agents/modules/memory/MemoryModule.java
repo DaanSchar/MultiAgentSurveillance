@@ -42,6 +42,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         smells = new ArrayList<>();
         sounds = new ArrayList<>();
         agents = new ArrayList<>();
+        soundDirection = new ArrayList<>();
     }
 
     public void setSpawnPosition(Position position){
