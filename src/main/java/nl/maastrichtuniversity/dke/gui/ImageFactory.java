@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.gui;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,13 +13,13 @@ import java.util.HashMap;
 /**
  * Factory for all images used in the GUI.
  */
+@Slf4j
 public class ImageFactory {
 
     private HashMap<String, BufferedImage> images;
 
     private static final String ROOT = "src/main/resources/images/";
 
-    private static final Logger logger = LoggerFactory.getLogger(ImageFactory.class);
 
     private static ImageFactory factoryInstance;
 
@@ -112,7 +113,7 @@ public class ImageFactory {
         BufferedImage image = images.get(key);
 
         if (image == null)
-            logger.error("Image not found with key: {}", key);
+            log.error("Image not found with key: {}", key);
 
         return image;
     }
@@ -121,7 +122,7 @@ public class ImageFactory {
         try {
             return ImageIO.read(new File(ROOT + imagePath));
         } catch (Exception e) {
-            logger.error("Could not load image {}", ROOT + imagePath);
+            log.error("Could not load image {}", ROOT + imagePath);
             e.printStackTrace();
         }
         return null;

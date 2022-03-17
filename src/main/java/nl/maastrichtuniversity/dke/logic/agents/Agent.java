@@ -2,6 +2,7 @@ package nl.maastrichtuniversity.dke.logic.agents;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.ICommunicationModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
@@ -26,9 +27,8 @@ import java.awt.*;
  * @Author Parand
  */
 @Getter
+@Slf4j
 public class Agent {
-
-    private static final Logger logger = LoggerFactory.getLogger(Agent.class);
 
     private static int agentCount;
     private final int id;
@@ -58,7 +58,7 @@ public class Agent {
         memoryModule.setSpawnPosition(position);
         updateMemory();
 
-        logger.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position + " facing " + this.direction);
+        log.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position + " facing " + this.direction);
     }
 
     public void goForward(double time){

@@ -17,7 +17,7 @@ public class Network {
     public static final double HIGH_VALUE_INPUT = 12;
 
     private static final int MIN_EPOCHS = 100;
-    private static final int STEPS_PER_EPOCH = 1000;
+    private static final int STEPS_PER_EPOCH = 5000;
 
     private static final double LEARNING_RATE = 0.01;
 

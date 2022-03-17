@@ -3,6 +3,7 @@ package nl.maastrichtuniversity.dke.logic.scenario.factory;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TeleportTile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
@@ -14,9 +15,8 @@ import org.slf4j.LoggerFactory;
 @NoArgsConstructor
 @Setter
 @Getter
+@Slf4j
 public class EnvironmentFactory {
-
-    private static final Logger logger = LoggerFactory.getLogger(EnvironmentFactory.class);
 
     private int width;
     private int height;
@@ -25,7 +25,7 @@ public class EnvironmentFactory {
     private Tile[][] tileMap;
 
     public void addArea(int x1, int y1, int x2, int y2, TileType type) {
-        logger.info("adding area of type " + type + ": " + x1 + " " + y1 + " " + x2 + " " + y2);
+        log.info("adding area of type " + type + ": " + x1 + " " + y1 + " " + x2 + " " + y2);
 
         if (this.tileMap == null && width >0 && height > 0)
             this.tileMap = new Tile[width][height];
@@ -49,7 +49,7 @@ public class EnvironmentFactory {
     }
 
     public void addTeleportArea(int x1, int y1, int x2, int y2, int targetX, int targetY, int rotation) {
-        logger.info("adding teleport area: " + x1 + " " + y1 + " " + x2 + " " + y2 + " with target coordinates "
+        log.info("adding teleport area: " + x1 + " " + y1 + " " + x2 + " " + y2 + " with target coordinates "
                 + targetX + " " + targetY + " and rotation " + rotation);
 
         if (this.tileMap == null && width > 0 && height > 0)
