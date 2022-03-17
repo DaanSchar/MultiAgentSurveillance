@@ -27,8 +27,6 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
 
     private final DiscreteSpace actionSpace = new DiscreteSpace(Network.NUM_OUTPUTS);
     private Game game;
-    private final GameWindow gameWindow = new GameWindow();
-
 
     @Override
     public StepReply<NeuralGameState> step(Integer integer) {
@@ -39,16 +37,12 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
         Agent agent;
 
         if (agentActions.size() == totalAgents) {
-            logger.info("actions: {}", agentActions);
             game.update();
-            gameWindow.draw();
             agent = agents.get(0);
         } else {
             game.getAgentActions().add(integer-1);
             agent = agents.get(agentActions.size()-1);
         }
-
-        logger.info("agent: {}", agents.get(0).getPosition());
 
         return new StepReply<>(
                 new NeuralGameState(agent.getStateVector()),
