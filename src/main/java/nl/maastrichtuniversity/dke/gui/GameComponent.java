@@ -50,7 +50,7 @@ public class GameComponent extends JComponent{
 		this.environment = scenario.getEnvironment();
 		this.textureSize = (int) (scenario.getScaling()*100);
 
-//		startGameSystem();
+		startGameSystem();
 	}
 
 	public void paintComponent(Graphics g) {
@@ -178,7 +178,7 @@ public class GameComponent extends JComponent{
 	public void startGameSystem() {
 		Game system = Game.getInstance();
 		Timer timer = new Timer(20, e -> {
-			system.update();
+			system.update(0);
 			repaint();
 		});
 
