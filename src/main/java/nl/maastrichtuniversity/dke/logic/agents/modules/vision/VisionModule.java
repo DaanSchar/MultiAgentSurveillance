@@ -6,6 +6,7 @@ import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.LinkedList;
@@ -31,7 +32,6 @@ public class VisionModule extends AgentModule implements IVisionModule {
      */
     @Override
     public void useVision(Position position, Direction direction) {
-
         agents.clear();
         obstacles.clear();
 
@@ -87,7 +87,7 @@ public class VisionModule extends AgentModule implements IVisionModule {
         Tile tmp = tilemap[x][y];
 
 
-            if (!tmp.isOpened() && !tmp.isEmpty()) {
+            if (!tmp.isOpened() && tmp.getType()== TileType.WALL) { // only non-transparent tile-type is wall?
                 obstruct = true;
             }
             obstacles.add(tmp);

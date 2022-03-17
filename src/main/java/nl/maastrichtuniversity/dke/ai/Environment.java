@@ -5,6 +5,8 @@ import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
+import nl.maastrichtuniversity.dke.reinforcement.Reward;
+import nl.maastrichtuniversity.dke.reinforcement.Reward;
 import org.deeplearning4j.gym.StepReply;
 import org.deeplearning4j.rl4j.mdp.MDP;
 import org.deeplearning4j.rl4j.space.DiscreteSpace;
@@ -26,6 +28,7 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
     private final DiscreteSpace actionSpace = new DiscreteSpace(Network.NUM_OUTPUTS);
     private Game game;
     private final GameWindow gameWindow = new GameWindow();
+
 
     @Override
     public StepReply<NeuralGameState> step(Integer integer) {
@@ -49,7 +52,7 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
 
         return new StepReply<>(
                 new NeuralGameState(agent.getStateVector()),
-                0.0,
+                Reward.calculateReward(game.getScenario()),
                 isDone(),
                 null
         );
