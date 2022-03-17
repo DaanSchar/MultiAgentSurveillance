@@ -45,6 +45,8 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
             agent = agents.get(agentActions.size()-1);
         }
 
+        logger.info("agent: {}", agents.get(0).getPosition());
+
         return new StepReply<>(
                 new NeuralGameState(agent.getStateVector()),
                 0.0,
