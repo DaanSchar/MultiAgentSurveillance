@@ -78,7 +78,7 @@ public class Agent {
      */
     public boolean dropMark(CommunicationType type){
         if(communicationModule.hasMark(type)){
-            communicationModule.dropMark(new CommunicationMark(this.position, type));
+            communicationModule.dropMark(new CommunicationMark(this.position, type, this));
             updateMemory();
             return true;
         }
