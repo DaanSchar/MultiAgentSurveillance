@@ -16,7 +16,6 @@ public interface IMemoryModule {
 
     List<Tile> getDiscoveredTiles();
 
-    void setStartPosition(Position position);
     void setSpawnPosition(Position position);
 
 }

@@ -80,9 +80,8 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         }
     }
 
-    private void updateVision(IVisionModule vision){
     //TODO: add sound to update method in memory
-    public void update(IVisionModule vision) {
+    private void updateVision(IVisionModule vision){
         discoveredTiles.clear();
         for(Tile tile: vision.getObstacles()) {
             int x = tile.getPosition().getX();
