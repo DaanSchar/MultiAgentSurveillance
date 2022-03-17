@@ -35,15 +35,17 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
         Agent agent;
 
         if (agentActions.size() == totalAgents) {
+            logger.info("actions: {}", agentActions);
             game.update();
             gameWindow.draw();
             agent = agents.get(0);
         } else {
-            game.getAgentActions().add(integer);
+            game.getAgentActions().add(integer-1);
             agent = agents.get(agentActions.size()-1);
         }
 
-        var input = agent.getMemoryModule().getMap().getStateVector();
+
+        var input = agent.getStateVector();
 
         return new StepReply<>(
                 new NeuralGameState(input),
@@ -56,21 +58,21 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
     @Override
     public boolean isDone() {
         var scenario = game.getScenario();
-       int numberOfTiles = scenario.getEnvironment().getHeight() * scenario.getEnvironment().getWidth();
-       LinkedList<Tile> exploredTiles = new LinkedList<>();
+        int numberOfTiles = scenario.getEnvironment().getHeight() * scenario.getEnvironment().getWidth();
+        LinkedList<Tile> exploredTiles = new LinkedList<>();
 
-       for (Agent a : scenario.getGuards()) {
-           for (Tile[] tCol : a.getMemoryModule().getMap().getTileMap()) {
-               for (Tile t : tCol) {
-                   if (t.getType()!= TileType.UNKNOWN && !exploredTiles.contains(t)) {
+        for (Agent a : scenario.getGuards()) {
+            for (Tile[] tCol : a.getMemoryModule().getMap().getTileMap()) {
+                for (Tile t : tCol) {
+                    if (t.getType()!= TileType.UNKNOWN && !exploredTiles.contains(t)) {
                        exploredTiles.add(t);
-                   }
-                   if (exploredTiles.size() == numberOfTiles) {
-                       return true;
-                   }
-               }
-           }
-       }
+                    }
+                    if (exploredTiles.size() == numberOfTiles) {
+                        return true;
+                    }
+                }
+            }
+        }
         return exploredTiles.size() == numberOfTiles;
 
     }

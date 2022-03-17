@@ -7,7 +7,7 @@ import org.nd4j.linalg.learning.config.RmsProp;
 
 public class Network {
 
-    public static final int NUM_INPUTS = 9600;
+    public static final int NUM_INPUTS = 17;
     public static final int NUM_OUTPUTS = 3;
 
     private static final int NUM_LAYERS = 2;
