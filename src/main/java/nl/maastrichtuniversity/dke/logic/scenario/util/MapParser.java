@@ -97,7 +97,7 @@ public class MapParser {
         agentFactory.setSprintSpeedIntruders(10);
         agentFactory.setBaseSpeedGuards(5);
         scenarioFactory.setTimeStep(0.1);
-        agentFactory.setViewingDistance(10);
+        agentFactory.setViewingDistance(Math.max(agentFactory.getBaseSpeedGuards(), agentFactory.getBaseSpeedIntruders())*2);
         agentFactory.setHearingDistanceWalking(6);
         agentFactory.setHearingDistanceSprinting(10);
         agentFactory.setSmellingDistance(7);
@@ -126,6 +126,7 @@ public class MapParser {
                 Integer.parseInt(values[5]),
                 (int)Double.parseDouble(values[6])
         );
+        envBuilder.addTile(Integer.parseInt(values[4]), Integer.parseInt(values[5]), TileType.TELEPORT_DESTINATION);
     }
 
 }
