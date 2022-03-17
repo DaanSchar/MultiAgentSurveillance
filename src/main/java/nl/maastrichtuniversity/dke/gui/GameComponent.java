@@ -9,7 +9,7 @@ import javax.swing.Timer;
 
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.*;
-import nl.maastrichtuniversity.dke.logic.scenario.CommunicationMark;
+import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
@@ -37,7 +37,9 @@ public class GameComponent extends JComponent{
 	public GameComponent(Scenario scenario, Environment environment) {
 		this.scenario = scenario;
 		this.environment = environment;
-		this.textureSize = (int) (scenario.getScaling()*100) - 7;
+		this.textureSize = (int) (scenario.getScaling()*100) - 2;
+
+		startGameSystem();
 	}
 
 	/**

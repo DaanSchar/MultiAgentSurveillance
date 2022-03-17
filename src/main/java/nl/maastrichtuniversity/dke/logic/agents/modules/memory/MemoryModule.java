@@ -4,7 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.INoiseModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.smell.ISmellModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
+import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
@@ -21,8 +25,10 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     private final Environment map;
     private final List<Tile> discoveredTiles;
     private final List<Agent> agents;
+    private List<Position> sounds;
+    private List<Position> smells;
+    private @Setter Position position;
 
-    private @Setter Position startPosition;
 
     public MemoryModule(Scenario scenario) {
         super(scenario);
@@ -34,7 +40,15 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
 
         initEnvironment();
 
+        smells = new ArrayList<>();
+        sounds = new ArrayList<>();
         agents = new ArrayList<>();
+    }
+
+    public void setSpawnPosition(Position position){
+        map.getTileMap()[position.getX()][position.getY()] = new Tile(position, TileType.SPAWN_GUARDS);
+        setPosition(position);
+
     }
 
     private void initEnvironment() {
@@ -45,6 +59,28 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         }
     }
 
+    public void update(IVisionModule visionModule, IListeningModule listeningModule, ISmellModule smellModule, Position position) {
+        setPosition(position);
+        updateVision(visionModule);
+        updateSound(listeningModule);
+        updateSmell(smellModule);
+    }
+
+    private void updateSound(IListeningModule listeningModule){
+        if (listeningModule.getSound(position)){
+            sounds.add(position);
+            sounds.addAll(listeningModule.getDirection(position));
+        }
+    }
+
+    private void updateSmell(ISmellModule smellModule){
+        if (smellModule.getSmell(position)){
+            smells.add(position);
+//            smells.addAll(smellModule.getDirection(position));
+        }
+    }
+
+    private void updateVision(IVisionModule vision){
     //TODO: add sound to update method in memory
     public void update(IVisionModule vision) {
         discoveredTiles.clear();
@@ -67,8 +103,8 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
             }
 
         }
-
     }
+
 
 
 

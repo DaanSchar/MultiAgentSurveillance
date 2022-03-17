@@ -8,9 +8,11 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.memory.MemoryModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.NoiseModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.movement.Movement;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.smell.SmellModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.UniformSpawnModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.VisionModule;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +44,7 @@ public class AgentFactory {
         ArrayList<Guard> agents = new ArrayList<>();
 
         for (int i = 0; i < numOfAgents; i++)
-            agents.add(buildGuard(i));
+            agents.add(buildGuard());
 
         logger.info("Created {} Guards", numOfAgents);
 
@@ -60,15 +62,25 @@ public class AgentFactory {
         return agents;
     }
 
-    public Guard buildGuard(int i) {
+    public Guard buildGuard() {
         var guard = new Guard();
         guard.setSpawnModule(new UniformSpawnModule(scenario));
         guard.setMovement(new Movement(scenario, baseSpeedGuards, 0));
         guard.setVisionModule(new VisionModule(scenario, viewingDistance));
-        guard.setCommunicationModule(new CommunicationModule(scenario, numberOfMarkers));
+        List<CommunicationType> markersGar = new ArrayList<>();
+        for(int i = 0; i < numberOfMarkers; i++){
+            markersGar.add(CommunicationType.VISIONRED);
+            markersGar.add(CommunicationType.VISIONBLUE);
+            markersGar.add(CommunicationType.VISIONGREEN);
+            markersGar.add(CommunicationType.SMELL);
+            markersGar.add(CommunicationType.SOUND);
+        }
+
+        guard.setCommunicationModule(new CommunicationModule(scenario, markersGar, smellingDistance));
         guard.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
         guard.setMemoryModule(new MemoryModule(scenario));
         guard.setListeningModule(new ListeningModule(scenario));
+        guard.setSmellModule(new SmellModule(scenario));
 
         return guard;
     }
@@ -79,9 +91,19 @@ public class AgentFactory {
         intruder.setMovement(new Movement(scenario, baseSpeedIntruders, sprintSpeedIntruders));
         intruder.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
         intruder.setVisionModule(new VisionModule(scenario, viewingDistance));
-        intruder.setCommunicationModule(new CommunicationModule(scenario, numberOfMarkers));
+        List<CommunicationType> markersIntru = new ArrayList<>();
+        for(int i = 0; i < numberOfMarkers; i++){
+            markersIntru.add(CommunicationType.VISIONRED);
+            markersIntru.add(CommunicationType.VISIONBLUE);
+            markersIntru.add(CommunicationType.VISIONGREEN);
+            markersIntru.add(CommunicationType.SMELL);
+            markersIntru.add(CommunicationType.SOUND);
+        }
+        intruder.setCommunicationModule(new CommunicationModule(scenario, markersIntru,smellingDistance));
+        intruder.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
         intruder.setMemoryModule(new MemoryModule(scenario));
         intruder.setListeningModule(new ListeningModule(scenario));
+        intruder.setSmellModule(new SmellModule(scenario));
 
         return intruder;
     }

@@ -2,15 +2,17 @@ package nl.maastrichtuniversity.dke.logic.agents;
 
 import lombok.Getter;
 import lombok.Setter;
+import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.ICommunicationModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.memory.IMemoryModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.INoiseModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovement;
+import nl.maastrichtuniversity.dke.logic.agents.modules.smell.ISmellModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.VisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
-import nl.maastrichtuniversity.dke.logic.scenario.CommunicationMark;
+import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.ISpawnModule;
 import org.slf4j.Logger;
@@ -42,6 +44,7 @@ public class Agent {
     private @Setter INoiseModule noiseModule;
     private @Setter IListeningModule listeningModule;
     private @Setter IMemoryModule memoryModule;
+    private @Setter ISmellModule smellModule;
 
     public Agent() {
         this.id = agentCount++;
@@ -53,7 +56,7 @@ public class Agent {
     public void spawn() {
         position = spawnModule.getSpawnPosition(this);
         direction = spawnModule.getSpawnDirection();
-        memoryModule.setStartPosition(position);
+        memoryModule.setSpawnPosition(position);
         updateMemory();
 
         logger.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position + " facing " + this.direction);
@@ -80,8 +83,25 @@ public class Agent {
         return stateVector;
     }
 
-    public void dropMark(Position position , Color color){
-        communicationModule.addMark(position.getX(),position.getY(),new CommunicationMark(position,color));
+    /**
+     * @param type a type of communication device want to drop
+     * @return if the type was available and agent droped it
+     */
+    public boolean dropMark(CommunicationType type){
+        if(communicationModule.hasMark(type)){
+            if(type.equals(CommunicationType.VISIONBLUE))
+                communicationModule.dropMark(new CommunicationMark(this.position, type, this, Color.BLUE));
+            else if(type.equals(CommunicationType.VISIONRED))
+                communicationModule.dropMark(new CommunicationMark(this.position, type, this, Color.RED));
+            else if(type.equals(CommunicationType.VISIONGREEN))
+                communicationModule.dropMark(new CommunicationMark(this.position, type, this, Color.GREEN));
+            else
+                communicationModule.dropMark(new CommunicationMark(this.position, type, this, null));
+            updateMemory();
+
+            return true;
+        }
+        return false;
     }
 
     public void listen(){
@@ -89,11 +109,11 @@ public class Agent {
     }
 
     public void updateMemory() {
-        memoryModule.update(visionModule);
+        memoryModule.update(visionModule, listeningModule, smellModule, getPosition());
     }
 
     public Agent newInstance() {
-        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule, communicationModule, memoryModule,listeningModule);
+        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule, communicationModule, memoryModule,listeningModule, smellModule);
     }
 
     /** 1 is left
@@ -105,7 +125,7 @@ public class Agent {
 
     private Agent(Direction direction,Position position,int id,ISpawnModule spawnModule, IMovement movement,
                   IVisionModule visionModule, INoiseModule noiseModule,  ICommunicationModule communicationModule,
-                  IMemoryModule memoryModule,IListeningModule listeningModule){
+                  IMemoryModule memoryModule,IListeningModule listeningModule, ISmellModule smellModule){
 
         this.spawnModule = spawnModule;
         this.visionModule = visionModule;
@@ -114,6 +134,7 @@ public class Agent {
         this.communicationModule = communicationModule;
         this.memoryModule = memoryModule;
         this.listeningModule = listeningModule;
+        this.smellModule = smellModule;
         this.id = id;
 
         // this should be in spawn module

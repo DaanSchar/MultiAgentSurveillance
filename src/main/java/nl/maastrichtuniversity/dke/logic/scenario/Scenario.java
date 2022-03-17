@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
+import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class Scenario {
     private Environment environment;
     private @Setter List<Guard> guards;
     private @Setter List<Intruder> intruders;
+    private @Getter @Setter List<Smell> smellMap;
     private @Getter @Setter List<Sound> soundMap;
     private @Getter @Setter List<CommunicationMark> communicationMarks;
 
@@ -30,6 +32,7 @@ public class Scenario {
         this.timeStep = timeStep;
         this.scaling = scaling;
         this.soundMap = new ArrayList<>();
+        this.smellMap = new ArrayList<>();
         this.communicationMarks = new ArrayList<>();
         this.environment = environment;
     }

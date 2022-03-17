@@ -45,6 +45,8 @@ public class MapParser {
         Scanner lineScanner = new Scanner(line);
         lineScanner.useDelimiter("=");
 
+        setDefaultValues();
+
         while(lineScanner.hasNext()) {
             String key = lineScanner.next().trim();
             String value = lineScanner.next().trim();
@@ -73,10 +75,7 @@ public class MapParser {
             case "spawnAreaIntruders" -> addArea(values, TileType.SPAWN_INTRUDERS);
             case "spawnAreaGuards" -> addArea(values, TileType.SPAWN_GUARDS);
             case "wall" -> addArea(values, TileType.WALL);
-            case "teleport" -> {
-                addArea(values, TileType.TELEPORT);
-                addArea(new String[]{values[4], values[5], values[4], values[5]}, TileType.DESTINATIONTELEPORT);
-            }
+            case "teleport" -> addTeleport(value);
             case "shaded" -> addArea(values, TileType.SHADED);
             case "texture" -> logger.error("Texture not implemented yet");
             case "window" -> addArea(values, TileType.WINDOW);
@@ -91,6 +90,20 @@ public class MapParser {
         }
     }
 
+    private void setDefaultValues() {
+        scenarioFactory.setGameMode(1);
+        scenarioFactory.setScaling(0.07);
+        agentFactory.setBaseSpeedIntruders(5);
+        agentFactory.setSprintSpeedIntruders(10);
+        agentFactory.setBaseSpeedGuards(5);
+        scenarioFactory.setTimeStep(0.1);
+        agentFactory.setViewingDistance(10);
+        agentFactory.setHearingDistanceWalking(6);
+        agentFactory.setHearingDistanceSprinting(10);
+        agentFactory.setSmellingDistance(7);
+        agentFactory.setNumberOfMarkers(5);
+    }
+
     private void addArea(String[] values, TileType type) {
         envBuilder.addArea(
                 Integer.parseInt(values[0]),
@@ -100,6 +113,19 @@ public class MapParser {
                 type
         );
 
+    }
+
+    private void addTeleport(String value) {
+        String[] values = value.split(" ");
+        envBuilder.addTeleportArea(
+                Integer.parseInt(values[0]),
+                Integer.parseInt(values[1]),
+                Integer.parseInt(values[2]),
+                Integer.parseInt(values[3]),
+                Integer.parseInt(values[4]),
+                Integer.parseInt(values[5]),
+                (int)Double.parseDouble(values[6])
+        );
     }
 
 }

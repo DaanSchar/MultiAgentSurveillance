@@ -4,7 +4,7 @@ import lombok.*;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 @Getter
-@AllArgsConstructor
+//@AddArgsConstructor
 @EqualsAndHashCode
 @ToString
 public class Tile {
@@ -12,7 +12,7 @@ public class Tile {
     private @Getter Position position;
     private boolean isOpened;
     private @Setter TileType type;
-  //  private @Getter List<CommunicationMark> communicationMarks;
+//    private @Getter List<CommunicationMark> communicationMarks;
 
 
     public Tile(Position position) {

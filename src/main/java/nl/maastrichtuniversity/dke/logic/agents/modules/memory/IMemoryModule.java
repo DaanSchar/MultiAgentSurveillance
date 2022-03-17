@@ -1,5 +1,7 @@
 package nl.maastrichtuniversity.dke.logic.agents.modules.memory;
 
+import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.smell.ISmellModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
@@ -8,12 +10,13 @@ import java.util.List;
 
 public interface IMemoryModule {
 
-    void update(IVisionModule vision);
+    void update(IVisionModule vision, IListeningModule listeningModule, ISmellModule smellModule, Position position);
 
     Environment getMap();
 
     List<Tile> getDiscoveredTiles();
 
     void setStartPosition(Position position);
+    void setSpawnPosition(Position position);
 
 }
