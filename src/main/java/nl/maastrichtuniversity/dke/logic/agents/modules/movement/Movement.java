@@ -12,6 +12,7 @@ import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 /**
  * move the agent to the desirable position
  *
@@ -20,10 +21,12 @@ import org.slf4j.LoggerFactory;
 public class Movement extends AgentModule implements IMovement {
 
     private static final Logger logger = LoggerFactory.getLogger(Movement.class);
-    private @Getter @Setter double baseSpeed, sprintSpeed;
+    private @Getter
+    @Setter
+    double baseSpeed, sprintSpeed;
     private double lastTimeMoved;
 
-    public Movement(Scenario scenario,double baseSpeed, double sprintSpeed) {
+    public Movement(Scenario scenario, double baseSpeed, double sprintSpeed) {
         super(scenario);
         this.baseSpeed = baseSpeed;
         this.sprintSpeed = sprintSpeed;
@@ -64,27 +67,44 @@ public class Movement extends AgentModule implements IMovement {
     @Override
     public Position goForward(Position position, Direction direction, double time) {
 //        if (isTimeToMove(time)) {
-            Position newPos = position.add( new Position(direction.getMoveX() * (int)baseSpeed, direction.getMoveY() * (int) baseSpeed ));
-            lastTimeMoved = time;
-            if (isColliding(newPos)) {
-                return position;
-            }
-            var tileMap = scenario.getEnvironment().get(TileType.TELEPORT);
-            for (Tile t : tileMap) {
-                if (newPos.equals(t.getPosition())) {
-                    t = (TeleportTile) t;
-                    newPos = ((TeleportTile) t).getTargetPosition();
-                }
-            }
+        Position newPos = position.add(new Position(direction.getMoveX() * (int) baseSpeed, direction.getMoveY() * (int) baseSpeed));
+        lastTimeMoved = time;
 
-            return newPos;
+
+        if (isColliding(newPos) || isPathClosed(position, direction)) {
+            return position;
+        }
+        var tileMap = scenario.getEnvironment().get(TileType.TELEPORT);
+        for (Tile t : tileMap) {
+            if (newPos.equals(t.getPosition())) {
+                t = (TeleportTile) t;
+                newPos = ((TeleportTile) t).getTargetPosition();
+            }
+        }
+
+        return newPos;
 //        }
 //        return position;
     }
 
     private boolean isTimeToMove(double time) {
-        return time - lastTimeMoved > 1.0/(baseSpeed/10.0);
+        return time - lastTimeMoved > 1.0 / (baseSpeed / 10.0);
     }
+
+
+    private boolean isPathClosed(Position currPosition, Direction direction) {
+        int x;
+        int y;
+        for (int i = 0; i < baseSpeed; i++) {
+            x = currPosition.getX() + direction.getMoveX() * i;
+            y = currPosition.getY() + direction.getMoveY() * i;
+            if (scenario.getEnvironment().getTileMap()[x][y].getType() == TileType.WALL) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     @Override
     public Position sprint(Position position, Direction direction) {
@@ -119,11 +139,12 @@ public class Movement extends AgentModule implements IMovement {
 
 
     /**
-     *  check if there is a collision between agent and an object
+     * check if there is a collision between agent and an object
+     *
      * @param position the position want to be checked
      * @return the area with collision or null if there is no collision
      */
-    private boolean isColliding(Position position){
+    private boolean isColliding(Position position) {
         var tileMap = scenario.getEnvironment().getTileMap();
         Tile tile;
 
