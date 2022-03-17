@@ -16,7 +16,6 @@ public enum TileType {
     START(true, true),
     UNKNOWN(true, true),
     DESTINATIONTELEPORT(true, true),
-
     WINDOW(false, true),
     DOOR(false, true);
 
