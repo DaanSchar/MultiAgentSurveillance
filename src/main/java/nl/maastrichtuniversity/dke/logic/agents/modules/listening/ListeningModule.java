@@ -1,6 +1,7 @@
 package nl.maastrichtuniversity.dke.logic.agents.modules.listening;
 
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
+import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.Sound;
@@ -36,32 +37,41 @@ public class ListeningModule extends AgentModule implements IListeningModule {
     /**
      *
      * @param position the position in which the agent is right now
-     * @return a list of positions, the position is where the sound is coming from (the sound source),
+     * @return a list of directions, the direction is where the sound is coming from (the sound source),
      * there can be more than one sound in the agents position
      */
     @Override
-    public List<Position> getDirection(Position position){
+    public List<Direction> getDirection(Position position){
         List<Sound> soundMap = scenario.getSoundMap();
-        List<Position> soundSource = new ArrayList<>();
+        List<Direction> soundSource = new ArrayList<>();
         for(Sound sound: soundMap){
             if(sound.getPosition().equals(position)){
                 Position source = sound.getSource();
-                soundSource.add(deviation(source));
+                soundSource.add(computeDirection(position,source));
             }
         }
         return  soundSource;
     }
 
     /**
-     * Creates a deviation from the actual source of the sound
+     * Given the source sound and the actual position of the agent,
+     * compute the direction of the source relative to the agent
      ***/
-    public Position deviation(Position position){
-        int X = position.getX();
-        int Y = position.getY();
-        int deviationX = getRandomNumber(-1,1);
-        int deviationY = getRandomNumber(-1,1);
-        return new Position(X+deviationX,Y+deviationY);
+    public Direction computeDirection(Position position, Position source){
+        int X1 = position.getX();
+        int Y1 = position.getY();
+        int X2 = source.getX();
+        int Y2 = source.getY();
 
+        if(X1<X2 && Y1<Y2){return Direction.SOUTHEAST;}
+        else if (X1<X2 && Y1>Y2){return  Direction.NORTHEAST;}
+        else if (X1>X2 && Y1<Y2){return  Direction.SOUTHWEST;}
+        else if (X1>X2 && Y1>Y2){return  Direction.NORTHWEST;}
+        else if (X1==X2 && Y1<Y2){return  Direction.SOUTH;}
+        else if (X1==X2 && Y1>Y2){return  Direction.NORTH;}
+        else if (X1>X2 && Y1==Y2){return  Direction.WEST;}
+        else if (X1<X2 && Y1==Y2){return  Direction.EAST;}
+        else return null;
     }
 
     public int getRandomNumber(int min, int max) {

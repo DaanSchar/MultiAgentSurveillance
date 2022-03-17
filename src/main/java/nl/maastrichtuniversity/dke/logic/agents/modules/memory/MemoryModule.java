@@ -8,6 +8,7 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModu
 import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.INoiseModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.smell.ISmellModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
+import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
@@ -26,6 +27,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     private final List<Tile> discoveredTiles;
     private final List<Agent> agents;
     private List<Position> sounds;
+    private List<Direction> soundDirection;
     private List<Position> smells;
     private @Setter Position position;
 
@@ -43,6 +45,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         smells = new ArrayList<>();
         sounds = new ArrayList<>();
         agents = new ArrayList<>();
+        soundDirection = new ArrayList<>();
     }
 
     public void setSpawnPosition(Position position){
@@ -69,7 +72,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     private void updateSound(IListeningModule listeningModule){
         if (listeningModule.getSound(position)){
             sounds.add(position);
-            sounds.addAll(listeningModule.getDirection(position));
+            soundDirection.addAll(listeningModule.getDirection(position));
         }
     }
 
