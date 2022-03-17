@@ -1,11 +1,14 @@
 package nl.maastrichtuniversity.dke.logic.scenario.factory;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.logic.agents.factory.AgentFactory;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 
 @Setter
+@Getter
 public class ScenarioFactory {
 
     private String name;

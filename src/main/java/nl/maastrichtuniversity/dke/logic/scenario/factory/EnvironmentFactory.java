@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.logic.scenario.factory;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 @NoArgsConstructor
 @Setter
+@Getter
 public class EnvironmentFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(EnvironmentFactory.class);
