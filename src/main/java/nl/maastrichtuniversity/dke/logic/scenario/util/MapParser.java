@@ -1,19 +1,18 @@
 package nl.maastrichtuniversity.dke.logic.scenario.util;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.agents.factory.AgentFactory;
 import nl.maastrichtuniversity.dke.logic.scenario.factory.EnvironmentFactory;
 import nl.maastrichtuniversity.dke.logic.scenario.factory.ScenarioFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Scanner;
 
+@Slf4j
 public class MapParser {
 
-    private static final Logger logger = LoggerFactory.getLogger(MapParser.class);
     private Scanner scanner;
 
     private ScenarioFactory scenarioFactory;
@@ -26,7 +25,7 @@ public class MapParser {
             scenarioFactory = new ScenarioFactory();
             agentFactory = new AgentFactory();
         } catch (Exception e) {
-            logger.error("Error while parsing file: ");
+            log.error("Error while parsing file: ");
             e.printStackTrace();
         }
     }
@@ -60,7 +59,7 @@ public class MapParser {
 
         switch (key) {
             case "name" -> scenarioFactory.setName(value);
-            case "gameFile" -> logger.error("GameFile not implemented yet");
+            case "gameFile" -> log.error("GameFile not implemented yet");
             case "gameMode" -> scenarioFactory.setGameMode(Integer.parseInt(value));
             case "height" -> envBuilder.setHeight(Integer.parseInt(value));
             case "width" -> envBuilder.setWidth(Integer.parseInt(value));
@@ -77,7 +76,7 @@ public class MapParser {
             case "wall" -> addArea(values, TileType.WALL);
             case "teleport" -> addTeleport(value);
             case "shaded" -> addArea(values, TileType.SHADED);
-            case "texture" -> logger.error("Texture not implemented yet");
+            case "texture" -> log.error("Texture not implemented yet");
             case "window" -> addArea(values, TileType.WINDOW);
             case "door" -> addArea(values, TileType.DOOR);
             case "sentrytower" -> addArea(values, TileType.SENTRY);
@@ -86,7 +85,7 @@ public class MapParser {
             case "distanceHearingSprinting" -> agentFactory.setHearingDistanceSprinting(Integer.parseInt(value));
             case "distanceSmelling" -> agentFactory.setSmellingDistance(Integer.parseInt(value));
             case "numberOfMarkers" -> agentFactory.setNumberOfMarkers(Integer.parseInt(value));
-            default -> logger.error("Unknown value: " + key);
+            default -> log.error("Unknown value: " + key);
         }
     }
 

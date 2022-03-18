@@ -2,6 +2,7 @@ package nl.maastrichtuniversity.dke.logic.agents.modules.movement;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
@@ -18,9 +19,9 @@ import org.slf4j.LoggerFactory;
  *
  * @Author Parand
  */
+@Slf4j
 public class Movement extends AgentModule implements IMovement {
 
-    private static final Logger logger = LoggerFactory.getLogger(Movement.class);
     private @Getter @Setter double baseSpeed, sprintSpeed;
     private double lastTimeMoved;
 
@@ -148,7 +149,7 @@ public class Movement extends AgentModule implements IMovement {
         try {
             tile = tileMap[position.getX()][position.getY()];
         } catch (IndexOutOfBoundsException e) {
-            logger.info("Cannot move as it is trying to walk off of the map");
+            log.info("Cannot move as it is trying to walk off of the map");
             return true;
         }
 

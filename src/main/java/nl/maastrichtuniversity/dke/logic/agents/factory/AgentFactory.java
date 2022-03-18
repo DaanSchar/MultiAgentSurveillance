@@ -2,6 +2,7 @@ package nl.maastrichtuniversity.dke.logic.agents.factory;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.ListeningModule;
@@ -22,6 +23,7 @@ import java.util.List;
 
 @Setter
 @Getter
+@Slf4j
 public class AgentFactory {
 
     private Scenario scenario;
@@ -38,7 +40,6 @@ public class AgentFactory {
 
     private int numberOfMarkers;
 
-    private static Logger logger = LoggerFactory.getLogger(AgentFactory.class);
 
     public AgentFactory() {}
 
@@ -48,7 +49,7 @@ public class AgentFactory {
         for (int i = 0; i < numOfAgents; i++)
             agents.add(buildGuard());
 
-        logger.info("Created {} Guards", numOfAgents);
+        log.info("Created {} Guards", numOfAgents);
 
         return agents;
     }
@@ -59,7 +60,7 @@ public class AgentFactory {
         for (int i = 0; i < numOfAgents; i++)
             agents.add(buildIntruder());
 
-        logger.info("Created {} intruders", numOfAgents);
+        log.info("Created {} intruders", numOfAgents);
 
         return agents;
     }
