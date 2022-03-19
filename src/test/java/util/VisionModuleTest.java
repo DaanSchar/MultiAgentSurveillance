@@ -158,6 +158,40 @@ public class VisionModuleTest {
          Assertions.assertEquals(obstacles.get(3).getPosition(), new Position(1,0));
     }
 
+    /** shaded test, can only see one tile after a shaded tile
+     *   3  e e O e
+     *   2  O e e e
+     *   1  e S e e
+     *   0  e P e O
+     *      0 1 2 3
+     */
+    @Test
+    void testShaded(){
+        VisionModule vm = new VisionModule(s,90);
+        s.getEnvironment().getTileMap()[3][0].setType(TileType.WALL);
+        s.getEnvironment().getTileMap()[1][1].setType(TileType.SHADED);
+        s.getEnvironment().getTileMap()[0][2].setType(TileType.WALL);
+        s.getEnvironment().getTileMap()[2][3].setType(TileType.WALL);
+
+
+        vm.useVision(new Position(1,0), Direction.SOUTH);
+        List<Tile> obstacles =vm.getObstacles();
+        System.out.println(obstacles);
+
+        Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(1,0));
+        Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(0,0));
+        Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(2,0));
+        Assertions.assertEquals(obstacles.get(3).getPosition(), new Position(1,1));
+        Assertions.assertEquals(obstacles.get(4).getPosition(), new Position(0,1));
+        Assertions.assertEquals(obstacles.get(5).getPosition(), new Position(2,1));
+        Assertions.assertEquals(obstacles.get(6).getPosition(), new Position(1,2));
+        Assertions.assertEquals(obstacles.get(7).getPosition(), new Position(0,2));
+        Assertions.assertEquals(obstacles.get(8).getPosition(), new Position(2,2));
+        Assertions.assertEquals(obstacles.get(9).getPosition(), new Position(2, 3));
+
+
+    }
+
 
 
 
