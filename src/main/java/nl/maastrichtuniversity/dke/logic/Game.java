@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
+import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.util.MapParser;
 
@@ -85,8 +86,8 @@ public class Game {
         resetNoise();
         time += scenario.getTimeStep();
 
-        for (Agent agent : scenario.getGuards()) {
-            moveAgentRandomly(agent);
+        for (Guard agent : scenario.getGuards()) {
+            agent.explore();
         }
 
         for (Agent agent : scenario.getGuards()) {
