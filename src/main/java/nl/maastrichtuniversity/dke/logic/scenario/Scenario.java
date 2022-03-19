@@ -6,7 +6,10 @@ import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,5 +39,25 @@ public class Scenario {
         this.communicationMarks = new ArrayList<>();
         this.environment = environment;
     }
+
+
+    /**
+     * Collects all the tiles explored by the agents (Guards) of the environment and returns them in a list.
+     * @return List of tiles explored by the agents (Guards).
+     */
+    public List<Tile> getCoveredTiles() {
+        ArrayList<Tile> coveredTiles = new ArrayList<>();
+
+        for (Guard guard : guards) {
+            var agentMemoryMap = guard.getMemoryModule().getMap();
+
+            for (Tile tile : agentMemoryMap) {
+                if (!coveredTiles.contains(tile) && tile.getType() != TileType.UNKNOWN) { coveredTiles.add(tile); }
+            }
+        }
+
+        return coveredTiles;
+    }
+
 
 }
