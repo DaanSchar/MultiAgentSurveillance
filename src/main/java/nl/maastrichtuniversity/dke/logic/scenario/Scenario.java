@@ -5,11 +5,10 @@ import lombok.Setter;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
+import nl.maastrichtuniversity.dke.logic.agents.modules.memory.MemoryModule;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +22,11 @@ public class Scenario {
     private double scaling;
 
     private Environment environment;
-    private @Setter List<Guard> guards;
-    private @Setter List<Intruder> intruders;
-    private @Getter @Setter List<Smell> smellMap;
-    private @Getter @Setter List<Sound> soundMap;
-    private @Getter @Setter List<CommunicationMark> communicationMarks;
+    private List<Guard> guards;
+    private List<Intruder> intruders;
+    private List<Smell> smellMap;
+    private List<Sound> soundMap;
+    private List<CommunicationMark> communicationMarks;
 
     public Scenario(String name, int gameMode, double timeStep, double scaling, Environment environment) {
         this.name = name;
@@ -49,11 +48,7 @@ public class Scenario {
         ArrayList<Tile> coveredTiles = new ArrayList<>();
 
         for (Guard guard : guards) {
-            var agentMemoryMap = guard.getMemoryModule().getMap();
-
-            for (Tile tile : agentMemoryMap) {
-                if (!coveredTiles.contains(tile) && tile.getType() != TileType.UNKNOWN) { coveredTiles.add(tile); }
-            }
+            coveredTiles.addAll(((MemoryModule)guard.getMemoryModule()).getCoveredTiles());
         }
 
         return coveredTiles;
