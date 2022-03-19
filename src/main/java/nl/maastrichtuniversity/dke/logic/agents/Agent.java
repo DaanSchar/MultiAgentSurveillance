@@ -16,6 +16,7 @@ import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.ISpawnModule;
+import nl.maastrichtuniversity.dke.util.DebugSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,7 +59,7 @@ public class Agent {
         memoryModule.setSpawnPosition(position);
         updateMemory();
 
-        log.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position + " facing " + this.direction);
+        if (DebugSettings.FACTORY) log.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position + " facing " + this.direction);
     }
 
     public void goForward(double time){
@@ -71,7 +72,8 @@ public class Agent {
 
     public double[] getStateVector() {
         var obstacles = visionModule.getObstacles();
-        var size = ((VisionModule)visionModule).getViewingDistance() * 3 + 2;
+        var visionSize = ((VisionModule)visionModule).getViewingDistance() * 3 + 2;
+        var size = visionSize + 1;
         var stateVector = new double[size];
 
         for (int i = 0; i < size; i++) {
@@ -79,6 +81,8 @@ public class Agent {
             else { stateVector[i] = 0; }
         }
 
+        // add if the agent sees another agent
+        stateVector[size - 1] = visionModule.getAgents().size() > 0 ? 1 : 0;
         return stateVector;
     }
 

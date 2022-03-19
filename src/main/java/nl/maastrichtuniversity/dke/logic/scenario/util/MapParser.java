@@ -6,6 +6,7 @@ import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.agents.factory.AgentFactory;
 import nl.maastrichtuniversity.dke.logic.scenario.factory.EnvironmentFactory;
 import nl.maastrichtuniversity.dke.logic.scenario.factory.ScenarioFactory;
+import nl.maastrichtuniversity.dke.util.DebugSettings;
 
 import java.io.File;
 import java.util.Scanner;
@@ -59,7 +60,7 @@ public class MapParser {
 
         switch (key) {
             case "name" -> scenarioFactory.setName(value);
-            case "gameFile" -> log.error("GameFile not implemented yet");
+            case "gameFile" -> { if (DebugSettings.FACTORY) log.error("GameFile not implemented yet"); }
             case "gameMode" -> scenarioFactory.setGameMode(Integer.parseInt(value));
             case "height" -> envBuilder.setHeight(Integer.parseInt(value));
             case "width" -> envBuilder.setWidth(Integer.parseInt(value));
@@ -76,7 +77,7 @@ public class MapParser {
             case "wall" -> addArea(values, TileType.WALL);
             case "teleport" -> addTeleport(value);
             case "shaded" -> addArea(values, TileType.SHADED);
-            case "texture" -> log.error("Texture not implemented yet");
+            case "texture" -> { if (DebugSettings.FACTORY) log.error("Texture not implemented yet"); }
             case "window" -> addArea(values, TileType.WINDOW);
             case "door" -> addArea(values, TileType.DOOR);
             case "sentrytower" -> addArea(values, TileType.SENTRY);
