@@ -9,6 +9,7 @@ import javax.swing.Timer;
 
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.*;
+import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
@@ -21,13 +22,19 @@ import org.slf4j.LoggerFactory;
 public class GameComponent extends JComponent{
 
 	private final Scenario scenario;
-	private final Environment environment;
+
+	private Environment environment;
 
 	private int textureSize;
 	private int panningX;
 	private int panningY;
+	private int agentMapNum;
+	private boolean agentMapNumBoolean=false;
 
 	private int frame = 0; //Current animation frame
+
+	private List<Guard> newGuardList;
+	private List<Sound> newSoundList;
 
 	private static final Logger logger = LoggerFactory.getLogger(GameComponent.class);
 
@@ -37,7 +44,12 @@ public class GameComponent extends JComponent{
 	public GameComponent(Scenario scenario, Environment environment) {
 		this.scenario = scenario;
 		this.environment = environment;
-		this.textureSize = (int) (scenario.getScaling()*100) - 2;
+		this.textureSize = (int) (scenario.getScaling()*100) /2;
+		this.newGuardList=scenario.getGuards();
+		this.newSoundList=scenario.getSoundMap();
+
+
+		startGameSystem();
 	}
 
 	/**
@@ -47,6 +59,8 @@ public class GameComponent extends JComponent{
 		this.scenario = Game.getInstance().getScenario();
 		this.environment = scenario.getEnvironment();
 		this.textureSize = (int) (scenario.getScaling()*100);
+		this.newGuardList=scenario.getGuards();
+		this.newSoundList=scenario.getSoundMap();
 
 		startGameSystem();
 	}
@@ -73,12 +87,20 @@ public class GameComponent extends JComponent{
 		drawAreas(g, environment.get(TileType.TARGET), imageFactory.get("targetTexture"));
 		drawAreas(g, environment.get(TileType.SHADED), imageFactory.get("shadedTexture"));
 		drawAreas(g, environment.get(TileType.UNKNOWN), imageFactory.get("unknownTexture"));
+		drawAreas(g, environment.get(TileType.DESTINATION_TELEPORT), imageFactory.get("teleportDTexture"));
+
 	}
 
 	private void drawGuards(Graphics g) {
-		for (Agent agent : scenario.getGuards()) {
-			drawAgent(g, agent);
+		if (agentMapNumBoolean){
+			drawAgent(g,scenario.getGuards().get(agentMapNum));
 		}
+		else{
+			for (Agent agent : scenario.getGuards()) {
+				drawAgent(g, agent);
+			}
+		}
+
 	}
 
 	private void drawIntruders(Graphics g) {
@@ -126,9 +148,11 @@ public class GameComponent extends JComponent{
 	}
 
 	private void drawSounds(Graphics g) {
-		for (int i = 0; i < scenario.getSoundMap().size(); i++) {
-			Sound sound = scenario.getSoundMap().get(i);
-			drawSound(g, sound);
+		if (!agentMapNumBoolean){
+			for (int i = 0; i < scenario.getSoundMap().size(); i++) {
+				Sound sound = scenario.getSoundMap().get(i);
+				drawSound(g, sound);
+			}
 		}
 	}
 
@@ -175,7 +199,7 @@ public class GameComponent extends JComponent{
 
 	public void startGameSystem() {
 		Game system = Game.getInstance();
-		Timer timer = new Timer(1, e -> {
+		Timer timer = new Timer(20, e -> {
 			system.update(0);
 			repaint();
 		});
@@ -201,5 +225,28 @@ public class GameComponent extends JComponent{
 	public void zoomOut(){
 		textureSize = textureSize -1;
 	}
+	public void setEnvironment(Environment environment , int agentNum){
+		this.environment=environment;
+		agentMapNum=agentNum;
+		agentMapNumBoolean=true;
+	}
+	public void setUnionMap(){
+		for (int i =0 ; i <environment.getTileMap().length ;i++){
+			for(int j = 0 ; j <environment.getTileMap()[0].length ;j++){
+				if(environment.getTileMap()[i][j].getType()==TileType.UNKNOWN){
+					for (Agent agent : scenario.getGuards()) {
+						Tile[][] map = agent.getMemoryModule().getMap().getTileMap();
+						if( !(map[i][j].getType()==TileType.UNKNOWN)){
+							environment.getTileMap()[i][j]=map[i][j];
+						}
+					}
+				}
+			}
+		}
+		agentMapNumBoolean=false;
+	}
+
+
+
 
 }

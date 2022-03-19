@@ -26,7 +26,8 @@ public class VisionModule extends AgentModule implements IVisionModule {
     }
 
     /**
-     *  Method adds Tile/Agent to respective list,if is visible
+     * Method adds Tile/Agent to respective list,if is visible
+     *
      * @param position  position of agent
      * @param direction direction agent is facing
      */
@@ -34,6 +35,8 @@ public class VisionModule extends AgentModule implements IVisionModule {
     public void useVision(Position position, Direction direction) {
         agents.clear();
         obstacles.clear();
+        boolean[] isShaded = {false, false, false};
+        boolean[] checkedShaded = {false, false, false};
 
         List<Agent> scenario_agents = new LinkedList<>();
         Tile[][] tilemap = scenario.getEnvironment().getTileMap();
@@ -47,50 +50,75 @@ public class VisionModule extends AgentModule implements IVisionModule {
         boolean obstruct1 = false;
         boolean obstruct2 = false;
         for (int i = 0; i <= viewingDistance; i++) {
+            if (!isShaded[0]) {
+                obstruct0 = checkTile(tilemap, scenario_agents, position, direction, obstruct0, true, isShaded, 0, 0, i);
 
-            obstruct0 = checkTile(tilemap, scenario_agents, position, direction, obstruct0, true, 0, 0, i);
-            obstruct1 = checkTile(tilemap, scenario_agents, position, direction, obstruct1, canMove1, -1, -1, i);
-            obstruct2 = checkTile(tilemap, scenario_agents, position, direction, obstruct2, canMove2, 1, 1, i);
+            } else if (!checkedShaded[0]) {
+                obstruct0 = checkTile(tilemap, scenario_agents, position, direction, obstruct0, true, isShaded, 0, 0, i);
+                checkedShaded[0] = true;
+
+            }
+            if (!isShaded[1]) {
+                obstruct1 = checkTile(tilemap, scenario_agents, position, direction, obstruct1, canMove1, isShaded, -1, -1, i);
+            } else if (!checkedShaded[1]) {
+                obstruct1 = checkTile(tilemap, scenario_agents, position, direction, obstruct1, canMove1, isShaded, -1, -1, i);
+                checkedShaded[1] = true;
+
+            }
+            if (!isShaded[2]) {
+                obstruct2 = checkTile(tilemap, scenario_agents, position, direction, obstruct2, canMove2, isShaded, 1, 1, i);
+            } else if (!checkedShaded[2]) {
+                obstruct2 = checkTile(tilemap, scenario_agents, position, direction, obstruct2, canMove2, isShaded, 1, 1, i);
+                checkedShaded[2] = true;
+
+            }
 
         }
     }
 
 
-
     /**
      * This method, checks if tile is visible and non-empty, then  it adds it.
      *
-     * @param tilemap   the map of the environment
-     * @param obstruct  - true if obstacle blocking vision, false if not
-     * @param canMove   - true if possible to see a neighbouring columns, false if not
-     * @param moveX     shift in X
-     * @param moveY     shift in Y
-     * @param i         iteration
+     * @param tilemap  the map of the environment
+     * @param obstruct - true if obstacle blocking vision, false if not
+     * @param canMove  - true if possible to see a neighbouring columns, false if not
+     * @param moveX    shift in X
+     * @param moveY    shift in Y
+     * @param i        iteration
      * @return true if obstacle blocking vision, false if not
      */
     private boolean checkTile(Tile[][] tilemap, List<Agent> agents, Position position, Direction direction,
-                              boolean obstruct, boolean canMove, int moveX, int moveY, int i) {
+                              boolean obstruct, boolean canMove, boolean[] isShaded, int moveX, int moveY, int i) {
         if (!obstruct) {
             if (canMove) {
                 Position coordinates = getCoordinates(direction, position, i, moveX, moveY);
                 if (coordinates.getX() < 0 || coordinates.getY() < 0) return true;
-                obstruct = checkIfObstructed(tilemap, coordinates.getX(), coordinates.getY());
-                addAgentIfPresent(agents, new Position( coordinates.getX(), coordinates.getY()));
+                obstruct = checkIfObstructed(tilemap, isShaded, coordinates.getX(), coordinates.getY(), moveX);
+                addAgentIfPresent(agents, new Position(coordinates.getX(), coordinates.getY()));
             }
         }
         return obstruct;
     }
 
 
-    private boolean checkIfObstructed(Tile[][] tilemap, int x, int y) {
+    private boolean checkIfObstructed(Tile[][] tilemap, boolean[] isShaded, int x, int y, int moveX) {
         boolean obstruct = false;
         Tile tmp = tilemap[x][y];
-
-
-            if (!tmp.isOpened() && tmp.getType()== TileType.WALL) { // only non-transparent tile-type is wall?
-                obstruct = true;
+        if (tmp.getType() == TileType.SHADED) {
+            if (moveX == 0) {
+                isShaded[0] = true;
+            } else if (moveX == -1) {
+                isShaded[1] = true;
+            } else {
+                isShaded[2] = true;
             }
-            obstacles.add(tmp);
+        }
+
+        if (!tmp.isOpened() && tmp.getType() == TileType.WALL) { // only non-transparent tile-type is wall?
+            obstruct = true;
+        }
+        obstacles.add(tmp);
 
         return obstruct;
     }
