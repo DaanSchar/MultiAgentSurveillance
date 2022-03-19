@@ -52,14 +52,14 @@ public class Environment implements MDP<NeuralGameState, Integer, DiscreteSpace>
         var scenario = game.getScenario();
         int totalTiles = scenario.getEnvironment().getHeight() * scenario.getEnvironment().getWidth();
 
-        return scenario.getCoveredTiles().size() == totalTiles;
+        return scenario.getGuards().getCoveredTiles().size() == totalTiles;
     }
 
     @Override
     public NeuralGameState reset() {
         if (game == null) { game = Game.getInstance(); }
 
-        double totalCoveredTiles = game.getScenario().getCoveredTiles().size();
+        double totalCoveredTiles = game.getScenario().getGuards().getCoveredTiles().size();
         double totalTiles = game.getScenario().getEnvironment().getHeight() * game.getScenario().getEnvironment().getWidth();
 
         log.info("Total coverage: {}%", (totalCoveredTiles / totalTiles) * 100);

@@ -2,12 +2,11 @@ package nl.maastrichtuniversity.dke.logic.scenario;
 
 import lombok.Getter;
 import lombok.Setter;
+import nl.maastrichtuniversity.dke.logic.agents.Fleet;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
-import nl.maastrichtuniversity.dke.logic.agents.modules.memory.MemoryModule;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +21,8 @@ public class Scenario {
     private double scaling;
 
     private Environment environment;
-    private List<Guard> guards;
-    private List<Intruder> intruders;
+    private Fleet<Guard> guards;
+    private Fleet<Intruder> intruders;
     private List<Smell> smellMap;
     private List<Sound> soundMap;
     private List<CommunicationMark> communicationMarks;
@@ -38,21 +37,5 @@ public class Scenario {
         this.communicationMarks = new ArrayList<>();
         this.environment = environment;
     }
-
-
-    /**
-     * Collects all the tiles explored by the agents (Guards) of the environment and returns them in a list.
-     * @return List of tiles explored by the agents (Guards).
-     */
-    public List<Tile> getCoveredTiles() {
-        ArrayList<Tile> coveredTiles = new ArrayList<>();
-
-        for (Guard guard : guards) {
-            coveredTiles.addAll(((MemoryModule)guard.getMemoryModule()).getCoveredTiles());
-        }
-
-        return coveredTiles;
-    }
-
 
 }
