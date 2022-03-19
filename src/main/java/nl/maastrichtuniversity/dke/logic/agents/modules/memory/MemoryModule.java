@@ -19,6 +19,7 @@ import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class MemoryModule extends AgentModule implements IMemoryModule {
@@ -26,9 +27,9 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     private final Environment map;
     private final List<Tile> discoveredTiles;
     private final List<Agent> agents;
-    private List<Position> sounds;
-    private List<Direction> soundDirection;
-    private List<Position> smells;
+    private final List<Position> sounds;
+    private final List<Direction> soundDirection;
+    private final List<Position> smells;
     private @Setter Position position;
 
 
@@ -60,6 +61,12 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
                 map.getTileMap()[x][y] = new Tile(new Position(x, y), TileType.UNKNOWN);
             }
         }
+    }
+
+    public List<Tile> getCoveredTiles() {
+       return map.stream()
+               .filter(tile -> tile.getType() != TileType.UNKNOWN)
+               .collect(Collectors.toList());
     }
 
     public void update(IVisionModule visionModule, IListeningModule listeningModule, ISmellModule smellModule, Position position) {
