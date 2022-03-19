@@ -1,4 +1,4 @@
-package nl.maastrichtuniversity.dke.reinforcement;
+package nl.maastrichtuniversity.dke.ai;
 
 
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
@@ -25,7 +25,7 @@ public class Reward {
             allDiscoveredTiles.addAll(a.getMemoryModule().getDiscoveredTiles());
         }
 
-        HashSet<Tile> uniqueTiles = new HashSet<Tile>(allDiscoveredTiles);
+        HashSet<Tile> uniqueTiles = new HashSet<>(allDiscoveredTiles);
         double duplicates = allDiscoveredTiles.size()-uniqueTiles.size();
 
         double reward = 0;

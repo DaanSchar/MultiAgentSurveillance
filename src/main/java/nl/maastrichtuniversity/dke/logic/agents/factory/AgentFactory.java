@@ -15,8 +15,7 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.UniformSpawnModule
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.VisionModule;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import nl.maastrichtuniversity.dke.util.DebugSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +48,7 @@ public class AgentFactory {
         for (int i = 0; i < numOfAgents; i++)
             agents.add(buildGuard());
 
-        log.info("Created {} Guards", numOfAgents);
+        if (DebugSettings.FACTORY) log.info("Created {} Guards", numOfAgents);
 
         return agents;
     }
@@ -60,7 +59,7 @@ public class AgentFactory {
         for (int i = 0; i < numOfAgents; i++)
             agents.add(buildIntruder());
 
-        log.info("Created {} intruders", numOfAgents);
+        if (DebugSettings.FACTORY) log.info("Created {} intruders", numOfAgents);
 
         return agents;
     }

@@ -9,8 +9,7 @@ import nl.maastrichtuniversity.dke.logic.scenario.environment.TeleportTile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import nl.maastrichtuniversity.dke.util.DebugSettings;
 
 @NoArgsConstructor
 @Setter
@@ -25,7 +24,7 @@ public class EnvironmentFactory {
     private Tile[][] tileMap;
 
     public void addArea(int x1, int y1, int x2, int y2, TileType type) {
-        log.info("adding area of type " + type + ": " + x1 + " " + y1 + " " + x2 + " " + y2);
+        if (DebugSettings.FACTORY) log.info("adding area of type " + type + ": " + x1 + " " + y1 + " " + x2 + " " + y2);
 
         if (this.tileMap == null && width >0 && height > 0)
             this.tileMap = new Tile[width][height];
@@ -49,8 +48,8 @@ public class EnvironmentFactory {
     }
 
     public void addTeleportArea(int x1, int y1, int x2, int y2, int targetX, int targetY, int rotation) {
-        log.info("adding teleport area: " + x1 + " " + y1 + " " + x2 + " " + y2 + " with target coordinates "
-                + targetX + " " + targetY + " and rotation " + rotation);
+        if (DebugSettings.FACTORY) log.info("adding teleport area: " + x1 + " " + y1 + " " + x2 + " " + y2 +
+                " with target coordinates " + targetX + " " + targetY + " and rotation " + rotation);
 
         if (this.tileMap == null && width > 0 && height > 0)
             this.tileMap = new Tile[width][height];
