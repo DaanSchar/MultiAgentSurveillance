@@ -72,6 +72,8 @@ public class GameWindow  {
             agentsMapsBox.addItem("Agent "+agentsMapsBoxNum);
             agentsMapsBoxNum++;
         }
+        agentsMapsBox.addItem("Union Map");
+
         agentMemoryMap = new GameComponent(scenario,agentsEnvironments.get(0));
         gameComponent.setPreferredSize(new Dimension(
                 scenario.getEnvironment().getWidth()*textureSize,
@@ -207,8 +209,13 @@ public class GameWindow  {
 
         @Override
         public void actionPerformed(ActionEvent e){
-            agentEnvironment=agentsEnvironments.get(agentsMapsBox.getSelectedIndex());
-            agentMemoryMap.setEnvironment(agentEnvironment);
+            if (agentsMapsBox.getSelectedIndex()==agentsMapsBox.getItemCount()-1){
+                agentMemoryMap.setUnionMap();
+            }
+            else{
+                agentEnvironment=agentsEnvironments.get(agentsMapsBox.getSelectedIndex());
+                agentMemoryMap.setEnvironment(agentEnvironment ,agentsMapsBox.getSelectedIndex());
+            }
             performButtonAction(e.getSource());
             window.repaint();
         }
