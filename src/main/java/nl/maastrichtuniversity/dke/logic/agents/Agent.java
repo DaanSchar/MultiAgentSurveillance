@@ -72,7 +72,8 @@ public class Agent {
 
     public double[] getStateVector() {
         var obstacles = visionModule.getObstacles();
-        var size = ((VisionModule)visionModule).getViewingDistance() * 3 + 2;
+        var visionSize = ((VisionModule)visionModule).getViewingDistance() * 3 + 2;
+        var size = visionSize + 1;
         var stateVector = new double[size];
 
         for (int i = 0; i < size; i++) {
@@ -80,6 +81,8 @@ public class Agent {
             else { stateVector[i] = 0; }
         }
 
+        // add if the agent sees another agent
+        stateVector[size - 1] = visionModule.getAgents().size() > 0 ? 1 : 0;
         return stateVector;
     }
 
