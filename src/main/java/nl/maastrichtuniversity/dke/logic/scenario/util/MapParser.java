@@ -34,6 +34,8 @@ public class MapParser {
     public Scenario createScenario() {
         envBuilder = new EnvironmentFactory();
 
+        setDefaultValues();
+
         while (scanner.hasNextLine())
             createFieldFromLine(scanner.nextLine());
 
@@ -44,8 +46,6 @@ public class MapParser {
     private void createFieldFromLine(String line) {
         Scanner lineScanner = new Scanner(line);
         lineScanner.useDelimiter("=");
-
-        setDefaultValues();
 
         while(lineScanner.hasNext()) {
             String key = lineScanner.next().trim();
