@@ -11,6 +11,7 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +37,28 @@ public class Guard extends Agent {
         markingStep();
         navigationStep();
     }
+
+
+    private boolean findPath(Tile input, Tile target){
+        var map = getMemoryModule().getMap();
+        List<Tile> frontier = new ArrayList<>();
+        frontier.add(input);
+        while(true){
+            if(frontier.isEmpty())
+                return false;
+            Tile tile = frontier.remove(0);
+            if(tile.equals(target))
+                return true;
+            for(Tile x : map.getNeighbouringTiles(tile)){
+                if(x.getType().isPassable() && !x.equals(tile))
+                    frontier.add(x);
+            }
+        }
+
+
+
+    }
+
 
     private void markingStep() {
         if (!currentCellBlocksPath()) { getCurrentTile().setVisited(true); }
@@ -215,6 +238,7 @@ public class Guard extends Agent {
 
         return action - 1;
     }
+
 
     /**
      * Get the output of the network for the given input
