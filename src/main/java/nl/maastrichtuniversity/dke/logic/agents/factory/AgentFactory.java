@@ -66,28 +66,6 @@ public class AgentFactory {
         return agents;
     }
 
-<<<<<<<<< Temporary merge branch 1
-    public Guard buildGuard() {
-        var guard = new Guard();
-        guard.setSpawnModule(new UniformSpawnModule(scenario));
-        guard.setMovement(new Movement(scenario, baseSpeedGuards, 0));
-        guard.setVisionModule(new VisionModule(scenario, viewingDistance));
-        List<CommunicationType> markersGar = new ArrayList<>();
-        for(int i = 0; i < numberOfMarkers; i++){
-            markersGar.add(CommunicationType.VISIONRED);
-            markersGar.add(CommunicationType.VISIONBLUE);
-            markersGar.add(CommunicationType.VISIONGREEN);
-            markersGar.add(CommunicationType.SMELL);
-            markersGar.add(CommunicationType.SOUND);
-        }
-
-        guard.setCommunicationModule(new CommunicationModule(scenario, markersGar));
-        guard.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
-        guard.setMemoryModule(new MemoryModule(scenario));
-        guard.setListeningModule(new ListeningModule(scenario));
-        guard.setSmellModule(new SmellModule(scenario, smellingDistance));
-=========
->>>>>>>>> Temporary merge branch 2
 
     public Agent buildAgent(String type) {
         Agent agent = type.equals("guard") ? new Guard() : new Intruder();
@@ -98,11 +76,11 @@ public class AgentFactory {
                 type.equals("guard") ? 0 : sprintSpeedIntruders)
         );
         agent.setVisionModule(new VisionModule(scenario, viewingDistance));
-        agent.setCommunicationModule(new CommunicationModule(scenario, getMarkers(),smellingDistance));
+        agent.setCommunicationModule(new CommunicationModule(scenario, getMarkers()));
         agent.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
         agent.setMemoryModule(new MemoryModule(scenario));
         agent.setListeningModule(new ListeningModule(scenario));
-        agent.setSmellModule(new SmellModule(scenario));
+        agent.setSmellModule(new SmellModule(scenario, smellingDistance));
 
         return agent;
     }
@@ -116,18 +94,7 @@ public class AgentFactory {
             markers.add(CommunicationType.SMELL);
             markers.add(CommunicationType.SOUND);
         }
-<<<<<<<<< Temporary merge branch 1
-        intruder.setCommunicationModule(new CommunicationModule(scenario, markersIntru));
-        intruder.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
-        intruder.setMemoryModule(new MemoryModule(scenario));
-        intruder.setListeningModule(new ListeningModule(scenario));
-        intruder.setSmellModule(new SmellModule(scenario,smellingDistance));
-
-        return intruder;
-=========
         return markers;
->>>>>>>>> Temporary merge branch 2
     }
 
 }
-
