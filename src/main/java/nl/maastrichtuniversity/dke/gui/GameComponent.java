@@ -47,9 +47,6 @@ public class GameComponent extends JComponent{
 		this.textureSize = (int) (scenario.getScaling()*100) /2;
 		this.newGuardList=scenario.getGuards();
 		this.newSoundList=scenario.getSoundMap();
-
-
-		startGameSystem();
 	}
 
 	/**
@@ -199,7 +196,7 @@ public class GameComponent extends JComponent{
 
 	public void startGameSystem() {
 		Game system = Game.getInstance();
-		Timer timer = new Timer(20, e -> {
+		Timer timer = new Timer(100, e -> {
 			system.update(0);
 			repaint();
 		});
