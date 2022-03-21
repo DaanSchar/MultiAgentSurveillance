@@ -105,7 +105,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
                 discoveredTiles.add(tile);
             }
 
-            map.getTileMap()[x][y] = tile;
+            map.getTileMap()[x][y] = new MemoryTile(tile);
         }
         for(Agent agentSee: vision.getAgents()){
             if(agents.get(agentSee.getId()) != null){
