@@ -41,7 +41,13 @@ public class Guard extends Agent {
     private void navigationStep() {
         if (hasUnexploredSurroundingTiles(getCurrentTile())) {
             moveToBestTile();
+        } else if (hasSurroundingExploredTiles(getCurrentTile())) {
+
         }
+    }
+
+    private boolean hasSurroundingExploredTiles(MemoryTile currentTile) {
+        return false;
     }
 
     private void moveToBestTile() {
@@ -51,7 +57,6 @@ public class Guard extends Agent {
         if (nextPosition.equals(targetTile.getPosition())) {
             goForward(Game.getInstance().getTime());
         } else {
-            // TODO: rotate smarter.
             rotate(-1, Game.getInstance().getTime());
         }
     }
@@ -83,15 +88,14 @@ public class Guard extends Agent {
         }
 
         return bestTile;
-
     }
 
     private List<MemoryTile> getUnexploredTiles(Tile tile) {
-        var tiles = getMemoryModule().getMap().getNeighbouringTiles(tile);
+        var neighbouringTiles = getMemoryModule().getMap().getNeighbouringTiles(tile);
         var unexploredTiles = new ArrayList<MemoryTile>();
 
-        for (Tile t : tiles) {
-            if (( (MemoryTile) t).isExplored()) {
+        for (Tile t : neighbouringTiles) {
+            if (!( (MemoryTile) t).isExplored()) {
                 unexploredTiles.add((MemoryTile) t);
             }
         }

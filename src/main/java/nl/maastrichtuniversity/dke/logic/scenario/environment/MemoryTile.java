@@ -19,4 +19,8 @@ public class MemoryTile extends Tile{
         super(position, type);
     }
 
+    public MemoryTile(Tile tile) {
+        super(tile.getPosition(), tile.getType());
+    }
+
 }
