@@ -43,12 +43,15 @@ public class Guard extends Agent {
         var map = getMemoryModule().getMap();
         List<Tile> frontier = new ArrayList<>();
         frontier.add(input);
-        while(true){
-            if(frontier.isEmpty())
-                return false;
+
+        while(true) {
+
+            if(frontier.isEmpty()) return false;
+
             Tile tile = frontier.remove(0);
-            if(tile.equals(target))
-                return true;
+
+            if(tile.equals(target)) return true;
+
             for(Tile x : map.getNeighbouringTiles(tile)){
                 if(x.getType().isPassable()
                         && !x.getType().equals(TileType.UNKNOWN)
@@ -73,6 +76,22 @@ public class Guard extends Agent {
             log.info("No unexplored tiles, but we have explored tiles");
             moveToBestExploredTile();
         }
+    }
+
+    private boolean currentCellBlocksPath() {
+        var neighbours = getPassableNeighbors(getCurrentTile());
+
+        for (Tile neighbour : neighbours) {
+            for (Tile otherNeighbour : neighbours) {
+                if (!neighbour.equals(otherNeighbour)) {
+                    if (!findPath(neighbour, otherNeighbour)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     private void moveToBestUnexploredTile() {
@@ -150,7 +169,19 @@ public class Guard extends Agent {
         var surroundingTiles = getMemoryModule().getMap().getNeighbouringTiles(tile).stream();
 
         return surroundingTiles.filter(
-                (surroundingTile) -> isNonPassable((MemoryTile) surroundingTile)
+                (surroundingTile) -> !isPassable((MemoryTile) surroundingTile)
+        ).collect(Collectors.toList());
+    }
+
+    /**
+     * @param tile The tile to check
+     * @return A list of tiles adjacent to the given tile which are passable
+     */
+    private List<Tile> getPassableNeighbors(Tile tile) {
+        var surroundingTiles = getMemoryModule().getMap().getNeighbouringTiles(tile).stream();
+
+        return surroundingTiles.filter(
+                (surroundingTile) -> isPassable((MemoryTile) surroundingTile)
         ).collect(Collectors.toList());
     }
 
@@ -158,8 +189,8 @@ public class Guard extends Agent {
      * @param tile The tile to check
      * @return checks if a tile is non-passable (or visited in the case of the algorithm).
      */
-    private boolean isNonPassable(MemoryTile tile) {
-        return tile.isVisited() || !tile.getType().isPassable();
+    private boolean isPassable(MemoryTile tile) {
+        return !tile.isVisited() || tile.getType().isPassable();
     }
 
     /**
@@ -168,10 +199,16 @@ public class Guard extends Agent {
      */
     private List<Tile> getUnexploredNeighboringTiles(Tile tile) {
         var surroundingTiles = getMemoryModule().getMap().getNeighbouringTiles(tile).stream();
+        return surroundingTiles.filter(memoryTile -> isUnExplored((MemoryTile) memoryTile)).collect(Collectors.toList());
+    }
 
-        return surroundingTiles.filter(
-                memoryTile -> !((MemoryTile)memoryTile).isExplored() && memoryTile.getType().isPassable()
-        ).collect(Collectors.toList());
+    /**
+     *
+     * @param tile The tile we check if it is unexplored
+     * @return True if the tile is unexplored, is passable and not visited
+     */
+    private boolean isUnExplored(MemoryTile tile) {
+        return !tile.isExplored() && tile.getType().isPassable() && !tile.isVisited();
     }
 
     /**
@@ -180,12 +217,17 @@ public class Guard extends Agent {
      */
     private List<Tile> getExploredNeighboringTiles(Tile tile) {
         var surroundingTiles = getMemoryModule().getMap().getNeighbouringTiles(tile).stream();
-        return surroundingTiles.filter(
-                memoryTile -> !((MemoryTile)memoryTile).isExplored()
-        ).collect(Collectors.toList());
+        return surroundingTiles.filter(memoryTile -> isExplored((MemoryTile) memoryTile)).collect(Collectors.toList());
     }
 
-    private boolean currentCellBlocksPath() { return false; }
+    /**
+     * @param tile The tile we check if it is explored
+     * @return True if a tile is marked as explored, is passable and not visited
+     */
+    private boolean isExplored(MemoryTile tile) {
+        return tile.isExplored() && tile.getType().isPassable() && !tile.isVisited();
+    }
+
 
 
 
