@@ -62,13 +62,13 @@ public class Environment implements Collection<Tile> {
 
     @Override
     public boolean contains(Object o) {
-//        if (!(o instanceof Tile tile)) { return false; }
-//
-//        for (Tile referenceTile : this) {
-//            if (referenceTile.equals(tile)) {
-//                return true;
-//            }
-//        }
+        if (!(o instanceof Tile)) { return false; }
+
+        for (Tile referenceTile : this) {
+            if (referenceTile.equals(o)) {
+                return true;
+            }
+        }
 
         return false;
     }
@@ -105,15 +105,15 @@ public class Environment implements Collection<Tile> {
      */
     @Override
     public boolean remove(Object o) {
-//        if (!(o instanceof Tile tile)) { return false; }
-//
-//        var tilePosition = tile.getPosition();
-//        var x = tilePosition.getX();
-//        var y = tilePosition.getY();
-//
-//        if (x < 0 || x >= this.width || y < 0 || y >= this.height) { return false; }
-//
-//        tileMap[x][y] = new Tile(tilePosition, TileType.EMPTY);
+        if (!(o instanceof Tile tile)) { return false; }
+
+        var tilePosition = tile.getPosition();
+        var x = tilePosition.getX();
+        var y = tilePosition.getY();
+
+        if (x < 0 || x >= this.width || y < 0 || y >= this.height) { return false; }
+
+        tileMap[x][y] = new Tile(tilePosition, TileType.EMPTY);
 
         return true;
     }
