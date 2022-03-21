@@ -10,6 +10,7 @@ import javax.swing.Timer;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.*;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
+import nl.maastrichtuniversity.dke.logic.scenario.Smell;
 import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
@@ -21,11 +22,14 @@ import org.slf4j.LoggerFactory;
 public class GameComponent extends JComponent{
 
 	private final Scenario scenario;
-	private final Environment environment;
+	private Environment environment;
 
 	private int textureSize;
 	private int panningX;
 	private int panningY;
+	private int agentMapNum;
+	private boolean agentMapNumBoolean=false;
+
 
 	private int frame = 0; //Current animation frame
 
