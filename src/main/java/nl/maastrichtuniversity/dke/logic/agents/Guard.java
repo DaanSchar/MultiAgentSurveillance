@@ -6,6 +6,7 @@ import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.MemoryTile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
@@ -54,9 +55,6 @@ public class Guard extends Agent {
                     frontier.add(x);
             }
         }
-
-
-
     }
 
 
@@ -70,6 +68,7 @@ public class Guard extends Agent {
         if (hasNeighboringUnexploredTiles()) {
             moveToBestUnexploredTile();
         } else if (hasNeighboringExploredTiles()) {
+            log.info("No unexplored tiles, but we have explored tiles");
             moveToBestExploredTile();
         }
     }
@@ -78,16 +77,28 @@ public class Guard extends Agent {
         var targetTile = getBestUnexploredTile();
         var nextPosition = getMovement().goForward(getPosition(), getDirection(), Game.getInstance().getTime());
 
-        log.info("\nMoving to:      {}\n" +
-                 "current:       {}\n" +
-                 "next position: {}", targetTile.getPosition(), getPosition(), nextPosition);
-
-        if (nextPosition.equals(targetTile.getPosition())) {
-            log.info("Moving forward");
+        log.info("nextPosition: {}, targetTile: {}", nextPosition, targetTile.getPosition());
+        if (nextPosition.equals(targetTile.getPosition()) || targetTile.getType() == TileType.TELEPORT) {
             goForward(Game.getInstance().getTime());
         } else {
             rotate(-1, Game.getInstance().getTime());
         }
+    }
+
+    /**
+     * @return The MemoryTile adjacent to the agent which is most
+     * likely to be marked as visited in the marking step
+     *
+     * the best tile is the tile which has the most adjacent non-passable tiles.
+     */
+    private MemoryTile getBestUnexploredTile() {
+        var unexploredTiles = getUnexploredNeighboringTiles(getCurrentTile()).stream();
+
+        List<Tile> sortedList = unexploredTiles.sorted(
+                (t1 , t2) -> getNonPassableNeighbors(t2).size() - getNonPassableNeighbors(t1).size()
+        ).collect(Collectors.toList());
+
+        return (MemoryTile) sortedList.get(0);
     }
 
     private void moveToBestExploredTile() {
@@ -130,22 +141,6 @@ public class Guard extends Agent {
     }
 
     /**
-     * @return The MemoryTile adjacent to the agent which is most
-     * likely to be marked as visited in the marking step
-     *
-     * the best tile is the tile which has the most adjacent non-passable tiles.
-     */
-    private MemoryTile getBestUnexploredTile() {
-        var unexploredTiles = getUnexploredNeighboringTiles(getCurrentTile()).stream();
-
-        List<Tile> sortedList = unexploredTiles.sorted(
-                (t1 , t2) -> getNonPassableNeighbors(t2).size() - getNonPassableNeighbors(t1).size()
-        ).collect(Collectors.toList());
-
-        return (MemoryTile) sortedList.get(0);
-    }
-
-    /**
      * @param tile The tile to check
      * @return A list of tiles adjacent to the given tile which are non-passable
      */
@@ -171,8 +166,9 @@ public class Guard extends Agent {
      */
     private List<Tile> getUnexploredNeighboringTiles(Tile tile) {
         var surroundingTiles = getMemoryModule().getMap().getNeighbouringTiles(tile).stream();
+
         return surroundingTiles.filter(
-                memoryTile -> !((MemoryTile)memoryTile).isExplored()
+                memoryTile -> !((MemoryTile)memoryTile).isExplored() && memoryTile.getType().isPassable()
         ).collect(Collectors.toList());
     }
 
