@@ -62,10 +62,10 @@ public class Environment implements Collection<Tile> {
 
     @Override
     public boolean contains(Object o) {
-        if (!(o instanceof Tile tile)) { return false; }
+        if (!(o instanceof Tile)) { return false; }
 
         for (Tile referenceTile : this) {
-            if (referenceTile.equals(tile)) {
+            if (referenceTile.equals(o)) {
                 return true;
             }
         }
