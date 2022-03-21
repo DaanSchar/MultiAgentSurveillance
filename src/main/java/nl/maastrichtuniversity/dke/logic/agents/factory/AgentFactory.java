@@ -65,6 +65,8 @@ public class AgentFactory {
 
         return agents;
     }
+
+<<<<<<<<< Temporary merge branch 1
     public Guard buildGuard() {
         var guard = new Guard();
         guard.setSpawnModule(new UniformSpawnModule(scenario));
@@ -84,6 +86,8 @@ public class AgentFactory {
         guard.setMemoryModule(new MemoryModule(scenario));
         guard.setListeningModule(new ListeningModule(scenario));
         guard.setSmellModule(new SmellModule(scenario, smellingDistance));
+=========
+>>>>>>>>> Temporary merge branch 2
 
     public Agent buildAgent(String type) {
         Agent agent = type.equals("guard") ? new Guard() : new Intruder();
@@ -112,13 +116,17 @@ public class AgentFactory {
             markers.add(CommunicationType.SMELL);
             markers.add(CommunicationType.SOUND);
         }
+<<<<<<<<< Temporary merge branch 1
         intruder.setCommunicationModule(new CommunicationModule(scenario, markersIntru));
         intruder.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
         intruder.setMemoryModule(new MemoryModule(scenario));
         intruder.setListeningModule(new ListeningModule(scenario));
         intruder.setSmellModule(new SmellModule(scenario,smellingDistance));
 
+        return intruder;
+=========
         return markers;
+>>>>>>>>> Temporary merge branch 2
     }
 
 }
