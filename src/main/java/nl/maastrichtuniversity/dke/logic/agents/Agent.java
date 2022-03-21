@@ -14,6 +14,7 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.VisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.MemoryTile;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.ISpawnModule;
 import nl.maastrichtuniversity.dke.util.DebugSettings;
@@ -84,6 +85,10 @@ public class Agent {
         // add if the agent sees another agent
         stateVector[size - 1] = visionModule.getAgents().size() > 0 ? 1 : 0;
         return stateVector;
+    }
+
+    public MemoryTile getCurrentTile() {
+        return (MemoryTile) getMemoryModule().getMap().getTileMap()[getPosition().getX()][getPosition().getY()];
     }
 
     /**

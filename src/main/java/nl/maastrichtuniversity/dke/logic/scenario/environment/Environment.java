@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -42,6 +43,19 @@ public class Environment implements Collection<Tile> {
 
     public List<Tile> get(TileType type) {
         return this.stream().filter(tile -> tile.getType() == type).collect(Collectors.toList());
+    }
+
+    public List<Tile> getNeighbouringTiles(Tile tile) {
+        List<Tile> neighbors = new ArrayList<>();
+        var x = tile.getPosition().getX();
+        var y = tile.getPosition().getY();
+
+        neighbors.add(tileMap[x][y + 1]);
+        neighbors.add(tileMap[x][y - 1]);
+        neighbors.add(tileMap[x + 1][y]);
+        neighbors.add(tileMap[x - 1][y]);
+
+        return neighbors;
     }
 
 

@@ -3,11 +3,15 @@ package nl.maastrichtuniversity.dke.logic.agents;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.ai.NeuralGameState;
 import nl.maastrichtuniversity.dke.logic.Game;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.MemoryTile;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Slf4j
@@ -18,18 +22,88 @@ public class Guard extends Agent {
     public Guard() {
         super();
 
-        loadNetwork("src/main/resources/networks/network-1647872939503-input-22-output-3-nodes-128-learningrate-0.01-epochs-1000.zip");
+        // loadNetwork("src/main/resources/networks/network-1647872939503-input-22-output-3-nodes-128-learningrate-0.01-epochs-1000.zip");
     }
 
     public void explore() {
-        int action = (int) (Math.round(Math.random() * 3) - 1);
+        markingStep();
+        navigationStep();
+    }
 
-        if (action == 0) {
-            goForward(Game.getInstance().getTime());
-        } else {
-            rotate(action, Game.getInstance().getTime());
+    private void markingStep() {
+        if (!currentCellBlocksPath()) {
+            getCurrentTile().setVisited(true);
+        } else
+            getCurrentTile().setExplored(true);
+    }
+
+    private void navigationStep() {
+        if (hasUnexploredSurroundingTiles(getCurrentTile())) {
+            // todo
         }
     }
+
+    private MemoryTile getBestUnexploredTile() {
+        List<MemoryTile> unexploredTiles = getUnexploredTiles(getCurrentTile());
+
+        MemoryTile bestTile = unexploredTiles.get(0);
+        int bestScore = 0;
+
+        for (MemoryTile tile : unexploredTiles) {
+            var surroundingTiles = getMemoryModule().getMap().getNeighbouringTiles(tile);
+
+            int score = 0;
+
+            for (Tile surroundingTile : surroundingTiles) {
+                if (((MemoryTile)surroundingTile).isVisited() || !surroundingTile.getType().isPassable()) { score++; }
+            }
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestTile = tile;
+            }
+
+        }
+
+        return bestTile;
+
+    }
+
+    private List<MemoryTile> getUnexploredTiles(Tile tile) {
+        var tiles = getMemoryModule().getMap().getNeighbouringTiles(tile);
+        var unexploredTiles = new ArrayList<MemoryTile>();
+
+        for (Tile t : tiles) {
+            if (( (MemoryTile) t).isExplored()) {
+                unexploredTiles.add((MemoryTile) t);
+            }
+        }
+
+        return unexploredTiles;
+    }
+
+    private boolean hasUnexploredSurroundingTiles(Tile tile) {
+        return getUnexploredTiles(tile).size() > 0;
+    }
+
+
+    private boolean currentCellBlocksPath() { return false; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // network stuff
 
     private void performActionFromNetwork() {
         int action = getActionFromNetwork();

@@ -12,6 +12,7 @@ import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.MemoryTile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
@@ -38,7 +39,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
 
         int width = scenario.getEnvironment().getWidth();
         int height = scenario.getEnvironment().getHeight();
-        this.map = new Environment(width, height, new Tile[width][height]);
+        this.map = new Environment(width, height, new MemoryTile[width][height]);
         this.discoveredTiles = new LinkedList<>();
 
         initEnvironment();
@@ -50,7 +51,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     }
 
     public void setSpawnPosition(Position position){
-        map.getTileMap()[position.getX()][position.getY()] = new Tile(position, TileType.SPAWN_GUARDS);
+        map.getTileMap()[position.getX()][position.getY()] = new MemoryTile(position, TileType.SPAWN_GUARDS);
         setPosition(position);
 
     }
