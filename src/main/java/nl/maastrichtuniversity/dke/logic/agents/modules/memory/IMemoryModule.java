@@ -18,4 +18,6 @@ public interface IMemoryModule {
 
     void setSpawnPosition(Position position);
 
+    List<Tile> getCoveredTiles();
+
 }

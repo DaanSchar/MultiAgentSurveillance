@@ -2,7 +2,6 @@ package nl.maastrichtuniversity.dke.logic;
 
 import lombok.Getter;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
-import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.util.MapParser;
 import org.slf4j.Logger;
@@ -132,14 +131,10 @@ public class Game {
         int rotation = getRandomAction();
 
         if (rotation == 0)
-            agent.dropMark(CommunicationType.SMELL);
-
-        else
             agent.goForward(time);
-//            agent.rotate(rotation, time);
-
+        else
+            agent.rotate(rotation, time);
     }
-
 
     /**
      * Can be 0, -1 or 1.

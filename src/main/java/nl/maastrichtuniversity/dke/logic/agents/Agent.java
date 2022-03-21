@@ -2,6 +2,7 @@ package nl.maastrichtuniversity.dke.logic.agents;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.ICommunicationModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
@@ -15,6 +16,7 @@ import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.ISpawnModule;
+import nl.maastrichtuniversity.dke.util.DebugSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,9 +28,8 @@ import java.awt.*;
  * @Author Parand
  */
 @Getter
+@Slf4j
 public class Agent {
-
-    private static final Logger logger = LoggerFactory.getLogger(Agent.class);
 
     private static int agentCount;
     private final int id;
@@ -58,7 +59,7 @@ public class Agent {
         memoryModule.setSpawnPosition(position);
         updateMemory();
 
-        logger.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position + " facing " + this.direction);
+        if (DebugSettings.FACTORY) log.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position + " facing " + this.direction);
     }
 
     public void goForward(double time){
@@ -71,7 +72,8 @@ public class Agent {
 
     public double[] getStateVector() {
         var obstacles = visionModule.getObstacles();
-        var size = ((VisionModule)visionModule).getViewingDistance() * 3 + 2;
+        var visionSize = ((VisionModule)visionModule).getViewingDistance() * 3 + 2;
+        var size = visionSize + 1;
         var stateVector = new double[size];
 
         for (int i = 0; i < size; i++) {
@@ -79,6 +81,8 @@ public class Agent {
             else { stateVector[i] = 0; }
         }
 
+        // add if the agent sees another agent
+        stateVector[size - 1] = visionModule.getAgents().size() > 0 ? 1 : 0;
         return stateVector;
     }
 

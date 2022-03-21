@@ -1,18 +1,15 @@
 package nl.maastrichtuniversity.dke.ai;
 
-import nl.maastrichtuniversity.dke.gui.GameWindow;
+import lombok.extern.slf4j.Slf4j;
 import org.deeplearning4j.rl4j.learning.sync.qlearning.discrete.QLearningDiscreteDense;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+@Slf4j
 public class Train {
 
-    private static final Logger logger = LoggerFactory.getLogger(Train.class);
-
     public static void main(String[] args) {
-        logger.info("Starting training");
+        log.info("Starting training");
         long startTime = System.currentTimeMillis();
 
         String networkName = "network-" + startTime;
@@ -24,13 +21,13 @@ public class Train {
         dql.train();
         env.close();
 
-        logger.info("Training finished network {}", networkName);
-        logger.info("Time taken: {}", System.currentTimeMillis() - startTime);
+        log.info("Training finished network {}", networkName);
+        log.info("Time taken: {}", System.currentTimeMillis() - startTime);
 
         try {
-            dql.getNeuralNet().save(networkPath + networkName);
+            dql.getNeuralNet().save(networkPath + networkName + ".zip");
         } catch (IOException e) {
-            logger.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
     }
 
