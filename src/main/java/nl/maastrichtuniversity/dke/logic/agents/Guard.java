@@ -18,10 +18,20 @@ public class Guard extends Agent {
     public Guard() {
         super();
 
-        loadNetwork("src/main/resources/networks/first-try.zip");
+        loadNetwork("src/main/resources/networks/network-1647872939503-input-22-output-3-nodes-128-learningrate-0.01-epochs-1000.zip");
     }
 
     public void explore() {
+        int action = (int) (Math.round(Math.random() * 3) - 1);
+
+        if (action == 0) {
+            goForward(Game.getInstance().getTime());
+        } else {
+            rotate(action, Game.getInstance().getTime());
+        }
+    }
+
+    private void performActionFromNetwork() {
         int action = getActionFromNetwork();
 
 
