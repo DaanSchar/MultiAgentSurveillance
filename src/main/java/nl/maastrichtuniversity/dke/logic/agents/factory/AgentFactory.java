@@ -2,6 +2,9 @@ package nl.maastrichtuniversity.dke.logic.agents.factory;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.logic.agents.Agent;
+import nl.maastrichtuniversity.dke.logic.agents.Fleet;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.ListeningModule;
@@ -14,14 +17,14 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.UniformSpawnModule
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.VisionModule;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import nl.maastrichtuniversity.dke.util.DebugSettings;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Setter
 @Getter
+@Slf4j
 public class AgentFactory {
 
     private Scenario scenario;
@@ -38,32 +41,30 @@ public class AgentFactory {
 
     private int numberOfMarkers;
 
-    private static Logger logger = LoggerFactory.getLogger(AgentFactory.class);
 
     public AgentFactory() {}
 
-    public List<Guard> buildGuards(int numOfAgents) {
-        ArrayList<Guard> agents = new ArrayList<>();
+    public Fleet<Guard> buildGuards(int numOfAgents) {
+        Fleet<Guard> agents = new Fleet<>();
 
         for (int i = 0; i < numOfAgents; i++)
-            agents.add(buildGuard());
+            agents.add((Guard)buildAgent("guard"));
 
-        logger.info("Created {} Guards", numOfAgents);
+        if (DebugSettings.FACTORY) log.info("Created {} Guards", numOfAgents);
 
         return agents;
     }
 
-    public List<Intruder> buildIntruders(int numOfAgents) {
-        ArrayList<Intruder> agents = new ArrayList<>();
+    public Fleet<Intruder> buildIntruders(int numOfAgents) {
+        Fleet<Intruder> agents = new Fleet<>();
 
         for (int i = 0; i < numOfAgents; i++)
-            agents.add(buildIntruder());
+            agents.add((Intruder) buildAgent("intruder"));
 
-        logger.info("Created {} intruders", numOfAgents);
+        if (DebugSettings.FACTORY) log.info("Created {} intruders", numOfAgents);
 
         return agents;
     }
-
     public Guard buildGuard() {
         var guard = new Guard();
         guard.setSpawnModule(new UniformSpawnModule(scenario));
@@ -84,22 +85,32 @@ public class AgentFactory {
         guard.setListeningModule(new ListeningModule(scenario));
         guard.setSmellModule(new SmellModule(scenario, smellingDistance));
 
-        return guard;
+    public Agent buildAgent(String type) {
+        Agent agent = type.equals("guard") ? new Guard() : new Intruder();
+        agent.setSpawnModule(new UniformSpawnModule(scenario));
+        agent.setMovement(new Movement(
+                scenario,
+                type.equals("guard") ? baseSpeedGuards : baseSpeedIntruders,
+                type.equals("guard") ? 0 : sprintSpeedIntruders)
+        );
+        agent.setVisionModule(new VisionModule(scenario, viewingDistance));
+        agent.setCommunicationModule(new CommunicationModule(scenario, getMarkers(),smellingDistance));
+        agent.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
+        agent.setMemoryModule(new MemoryModule(scenario));
+        agent.setListeningModule(new ListeningModule(scenario));
+        agent.setSmellModule(new SmellModule(scenario));
+
+        return agent;
     }
 
-    public Intruder buildIntruder() {
-        var intruder = new Intruder();
-        intruder.setSpawnModule(new UniformSpawnModule(scenario));
-        intruder.setMovement(new Movement(scenario, baseSpeedIntruders, sprintSpeedIntruders));
-        intruder.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
-        intruder.setVisionModule(new VisionModule(scenario, viewingDistance));
-        List<CommunicationType> markersIntru = new ArrayList<>();
+    private List<CommunicationType> getMarkers() {
+        List<CommunicationType> markers = new ArrayList<>();
         for(int i = 0; i < numberOfMarkers; i++){
-            markersIntru.add(CommunicationType.VISIONRED);
-            markersIntru.add(CommunicationType.VISIONBLUE);
-            markersIntru.add(CommunicationType.VISIONGREEN);
-            markersIntru.add(CommunicationType.SMELL);
-            markersIntru.add(CommunicationType.SOUND);
+            markers.add(CommunicationType.VISIONRED);
+            markers.add(CommunicationType.VISIONBLUE);
+            markers.add(CommunicationType.VISIONGREEN);
+            markers.add(CommunicationType.SMELL);
+            markers.add(CommunicationType.SOUND);
         }
         intruder.setCommunicationModule(new CommunicationModule(scenario, markersIntru));
         intruder.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
@@ -107,7 +118,8 @@ public class AgentFactory {
         intruder.setListeningModule(new ListeningModule(scenario));
         intruder.setSmellModule(new SmellModule(scenario,smellingDistance));
 
-        return intruder;
+        return markers;
     }
+
 }
 

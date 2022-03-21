@@ -1,24 +1,23 @@
 package nl.maastrichtuniversity.dke.logic;
 
 import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
+import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.util.MapParser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
 
+@Slf4j
 public class Game {
 
-    private static final Logger logger = LoggerFactory.getLogger(Game.class);
-
-    private static File mapFile;
-    private static Game game;
-
     private static final File DEFAULT_MAP = new File("src/main/resources/maps/testmap.txt");
+    private static @Setter File mapFile;
+    private static volatile Game game;
 
     /**
      * This method is used to get the singleton instance of the game.
@@ -26,25 +25,15 @@ public class Game {
      */
     public static Game getInstance() {
         if (game == null) {
-            setMapFile(DEFAULT_MAP);
+            synchronized (Game.class) {
+                if (game == null) {
+                    game = new Game();
+                }
+            }
         }
 
         return game;
     }
-
-    public static void setMapFile(File mapFile) {
-        Game.mapFile = mapFile;
-
-        if (game == null) {
-            logger.info("Creating new game instance.");
-            game = new Game();
-        } else {
-            logger.info("Map file changed, resetting game.");
-            game.reset();
-        }
-    }
-
-
 
 
 
@@ -56,7 +45,7 @@ public class Game {
      * setting the time to 0 and re-initializing the agents.
      */
     public void reset() {
-        logger.info("Resetting game.");
+        log.info("Resetting game.");
         scenario = new MapParser(mapFile).createScenario();
         game.time = 0.0;
         init();
@@ -98,11 +87,9 @@ public class Game {
         resetNoise();
         time += scenario.getTimeStep();
 
-        for (Agent agent : scenario.getGuards()) {
-            moveAgentRandomly(agent);
+        for (Guard agent : scenario.getGuards()) {
+            agent.explore();
         }
-
-        agentActions.clear();
 
         for (Agent agent : scenario.getGuards()) {
             agent.listen();
@@ -120,9 +107,12 @@ public class Game {
      * Private constructor to prevent instantiation.
      */
     protected Game() {
+        if (mapFile == null) { mapFile = DEFAULT_MAP; }
         this.scenario = new MapParser(mapFile).createScenario();
         this.agentActions = new ArrayList<>();
         this.time = 0.0;
+
+        log.info("Created Game instance.");
         init();
     }
 
@@ -131,7 +121,7 @@ public class Game {
      * @param agent to be moved
      */
     private void moveAgentRandomly(Agent agent) {
-        int rotation = getRandomAcion();
+        int rotation = getRandomAction();
 
         if (rotation == 0)
             agent.dropMark(CommunicationType.SMELL);
@@ -148,7 +138,7 @@ public class Game {
      *
      * @return a random rotation
      */
-    private int getRandomAcion() {
+    private int getRandomAction() {
         if (Math.random() < 0.5)
             return 0;
 

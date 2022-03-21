@@ -50,12 +50,17 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
 
     private void dropSmell(Position position, Agent source){
         Tile[][] tileMap = scenario.getEnvironment().getTileMap();
-        for(Tile[] tiles:tileMap){
-            for(Tile tile:tiles){
-                if(position.distance(tile.getPosition()) <= 3){
-                    Smell smell = new Smell(tile.getPosition(),position, source );
-                    scenario.getSmellMap().add(smell);
-                }
+//         for(Tile[] tiles:tileMap){
+//             for(Tile tile:tiles){
+//                 if(position.distance(tile.getPosition()) <= 3){
+//                     Smell smell = new Smell(tile.getPosition(),position, source );
+//                     scenario.getSmellMap().add(smell);
+//                 }
+
+        for (Tile tile : scenario.getEnvironment()) {
+            if(position.distance(tile.getPosition()) <= smellingDistance){
+                Smell smell = new Smell(tile.getPosition(),position, source );
+                scenario.getSmellMap().add(smell);
             }
         }
     }

@@ -3,12 +3,15 @@ package nl.maastrichtuniversity.dke.logic.scenario.factory;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.factory.AgentFactory;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.util.DebugSettings;
 
 @Setter
 @Getter
+@Slf4j
 public class ScenarioFactory {
 
     private String name;
@@ -33,6 +36,8 @@ public class ScenarioFactory {
         agentFactory.setScenario(scenario);
         scenario.setGuards(agentFactory.buildGuards(numberOfGuards));
         scenario.setIntruders(agentFactory.buildIntruders(numberOfIntruders));
+
+        if (DebugSettings.FACTORY) log.info("Scenario {} created", name);
 
         return scenario;
     }
