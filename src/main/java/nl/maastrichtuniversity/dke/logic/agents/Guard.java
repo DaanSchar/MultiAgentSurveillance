@@ -35,17 +35,16 @@ public class Guard extends Agent {
 
     private boolean findPath(Tile input, Tile target){
         var map = getMemoryModule().getMap();
-
         List<Tile> frontier = new ArrayList<>();
         frontier.add(input);
         while(true){
             if(frontier.isEmpty())
                 return false;
-            Tile tile = frontier.get(0);
+            Tile tile = frontier.remove(0);
             if(tile.equals(target))
                 return true;
             for(Tile x : map.getNeighbouringTiles(tile)){
-                if(x.getType().isPassable())
+                if(x.getType().isPassable() && !x.equals(tile))
                     frontier.add(x);
             }
         }
@@ -54,10 +53,6 @@ public class Guard extends Agent {
 
     }
 
-    private boolean treeSearch(Tile input){
-
-
-    }
 
     private void markingStep() {
         if (!currentCellBlocksPath()) {
