@@ -19,6 +19,7 @@ public class Guard extends Agent {
 
     private MultiLayerNetwork explorationNetwork;
 
+
     public Guard() {
         super();
 
@@ -49,6 +50,7 @@ public class Guard extends Agent {
         var nextPosition = getMovement().goForward(getPosition(), getDirection(), Game.getInstance().getTime());
 
         if (nextPosition.equals(targetTile.getPosition())) {
+
             goForward(Game.getInstance().getTime());
         } else {
             // TODO: rotate smarter.

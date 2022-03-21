@@ -32,7 +32,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     private final List<Direction> soundDirection;
     private final List<Position> smells;
     private @Setter Position position;
-
+    private @Getter @Setter Position previousPosition;
 
     public MemoryModule(Scenario scenario) {
         super(scenario);
@@ -52,6 +52,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
 
     public void setSpawnPosition(Position position){
         map.getTileMap()[position.getX()][position.getY()] = new MemoryTile(position, TileType.SPAWN_GUARDS);
+        setPreviousPosition(position);
         setPosition(position);
 
     }
@@ -71,6 +72,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     }
 
     public void update(IVisionModule visionModule, IListeningModule listeningModule, ISmellModule smellModule, Position position) {
+        setPreviousPosition(this.position);
         setPosition(position);
         updateVision(visionModule);
         updateSound(listeningModule);
