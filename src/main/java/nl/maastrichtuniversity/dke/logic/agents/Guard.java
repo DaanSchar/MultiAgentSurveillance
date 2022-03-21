@@ -6,6 +6,7 @@ import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.MemoryTile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
@@ -38,7 +39,6 @@ public class Guard extends Agent {
         navigationStep();
     }
 
-
     private boolean findPath(Tile input, Tile target){
         var map = getMemoryModule().getMap();
         List<Tile> frontier = new ArrayList<>();
@@ -50,13 +50,13 @@ public class Guard extends Agent {
             if(tile.equals(target))
                 return true;
             for(Tile x : map.getNeighbouringTiles(tile)){
-                if(x.getType().isPassable() && !x.equals(tile))
+                if(x.getType().isPassable()
+                        && !x.getType().equals(TileType.UNKNOWN)
+                        && !x.equals(tile)
+                        && !((MemoryTile) x).isVisited())
                     frontier.add(x);
             }
         }
-
-
-
     }
 
 
