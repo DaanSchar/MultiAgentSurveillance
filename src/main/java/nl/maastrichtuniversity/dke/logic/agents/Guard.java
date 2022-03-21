@@ -39,7 +39,6 @@ public class Guard extends Agent {
         navigationStep();
     }
 
-
     private boolean findPath(Tile input, Tile target){
         var map = getMemoryModule().getMap();
         List<Tile> frontier = new ArrayList<>();
@@ -51,7 +50,10 @@ public class Guard extends Agent {
             if(tile.equals(target))
                 return true;
             for(Tile x : map.getNeighbouringTiles(tile)){
-                if(x.getType().isPassable() && !x.equals(tile))
+                if(x.getType().isPassable()
+                        && !x.getType().equals(TileType.UNKNOWN)
+                        && !x.equals(tile)
+                        && !((MemoryTile) x).isVisited())
                     frontier.add(x);
             }
         }
