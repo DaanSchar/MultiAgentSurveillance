@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -29,6 +30,33 @@ public class Guard extends Agent {
     public void explore() {
         markingStep();
         navigationStep();
+    }
+
+
+    private boolean findPath(Tile input, Tile target){
+        var map = getMemoryModule().getMap();
+
+        List<Tile> frontier = new ArrayList<>();
+        frontier.add(input);
+        while(true){
+            if(frontier.isEmpty())
+                return false;
+            Tile tile = frontier.get(0);
+            if(tile.equals(target))
+                return true;
+            for(Tile x : map.getNeighbouringTiles(tile)){
+                if(x.getType().isPassable())
+                    frontier.add(x);
+            }
+        }
+
+
+
+    }
+
+    private boolean treeSearch(Tile input){
+
+
     }
 
     private void markingStep() {
@@ -161,6 +189,7 @@ public class Guard extends Agent {
 
         return action - 1;
     }
+
 
     /**
      * Get the output of the network for the given input
