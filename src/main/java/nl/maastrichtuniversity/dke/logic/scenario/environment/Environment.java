@@ -105,7 +105,9 @@ public class Environment implements Collection<Tile> {
      */
     @Override
     public boolean remove(Object o) {
-        if (!(o instanceof Tile tile)) { return false; }
+        if (!(o instanceof Tile)) { return false; }
+
+        Tile tile = (Tile) o;
 
         var tilePosition = tile.getPosition();
         var x = tilePosition.getX();
