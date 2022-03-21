@@ -38,11 +38,9 @@ public class Guard extends Agent {
     }
 
     private void markingStep() {
-        if (!currentCellBlocksPath()) {
-            getCurrentTile().setVisited(true);
-        } else {
-            getCurrentTile().setExplored(true);
-        }
+        if (!currentCellBlocksPath()) { getCurrentTile().setVisited(true); }
+
+        getCurrentTile().setExplored(true);
     }
 
     private void navigationStep() {
@@ -57,10 +55,12 @@ public class Guard extends Agent {
         var targetTile = getBestUnexploredTile();
         var nextPosition = getMovement().goForward(getPosition(), getDirection(), Game.getInstance().getTime());
 
-        log.info("Moving to {}, current: {}", targetTile.getPosition(), getPosition());
-        log.info("Next position: {}", nextPosition);
+        log.info("\nMoving to:      {}\n" +
+                 "current:       {}\n" +
+                 "next position: {}", targetTile.getPosition(), getPosition(), nextPosition);
 
         if (nextPosition.equals(targetTile.getPosition())) {
+            log.info("Moving forward");
             goForward(Game.getInstance().getTime());
         } else {
             rotate(-1, Game.getInstance().getTime());
