@@ -33,16 +33,33 @@ public class Guard extends Agent {
     private void markingStep() {
         if (!currentCellBlocksPath()) {
             getCurrentTile().setVisited(true);
-        } else
+        } else {
             getCurrentTile().setExplored(true);
+        }
     }
 
     private void navigationStep() {
         if (hasUnexploredSurroundingTiles(getCurrentTile())) {
-            // todo
+            moveToBestTile();
         }
     }
 
+    private void moveToBestTile() {
+        var targetTile = getBestUnexploredTile();
+        var nextPosition = getMovement().goForward(getPosition(), getDirection(), Game.getInstance().getTime());
+
+        if (nextPosition.equals(targetTile.getPosition())) {
+            goForward(Game.getInstance().getTime());
+        } else {
+            // TODO: rotate smarter.
+            rotate(-1, Game.getInstance().getTime());
+        }
+    }
+
+    /**
+     * @return The MemoryTile adjacent to the agent which is most
+     * likely to be marked as visited in the marking step
+     */
     private MemoryTile getBestUnexploredTile() {
         List<MemoryTile> unexploredTiles = getUnexploredTiles(getCurrentTile());
 
