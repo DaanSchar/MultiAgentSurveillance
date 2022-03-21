@@ -5,11 +5,9 @@ import lombok.Setter;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
-import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.INoiseModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.smell.ISmellModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
-import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.MemoryTile;
@@ -103,9 +101,8 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
 
             if(map.getTileMap()[x][y].getType()==TileType.UNKNOWN){
                 discoveredTiles.add(tile);
+                map.getTileMap()[x][y] = new MemoryTile(tile);
             }
-
-            map.getTileMap()[x][y] = new MemoryTile(tile);
         }
         for(Agent agentSee: vision.getAgents()){
             if(agents.get(agentSee.getId()) != null){
@@ -116,6 +113,10 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
             }
 
         }
+    }
+
+    public List<Tile> getVisitedNodes() {
+        return getMap().stream().filter(x -> ((MemoryTile)x).isVisited()).collect(Collectors.toList());
     }
 
 
