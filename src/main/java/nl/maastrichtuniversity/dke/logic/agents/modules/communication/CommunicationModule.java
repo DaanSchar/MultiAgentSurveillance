@@ -14,19 +14,26 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
 
     private List<CommunicationType> marks;
 
+
     public CommunicationModule(Scenario scenario, List<CommunicationType> marks) {
         super(scenario);
         this.marks = marks;
+
+
     }
 
     @Override
     public void dropMark(CommunicationMark device) {
+//        System.out.println("here");
+//        System.out.println(device.getType());
         boolean check = false;
         for(int i = 0; i < marks.size(); i++){
             System.out.println(marks.get(i));
             if(marks.get(i).equals(device.getType())){
                 System.out.println("here");
+//                System.out.println(device.getType());
                 if(device.getType().equals(CommunicationType.SMELL)){
+//                    System.out.println("here");
                     dropSmell(device.getPosition(), device.getAgentSource());
                 }
                 scenario.getCommunicationMarks().add(device);
@@ -35,7 +42,10 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
             }
             if(check)
                 break;
+
         }
+
+
     }
 
     private void dropSmell(Position position, Agent source){

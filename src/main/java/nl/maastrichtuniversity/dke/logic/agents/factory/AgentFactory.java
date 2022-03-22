@@ -80,7 +80,7 @@ public class AgentFactory {
         agent.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
         agent.setMemoryModule(new MemoryModule(scenario));
         agent.setListeningModule(new ListeningModule(scenario));
-        agent.setSmellModule(new SmellModule(scenario,smellingDistance));
+        agent.setSmellModule(new SmellModule(scenario, smellingDistance));
 
         return agent;
     }
