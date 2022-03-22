@@ -173,7 +173,7 @@ public class Guard extends Agent {
 
     /**
      * @param tile The tile to check
-     * @return checks if a tile is non-passable (or visited in the case of the algorithm).
+     * @return checks if a tile is passable (or visited in the case of the algorithm).
      */
     private boolean isPassable(MemoryTile tile) {
         return !tile.isVisited() && tile.getType().isPassable();
