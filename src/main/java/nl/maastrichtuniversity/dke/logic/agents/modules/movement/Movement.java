@@ -70,7 +70,7 @@ public class Movement extends AgentModule implements IMovement {
         lastTimeMoved = time;
 
 
-        if (isColliding(newPos) || isPathClosed(position, direction)) {
+        if (isColliding(newPos)) {
             return position;
         }
         var tileMap = scenario.getEnvironment().get(TileType.TELEPORT);

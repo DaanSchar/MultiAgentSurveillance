@@ -18,6 +18,8 @@ public class Game {
     private static @Setter File mapFile;
     private static volatile Game game;
 
+    private double randomness = 0.2;
+
     /**
      * This method is used to get the singleton instance of the game.
      * @return the only allowed instance of the game.
@@ -44,7 +46,8 @@ public class Game {
      * setting the time to 0 and re-initializing the agents.
      */
     public void reset() {
-        log.info("Resetting game.");
+        randomness += 0.01;
+        log.info("randomness: {}, total coverage: {}", randomness,(double)scenario.getGuards().getCoveredTiles().size()/(double)scenario.getEnvironment().size());
         scenario = new MapParser(mapFile).createScenario();
         game.time = 0.0;
         init();
@@ -147,5 +150,11 @@ public class Game {
     private final @Getter ArrayList<Integer> agentActions;
 
 
+    public boolean isOver() {
+        return scenario.getGuards().isDone();
+    }
 
+    public double getRandomness() {
+        return randomness;
+    }
 }

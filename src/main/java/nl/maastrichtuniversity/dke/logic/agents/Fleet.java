@@ -3,6 +3,7 @@ package nl.maastrichtuniversity.dke.logic.agents;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -18,13 +19,23 @@ public class Fleet<T extends Agent> extends ArrayList<T> {
      * @return List of tiles covered/explored by the fleet.
      */
     public List<Tile> getCoveredTiles() {
-        ArrayList<Tile> coveredTiles = new ArrayList<>();
+        HashSet<Tile> tiles = new HashSet<>();
 
         for (Agent agent : this) {
-            coveredTiles.addAll((agent.getMemoryModule()).getCoveredTiles());
+            tiles.addAll((agent.getMemoryModule()).getCoveredTiles());
         }
 
-        return coveredTiles;
+        return tiles.stream().toList();
+    }
+
+    public boolean isDone() {
+        for (Agent agent : this) {
+            if (!agent.isDone()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }

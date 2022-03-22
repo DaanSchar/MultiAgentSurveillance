@@ -5,13 +5,12 @@ import lombok.Setter;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
-import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.INoiseModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.smell.ISmellModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
-import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.MemoryTile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
@@ -31,14 +30,14 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     private final List<Direction> soundDirection;
     private final List<Position> smells;
     private @Setter Position position;
-
+    private @Getter @Setter Position previousPosition;
 
     public MemoryModule(Scenario scenario) {
         super(scenario);
 
         int width = scenario.getEnvironment().getWidth();
         int height = scenario.getEnvironment().getHeight();
-        this.map = new Environment(width, height, new Tile[width][height]);
+        this.map = new Environment(width, height, new MemoryTile[width][height]);
         this.discoveredTiles = new LinkedList<>();
 
         initEnvironment();
@@ -50,7 +49,8 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     }
 
     public void setSpawnPosition(Position position){
-        map.getTileMap()[position.getX()][position.getY()] = new Tile(position, TileType.SPAWN_GUARDS);
+        map.getTileMap()[position.getX()][position.getY()] = new MemoryTile(position, TileType.SPAWN_GUARDS);
+        setPreviousPosition(position);
         setPosition(position);
 
     }
@@ -58,7 +58,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     private void initEnvironment() {
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
-                map.getTileMap()[x][y] = new Tile(new Position(x, y), TileType.UNKNOWN);
+                map.getTileMap()[x][y] = new MemoryTile(new Position(x, y), TileType.UNKNOWN);
             }
         }
     }
@@ -70,6 +70,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     }
 
     public void update(IVisionModule visionModule, IListeningModule listeningModule, ISmellModule smellModule, Position position) {
+        setPreviousPosition(this.position);
         setPosition(position);
         updateVision(visionModule);
         updateSound(listeningModule);
@@ -100,9 +101,8 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
 
             if(map.getTileMap()[x][y].getType()==TileType.UNKNOWN){
                 discoveredTiles.add(tile);
+                map.getTileMap()[x][y] = new MemoryTile(tile);
             }
-
-            map.getTileMap()[x][y] = tile;
         }
         for(Agent agentSee: vision.getAgents()){
             if(agents.get(agentSee.getId()) != null){
@@ -113,6 +113,10 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
             }
 
         }
+    }
+
+    public List<Tile> getVisitedNodes() {
+        return getMap().stream().filter(x -> ((MemoryTile)x).isVisited()).collect(Collectors.toList());
     }
 
 
