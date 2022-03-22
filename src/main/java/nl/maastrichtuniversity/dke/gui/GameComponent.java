@@ -33,6 +33,8 @@ public class GameComponent extends JComponent{
 
 	private int frame = 0; //Current animation frame
 
+
+
 	private static final Logger logger = LoggerFactory.getLogger(GameComponent.class);
 
 	/**
@@ -42,8 +44,6 @@ public class GameComponent extends JComponent{
 		this.scenario = scenario;
 		this.environment = environment;
 		this.textureSize = (int) (scenario.getScaling()*100) /2;
-		this.newGuardList=scenario.getGuards();
-		this.newSoundList=scenario.getSoundMap();
 	}
 
 	/**
@@ -53,6 +53,8 @@ public class GameComponent extends JComponent{
 		this.scenario = Game.getInstance().getScenario();
 		this.environment = scenario.getEnvironment();
 		this.textureSize = (int) (scenario.getScaling()*100);
+
+		startGameSystem();
 	}
 
 	public void paintComponent(Graphics g) {

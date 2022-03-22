@@ -1,6 +1,7 @@
 package nl.maastrichtuniversity.dke.logic;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.util.MapParser;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.ArrayList;
 
+@Slf4j
 public class Game {
 
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
