@@ -201,7 +201,7 @@ public class GameComponent extends JComponent{
 
 	public void startGameSystem() {
 		Game system = Game.getInstance();
-		Timer timer = new Timer(100, e -> {
+		Timer timer = new Timer(1, e -> {
 			system.update(0);
 			repaint();
 		});

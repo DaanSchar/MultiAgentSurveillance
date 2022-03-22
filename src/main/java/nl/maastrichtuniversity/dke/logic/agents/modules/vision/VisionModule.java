@@ -1,6 +1,7 @@
 package nl.maastrichtuniversity.dke.logic.agents.modules.vision;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
@@ -13,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Getter
+@Slf4j
 public class VisionModule extends AgentModule implements IVisionModule {
 
     private final int viewingDistance;
@@ -45,8 +47,6 @@ public class VisionModule extends AgentModule implements IVisionModule {
         int endTile = getEndTile(position,direction);
         int startTile = getStartTile(position);
 
-        System.out.println(startTile + " START");
-        System.out.println(endTile + " END");
         boolean[] canMove = canMove(position, direction);
         boolean canMove1 = canMove[0];
         boolean canMove2 = canMove[1];
