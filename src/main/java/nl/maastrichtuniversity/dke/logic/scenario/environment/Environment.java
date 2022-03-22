@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -44,6 +45,19 @@ public class Environment implements Collection<Tile> {
         return this.stream().filter(tile -> tile.getType() == type).collect(Collectors.toList());
     }
 
+    public List<Tile> getNeighbouringTiles(Tile tile) {
+        List<Tile> neighbors = new ArrayList<>();
+        var x = tile.getPosition().getX();
+        var y = tile.getPosition().getY();
+
+        try { neighbors.add(tileMap[x][y + 1]); } catch (ArrayIndexOutOfBoundsException ignored){}
+        try { neighbors.add(tileMap[x][y - 1]); } catch (ArrayIndexOutOfBoundsException ignored){}
+        try { neighbors.add(tileMap[x + 1][y]); } catch (ArrayIndexOutOfBoundsException ignored){}
+        try { neighbors.add(tileMap[x - 1][y]); } catch (ArrayIndexOutOfBoundsException ignored){}
+
+        return neighbors;
+    }
+
 
     @Override
     public int size() {
@@ -64,8 +78,9 @@ public class Environment implements Collection<Tile> {
     public boolean contains(Object o) {
         if (!(o instanceof Tile)) { return false; }
 
+        Tile tile = (Tile) o;
         for (Tile referenceTile : this) {
-            if (referenceTile.equals(o)) {
+            if (referenceTile.equals(tile)) {
                 return true;
             }
         }
@@ -108,7 +123,6 @@ public class Environment implements Collection<Tile> {
         if (!(o instanceof Tile)) { return false; }
 
         Tile tile = (Tile) o;
-
         var tilePosition = tile.getPosition();
         var x = tilePosition.getX();
         var y = tilePosition.getY();

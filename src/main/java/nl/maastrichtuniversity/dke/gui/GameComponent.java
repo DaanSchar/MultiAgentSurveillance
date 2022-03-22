@@ -9,8 +9,8 @@ import javax.swing.Timer;
 
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.*;
+import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
-import nl.maastrichtuniversity.dke.logic.scenario.Smell;
 import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 public class GameComponent extends JComponent{
 
 	private final Scenario scenario;
+
 	private Environment environment;
 
 	private int textureSize;
@@ -30,8 +31,10 @@ public class GameComponent extends JComponent{
 	private int agentMapNum;
 	private boolean agentMapNumBoolean=false;
 
-
 	private int frame = 0; //Current animation frame
+
+	private List<Guard> newGuardList;
+	private List<Sound> newSoundList;
 
 	private static final Logger logger = LoggerFactory.getLogger(GameComponent.class);
 
@@ -41,7 +44,9 @@ public class GameComponent extends JComponent{
 	public GameComponent(Scenario scenario, Environment environment) {
 		this.scenario = scenario;
 		this.environment = environment;
-		this.textureSize = (int) (scenario.getScaling()*100) - 2;
+		this.textureSize = (int) (scenario.getScaling()*100) /2;
+		this.newGuardList=scenario.getGuards();
+		this.newSoundList=scenario.getSoundMap();
 	}
 
 	/**
@@ -51,6 +56,10 @@ public class GameComponent extends JComponent{
 		this.scenario = Game.getInstance().getScenario();
 		this.environment = scenario.getEnvironment();
 		this.textureSize = (int) (scenario.getScaling()*100);
+		this.newGuardList=scenario.getGuards();
+		this.newSoundList=scenario.getSoundMap();
+
+		startGameSystem();
 	}
 
 	public void paintComponent(Graphics g) {
@@ -75,12 +84,20 @@ public class GameComponent extends JComponent{
 		drawAreas(g, environment.get(TileType.TARGET), imageFactory.get("targetTexture"));
 		drawAreas(g, environment.get(TileType.SHADED), imageFactory.get("shadedTexture"));
 		drawAreas(g, environment.get(TileType.UNKNOWN), imageFactory.get("unknownTexture"));
+		drawAreas(g, environment.get(TileType.DESTINATION_TELEPORT), imageFactory.get("teleportDTexture"));
+
 	}
 
 	private void drawGuards(Graphics g) {
-		for (Agent agent : scenario.getGuards()) {
-			drawAgent(g, agent);
+		if (agentMapNumBoolean){
+			drawAgent(g,scenario.getGuards().get(agentMapNum));
 		}
+		else{
+			for (Agent agent : scenario.getGuards()) {
+				drawAgent(g, agent);
+			}
+		}
+
 	}
 
 	private void drawIntruders(Graphics g) {
@@ -121,23 +138,6 @@ public class GameComponent extends JComponent{
 				image,
 				panningX + tile.getPosition().getX() * (textureSize),
 				panningY + tile.getPosition().getY() * (textureSize),
-				textureSize,
-				textureSize,
-				null
-		);
-	}
-
-	private void drawSmells(Graphics g) {
-		for (int i = 0; i < scenario.getSmellMap().size(); i++) {
-			drawSmell(g, scenario.getSmellMap().get(i));
-		}
-	}
-
-	private void drawSmell(Graphics g, Smell smell) {
-		g.drawImage(
-				imageFactory.get("smellTexture"),
-				panningX +  smell.getPosition().getX() * (textureSize),
-				panningY +  smell.getPosition().getY() * (textureSize),
 				textureSize,
 				textureSize,
 				null
@@ -196,7 +196,7 @@ public class GameComponent extends JComponent{
 
 	public void startGameSystem() {
 		Game system = Game.getInstance();
-		Timer timer = new Timer(1, e -> {
+		Timer timer = new Timer(100, e -> {
 			system.update(0);
 			repaint();
 		});
