@@ -76,8 +76,9 @@ public class Environment implements Collection<Tile> {
 
     @Override
     public boolean contains(Object o) {
-        if (!(o instanceof Tile tile)) { return false; }
+        if (!(o instanceof Tile)) { return false; }
 
+        Tile tile = (Tile) o;
         for (Tile referenceTile : this) {
             if (referenceTile.equals(tile)) {
                 return true;
@@ -119,8 +120,9 @@ public class Environment implements Collection<Tile> {
      */
     @Override
     public boolean remove(Object o) {
-        if (!(o instanceof Tile tile)) { return false; }
+        if (!(o instanceof Tile)) { return false; }
 
+        Tile tile = (Tile) o;
         var tilePosition = tile.getPosition();
         var x = tilePosition.getX();
         var y = tilePosition.getY();
