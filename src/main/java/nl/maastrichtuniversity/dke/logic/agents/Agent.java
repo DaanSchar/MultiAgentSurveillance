@@ -47,8 +47,11 @@ public class Agent {
     private @Setter IMemoryModule memoryModule;
     private @Setter ISmellModule smellModule;
 
+    private @Setter boolean done;
+
     public Agent() {
         this.id = agentCount++;
+        done = false;
     }
 
     /**

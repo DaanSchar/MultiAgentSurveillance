@@ -49,26 +49,11 @@ public class Environment implements Collection<Tile> {
         List<Tile> neighbors = new ArrayList<>();
         var x = tile.getPosition().getX();
         var y = tile.getPosition().getY();
-        try {
-            neighbors.add(tileMap[x][y + 1]);
-        }catch (ArrayIndexOutOfBoundsException e){
-            log.info("Tile {}, {} is at the edge of the environment", x, y+1);
-        }
-        try {
-            neighbors.add(tileMap[x][y - 1]);
-        }catch (ArrayIndexOutOfBoundsException e){
-            log.info("Tile {}, {} is at the edge of the environment", x, y-1);
-        }
-        try {
-            neighbors.add(tileMap[x + 1][y]);
-        }catch (ArrayIndexOutOfBoundsException e){
-            log.info("Tile {}, {} is at the edge of the environment", x+1, y);
-        }
-        try {
-            neighbors.add(tileMap[x - 1][y]);
-        }catch (ArrayIndexOutOfBoundsException e){
-            log.info("Tile {}, {} is at the edge of the environment", x-1, y);
-        }
+
+        try { neighbors.add(tileMap[x][y + 1]); } catch (ArrayIndexOutOfBoundsException ignored){}
+        try { neighbors.add(tileMap[x][y - 1]); } catch (ArrayIndexOutOfBoundsException ignored){}
+        try { neighbors.add(tileMap[x + 1][y]); } catch (ArrayIndexOutOfBoundsException ignored){}
+        try { neighbors.add(tileMap[x - 1][y]); } catch (ArrayIndexOutOfBoundsException ignored){}
 
         return neighbors;
     }

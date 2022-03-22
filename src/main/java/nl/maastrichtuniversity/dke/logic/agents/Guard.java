@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.ai.NeuralGameState;
 import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.MemoryTile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
@@ -12,8 +13,7 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -22,49 +22,27 @@ public class Guard extends Agent {
 
     private MultiLayerNetwork explorationNetwork;
 
-    private final Direction[] orderList = {
+    private final ArrayList<Direction> orderList = new ArrayList<>(Arrays.stream(new Direction[]{
             Direction.NORTH, Direction.EAST,
             Direction.SOUTH, Direction.WEST
-    };
-
+    }).toList());
 
     public Guard() {
         super();
-
-        // loadNetwork("src/main/resources/networks/network-1647872939503-input-22-output-3-nodes-128-learningrate-0.01-epochs-1000.zip");
+        Collections.shuffle(orderList);
     }
 
     public void explore() {
-        markingStep();
-        navigationStep();
-    }
-
-    private boolean findPath(Tile input, Tile target){
-        var map = getMemoryModule().getMap();
-        List<Tile> frontier = new ArrayList<>();
-        frontier.add(input);
-
-        while(true) {
-
-            if(frontier.isEmpty()) return false;
-
-            Tile tile = frontier.remove(0);
-
-            if(tile.equals(target)) return true;
-
-            for(Tile x : map.getNeighbouringTiles(tile)){
-                if(x.getType().isPassable()
-                        && !x.getType().equals(TileType.UNKNOWN)
-                        && !x.equals(tile)
-                        && !((MemoryTile) x).isVisited())
-                    frontier.add(x);
-            }
+        if (!isDone()) {
+            markingStep();
+            navigationStep();
         }
     }
 
-
     private void markingStep() {
-        if (!currentCellBlocksPath()) { getCurrentTile().setVisited(true); }
+        if (!currentCellBlocksPath()) {
+            getCurrentTile().setVisited(true);
+        }
 
         getCurrentTile().setExplored(true);
     }
@@ -73,8 +51,9 @@ public class Guard extends Agent {
         if (hasNeighboringUnexploredTiles()) {
             moveToBestUnexploredTile();
         } else if (hasNeighboringExploredTiles()) {
-            log.info("No unexplored tiles, but we have explored tiles");
             moveToBestExploredTile();
+        } else {
+            setDone(true);
         }
     }
 
@@ -84,9 +63,8 @@ public class Guard extends Agent {
         for (Tile neighbour : neighbours) {
             for (Tile otherNeighbour : neighbours) {
                 if (!neighbour.equals(otherNeighbour)) {
-                    if (!findPath(neighbour, otherNeighbour)) {
-                        return true;
-                    }
+                    var hasPath = new BFS().search(neighbour, otherNeighbour);
+                    return !hasPath;
                 }
             }
         }
@@ -98,7 +76,6 @@ public class Guard extends Agent {
         var targetTile = getBestUnexploredTile();
         var nextPosition = getMovement().goForward(getPosition(), getDirection(), Game.getInstance().getTime());
 
-        log.info("nextPosition: {}, targetTile: {}", nextPosition, targetTile.getPosition());
         if (nextPosition.equals(targetTile.getPosition()) || targetTile.getType() == TileType.TELEPORT) {
             goForward(Game.getInstance().getTime());
         } else {
@@ -113,11 +90,14 @@ public class Guard extends Agent {
      * the best tile is the tile which has the most adjacent non-passable tiles.
      */
     private MemoryTile getBestUnexploredTile() {
-        var unexploredTiles = getUnexploredNeighboringTiles(getCurrentTile()).stream();
+        var unexploredTiles = getUnexploredNeighboringTiles(getCurrentTile());
 
-        List<Tile> sortedList = unexploredTiles.sorted(
+        if (Math.random() < Game.getInstance().getRandomness()) { Collections.shuffle(unexploredTiles); }
+
+        List<Tile> sortedList = unexploredTiles.stream().sorted(
                 (t1 , t2) -> getNonPassableNeighbors(t2).size() - getNonPassableNeighbors(t1).size()
         ).collect(Collectors.toList());
+
 
         return (MemoryTile) sortedList.get(0);
     }
@@ -153,10 +133,16 @@ public class Guard extends Agent {
         return map[x][y];
     }
 
+    /**
+     * @return true if the agent has any explored tiles adjacent to it
+     */
     private boolean hasNeighboringExploredTiles() {
         return getExploredNeighboringTiles(getCurrentTile()).size() > 0;
     }
 
+    /**
+     * @return true if the agent has any unexplored tiles adjacent to it
+     */
     private boolean hasNeighboringUnexploredTiles() {
         return getUnexploredNeighboringTiles(getCurrentTile()).size() > 0;
     }
@@ -190,7 +176,7 @@ public class Guard extends Agent {
      * @return checks if a tile is non-passable (or visited in the case of the algorithm).
      */
     private boolean isPassable(MemoryTile tile) {
-        return !tile.isVisited() || tile.getType().isPassable();
+        return !tile.isVisited() && tile.getType().isPassable();
     }
 
     /**
@@ -229,11 +215,38 @@ public class Guard extends Agent {
     }
 
 
+    class BFS {
 
+        private final Queue<Tile> queue;
+        private final List<Tile> visited;
 
+        public BFS() {
+            this.queue = new LinkedList<>();
+            this.visited = new ArrayList<>();
+        }
 
+        public boolean search(Tile start, Tile goal) {
+            queue.add(start);
 
+            Tile current;
+            while (!queue.isEmpty()) {
+                current = queue.poll();
+                if (current.equals(goal)) { return true; }
 
+                visited.add(current);
+
+                for (Tile neighbour : getPassableNeighbors(current)) {
+                    if (neighbour.equals(goal)) { return true; }
+                    if (!visited.contains(neighbour)) {
+                        queue.add(neighbour);
+                        visited.add(neighbour);
+                    }
+                }
+            }
+            return false;
+        }
+
+    }
 
 
 
