@@ -104,6 +104,8 @@ public class ImageFactory {
         images.put("guardright2", readImage("guard/guardright2.png"));
         images.put("guardright3", readImage("guard/guardright3.png"));
         images.put("guardright4", readImage("guard/guardright4.png"));
+
+        images.put("teleportDestination", readImage("texture/teleportD.png"));
     }
 
     /**

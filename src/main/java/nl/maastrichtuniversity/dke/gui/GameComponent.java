@@ -79,6 +79,7 @@ public class GameComponent extends JComponent{
 		drawAreas(g, environment.get(TileType.TARGET), imageFactory.get("targetTexture"));
 		drawAreas(g, environment.get(TileType.SHADED), imageFactory.get("shadedTexture"));
 		drawAreas(g, environment.get(TileType.UNKNOWN), imageFactory.get("unknownTexture"));
+		drawAreas(g, environment.get(TileType.DESTINATION_TELEPORT), imageFactory.get("teleportDestination"));
 	}
 
 	private void drawGuards(Graphics g) {
