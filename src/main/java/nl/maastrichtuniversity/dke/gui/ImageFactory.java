@@ -20,6 +20,7 @@ public class ImageFactory {
 
     private static final String ROOT = "src/main/resources/images/";
 
+    private static final Logger logger = LoggerFactory.getLogger(ImageFactory.class);
 
     private static ImageFactory factoryInstance;
 
@@ -78,8 +79,8 @@ public class ImageFactory {
         images.put("targetTexture", readImage("texture/target.png"));
         images.put("spawnAreaTexture", readImage("texture/spawnarea.png"));
         images.put("unknownTexture", readImage("texture/unknown.png"));
-        images.put("soundTexture", readImage("texture/sound.png"));
-        images.put("teleportDTexture", readImage("texture/teleportD.png"));
+        images.put("smellTexture", readImage("texture/sound.png"));
+        images.put("soundTexture", readImage("texture/smell.png"));
 
 
         // Guard

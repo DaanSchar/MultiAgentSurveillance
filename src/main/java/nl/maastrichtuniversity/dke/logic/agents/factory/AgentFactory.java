@@ -76,11 +76,11 @@ public class AgentFactory {
                 type.equals("guard") ? 0 : sprintSpeedIntruders)
         );
         agent.setVisionModule(new VisionModule(scenario, viewingDistance));
-        agent.setCommunicationModule(new CommunicationModule(scenario, getMarkers(),smellingDistance));
+        agent.setCommunicationModule(new CommunicationModule(scenario, getMarkers()));
         agent.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
         agent.setMemoryModule(new MemoryModule(scenario));
         agent.setListeningModule(new ListeningModule(scenario));
-        agent.setSmellModule(new SmellModule(scenario));
+        agent.setSmellModule(new SmellModule(scenario, smellingDistance));
 
         return agent;
     }
@@ -98,4 +98,3 @@ public class AgentFactory {
     }
 
 }
-
