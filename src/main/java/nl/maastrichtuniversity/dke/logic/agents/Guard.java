@@ -46,7 +46,8 @@ public class Guard extends Agent {
         while(true){
             if(frontier.isEmpty())
                 return false;
-            Tile tile = frontier.remove(0);
+            Tile tile = frontier.get(0);
+            frontier.remove(0);
             if(tile.equals(target))
                 return true;
             for(Tile x : map.getNeighbouringTiles(tile)){
