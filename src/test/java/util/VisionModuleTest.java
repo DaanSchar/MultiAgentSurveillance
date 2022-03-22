@@ -1,6 +1,7 @@
 package util;
 
 
+import lombok.ToString;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.VisionModule;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
@@ -59,7 +60,7 @@ public class VisionModuleTest {
      */
     @Test
     void testGetObstaclesNORTH() {
-        VisionModule vm = new VisionModule(s,90);
+        VisionModule vm = new VisionModule(s,4);
         s.getEnvironment().getTileMap()[0][1].setType(TileType.WALL);
         s.getEnvironment().getTileMap()[0][0].setType(TileType.WALL);
         s.getEnvironment().getTileMap()[2][0].setType(TileType.WALL);
@@ -85,7 +86,7 @@ public class VisionModuleTest {
      */
    @Test
     void testGetObstaclesSOUTH() {
-        VisionModule vm = new VisionModule(s,90);
+        VisionModule vm = new VisionModule(s,4);
         s.getEnvironment().getTileMap()[3][0].setType(TileType.WALL);
         s.getEnvironment().getTileMap()[1][1].setType(TileType.WALL);
         s.getEnvironment().getTileMap()[0][2].setType(TileType.WALL);
@@ -115,7 +116,7 @@ public class VisionModuleTest {
      */
     @Test
     void testGetObstaclesEAST() {
-        VisionModule vm = new VisionModule(s,90);
+        VisionModule vm = new VisionModule(s,4);
         s.getEnvironment().getTileMap()[1][0].setType(TileType.EMPTY);
         s.getEnvironment().getTileMap()[3][1].setType(TileType.WALL);
         s.getEnvironment().getTileMap()[2][0].setType(TileType.WALL);
@@ -143,7 +144,7 @@ public class VisionModuleTest {
      */
     @Test
     void testGetObstaclesWEST() {
-        VisionModule vm = new VisionModule(s,90);
+        VisionModule vm = new VisionModule(s,4);
         s.getEnvironment().getTileMap()[3][1].setType(TileType.WALL);
         s.getEnvironment().getTileMap()[1][0].setType(TileType.WALL);
         s.getEnvironment().getTileMap()[0][1].setType(TileType.WALL);
@@ -167,7 +168,7 @@ public class VisionModuleTest {
      */
     @Test
     void testShaded(){
-        VisionModule vm = new VisionModule(s,90);
+        VisionModule vm = new VisionModule(s,4);
         s.getEnvironment().getTileMap()[3][0].setType(TileType.WALL);
         s.getEnvironment().getTileMap()[1][1].setType(TileType.SHADED);
         s.getEnvironment().getTileMap()[0][2].setType(TileType.WALL);
@@ -176,7 +177,6 @@ public class VisionModuleTest {
 
         vm.useVision(new Position(1,0), Direction.SOUTH);
         List<Tile> obstacles =vm.getObstacles();
-        System.out.println(obstacles);
 
         Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(1,0));
         Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(0,0));
@@ -192,6 +192,136 @@ public class VisionModuleTest {
 
     }
 
+    /** sentry test, do not see first two tiles, but see double viewing distance
+     *   3  e e e P
+     *   2  e e e e
+     *   1  e e e e
+     *   0  e e e e
+     *      0 1 2 3
+     */
+    @Test
+    void testSentryWEST(){
+        VisionModule vm = new VisionModule(s,2);
+        s.getEnvironment().getTileMap()[3][0].setType(TileType.EMPTY);
+        s.getEnvironment().getTileMap()[1][1].setType(TileType.EMPTY);
+        s.getEnvironment().getTileMap()[0][2].setType(TileType.EMPTY);
+        s.getEnvironment().getTileMap()[2][3].setType(TileType.EMPTY);
+        s.getEnvironment().getTileMap()[3][3].setType(TileType.SENTRY);
+
+
+        vm.useVision(new Position(3,3), Direction.WEST);
+        List<Tile> obstacles =vm.getObstacles();
+        System.out.println(obstacles);
+
+        Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(1,3));
+        Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(1,2));
+        Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(0,3));
+        Assertions.assertEquals(obstacles.get(3).getPosition(), new Position(0,2));
+
+
+    }
+
+    /** sentry test, do not see first two tiles, but see double viewing distance
+     *   3  e e e e
+     *   2  e e e e
+     *   1  e e P e
+     *   0  e e e e
+     *      0 1 2 3
+     */
+    @Test
+    void testSentrySOUTH(){
+        VisionModule vm = new VisionModule(s,2);
+        s.getEnvironment().getTileMap()[3][0].setType(TileType.EMPTY);
+        s.getEnvironment().getTileMap()[1][1].setType(TileType.EMPTY);
+        s.getEnvironment().getTileMap()[0][2].setType(TileType.EMPTY);
+        s.getEnvironment().getTileMap()[2][3].setType(TileType.EMPTY);
+        s.getEnvironment().getTileMap()[2][1].setType(TileType.SENTRY);
+
+
+        vm.useVision(new Position(2,1), Direction.SOUTH);
+        List<Tile> obstacles =vm.getObstacles();
+
+        Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(2,3));
+        Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(1,3));
+        Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(3,3));
+
+
+    }
+
+    /** sentry test, do not see first two tiles, but see double viewing distance
+     *   3  e e e e
+     *   2  e e P e
+     *   1  e e e e
+     *   0  e e e e
+     *      0 1 2 3
+     */
+    @Test
+    void testSentryNORTH(){
+        VisionModule vm = new VisionModule(s,2);
+        s.getEnvironment().getTileMap()[3][0].setType(TileType.EMPTY);
+        s.getEnvironment().getTileMap()[1][1].setType(TileType.EMPTY);
+        s.getEnvironment().getTileMap()[0][2].setType(TileType.EMPTY);
+        s.getEnvironment().getTileMap()[2][3].setType(TileType.EMPTY);
+        s.getEnvironment().getTileMap()[2][2].setType(TileType.SENTRY);
+
+
+        vm.useVision(new Position(2,2), Direction.NORTH);
+        List<Tile> obstacles =vm.getObstacles();
+        System.out.println(obstacles);
+        Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(2,0));
+        Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(1,0));
+        Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(3,0));
+    }
+
+
+
+    /** sentry test, do not see first two tiles, but see double viewing distance
+     *   3  e e e e
+     *   2  e P e e
+     *   1  e e e e
+     *   0  e e e e
+     *      0 1 2 3
+     */
+    @Test
+    void testSentryEAST(){
+        VisionModule vm = new VisionModule(s,2);
+        s.getEnvironment().getTileMap()[3][0].setType(TileType.EMPTY);
+        s.getEnvironment().getTileMap()[1][1].setType(TileType.EMPTY);
+        s.getEnvironment().getTileMap()[0][2].setType(TileType.EMPTY);
+        s.getEnvironment().getTileMap()[2][3].setType(TileType.EMPTY);
+        s.getEnvironment().getTileMap()[1][2].setType(TileType.SENTRY);
+
+
+        vm.useVision(new Position(1,2), Direction.EAST);
+        List<Tile> obstacles =vm.getObstacles();
+        System.out.println(obstacles);
+        Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(3,2));
+        Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(3,1));
+        Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(3,3));
+    }
+
+
+    /** sentry test, do not see first two tiles, but see double viewing distance
+     *   3  e e e e
+     *   2  e e e e
+     *   1  e e P e
+     *   0  e e e e
+     *      0 1 2 3
+     */
+    @Test
+    void testSentry(){
+        VisionModule vm = new VisionModule(s,10);
+        s.getEnvironment().getTileMap()[3][0].setType(TileType.EMPTY);
+        s.getEnvironment().getTileMap()[1][1].setType(TileType.EMPTY);
+        s.getEnvironment().getTileMap()[0][2].setType(TileType.EMPTY);
+        s.getEnvironment().getTileMap()[2][3].setType(TileType.EMPTY);
+        //s.getEnvironment().getTileMap()[1][2].setType(TileType.SENTRY);
+
+
+        vm.useVision(new Position(2,1), Direction.SOUTH);
+        List<Tile> obstacles =vm.getObstacles();
+        System.out.println(obstacles);
+    }
 
 
 
