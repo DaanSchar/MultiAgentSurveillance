@@ -9,7 +9,7 @@ public enum MoveAction {
     ROTATE_RIGHT(1),
     DO_NOTHING(Integer.MAX_VALUE);
 
-    private @Getter int value;
+    private @Getter final int value;
 
     MoveAction(int action) {this.value = action;}
 

@@ -166,9 +166,7 @@ public class ExplorationModule implements IExplorationModule {
      * @return A list of tiles adjacent to the given tile which are non-passable
      */
     private List<Tile> getNonPassableNeighbors(Tile tile) {
-        var surroundingTiles = environment.getNeighbouringTiles(tile).stream();
-
-        return surroundingTiles.filter((neighborTile) -> !isPassable(neighborTile)).collect(Collectors.toList());
+        return environment.filterNeighbours(tile, (neighbor) -> !isPassable(neighbor));
     }
 
     /**
@@ -176,17 +174,7 @@ public class ExplorationModule implements IExplorationModule {
      * @return A list of tiles adjacent to the given tile which are passable
      */
     private List<Tile> getPassableNeighbors(Tile tile) {
-        var neighbors = environment.getNeighbouringTiles(tile);
-
-        return neighbors.stream().filter((this::isPassable)).collect(Collectors.toList());
-    }
-
-    /**
-     * @param tile The tile to check
-     * @return checks if a tile is passable (or visited in the case of the algorithm).
-     */
-    private boolean isPassable(Tile tile) {
-        return !((MemoryTile)tile).isVisited() && tile.getType().isPassable();
+        return environment.filterNeighbours(tile, this::isPassable);
     }
 
     /**
@@ -194,17 +182,7 @@ public class ExplorationModule implements IExplorationModule {
      * @return A list of tiles which are adjacent to the agent and are not marked as explored
      */
     private List<Tile> getUnexploredNeighboringTiles(Tile tile) {
-        var surroundingTiles = environment.getNeighbouringTiles(tile).stream();
-        return surroundingTiles.filter(memoryTile -> isUnExplored((MemoryTile) memoryTile)).collect(Collectors.toList());
-    }
-
-    /**
-     *
-     * @param tile The tile we check if it is unexplored
-     * @return True if the tile is unexplored, is passable and not visited
-     */
-    private boolean isUnExplored(MemoryTile tile) {
-        return !tile.isExplored() && tile.getType().isPassable() && !tile.isVisited();
+        return environment.filterNeighbours(tile, (neighbor) -> !((MemoryTile)neighbor).isExplored() && isPassable(neighbor));
     }
 
     /**
@@ -212,18 +190,19 @@ public class ExplorationModule implements IExplorationModule {
      * @return A list of tiles which are adjacent to the agent and are marked as explored
      */
     private List<Tile> getExploredNeighboringTiles(Tile tile) {
-        var surroundingTiles = environment.getNeighbouringTiles(tile).stream();
-        return surroundingTiles.filter(memoryTile -> isExplored((MemoryTile) memoryTile)).collect(Collectors.toList());
+        return environment.filterNeighbours(tile, neighbor -> ((MemoryTile)neighbor).isExplored() && isPassable(neighbor));
     }
 
     /**
-     * @param tile The tile we check if it is explored
-     * @return True if a tile is marked as explored, is passable and not visited
+     * @return Checks if the given tile is passable
      */
-    private boolean isExplored(MemoryTile tile) {
-        return tile.isExplored() && tile.getType().isPassable() && !tile.isVisited();
+    private boolean isPassable(Tile tile) {
+        return tile.getType().isPassable() && !((MemoryTile)tile).isVisited();
     }
 
+    /**
+     * Breadth-first search
+     */
     class BFS {
 
         private final Queue<Tile> queue;
@@ -234,6 +213,11 @@ public class ExplorationModule implements IExplorationModule {
             this.visited = new ArrayList<>();
         }
 
+        /**
+         * @param start The tile to start the search from
+         * @param goal The tile to search for
+         * @return True if there is a path from the start to the goal
+         */
         public boolean search(Tile start, Tile goal) {
             queue.add(start);
 
@@ -246,7 +230,7 @@ public class ExplorationModule implements IExplorationModule {
 
                 for (Tile neighbour : getPassableNeighbors(current)) {
                     if (neighbour.equals(goal)) { return true; }
-                    if (!visited.contains(neighbour)) {
+                    if (!visited.contains(neighbour) && !neighbour.equals(getCurrentTile())) {
                         queue.add(neighbour);
                         visited.add(neighbour);
                     }
