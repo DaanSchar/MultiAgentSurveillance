@@ -46,8 +46,8 @@ public class Environment implements Collection<Tile> {
         return this.stream().filter(tile -> tile.getType() == type).collect(Collectors.toList());
     }
 
-    public List<Tile> filter(Predicate<Tile> predicate) {
-        return this.stream().filter(predicate).collect(Collectors.toList());
+    public List<Tile> filterNeighbours(Tile tile, Predicate<Tile> predicate) {
+        return getNeighbouringTiles(tile).stream().filter(predicate).collect(Collectors.toList());
     }
 
     public List<Tile> getNeighbouringTiles(Tile tile) {
