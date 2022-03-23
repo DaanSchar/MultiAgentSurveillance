@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Getter
@@ -43,6 +44,10 @@ public class Environment implements Collection<Tile> {
 
     public List<Tile> get(TileType type) {
         return this.stream().filter(tile -> tile.getType() == type).collect(Collectors.toList());
+    }
+
+    public List<Tile> filter(Predicate<Tile> predicate) {
+        return this.stream().filter(predicate).collect(Collectors.toList());
     }
 
     public List<Tile> getNeighbouringTiles(Tile tile) {
