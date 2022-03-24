@@ -1,11 +1,13 @@
 package nl.maastrichtuniversity.dke.logic.agents.modules.communication;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import java.awt.Color;
 
 @Getter
+@EqualsAndHashCode
 public class CommunicationMark {
 
     private final Position position;
@@ -19,4 +21,6 @@ public class CommunicationMark {
         this.agentSource = agent;
         this.color = color;
     }
+
+
 }

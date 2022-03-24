@@ -9,41 +9,53 @@ import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.List;
-
+@Getter
 public class CommunicationModule extends AgentModule implements ICommunicationModule {
 
-    private @Getter List<CommunicationType> marks;
-    private @Getter int smellingDistance;
+    private List<CommunicationType> marks;
 
-    public CommunicationModule(Scenario scenario, List<CommunicationType> marks, int smellingDistance) {
+
+    public CommunicationModule(Scenario scenario, List<CommunicationType> marks) {
         super(scenario);
         this.marks = marks;
-        this.smellingDistance=smellingDistance;
+
+
     }
 
     @Override
     public void dropMark(CommunicationMark device) {
+//        System.out.println("here");
+//        System.out.println(device.getType());
+        boolean check = false;
         for(int i = 0; i < marks.size(); i++){
+            System.out.println(marks.get(i));
             if(marks.get(i).equals(device.getType())){
+                System.out.println("here");
+//                System.out.println(device.getType());
                 if(device.getType().equals(CommunicationType.SMELL)){
+//                    System.out.println("here");
                     dropSmell(device.getPosition(), device.getAgentSource());
                 }
+                scenario.getCommunicationMarks().add(device);
                 marks.remove(i);
-
+                check = true;
             }
-            break;
+            if(check)
+                break;
+
         }
-        scenario.getCommunicationMarks().add(device);
+
 
     }
 
     private void dropSmell(Position position, Agent source){
         Tile[][] tileMap = scenario.getEnvironment().getTileMap();
-
-        for (Tile tile : scenario.getEnvironment()) {
-            if(position.distance(tile.getPosition()) <= smellingDistance){
-                Smell smell = new Smell(tile.getPosition(),position, source );
-                scenario.getSmellMap().add(smell);
+        for(Tile[] tiles:tileMap){
+            for(Tile tile:tiles){
+                if(position.distance(tile.getPosition()) <= 3){
+                    Smell smell = new Smell(tile.getPosition(),position, source );
+                    scenario.getSmellMap().add(smell);
+                }
             }
         }
     }

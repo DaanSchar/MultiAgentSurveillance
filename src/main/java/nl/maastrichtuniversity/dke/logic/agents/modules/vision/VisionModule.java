@@ -1,6 +1,7 @@
 package nl.maastrichtuniversity.dke.logic.agents.modules.vision;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
@@ -13,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Getter
+@Slf4j
 public class VisionModule extends AgentModule implements IVisionModule {
 
     private final int viewingDistance;
@@ -38,9 +40,12 @@ public class VisionModule extends AgentModule implements IVisionModule {
         boolean[] isShaded = {false, false, false};
         boolean[] checkedShaded = {false, false, false};
 
+
+
         List<Agent> scenario_agents = new LinkedList<>();
         Tile[][] tilemap = scenario.getEnvironment().getTileMap();
-
+        int endTile = getEndTile(position,direction);
+        int startTile = getStartTile(position);
 
         boolean[] canMove = canMove(position, direction);
         boolean canMove1 = canMove[0];
@@ -49,7 +54,7 @@ public class VisionModule extends AgentModule implements IVisionModule {
         boolean obstruct0 = false;
         boolean obstruct1 = false;
         boolean obstruct2 = false;
-        for (int i = 0; i <= viewingDistance; i++) {
+        for (int i = startTile; i <= endTile; i++) {
             if (!isShaded[0]) {
                 obstruct0 = checkTile(tilemap, scenario_agents, position, direction, obstruct0, true, isShaded, 0, 0, i);
 
@@ -74,6 +79,27 @@ public class VisionModule extends AgentModule implements IVisionModule {
             }
 
         }
+    }
+
+    private int getStartTile(Position position){
+        if(scenario.getEnvironment().getTileMap()[position.getX()][position.getY()].getType()==TileType.SENTRY){
+            return 2;
+        }else return 0;
+    }
+    private int getEndTile(Position position,Direction direction){
+        int end;
+        int sentryVision = viewingDistance*2;
+        if(direction==Direction.SOUTH ){
+            end = (scenario.getEnvironment().getHeight()-1)- position.getY();
+        }else if (direction==Direction.NORTH){
+            end = position.getY();
+        }else if(direction==Direction.EAST){
+            end = (scenario.getEnvironment().getWidth()-1)-position.getX();
+        }else end = position.getX();
+
+        if(scenario.getEnvironment().getTileMap()[position.getX()][position.getY()].getType()==TileType.SENTRY){
+            return Math.min(sentryVision, end);
+        }else return Math.min(end,viewingDistance);
     }
 
 
@@ -104,6 +130,10 @@ public class VisionModule extends AgentModule implements IVisionModule {
 
     private boolean checkIfObstructed(Tile[][] tilemap, boolean[] isShaded, int x, int y, int moveX) {
         boolean obstruct = false;
+
+
+
+
         Tile tmp = tilemap[x][y];
         if (tmp.getType() == TileType.SHADED) {
             if (moveX == 0) {

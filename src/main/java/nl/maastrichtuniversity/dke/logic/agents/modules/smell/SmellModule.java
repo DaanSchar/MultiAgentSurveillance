@@ -8,9 +8,11 @@ import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import java.util.List;
 
 public class SmellModule extends AgentModule implements ISmellModule {
+    private int smellingDistance;
 
-    public SmellModule(Scenario scenario) {
+    public SmellModule(Scenario scenario, int smellingDistance) {
         super(scenario);
+        this.smellingDistance=smellingDistance;
     }
 
     @Override
