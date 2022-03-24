@@ -13,15 +13,13 @@ import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class ExplorationModule implements IExplorationModule {
 
-
     private final Environment environment;
 
-    private final List<Direction> orderList;
+    private final List<Direction> directionPriorityList;
 
     private @Getter boolean isDoneExploring;
 
@@ -33,10 +31,10 @@ public class ExplorationModule implements IExplorationModule {
     public ExplorationModule(Environment environment, IMovement movementModule) {
         this.environment = environment;
         this.movementModule = movementModule;
+        this.isDoneExploring = false;
 
-        isDoneExploring = false;
-        orderList = Direction.getAllDirections();
-        Collections.shuffle(orderList);
+        directionPriorityList = Direction.getAllDirections();
+        Collections.shuffle(directionPriorityList);
     }
 
     @Override
@@ -51,44 +49,43 @@ public class ExplorationModule implements IExplorationModule {
     }
 
     private void markingStep() {
-        if (!currentCellBlocksPath()) {
-            log.info("Marking current cell as explored");
-            getCurrentTile().setVisited(true);
-        }
+        if (!currentCellBlocksPath()) { getCurrentTile().setVisited(true);}
 
         getCurrentTile().setExplored(true);
     }
 
-    private boolean currentCellBlocksPath() {
-        var neighbours = getPassableNeighbors(getCurrentTile());
+    private MoveAction navigationStep() {
+        if (hasNeighboringUnexploredTiles()) {
+            return getMoveToBestUnexploredTile();
+        } else if (hasNeighboringExploredTiles()) {
+            return getMoveToBestExploredTile();
+        } else { isDoneExploring = true; }
 
-        for (Tile neighbour : neighbours) {
-            for (Tile otherNeighbour : neighbours) {
-                if (!neighbour.equals(otherNeighbour)) {
-                    var hasPath = new BFS().search(neighbour, otherNeighbour);
-                    return !hasPath;
-                }
+        return MoveAction.DO_NOTHING;
+    }
+
+    /**
+     * @return true if the there exists no path between all explored/unexplored tiles would
+     *         the agent mark this tile as visited.
+     */
+    private boolean currentCellBlocksPath() {
+        List<Tile> neighbours = getPassableNeighbors(getCurrentTile());
+
+        for (int i = 0; i < neighbours.size(); i++) {
+            for (int j = i; j < neighbours.size(); j++) {
+                if (!pathExists(neighbours.get(i), neighbours.get(j))) { return true; }
             }
         }
 
         return false;
     }
 
-    private MoveAction navigationStep() {
-        if (hasNeighboringUnexploredTiles()) {
-            return moveToBestUnexploredTile();
-        } else if (hasNeighboringExploredTiles()) {
-            return moveToBestExploredTile();
-        } else {
-            isDoneExploring = true;
-        }
-
-        return MoveAction.DO_NOTHING;
-    }
-
-    private MoveAction moveToBestUnexploredTile() {
-        var targetTile = getBestUnexploredTile();
-        var nextPosition = movementModule.goForward(currentPosition, currentDirection, Game.getInstance().getTime());
+    /**
+     * @return the move the agent should make to get to the best unexplored tile
+     */
+    private MoveAction getMoveToBestUnexploredTile() {
+        MemoryTile targetTile = getBestUnexploredTile();
+        Position nextPosition = movementModule.goForward(currentPosition, currentDirection, Game.getInstance().getTime());
 
         boolean targetTileAhead = nextPosition.equals(targetTile.getPosition());
 
@@ -97,18 +94,24 @@ public class ExplorationModule implements IExplorationModule {
         return MoveAction.ROTATE_LEFT;
     }
 
-    private MoveAction moveToBestExploredTile() {
-        var targetTile = getBestExploredTile();
-        var nextPosition = movementModule.goForward(currentPosition, currentDirection, Game.getInstance().getTime());
+    /**
+     * @return the move the agent should make to get to the best explored tile
+     */
+    private MoveAction getMoveToBestExploredTile() {
+        Tile targetTile = getBestExploredTile();
+        Position nextPosition = movementModule.goForward(currentPosition, currentDirection, Game.getInstance().getTime());
 
         if (nextPosition.equals(targetTile.getPosition())) { return MoveAction.MOVE_FORWARD; }
 
         return MoveAction.ROTATE_LEFT;
     }
 
+    /**
+     * @return the tile which the agent is currently standing on
+     */
     private MemoryTile getCurrentTile() {
-        var x = currentPosition.getX();
-        var y = currentPosition.getY();
+        int x = currentPosition.getX();
+        int y = currentPosition.getY();
         return (MemoryTile) environment.getTileMap()[x][y];
     }
 
@@ -119,7 +122,7 @@ public class ExplorationModule implements IExplorationModule {
      * the best tile is the tile which has the most adjacent non-passable tiles.
      */
     private MemoryTile getBestUnexploredTile() {
-        var unexploredTiles = getUnexploredNeighboringTiles(getCurrentTile());
+        List<Tile> unexploredTiles = getUnexploredNeighboringTiles(getCurrentTile());
 
         if (Math.random() < Game.getInstance().getRandomness()) { Collections.shuffle(unexploredTiles); }
 
@@ -128,21 +131,27 @@ public class ExplorationModule implements IExplorationModule {
         return (MemoryTile) unexploredTiles.get(0);
     }
 
+    /**
+     * @return The best tile considered as explored, where best
+     * means it will choose the first tile considered explored according to the
+     * direction priority.
+     */
     private Tile getBestExploredTile() {
-        for (Direction direction : orderList) {
-            var tile = (MemoryTile) getTileInDirection(getCurrentTile(), direction);
+        for (Direction direction : directionPriorityList) {
+            MemoryTile tile = (MemoryTile) getTileInDirection(getCurrentTile(), direction);
 
-            if (!tile.isVisited() && tile.isExplored()) {
-                return tile;
-            }
+            if (tile.isExplored() && isPassable(tile)) { return tile; }
         }
 
-        return null;
+        return getCurrentTile();
     }
 
+    /**
+     * @return The Tile you would move to if you were to move forward
+     */
     private Tile getTileInDirection(Tile tile, Direction direction) {
-        var x = tile.getPosition().getX() + direction.getMoveX();
-        var y = tile.getPosition().getY() + direction.getMoveY();
+        int x = tile.getPosition().getX() + direction.getMoveX();
+        int y = tile.getPosition().getY() + direction.getMoveY();
 
         return environment.getTileMap()[x][y];
     }
@@ -201,12 +210,19 @@ public class ExplorationModule implements IExplorationModule {
     }
 
     /**
+     * @return whether there is an existing path between two tiles.
+     */
+    private boolean pathExists(Tile start, Tile end) {
+        return new BFS().search(start, end);
+    }
+
+    /**
      * Breadth-first search
      */
     class BFS {
 
-        private final Queue<Tile> queue;
-        private final List<Tile> visited;
+        private Queue<Tile> queue;
+        private List<Tile> visited;
 
         public BFS() {
             this.queue = new LinkedList<>();
@@ -214,11 +230,11 @@ public class ExplorationModule implements IExplorationModule {
         }
 
         /**
-         * @param start The tile to start the search from
-         * @param goal The tile to search for
-         * @return True if there is a path from the start to the goal
+         * @return true if there exists a path between the two tiles
          */
         public boolean search(Tile start, Tile goal) {
+            this.queue = new LinkedList<>();
+            this.visited = new ArrayList<>();
             queue.add(start);
 
             Tile current;
@@ -230,10 +246,12 @@ public class ExplorationModule implements IExplorationModule {
 
                 for (Tile neighbour : getPassableNeighbors(current)) {
                     if (neighbour.equals(goal)) { return true; }
+                    // not including the tile which the agent is currently on
                     if (!visited.contains(neighbour) && !neighbour.equals(getCurrentTile())) {
                         queue.add(neighbour);
                         visited.add(neighbour);
                     }
+
                 }
             }
             return false;
