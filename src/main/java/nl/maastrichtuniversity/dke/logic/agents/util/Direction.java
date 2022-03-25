@@ -2,6 +2,9 @@ package nl.maastrichtuniversity.dke.logic.agents.util;
 
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 public enum Direction {
 
@@ -20,6 +23,16 @@ public enum Direction {
     Direction(int moveX, int moveY){
         this.moveX = moveX;
         this.moveY = moveY;
+    }
+
+    public static List<Direction> getAllDirections() {
+        List<Direction> directions = new ArrayList<>();
+        directions.add(NORTH);
+        directions.add(EAST);
+        directions.add(SOUTH);
+        directions.add(WEST);
+
+        return directions;
     }
 
     public int getOptimalRotation(Direction currentDirection, Direction targetDirection){
