@@ -39,13 +39,12 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         int height = scenario.getEnvironment().getHeight();
         this.map = new Environment(width, height, new MemoryTile[width][height]);
         this.discoveredTiles = new LinkedList<>();
+        this.smells = new ArrayList<>();
+        this.sounds = new ArrayList<>();
+        this.agents = new ArrayList<>();
+        this.soundDirection = new ArrayList<>();
 
         initEnvironment();
-
-        smells = new ArrayList<>();
-        sounds = new ArrayList<>();
-        agents = new ArrayList<>();
-        soundDirection = new ArrayList<>();
     }
 
     public void setSpawnPosition(Position position){
