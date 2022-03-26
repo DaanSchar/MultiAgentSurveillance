@@ -55,13 +55,18 @@ public class ExplorationModule implements IExplorationModule {
     }
 
     private MoveAction navigationStep() {
-        if (hasNeighboringUnexploredTiles()) {
-            return getMoveToBestUnexploredTile();
-        } else if (hasNeighboringExploredTiles()) {
-            return getMoveToBestExploredTile();
-        } else { isDoneExploring = true; }
+        MoveAction nextMove;
 
-        return MoveAction.DO_NOTHING;
+        if (hasNeighboringUnexploredTiles()) {
+            nextMove = getMoveToBestUnexploredTile();
+        } else if (hasNeighboringExploredTiles()) {
+            nextMove = getMoveToBestExploredTile();
+        } else {
+            isDoneExploring = true;
+            nextMove = MoveAction.DO_NOTHING;
+        }
+
+        return nextMove;
     }
 
     /**
