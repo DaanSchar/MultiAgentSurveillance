@@ -19,7 +19,7 @@ public class ExplorationModule implements IExplorationModule {
 
     private final Environment environment;
 
-    private final List<Direction> directionPriorityList;
+    private List<Direction> directionPriority;
 
     private @Getter boolean isDoneExploring;
 
@@ -33,8 +33,7 @@ public class ExplorationModule implements IExplorationModule {
         this.movementModule = movementModule;
         this.isDoneExploring = false;
 
-        directionPriorityList = Direction.getAllDirections();
-        Collections.shuffle(directionPriorityList);
+        shufflePriorityOfDirections();
     }
 
     @Override
@@ -46,6 +45,11 @@ public class ExplorationModule implements IExplorationModule {
 
         markingStep();
         return navigationStep();
+    }
+
+    private void shufflePriorityOfDirections() {
+        this.directionPriority = Direction.getAllDirections();
+        Collections.shuffle(directionPriority);
     }
 
     private void markingStep() {
@@ -142,10 +146,10 @@ public class ExplorationModule implements IExplorationModule {
      * direction priority.
      */
     private Tile getBestExploredTile() {
-        for (Direction direction : directionPriorityList) {
-            MemoryTile tile = (MemoryTile) getTileInDirection(getCurrentTile(), direction);
+        for (Direction direction : directionPriority) {
+            MemoryTile tile = (MemoryTile) getFacingTile(getCurrentTile(), direction);
 
-            if (tile.isExplored() && isPassable(tile)) { return tile; }
+            if (tile.isExplored() && tile.isPassable()) { return tile; }
         }
 
         return getCurrentTile();
@@ -154,7 +158,7 @@ public class ExplorationModule implements IExplorationModule {
     /**
      * @return The Tile you would move to if you were to move forward
      */
-    private Tile getTileInDirection(Tile tile, Direction direction) {
+    private Tile getFacingTile(Tile tile, Direction direction) {
         int x = tile.getPosition().getX() + direction.getMoveX();
         int y = tile.getPosition().getY() + direction.getMoveY();
 
@@ -180,7 +184,7 @@ public class ExplorationModule implements IExplorationModule {
      * @return A list of tiles adjacent to the given tile which are non-passable
      */
     private List<Tile> getNonPassableNeighbors(Tile tile) {
-        return environment.filterNeighbours(tile, (neighbor) -> !isPassable(neighbor));
+        return environment.filterNeighbours(tile, (neighbor) -> !neighbor.isPassable());
     }
 
     /**
@@ -188,7 +192,7 @@ public class ExplorationModule implements IExplorationModule {
      * @return A list of tiles adjacent to the given tile which are passable
      */
     private List<Tile> getPassableNeighbors(Tile tile) {
-        return environment.filterNeighbours(tile, this::isPassable);
+        return environment.filterNeighbours(tile, Tile::isPassable);
     }
 
     /**
@@ -196,7 +200,7 @@ public class ExplorationModule implements IExplorationModule {
      * @return A list of tiles which are adjacent to the agent and are not marked as explored
      */
     private List<Tile> getUnexploredNeighboringTiles(Tile tile) {
-        return environment.filterNeighbours(tile, (neighbor) -> !((MemoryTile)neighbor).isExplored() && isPassable(neighbor));
+        return environment.filterNeighbours(tile, (neighbor) -> !((MemoryTile)neighbor).isExplored() && neighbor.isPassable());
     }
 
     /**
@@ -204,14 +208,7 @@ public class ExplorationModule implements IExplorationModule {
      * @return A list of tiles which are adjacent to the agent and are marked as explored
      */
     private List<Tile> getExploredNeighboringTiles(Tile tile) {
-        return environment.filterNeighbours(tile, neighbor -> ((MemoryTile)neighbor).isExplored() && isPassable(neighbor));
-    }
-
-    /**
-     * @return Checks if the given tile is passable
-     */
-    private boolean isPassable(Tile tile) {
-        return tile.getType().isPassable() && !((MemoryTile)tile).isVisited();
+        return environment.filterNeighbours(tile, neighbor -> ((MemoryTile)neighbor).isExplored() && neighbor.isPassable());
     }
 
     /**
