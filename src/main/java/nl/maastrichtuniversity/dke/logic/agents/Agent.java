@@ -2,6 +2,7 @@ package nl.maastrichtuniversity.dke.logic.agents;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
@@ -13,16 +14,12 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.INoiseMo
 import nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.logic.agents.modules.smell.ISmellModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
-import nl.maastrichtuniversity.dke.logic.agents.modules.vision.VisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.MemoryTile;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.ISpawnModule;
 import nl.maastrichtuniversity.dke.util.DebugSettings;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 
@@ -33,6 +30,7 @@ import java.awt.*;
  */
 @Getter
 @Slf4j
+@Accessors(chain = true)
 public class Agent {
 
     private static int agentCount;
@@ -74,7 +72,7 @@ public class Agent {
 
     public void move(MoveAction action) {
         switch(action) {
-            case MOVE_FORWARD -> goForward(Game.getInstance().getTime());
+            case MOVE_FORWARD -> moveForward(Game.getInstance().getTime());
             case ROTATE_LEFT -> rotate(MoveAction.ROTATE_LEFT.getValue(), Game.getInstance().getTime());
             case ROTATE_RIGHT -> rotate(MoveAction.ROTATE_RIGHT.getValue(), Game.getInstance().getTime());
             default -> log.info("not performing MoveAction: {}", action);
@@ -121,7 +119,7 @@ public class Agent {
         direction = movement.rotate(direction, rotation, time);
     }
 
-    private void goForward(double time){
+    private void moveForward(double time){
         position = movement.goForward(position, direction, time);
         visionModule.useVision(position,direction);
         var list = visionModule.getObstacles();

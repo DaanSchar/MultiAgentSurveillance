@@ -2,6 +2,7 @@ package nl.maastrichtuniversity.dke.logic.agents.factory;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.agents.Fleet;
@@ -42,15 +43,12 @@ public class AgentFactory {
 
     private int numberOfMarkers;
 
-
     public AgentFactory() {}
 
     public Fleet<Guard> buildGuards(int numOfAgents) {
         Fleet<Guard> agents = new Fleet<>();
 
-        for (int i = 0; i < numOfAgents; i++)
-            agents.add((Guard)buildAgent("guard"));
-
+        for (int i = 0; i < numOfAgents; i++) { agents.add(buildGuard()); }
         if (DebugSettings.FACTORY) log.info("Created {} Guards", numOfAgents);
 
         return agents;
@@ -59,32 +57,39 @@ public class AgentFactory {
     public Fleet<Intruder> buildIntruders(int numOfAgents) {
         Fleet<Intruder> agents = new Fleet<>();
 
-        for (int i = 0; i < numOfAgents; i++)
-            agents.add((Intruder) buildAgent("intruder"));
-
+        for (int i = 0; i < numOfAgents; i++) { agents.add(buildIntruder()); }
         if (DebugSettings.FACTORY) log.info("Created {} intruders", numOfAgents);
 
         return agents;
     }
 
+    public Guard buildGuard() {
+        Guard guard = new Guard();
+        appendModules(guard);
 
-    public Agent buildAgent(String type) {
-        Agent agent = type.equals("guard") ? new Guard() : new Intruder();
-        agent.setSpawnModule(new UniformSpawnModule(scenario));
-        agent.setMovement(new Movement(
-                scenario,
-                type.equals("guard") ? baseSpeedGuards : baseSpeedIntruders,
-                type.equals("guard") ? 0 : sprintSpeedIntruders)
-        );
-        agent.setVisionModule(new VisionModule(scenario, viewingDistance));
-        agent.setCommunicationModule(new CommunicationModule(scenario, getMarkers()));
-        agent.setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting));
-        agent.setMemoryModule(new MemoryModule(scenario));
-        agent.setListeningModule(new ListeningModule(scenario));
-        agent.setSmellModule(new SmellModule(scenario, smellingDistance));
-        agent.setExplorationModule(new BrickAndMortar(agent.getMemoryModule().getMap(), agent.getMovement()));
+        return guard;
+    }
 
-        return agent;
+    public Intruder buildIntruder() {
+        Intruder intruder = new Intruder();
+        appendModules(intruder);
+
+        return intruder;
+    }
+
+    public void appendModules(Agent agent) {
+        agent.setSpawnModule(new UniformSpawnModule(scenario))
+                .setMovement(new Movement(
+                        scenario,
+                        agent instanceof Guard ? baseSpeedGuards : baseSpeedIntruders,
+                        agent instanceof Guard ? 0 : sprintSpeedIntruders))
+                .setVisionModule(new VisionModule(scenario, viewingDistance))
+                .setCommunicationModule(new CommunicationModule(scenario, getMarkers()))
+                .setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting))
+                .setMemoryModule(new MemoryModule(scenario))
+                .setListeningModule(new ListeningModule(scenario))
+                .setSmellModule(new SmellModule(scenario, smellingDistance))
+                .setExplorationModule(new BrickAndMortar(agent.getMemoryModule().getMap(), agent.getMovement()));
     }
 
     private List<CommunicationType> getMarkers() {
