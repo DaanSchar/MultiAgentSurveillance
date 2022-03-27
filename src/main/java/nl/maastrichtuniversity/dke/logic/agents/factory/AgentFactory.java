@@ -2,7 +2,6 @@ package nl.maastrichtuniversity.dke.logic.agents.factory;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.agents.Fleet;
@@ -11,7 +10,7 @@ import nl.maastrichtuniversity.dke.logic.agents.Intruder;
 import nl.maastrichtuniversity.dke.logic.agents.modules.exploration.BrickAndMortar;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.ListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.memory.MemoryModule;
-import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.NoiseModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.noisegeneration.NoiseModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.movement.Movement;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.smell.SmellModule;

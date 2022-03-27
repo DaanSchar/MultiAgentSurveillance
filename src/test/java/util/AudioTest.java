@@ -1,7 +1,7 @@
 package util;
 
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.ListeningModule;
-import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.NoiseModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.noisegeneration.NoiseModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;

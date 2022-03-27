@@ -10,7 +10,7 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.communication.ICommunica
 import nl.maastrichtuniversity.dke.logic.agents.modules.exploration.IExplorationModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.memory.IMemoryModule;
-import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.INoiseModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.noisegeneration.INoiseModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovement;
 import nl.maastrichtuniversity.dke.logic.agents.modules.smell.ISmellModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
