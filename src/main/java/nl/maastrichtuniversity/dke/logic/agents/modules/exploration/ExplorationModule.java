@@ -17,6 +17,8 @@ import java.util.*;
 @Slf4j
 public class ExplorationModule implements IExplorationModule {
 
+    private final double randomness = 0.2;
+
     private final Environment environment;
 
     private List<Direction> directionPriority;
@@ -133,7 +135,7 @@ public class ExplorationModule implements IExplorationModule {
     private MemoryTile getBestUnexploredTile() {
         List<Tile> unexploredTiles = getUnexploredNeighboringTiles(getCurrentTile());
 
-        if (Math.random() < Game.getInstance().getRandomness()) { Collections.shuffle(unexploredTiles); }
+        if (Math.random() < randomness) { Collections.shuffle(unexploredTiles); }
 
         unexploredTiles.sort((t1 , t2) -> getNonPassableNeighbors(t2).size() - getNonPassableNeighbors(t1).size());
 
