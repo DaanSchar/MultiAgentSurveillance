@@ -64,19 +64,19 @@ public class AgentFactory {
 
     public Guard buildGuard() {
         Guard guard = new Guard();
-        appendModules(guard);
+        insertModules(guard);
 
         return guard;
     }
 
     public Intruder buildIntruder() {
         Intruder intruder = new Intruder();
-        appendModules(intruder);
+        insertModules(intruder);
 
         return intruder;
     }
 
-    public void appendModules(Agent agent) {
+    public void insertModules(Agent agent) {
         agent.setSpawnModule(new UniformSpawnModule(scenario))
                 .setMovement(new Movement(
                         scenario,
