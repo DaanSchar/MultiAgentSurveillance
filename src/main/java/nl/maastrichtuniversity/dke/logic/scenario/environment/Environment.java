@@ -43,7 +43,7 @@ public class Environment implements Collection<Tile> {
     }
 
     public List<Tile> get(TileType type) {
-        return this.stream().filter(tile -> tile.getType() == type).collect(Collectors.toList());
+        return this.filter(tile -> tile.getType() == type);
     }
 
     public List<Tile> getNeighborsAndFilter(Tile tile, Predicate<Tile> predicate) {
@@ -61,6 +61,10 @@ public class Environment implements Collection<Tile> {
         try { neighbors.add(tileMap[x - 1][y]); } catch (ArrayIndexOutOfBoundsException ignored){}
 
         return neighbors;
+    }
+
+    public List<Tile> filter(Predicate<Tile> predicate) {
+        return this.stream().filter(predicate).collect(Collectors.toList());
     }
 
 

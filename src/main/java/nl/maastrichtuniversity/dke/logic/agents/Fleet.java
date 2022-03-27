@@ -28,14 +28,4 @@ public class Fleet<T extends Agent> extends ArrayList<T> {
         return tiles.stream().toList();
     }
 
-    public boolean isDone() {
-        for (Agent agent : this) {
-            if (!agent.isDone()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
 }

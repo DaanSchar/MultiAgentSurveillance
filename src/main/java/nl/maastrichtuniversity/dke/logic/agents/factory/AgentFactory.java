@@ -7,6 +7,7 @@ import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.agents.Fleet;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
+import nl.maastrichtuniversity.dke.logic.agents.modules.exploration.BrickAndMortar;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.ListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.memory.MemoryModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.NoiseModule;
@@ -81,6 +82,7 @@ public class AgentFactory {
         agent.setMemoryModule(new MemoryModule(scenario));
         agent.setListeningModule(new ListeningModule(scenario));
         agent.setSmellModule(new SmellModule(scenario, smellingDistance));
+        agent.setExplorationModule(new BrickAndMortar(agent.getMemoryModule().getMap(), agent.getMovement()));
 
         return agent;
     }

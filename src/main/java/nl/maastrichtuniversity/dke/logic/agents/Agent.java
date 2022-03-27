@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.ICommunicationModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.exploration.IExplorationModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.memory.IMemoryModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.INoiseModule;
@@ -48,12 +49,10 @@ public class Agent {
     private @Setter IListeningModule listeningModule;
     private @Setter IMemoryModule memoryModule;
     private @Setter ISmellModule smellModule;
-
-    private @Setter boolean done;
+    private @Setter IExplorationModule explorationModule;
 
     public Agent() {
         this.id = agentCount++;
-        this.done = false;
     }
 
     /**
@@ -66,6 +65,11 @@ public class Agent {
         updateMemory();
 
         if (DebugSettings.FACTORY) log.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position + " facing " + this.direction);
+    }
+
+    public void explore() {
+        MoveAction nextMove = explorationModule.explore(getPosition(), getDirection());
+        move(nextMove);
     }
 
     public void move(MoveAction action) {

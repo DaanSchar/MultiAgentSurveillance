@@ -15,7 +15,7 @@ import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import java.util.*;
 
 @Slf4j
-public class ExplorationModule implements IExplorationModule {
+public class BrickAndMortar implements IExplorationModule {
 
     private final double randomness = 0.2;
 
@@ -30,7 +30,7 @@ public class ExplorationModule implements IExplorationModule {
     private Position currentPosition;
     private Direction currentDirection;
 
-    public ExplorationModule(Environment environment, IMovement movementModule) {
+    public BrickAndMortar(Environment environment, IMovement movementModule) {
         this.environment = environment;
         this.movementModule = movementModule;
         this.isDoneExploring = false;
