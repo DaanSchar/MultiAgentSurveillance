@@ -3,6 +3,7 @@ package nl.maastrichtuniversity.dke.logic.agents;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.ICommunicationModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
@@ -14,6 +15,7 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.VisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
+import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.MemoryTile;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.ISpawnModule;
@@ -51,7 +53,7 @@ public class Agent {
 
     public Agent() {
         this.id = agentCount++;
-        done = false;
+        this.done = false;
     }
 
     /**
@@ -66,32 +68,15 @@ public class Agent {
         if (DebugSettings.FACTORY) log.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position + " facing " + this.direction);
     }
 
-    public void goForward(double time){
-         position = movement.goForward(position, direction, time);
-         visionModule.useVision(position,direction);
-         var list = visionModule.getObstacles();
-         noiseModule.makeWalkingSound(position);
-         updateMemory();
-    }
-
-    public double[] getStateVector() {
-        var obstacles = visionModule.getObstacles();
-        var visionSize = ((VisionModule)visionModule).getViewingDistance() * 3 + 2;
-        var size = visionSize + 1;
-        var stateVector = new double[size];
-
-        for (int i = 0; i < size; i++) {
-            if (i < obstacles.size()) { stateVector[i] = obstacles.get(i).getType().getValue(); }
-            else { stateVector[i] = 0; }
+    public void move(MoveAction action) {
+        switch(action) {
+            case MOVE_FORWARD -> goForward(Game.getInstance().getTime());
+            case ROTATE_LEFT -> rotate(MoveAction.ROTATE_LEFT.getValue(), Game.getInstance().getTime());
+            case ROTATE_RIGHT -> rotate(MoveAction.ROTATE_RIGHT.getValue(), Game.getInstance().getTime());
+            default -> log.info("not performing MoveAction: {}", action);
         }
 
-        // add if the agent sees another agent
-        stateVector[size - 1] = visionModule.getAgents().size() > 0 ? 1 : 0;
-        return stateVector;
-    }
-
-    public MemoryTile getCurrentTile() {
-        return (MemoryTile) getMemoryModule().getMap().getTileMap()[getPosition().getX()][getPosition().getY()];
+        updateMemory();
     }
 
     /**
@@ -128,11 +113,15 @@ public class Agent {
         return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule, communicationModule, memoryModule,listeningModule, smellModule);
     }
 
-    /** 1 is left
-    -1 is right */
-    public void rotate(int rotation, double time){
+    private void rotate(int rotation, double time){
         direction = movement.rotate(direction, rotation, time);
-        updateMemory();
+    }
+
+    private void goForward(double time){
+        position = movement.goForward(position, direction, time);
+        visionModule.useVision(position,direction);
+        var list = visionModule.getObstacles();
+        noiseModule.makeWalkingSound(position);
     }
 
     private Agent(Direction direction,Position position,int id,ISpawnModule spawnModule, IMovement movement,
@@ -147,11 +136,9 @@ public class Agent {
         this.memoryModule = memoryModule;
         this.listeningModule = listeningModule;
         this.smellModule = smellModule;
-        this.id = id;
-
-        // this should be in spawn module
         this.position = position;
         this.direction = direction;
+        this.id = id;
     }
 
 
