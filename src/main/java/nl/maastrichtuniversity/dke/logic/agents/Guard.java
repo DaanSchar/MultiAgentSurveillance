@@ -27,14 +27,18 @@ public class Guard extends Agent {
         if (explorationModule == null) { explorationModule = new ExplorationModule(getMemoryModule().getMap(), getMovement()); }
 
         if (!explorationModule.isDoneExploring()) {
-            MoveAction action = explorationModule.explore(getPosition(), getDirection());
+            MoveAction nextMove = explorationModule.explore(getPosition(), getDirection());
 
-            switch(action) {
-                case MOVE_FORWARD -> goForward(Game.getInstance().getTime());
-                case ROTATE_LEFT -> rotate(MoveAction.ROTATE_LEFT.getValue(), Game.getInstance().getTime());
-                case ROTATE_RIGHT -> rotate(MoveAction.ROTATE_RIGHT.getValue(), Game.getInstance().getTime());
-                default -> log.error("Unknown action: {}", action);
-            }
+            performAction(nextMove);
+        }
+    }
+
+    private void performAction(MoveAction action) {
+        switch(action) {
+            case MOVE_FORWARD -> super.goForward(Game.getInstance().getTime());
+            case ROTATE_LEFT -> super.rotate(MoveAction.ROTATE_LEFT.getValue(), Game.getInstance().getTime());
+            case ROTATE_RIGHT -> super.rotate(MoveAction.ROTATE_RIGHT.getValue(), Game.getInstance().getTime());
+            default -> log.error("Unknown action: {}", action);
         }
     }
 
