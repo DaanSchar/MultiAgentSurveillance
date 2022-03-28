@@ -28,7 +28,7 @@ public class MovementModule extends AgentModule implements IMovementModule {
     public Direction rotate(Direction currentDirection, MoveAction action, double time) {
         try {
             checkIfActionIsRotation(action);
-            return getNewDirection(currentDirection, action);
+            return getNewRotatedDirection(currentDirection, action);
         } catch (ActionIsNotRotationException e) {
             log.error(e.getMessage());
             return currentDirection;
@@ -91,7 +91,7 @@ public class MovementModule extends AgentModule implements IMovementModule {
         }
     }
 
-    private Direction getNewDirection(Direction currentDirection, MoveAction action) {
+    private Direction getNewRotatedDirection(Direction currentDirection, MoveAction action) {
         switch (currentDirection) {
             case NORTH -> { return action == MoveAction.ROTATE_RIGHT ? Direction.EAST : Direction.WEST; }
             case SOUTH -> { return action == MoveAction.ROTATE_RIGHT ? Direction.WEST : Direction.EAST; }
