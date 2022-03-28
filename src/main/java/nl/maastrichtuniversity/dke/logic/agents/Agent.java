@@ -73,8 +73,8 @@ public class Agent {
     public void move(MoveAction action) {
         switch(action) {
             case MOVE_FORWARD -> moveForward(Game.getInstance().getTime());
-            case ROTATE_LEFT -> rotate(MoveAction.ROTATE_LEFT.getValue(), Game.getInstance().getTime());
-            case ROTATE_RIGHT -> rotate(MoveAction.ROTATE_RIGHT.getValue(), Game.getInstance().getTime());
+            case ROTATE_LEFT -> rotate(MoveAction.ROTATE_LEFT, Game.getInstance().getTime());
+            case ROTATE_RIGHT -> rotate(MoveAction.ROTATE_RIGHT, Game.getInstance().getTime());
             default -> log.info("not performing MoveAction: {}", action);
         }
 
@@ -115,7 +115,7 @@ public class Agent {
         return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule, communicationModule, memoryModule,listeningModule, smellModule);
     }
 
-    private void rotate(int rotation, double time){
+    private void rotate(MoveAction rotation, double time){
         direction = movement.rotate(direction, rotation, time);
     }
 

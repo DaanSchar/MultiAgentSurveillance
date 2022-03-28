@@ -5,13 +5,13 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
+import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
+import nl.maastrichtuniversity.dke.logic.agents.util.exceptions.ActionIsNotRotationException;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TeleportTile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -31,36 +31,16 @@ public class Movement extends AgentModule implements IMovement {
         this.sprintSpeed = sprintSpeed;
     }
 
-    // 1 is left
-    //-1 is right
     @Override
-    public Direction rotate(Direction currentDirection, int rotation, double time) {
-//        if (isTimeToMove(time)) {
-            lastTimeMoved = time;
-            if (currentDirection == Direction.NORTH) {
-                if (rotation == 1)
-                    return Direction.EAST;
-                else if (rotation == -1)
-                    return Direction.WEST;
-            } else if (currentDirection == Direction.EAST) {
-                if (rotation == 1)
-                    return Direction.SOUTH;
-                else if (rotation == -1)
-                    return Direction.NORTH;
-            } else if (currentDirection == Direction.SOUTH) {
-                if (rotation == 1)
-                    return Direction.WEST;
-                else if (rotation == -1)
-                    return Direction.EAST;
-            } else if (currentDirection == Direction.WEST) {
-                if (rotation == 1)
-                    return Direction.NORTH;
-                else if (rotation == -1)
-                    return Direction.SOUTH;
-            }
-//        }
-
-        return currentDirection;
+    public Direction rotate(Direction currentDirection, MoveAction action, double time) {
+        lastTimeMoved = time;
+        try {
+            checkIfActionIsRotation(action);
+            return getNewDirection(currentDirection, action);
+        } catch (ActionIsNotRotationException e) {
+            log.error(e.getMessage());
+            return currentDirection;
+        }
     }
 
     @Override
@@ -76,7 +56,6 @@ public class Movement extends AgentModule implements IMovement {
         var tileMap = scenario.getEnvironment().get(TileType.TELEPORT);
         for (Tile t : tileMap) {
             if (newPos.equals(t.getPosition())) {
-                t = (TeleportTile) t;
                 newPos = ((TeleportTile) t).getTargetPosition();
             }
         }
@@ -125,7 +104,6 @@ public class Movement extends AgentModule implements IMovement {
         var tileMap = scenario.getEnvironment().get(TileType.TELEPORT);
         for (Tile t : tileMap) {
             if (newPos == t.getPosition()) {
-                t = (TeleportTile) t;
                 newPos = ((TeleportTile) t).getTargetPosition();
             }
         }
@@ -159,6 +137,22 @@ public class Movement extends AgentModule implements IMovement {
 //        else {
 //            return !tile.isOpened();
 //        }
+    }
+
+    private Direction getNewDirection(Direction currentDirection, MoveAction action) {
+        switch (currentDirection) {
+            case NORTH -> { return action == MoveAction.ROTATE_RIGHT ? Direction.EAST : Direction.WEST; }
+            case SOUTH -> { return action == MoveAction.ROTATE_RIGHT ? Direction.WEST : Direction.EAST; }
+            case EAST ->  { return action == MoveAction.ROTATE_RIGHT ? Direction.SOUTH : Direction.NORTH; }
+            case WEST ->  { return action == MoveAction.ROTATE_RIGHT ? Direction.NORTH : Direction.SOUTH; }
+            default ->    { return currentDirection; }
+        }
+    }
+
+    private void checkIfActionIsRotation(MoveAction action) throws ActionIsNotRotationException{
+        if (action != MoveAction.ROTATE_LEFT && action != MoveAction.ROTATE_RIGHT) {
+            throw new ActionIsNotRotationException();
+        }
     }
 }
 
