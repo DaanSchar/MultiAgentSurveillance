@@ -127,8 +127,6 @@ public class MapParser {
                 (int)Double.parseDouble(values[6])
         );
 
-        log.info("Teleport added: {}, {}", values[4], values[5]);
-
         envBuilder.addTile(Integer.parseInt(values[4]), Integer.parseInt(values[5]), TileType.DESTINATION_TELEPORT);
     }
 
