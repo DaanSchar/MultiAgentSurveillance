@@ -15,8 +15,6 @@ import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import java.util.*;
 
 /**
- * @author Daan Schar
- *
  * implementation of a brick and mortar exploration algorithm.
  * source: Brick & Mortar, http://www.cs.ox.ac.uk/people/niki.trigoni/papers/ICRA2007.pdf
  */
