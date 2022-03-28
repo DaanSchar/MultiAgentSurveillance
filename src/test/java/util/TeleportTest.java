@@ -1,6 +1,6 @@
 package util;
 
-import nl.maastrichtuniversity.dke.logic.agents.modules.movement.Movement;
+import nl.maastrichtuniversity.dke.logic.agents.modules.movement.MovementModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
@@ -57,8 +57,8 @@ public class TeleportTest {
 
     @Test
     void testTeleport(){
-        Movement movement = new Movement(s,1,1);
-        Position position = movement.goForward(new Position(1,2), Direction.EAST,4);
+        MovementModule movementModule = new MovementModule(s,1,1);
+        Position position = movementModule.goForward(new Position(1,2), Direction.EAST,4);
         assert (position.equals(new Position(4,4)));
     }
 }

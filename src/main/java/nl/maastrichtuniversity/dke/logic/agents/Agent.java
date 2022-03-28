@@ -11,7 +11,7 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.exploration.IExploration
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.memory.IMemoryModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.noisegeneration.INoiseModule;
-import nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovement;
+import nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovementModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.smell.ISmellModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
@@ -40,7 +40,8 @@ public class Agent {
     private @Setter Direction direction;
 
     private @Setter ISpawnModule spawnModule;
-    private @Setter IMovement movement;
+    private @Setter
+    IMovementModule movement;
     private @Setter IVisionModule visionModule;
     private @Setter ICommunicationModule communicationModule;
     private @Setter INoiseModule noiseModule;
@@ -126,7 +127,7 @@ public class Agent {
         noiseModule.makeWalkingSound(position);
     }
 
-    private Agent(Direction direction,Position position,int id,ISpawnModule spawnModule, IMovement movement,
+    private Agent(Direction direction,Position position,int id,ISpawnModule spawnModule, IMovementModule movement,
                   IVisionModule visionModule, INoiseModule noiseModule,  ICommunicationModule communicationModule,
                   IMemoryModule memoryModule,IListeningModule listeningModule, ISmellModule smellModule){
 

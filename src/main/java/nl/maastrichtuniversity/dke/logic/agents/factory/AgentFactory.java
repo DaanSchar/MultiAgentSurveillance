@@ -11,7 +11,7 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.exploration.BrickAndMort
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.ListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.memory.MemoryModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.noisegeneration.NoiseModule;
-import nl.maastrichtuniversity.dke.logic.agents.modules.movement.Movement;
+import nl.maastrichtuniversity.dke.logic.agents.modules.movement.MovementModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.smell.SmellModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.UniformSpawnModule;
@@ -78,7 +78,7 @@ public class AgentFactory {
 
     public void insertModules(Agent agent) {
         agent.setSpawnModule(new UniformSpawnModule(scenario))
-                .setMovement(new Movement(
+                .setMovement(new MovementModule(
                         scenario,
                         agent instanceof Guard ? baseSpeedGuards : baseSpeedIntruders,
                         agent instanceof Guard ? 0 : sprintSpeedIntruders))

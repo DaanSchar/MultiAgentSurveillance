@@ -3,7 +3,7 @@ package nl.maastrichtuniversity.dke.logic.agents.modules.exploration;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.Game;
-import nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovement;
+import nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovementModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
@@ -29,12 +29,12 @@ public class BrickAndMortar implements IExplorationModule {
 
     private @Getter boolean isDoneExploring;
 
-    private final IMovement movementModule;
+    private final IMovementModule movementModule;
 
     private Position currentPosition;
     private Direction currentDirection;
 
-    public BrickAndMortar(Environment environment, IMovement movementModule) {
+    public BrickAndMortar(Environment environment, IMovementModule movementModule) {
         this.environment = environment;
         this.movementModule = movementModule;
         this.isDoneExploring = false;
