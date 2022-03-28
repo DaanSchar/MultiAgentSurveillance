@@ -94,27 +94,6 @@ public class Movement extends AgentModule implements IMovement {
 
     }
 
-    @Override
-    public Position goBackward (Position position, Direction direction) {
-        Position newPos = position.sub(new Position(
-                (int)(direction.getMoveX() * baseSpeed),
-                (int)(direction.getMoveY() * baseSpeed)
-        ));
-
-        var tileMap = scenario.getEnvironment().get(TileType.TELEPORT);
-        for (Tile t : tileMap) {
-            if (newPos == t.getPosition()) {
-                newPos = ((TeleportTile) t).getTargetPosition();
-            }
-        }
-
-        if (isColliding(newPos)) {
-            return position;
-        }
-        return newPos;
-    }
-
-
     /**
      *  check if there is a collision between agent and an object
      * @param position the position want to be checked

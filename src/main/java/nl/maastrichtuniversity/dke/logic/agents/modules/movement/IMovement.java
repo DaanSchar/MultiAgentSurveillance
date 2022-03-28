@@ -8,5 +8,4 @@ public interface IMovement {
      Direction rotate(Direction currentDirection, MoveAction rotation, double time);
      Position goForward(Position position, Direction direction, double time);
      Position sprint(Position position, Direction direction);
-     Position goBackward(Position position, Direction direction);
 }
