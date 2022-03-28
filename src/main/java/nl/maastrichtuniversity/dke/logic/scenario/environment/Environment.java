@@ -2,6 +2,7 @@ package nl.maastrichtuniversity.dke.logic.scenario.environment;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.ArrayList;
@@ -31,15 +32,7 @@ public class Environment implements Collection<Tile> {
         this.height = height;
         this.tileMap = new Tile[width][height];
 
-        initTileMap();
-    }
-
-    private void initTileMap() {
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                tileMap[x][y] = new Tile(new Position(x, y), TileType.EMPTY);
-            }
-        }
+        fillMapWithEmptyTiles();
     }
 
     public List<Tile> get(TileType type) {
@@ -47,18 +40,15 @@ public class Environment implements Collection<Tile> {
     }
 
     public List<Tile> getNeighborsAndFilter(Tile tile, Predicate<Tile> predicate) {
-        return getNeighbouringTiles(tile).stream().filter(predicate).collect(Collectors.toList());
+        return getNeighboringTiles(tile).stream().filter(predicate).collect(Collectors.toList());
     }
 
-    public List<Tile> getNeighbouringTiles(Tile tile) {
+    public List<Tile> getNeighboringTiles(Tile tile) {
         List<Tile> neighbors = new ArrayList<>();
-        var x = tile.getPosition().getX();
-        var y = tile.getPosition().getY();
 
-        try { neighbors.add(tileMap[x][y + 1]); } catch (ArrayIndexOutOfBoundsException ignored){}
-        try { neighbors.add(tileMap[x][y - 1]); } catch (ArrayIndexOutOfBoundsException ignored){}
-        try { neighbors.add(tileMap[x + 1][y]); } catch (ArrayIndexOutOfBoundsException ignored){}
-        try { neighbors.add(tileMap[x - 1][y]); } catch (ArrayIndexOutOfBoundsException ignored){}
+        for (Direction direction : Direction.getAllDirections()) {
+            try { neighbors.add(getNeighbor(tile, direction)); } catch (ArrayIndexOutOfBoundsException ignored) {}
+        }
 
         return neighbors;
     }
@@ -67,6 +57,20 @@ public class Environment implements Collection<Tile> {
         return this.stream().filter(predicate).collect(Collectors.toList());
     }
 
+    private Tile getNeighbor(Tile tile, Direction direction) throws ArrayIndexOutOfBoundsException {
+        int x = tile.getPosition().getX();
+        int y = tile.getPosition().getY();
+
+        return tileMap[x + direction.getMoveX()][y + direction.getMoveY()];
+    }
+
+    private void fillMapWithEmptyTiles() {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                tileMap[x][y] = new Tile(new Position(x, y), TileType.EMPTY);
+            }
+        }
+    }
 
 
 
@@ -174,7 +178,7 @@ public class Environment implements Collection<Tile> {
 
     @Override
     public void clear() {
-        initTileMap();
+        fillMapWithEmptyTiles();
     }
 
     @Override
