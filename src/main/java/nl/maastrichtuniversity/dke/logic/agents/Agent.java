@@ -40,8 +40,7 @@ public class Agent {
     private @Setter Direction direction;
 
     private @Setter ISpawnModule spawnModule;
-    private @Setter
-    IMovementModule movement;
+    private @Setter IMovementModule movement;
     private @Setter IVisionModule visionModule;
     private @Setter ICommunicationModule communicationModule;
     private @Setter INoiseModule noiseModule;
