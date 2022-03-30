@@ -23,17 +23,22 @@ jobs:
       run: ./gradlew build
     - name: Test with Gradle
       run: ./gradlew test
-
+      
   lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
+      
       - name: Super-Linter
-        uses: github/super-linter@slim-v4.9.1
+        uses: github/super-linter/slim@v4
         env:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JAVA: true
+          OUTPUT_FOLDER: Reports
+          OUTPUT_DETAILS: detailed
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FILTER_REGEX_INCLUDE: .*src/.*
+          FILTER_REGEX_EXCLUDE: .*test/.*
+
 
 
