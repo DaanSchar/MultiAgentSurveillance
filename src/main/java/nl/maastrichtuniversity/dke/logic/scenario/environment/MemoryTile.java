@@ -23,4 +23,8 @@ public class MemoryTile extends Tile{
         super(tile.getPosition(), tile.getType());
     }
 
+    @Override
+    public boolean isPassable() {
+        return super.isPassable() && !isVisited();
+    }
 }

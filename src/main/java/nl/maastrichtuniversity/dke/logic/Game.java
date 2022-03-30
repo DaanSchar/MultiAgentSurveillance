@@ -2,14 +2,14 @@ package nl.maastrichtuniversity.dke.logic;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import nl.maastrichtuniversity.dke.logic.agents.Agent;
+import nl.maastrichtuniversity.dke.logic.agents.Fleet;
+import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.util.MapParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
 
 @Slf4j
 public class Game {
@@ -20,8 +20,6 @@ public class Game {
     private static Game game;
 
     private static final File DEFAULT_MAP = new File("src/main/resources/maps/testmap.txt");
-
-    private double randomness = 0.2;
 
     /**
      * This method is used to get the singleton instance of the game.
@@ -59,8 +57,6 @@ public class Game {
      * setting the time to 0 and re-initializing the agents.
      */
     public void reset() {
-        randomness += 0.01;
-        log.info("randomness: {}, total coverage: {}", randomness,(double)scenario.getGuards().getCoveredTiles().size()/(double)scenario.getEnvironment().size());
         scenario = new MapParser(mapFile).createScenario();
         game.time = 0.0;
         init();
@@ -70,45 +66,20 @@ public class Game {
      * Initializes the game.
      */
     public void init() {
-        scenario.getGuards().forEach(Agent::spawn);
+        scenario.getGuards().forEach(Guard::spawn);
     }
 
-    /**
-     * Updates the state of the game.
-     */
     public void update() {
         resetNoise();
         time += scenario.getTimeStep();
 
-        for (int i = 0; i < scenario.getGuards().size(); i++) {
-            var action = agentActions.get(i);
-            var agent = scenario.getGuards().get(i);
-
-            if (action == 0) {
-                agent.goForward(time);
-            } else {
-                agent.rotate(action, time);
-            }
-        }
-
-        agentActions.clear();
-
-        for (Agent agent : scenario.getGuards()) {
-            agent.listen();
-        }
+        updateGuards();
     }
 
-    public void update(int i) {
-        resetNoise();
-        time += scenario.getTimeStep();
-
-        for (Agent agent : scenario.getGuards()) {
-            moveAgentRandomly(agent);
-        }
-
-        for (Agent agent : scenario.getGuards()) {
-            agent.listen();
-        }
+    private void updateGuards() {
+        Fleet<Guard> guards = scenario.getGuards();
+        guards.forEach(Guard::explore);
+        guards.forEach(Guard::listen);
     }
 
     /**
@@ -123,48 +94,9 @@ public class Game {
      */
     protected Game() {
         this.scenario = new MapParser(mapFile).createScenario();
-        this.agentActions = new ArrayList<>();
         this.time = 0.0;
         init();
     }
 
-    /**
-     * Moves the agent randomly.
-     * @param agent to be moved
-     */
-    private void moveAgentRandomly(Agent agent) {
-        int rotation = getRandomAction();
 
-        if (rotation == 0)
-            agent.goForward(time);
-        else
-            agent.rotate(rotation, time);
-    }
-
-    /**
-     * Can be 0, -1 or 1.
-     *
-     * @return a random rotation
-     */
-    private int getRandomAction() {
-        if (Math.random() < 0.5)
-            return 0;
-
-        if (Math.random() < 0.5)
-            return 1;
-        else
-            return -1;
-    }
-
-
-    private final @Getter ArrayList<Integer> agentActions;
-
-
-    public boolean isOver() {
-        return scenario.getGuards().isDone();
-    }
-
-    public double getRandomness() {
-        return randomness;
-    }
 }

@@ -1,4 +1,4 @@
-package nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration;
+package nl.maastrichtuniversity.dke.logic.agents.modules.noisegeneration;
 
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
