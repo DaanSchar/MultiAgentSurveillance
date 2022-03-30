@@ -41,6 +41,8 @@ jobs:
         env:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JAVA: true
+          OUTPUT_FOLDER: Reports
+          OUTPUT_DETAILS: detailed
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
 
