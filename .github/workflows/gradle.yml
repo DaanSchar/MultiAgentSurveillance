@@ -30,3 +30,15 @@ jobs:
       run: ./gradlew build
     - name: Test with Gradle
       run: ./gradlew test
+      
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Super-Linter
+        uses: github/super-linter@v4.9.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+
