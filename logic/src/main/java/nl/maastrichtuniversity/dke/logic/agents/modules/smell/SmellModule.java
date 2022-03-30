@@ -1,0 +1,33 @@
+package main.java.nl.maastrichtuniversity.dke.logic.agents.modules.smell;
+
+import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
+import main.java.nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import main.java.nl.maastrichtuniversity.dke.logic.scenario.Smell;
+import main.java.nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+
+import java.util.List;
+
+public class SmellModule extends AgentModule implements ISmellModule {
+    private int smellingDistance;
+
+    public SmellModule(Scenario scenario, int smellingDistance) {
+        super(scenario);
+        this.smellingDistance=smellingDistance;
+    }
+
+    @Override
+    public boolean getSmell(Position position) {
+        List<Smell> smellMap = scenario.getSmellMap();
+        if(smellMap.isEmpty())
+            return false;
+
+        for(Smell smell: smellMap){
+            if(smell.getPosition().equals(position)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+}

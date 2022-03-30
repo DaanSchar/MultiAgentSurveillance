@@ -1,0 +1,21 @@
+com/mygdx/game/environment/tile/Tile.java
+ com.mygdx.game.environment.tile.Tile
+com/mygdx/game/environment/EnvironmentFactory.java
+ com.mygdx.game.environment.EnvironmentFactory
+com/mygdx/game/environment/tile/TileType.java
+ com.mygdx.game.environment.tile.TileType
+com/mygdx/game/environment/Environment.java
+ com.mygdx.game.environment.Environment
+com/mygdx/game/ImprovedNoise.java
+ com.mygdx.game.ImprovedNoise
+com/mygdx/game/frontend/TextureRep.java
+ com.mygdx.game.frontend.TextureRep
+ com.mygdx.game.frontend.TextureRep$1
+com/mygdx/game/MapParser.java
+ com.mygdx.game.MapParser
+com/mygdx/game/frontend/EnvironmentView.java
+ com.mygdx.game.frontend.EnvironmentView
+com/mygdx/game/MyActor.java
+ com.mygdx.game.MyActor
+com/mygdx/game/frontend/Game.java
+ com.mygdx.game.frontend.Game
