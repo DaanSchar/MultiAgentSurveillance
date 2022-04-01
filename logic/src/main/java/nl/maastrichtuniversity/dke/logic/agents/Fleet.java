@@ -13,7 +13,8 @@ import java.util.List;
  */
 public class Fleet<T extends Agent> extends ArrayList<T> {
 
-    public Fleet() {}
+    public Fleet() {
+    }
 
     /**
      * @return List of tiles covered/explored by the fleet.

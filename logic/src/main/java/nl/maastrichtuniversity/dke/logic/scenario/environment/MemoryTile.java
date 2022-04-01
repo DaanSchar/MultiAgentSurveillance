@@ -6,7 +6,7 @@ import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 @Getter
 @Setter
-public class MemoryTile extends Tile{
+public class MemoryTile extends Tile {
 
     private boolean visited;
     private boolean explored;

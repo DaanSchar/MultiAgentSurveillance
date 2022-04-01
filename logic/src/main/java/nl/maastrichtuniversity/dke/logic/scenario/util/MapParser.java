@@ -47,7 +47,7 @@ public class MapParser {
         Scanner lineScanner = new Scanner(line);
         lineScanner.useDelimiter("=");
 
-        while(lineScanner.hasNext()) {
+        while (lineScanner.hasNext()) {
             String key = lineScanner.next().trim();
             String value = lineScanner.next().trim();
 
@@ -60,16 +60,18 @@ public class MapParser {
 
         switch (key) {
             case "name" -> scenarioFactory.setName(value);
-            case "gameFile" -> { if (DebugSettings.FACTORY) log.error("GameFile not implemented yet"); }
+            case "gameFile" -> {
+                if (DebugSettings.FACTORY) log.error("GameFile not implemented yet");
+            }
             case "gameMode" -> scenarioFactory.setGameMode(Integer.parseInt(value));
             case "height" -> envBuilder.setHeight(Integer.parseInt(value));
             case "width" -> envBuilder.setWidth(Integer.parseInt(value));
             case "scaling" -> scenarioFactory.setScaling(Double.parseDouble(value));
             case "numGuards" -> scenarioFactory.setNumberOfGuards(Integer.parseInt(value));
-            case "numIntruders" -> scenarioFactory.setNumberOfIntruders((int)Double.parseDouble(value));
-            case "baseSpeedIntruder" -> agentFactory.setBaseSpeedIntruders((int)Double.parseDouble(value));
-            case "sprintSpeedIntruder" -> agentFactory.setSprintSpeedIntruders((int)Double.parseDouble(value));
-            case "baseSpeedGuard" -> agentFactory.setBaseSpeedGuards((int)Double.parseDouble(value));
+            case "numIntruders" -> scenarioFactory.setNumberOfIntruders((int) Double.parseDouble(value));
+            case "baseSpeedIntruder" -> agentFactory.setBaseSpeedIntruders((int) Double.parseDouble(value));
+            case "sprintSpeedIntruder" -> agentFactory.setSprintSpeedIntruders((int) Double.parseDouble(value));
+            case "baseSpeedGuard" -> agentFactory.setBaseSpeedGuards((int) Double.parseDouble(value));
             case "timeStep" -> scenarioFactory.setTimeStep(Double.parseDouble(value));
             case "targetArea" -> addArea(values, TileType.TARGET);
             case "spawnAreaIntruders" -> addArea(values, TileType.SPAWN_INTRUDERS);
@@ -77,7 +79,9 @@ public class MapParser {
             case "wall" -> addArea(values, TileType.WALL);
             case "teleport" -> addTeleport(value);
             case "shaded" -> addArea(values, TileType.SHADED);
-            case "texture" -> { if (DebugSettings.FACTORY) log.error("Texture not implemented yet"); }
+            case "texture" -> {
+                if (DebugSettings.FACTORY) log.error("Texture not implemented yet");
+            }
             case "window" -> addArea(values, TileType.WINDOW);
             case "door" -> addArea(values, TileType.DOOR);
             case "sentrytower" -> addArea(values, TileType.SENTRY);
@@ -97,7 +101,7 @@ public class MapParser {
         agentFactory.setSprintSpeedIntruders(10);
         agentFactory.setBaseSpeedGuards(5);
         scenarioFactory.setTimeStep(0.1);
-        agentFactory.setViewingDistance(Math.max(agentFactory.getBaseSpeedGuards(), agentFactory.getBaseSpeedIntruders())*2);
+        agentFactory.setViewingDistance(Math.max(agentFactory.getBaseSpeedGuards(), agentFactory.getBaseSpeedIntruders()) * 2);
         agentFactory.setHearingDistanceWalking(6);
         agentFactory.setHearingDistanceSprinting(10);
         agentFactory.setSmellingDistance(7);
@@ -124,7 +128,7 @@ public class MapParser {
                 Integer.parseInt(values[3]),
                 Integer.parseInt(values[4]),
                 Integer.parseInt(values[5]),
-                (int)Double.parseDouble(values[6])
+                (int) Double.parseDouble(values[6])
         );
 
         envBuilder.addTile(Integer.parseInt(values[4]), Integer.parseInt(values[5]), TileType.DESTINATION_TELEPORT);

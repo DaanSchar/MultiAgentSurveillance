@@ -11,6 +11,7 @@ public interface IVisionModule {
     void useVision(Position position, Direction direction);
 
     List<Tile> getObstacles();
+
     List<Agent> getAgents();
 
 }

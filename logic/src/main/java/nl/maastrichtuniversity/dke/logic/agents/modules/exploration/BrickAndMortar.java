@@ -27,7 +27,8 @@ public class BrickAndMortar implements IExplorationModule {
 
     private List<Direction> directionPriority;
 
-    private @Getter boolean isDoneExploring;
+    private @Getter
+    boolean isDoneExploring;
 
     private final IMovementModule movementModule;
 
@@ -59,7 +60,9 @@ public class BrickAndMortar implements IExplorationModule {
     }
 
     private void markingStep() {
-        if (!currentCellBlocksPath()) { getCurrentTile().setVisited(true);}
+        if (!currentCellBlocksPath()) {
+            getCurrentTile().setVisited(true);
+        }
 
         getCurrentTile().setExplored(true);
     }
@@ -88,7 +91,9 @@ public class BrickAndMortar implements IExplorationModule {
 
         for (int i = 0; i < neighbours.size(); i++) {
             for (int j = i; j < neighbours.size(); j++) {
-                if (!pathExists(neighbours.get(i), neighbours.get(j))) { return true; }
+                if (!pathExists(neighbours.get(i), neighbours.get(j))) {
+                    return true;
+                }
             }
         }
 
@@ -110,7 +115,9 @@ public class BrickAndMortar implements IExplorationModule {
         Tile targetTile = getBestExploredTile();
         Position nextPosition = movementModule.goForward(currentPosition, currentDirection, Game.getInstance().getTime());
 
-        if (nextPosition.equals(targetTile.getPosition())) { return MoveAction.MOVE_FORWARD; }
+        if (nextPosition.equals(targetTile.getPosition())) {
+            return MoveAction.MOVE_FORWARD;
+        }
 
         return MoveAction.ROTATE_LEFT;
     }
@@ -129,9 +136,11 @@ public class BrickAndMortar implements IExplorationModule {
 
         // we shuffle the tiles, otherwise it will always return the tile from
         // the same direction if all/most tiles are considered equally good
-        if (Math.random() < randomness) { Collections.shuffle(unexploredTiles); }
+        if (Math.random() < randomness) {
+            Collections.shuffle(unexploredTiles);
+        }
 
-        unexploredTiles.sort((t1 , t2) -> getNonPassableNeighbors(t2).size() - getNonPassableNeighbors(t1).size());
+        unexploredTiles.sort((t1, t2) -> getNonPassableNeighbors(t2).size() - getNonPassableNeighbors(t1).size());
 
         return (MemoryTile) unexploredTiles.get(0);
     }
@@ -144,7 +153,9 @@ public class BrickAndMortar implements IExplorationModule {
         for (Direction direction : directionPriority) {
             MemoryTile tile = (MemoryTile) getFacingTile(getCurrentTile(), direction);
 
-            if (tile.isExplored() && tile.isPassable()) { return tile; }
+            if (tile.isExplored() && tile.isPassable()) {
+                return tile;
+            }
         }
 
         return getCurrentTile();
@@ -174,11 +185,11 @@ public class BrickAndMortar implements IExplorationModule {
     }
 
     private List<Tile> getUnexploredNeighboringTiles(Tile tile) {
-        return environment.getNeighborsAndFilter(tile, (neighbor) -> !((MemoryTile)neighbor).isExplored() && neighbor.isPassable());
+        return environment.getNeighborsAndFilter(tile, (neighbor) -> !((MemoryTile) neighbor).isExplored() && neighbor.isPassable());
     }
 
     private List<Tile> getExploredNeighboringTiles(Tile tile) {
-        return environment.getNeighborsAndFilter(tile, neighbor -> ((MemoryTile)neighbor).isExplored() && neighbor.isPassable());
+        return environment.getNeighborsAndFilter(tile, neighbor -> ((MemoryTile) neighbor).isExplored() && neighbor.isPassable());
     }
 
     private boolean pathExists(Tile start, Tile end) {
@@ -203,12 +214,16 @@ public class BrickAndMortar implements IExplorationModule {
             Tile current;
             while (!queue.isEmpty()) {
                 current = queue.poll();
-                if (current.equals(goal)) { return true; }
+                if (current.equals(goal)) {
+                    return true;
+                }
 
                 visited.add(current);
 
                 for (Tile neighbour : getPassableNeighbors(current)) {
-                    if (neighbour.equals(goal)) { return true; }
+                    if (neighbour.equals(goal)) {
+                        return true;
+                    }
                     // not including the tile which the agent is currently on, as we are trying to find a path
                     // between 2 tiles, would the current tile be marked as visited.
                     if (!visited.contains(neighbour) && !neighbour.equals(getCurrentTile())) {

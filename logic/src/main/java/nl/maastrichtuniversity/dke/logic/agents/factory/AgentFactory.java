@@ -42,12 +42,15 @@ public class AgentFactory {
 
     private int numberOfMarkers;
 
-    public AgentFactory() {}
+    public AgentFactory() {
+    }
 
     public Fleet<Guard> buildGuards(int numOfAgents) {
         Fleet<Guard> agents = new Fleet<>();
 
-        for (int i = 0; i < numOfAgents; i++) { agents.add(buildGuard()); }
+        for (int i = 0; i < numOfAgents; i++) {
+            agents.add(buildGuard());
+        }
         if (DebugSettings.FACTORY) log.info("Created {} Guards", numOfAgents);
 
         return agents;
@@ -56,7 +59,9 @@ public class AgentFactory {
     public Fleet<Intruder> buildIntruders(int numOfAgents) {
         Fleet<Intruder> agents = new Fleet<>();
 
-        for (int i = 0; i < numOfAgents; i++) { agents.add(buildIntruder()); }
+        for (int i = 0; i < numOfAgents; i++) {
+            agents.add(buildIntruder());
+        }
         if (DebugSettings.FACTORY) log.info("Created {} intruders", numOfAgents);
 
         return agents;
@@ -93,10 +98,10 @@ public class AgentFactory {
 
     private List<CommunicationType> getMarkers() {
         List<CommunicationType> markers = new ArrayList<>();
-        for(int i = 0; i < numberOfMarkers; i++){
-            markers.add(CommunicationType.VISIONRED);
-            markers.add(CommunicationType.VISIONBLUE);
-            markers.add(CommunicationType.VISIONGREEN);
+        for (int i = 0; i < numberOfMarkers; i++) {
+            markers.add(CommunicationType.VISION_RED);
+            markers.add(CommunicationType.VISION_BLUE);
+            markers.add(CommunicationType.VISION_GREEN);
             markers.add(CommunicationType.SMELL);
             markers.add(CommunicationType.SOUND);
         }

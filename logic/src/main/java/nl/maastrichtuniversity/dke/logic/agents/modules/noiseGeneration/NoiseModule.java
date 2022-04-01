@@ -22,10 +22,10 @@ public class NoiseModule extends AgentModule implements INoiseModule {
     @Override
     public void makeWalkingSound(Position position) {
         Tile[][] tileMap = scenario.getEnvironment().getTileMap();
-        for(Tile[] tiles:tileMap){
-            for(Tile tile:tiles){
-                if(position.distance(tile.getPosition()) <= hearingDistanceWalking){
-                    Sound sound = new Sound(tile.getPosition(),position,false);
+        for (Tile[] tiles : tileMap) {
+            for (Tile tile : tiles) {
+                if (position.distance(tile.getPosition()) <= hearingDistanceWalking) {
+                    Sound sound = new Sound(tile.getPosition(), position, false);
                     scenario.getSoundMap().add(sound);
                 }
             }
@@ -36,10 +36,10 @@ public class NoiseModule extends AgentModule implements INoiseModule {
     @Override
     public void makeSprintingSound(Position position) {
         Tile[][] tileMap = scenario.getEnvironment().getTileMap();
-        for(Tile[] tiles:tileMap){
-            for(Tile tile:tiles){
-                if(position.distance(tile.getPosition()) <= hearingDistanceSprinting){
-                    Sound sound = new Sound(tile.getPosition(),position,false);
+        for (Tile[] tiles : tileMap) {
+            for (Tile tile : tiles) {
+                if (position.distance(tile.getPosition()) <= hearingDistanceSprinting) {
+                    Sound sound = new Sound(tile.getPosition(), position, false);
                     scenario.getSoundMap().add(sound);
                 }
             }
@@ -49,10 +49,10 @@ public class NoiseModule extends AgentModule implements INoiseModule {
     @Override
     public void Yell(Position position) {
         Tile[][] tileMap = scenario.getEnvironment().getTileMap();
-        for(Tile[] tiles:tileMap){
-            for(Tile tile:tiles){
-                if(position.distance(tile.getPosition()) <= hearingDistanceSprinting){
-                    Sound sound = new Sound(tile.getPosition(),position,true);
+        for (Tile[] tiles : tileMap) {
+            for (Tile tile : tiles) {
+                if (position.distance(tile.getPosition()) <= hearingDistanceSprinting) {
+                    Sound sound = new Sound(tile.getPosition(), position, true);
                     scenario.getSoundMap().add(sound);
                 }
             }

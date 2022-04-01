@@ -47,7 +47,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         initEnvironment();
     }
 
-    public void setSpawnPosition(Position position){
+    public void setSpawnPosition(Position position) {
         map.getTileMap()[position.getX()][position.getY()] = new MemoryTile(position, TileType.SPAWN_GUARDS);
         setPreviousPosition(position);
         setPosition(position);
@@ -63,9 +63,9 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     }
 
     public List<Tile> getCoveredTiles() {
-       return map.stream()
-               .filter(tile -> tile.getType() != TileType.UNKNOWN)
-               .collect(Collectors.toList());
+        return map.stream()
+                .filter(tile -> tile.getType() != TileType.UNKNOWN)
+                .collect(Collectors.toList());
     }
 
     public void update(IVisionModule visionModule, IListeningModule listeningModule, ISmellModule smellModule, Position position) {
@@ -76,48 +76,47 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         updateSmell(smellModule);
     }
 
-    private void updateSound(IListeningModule listeningModule){
-        if (listeningModule.getSound(position)){
+    private void updateSound(IListeningModule listeningModule) {
+        if (listeningModule.getSound(position)) {
             sounds.add(position);
             soundDirection.addAll(listeningModule.getDirection(position));
         }
     }
 
-    private void updateSmell(ISmellModule smellModule){
-        if (smellModule.getSmell(position)){
+    private void updateSmell(ISmellModule smellModule) {
+        if (smellModule.getSmell(position)) {
             smells.add(position);
 //            smells.addAll(smellModule.getDirection(position));
         }
     }
 
     //TODO: add sound to update method in memory
-    private void updateVision(IVisionModule vision){
+    private void updateVision(IVisionModule vision) {
         discoveredTiles.clear();
 
-        for(Tile tile: vision.getObstacles()) {
+        for (Tile tile : vision.getObstacles()) {
             int x = tile.getPosition().getX();
             int y = tile.getPosition().getY();
 
-            if(map.getTileMap()[x][y].getType()==TileType.UNKNOWN){
+            if (map.getTileMap()[x][y].getType() == TileType.UNKNOWN) {
                 discoveredTiles.add(tile);
                 map.getTileMap()[x][y] = new MemoryTile(tile);
             }
         }
-        for(Agent agentSee: vision.getAgents()){
-            if(agents.get(agentSee.getId()) != null){
+        for (Agent agentSee : vision.getAgents()) {
+            if (agents.get(agentSee.getId()) != null) {
                 agents.get(agentSee.getId()).setPosition(agentSee.getPosition());
                 agents.get(agentSee.getId()).setDirection(agentSee.getDirection());
-            }else{
-                agents.add(agentSee.getId(),agentSee.newInstance());
+            } else {
+                agents.add(agentSee.getId(), agentSee.newInstance());
             }
 
         }
     }
 
     public List<Tile> getVisitedNodes() {
-        return getMap().stream().filter(x -> ((MemoryTile)x).isVisited()).collect(Collectors.toList());
+        return getMap().stream().filter(x -> ((MemoryTile) x).isVisited()).collect(Collectors.toList());
     }
-
 
 
 }

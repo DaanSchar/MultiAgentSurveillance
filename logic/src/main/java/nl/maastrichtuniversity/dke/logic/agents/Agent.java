@@ -37,8 +37,7 @@ public class Agent {
     private final int id;
 
     private @Setter Position position;
-    private @Setter
-    Direction direction;
+    private @Setter Direction direction;
 
     private @Setter ISpawnModule spawnModule;
     private @Setter IMovementModule movement;
@@ -63,7 +62,8 @@ public class Agent {
         memoryModule.setSpawnPosition(position);
         updateMemory();
 
-        if (DebugSettings.FACTORY) log.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position + " facing " + this.direction);
+        if (DebugSettings.FACTORY)
+            log.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position + " facing " + this.direction);
     }
 
     public void explore() {
@@ -72,7 +72,7 @@ public class Agent {
     }
 
     public void move(MoveAction action) {
-        switch(action) {
+        switch (action) {
             case MOVE_FORWARD -> moveForward(Game.getInstance().getTime());
             case ROTATE_LEFT -> rotate(MoveAction.ROTATE_LEFT, Game.getInstance().getTime());
             case ROTATE_RIGHT -> rotate(MoveAction.ROTATE_RIGHT, Game.getInstance().getTime());
@@ -86,17 +86,17 @@ public class Agent {
      * @param type a type of communication device want to drop
      * @return if the type was available and agent droped it
      */
-    public boolean dropMark(CommunicationType type){
-        if(communicationModule.hasMark(type)){
-            if(type.equals(CommunicationType.VISIONBLUE))
+    public boolean dropMark(CommunicationType type) {
+        if (communicationModule.hasMark(type)) {
+            if (type.equals(CommunicationType.VISION_BLUE))
                 communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, Color.BLUE));
-            else if(type.equals(CommunicationType.VISIONRED))
+            else if (type.equals(CommunicationType.VISION_RED))
                 communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, Color.RED));
-            else if(type.equals(CommunicationType.VISIONGREEN))
+            else if (type.equals(CommunicationType.VISION_GREEN))
                 communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, Color.GREEN));
             else
                 //here you cant see so its just background color
-                communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, new Color(173,237,153)));
+                communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, new Color(173, 237, 153)));
             updateMemory();
 
             return true;
@@ -104,7 +104,7 @@ public class Agent {
         return false;
     }
 
-    public void listen(){
+    public void listen() {
         listeningModule.getDirection(this.position);
     }
 
@@ -113,23 +113,23 @@ public class Agent {
     }
 
     public Agent newInstance() {
-        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule, communicationModule, memoryModule,listeningModule, smellModule);
+        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule, communicationModule, memoryModule, listeningModule, smellModule);
     }
 
-    private void rotate(MoveAction rotation, double time){
+    private void rotate(MoveAction rotation, double time) {
         direction = movement.rotate(direction, rotation, time);
     }
 
-    private void moveForward(double time){
+    private void moveForward(double time) {
         position = movement.goForward(position, direction, time);
-        visionModule.useVision(position,direction);
+        visionModule.useVision(position, direction);
         var list = visionModule.getObstacles();
         noiseModule.makeWalkingSound(position);
     }
 
-    private Agent(Direction direction,Position position,int id,ISpawnModule spawnModule, IMovementModule movement,
-                  IVisionModule visionModule, INoiseModule noiseModule,  ICommunicationModule communicationModule,
-                  IMemoryModule memoryModule,IListeningModule listeningModule, ISmellModule smellModule){
+    private Agent(Direction direction, Position position, int id, ISpawnModule spawnModule, IMovementModule movement,
+                  IVisionModule visionModule, INoiseModule noiseModule, ICommunicationModule communicationModule,
+                  IMemoryModule memoryModule, IListeningModule listeningModule, ISmellModule smellModule) {
 
         this.spawnModule = spawnModule;
         this.visionModule = visionModule;

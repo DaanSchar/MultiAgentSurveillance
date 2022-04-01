@@ -11,9 +11,9 @@ public interface ISpawnModule {
 
     /**
      * Returns the position where the agent will spawn.
-     *
      */
-    Position getSpawnPosition(Agent agent );
+    Position getSpawnPosition(Agent agent);
+
     Direction getSpawnDirection();
 
 }

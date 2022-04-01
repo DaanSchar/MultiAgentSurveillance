@@ -12,17 +12,17 @@ public class SmellModule extends AgentModule implements ISmellModule {
 
     public SmellModule(Scenario scenario, int smellingDistance) {
         super(scenario);
-        this.smellingDistance=smellingDistance;
+        this.smellingDistance = smellingDistance;
     }
 
     @Override
     public boolean getSmell(Position position) {
         List<Smell> smellMap = scenario.getSmellMap();
-        if(smellMap.isEmpty())
+        if (smellMap.isEmpty())
             return false;
 
-        for(Smell smell: smellMap){
-            if(smell.getPosition().equals(position)){
+        for (Smell smell : smellMap) {
+            if (smell.getPosition().equals(position)) {
                 return true;
             }
         }

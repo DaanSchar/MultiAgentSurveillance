@@ -9,6 +9,7 @@ import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.List;
+
 @Getter
 public class CommunicationModule extends AgentModule implements ICommunicationModule {
 
@@ -27,12 +28,12 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
 //        System.out.println("here");
 //        System.out.println(device.getType());
         boolean check = false;
-        for(int i = 0; i < marks.size(); i++){
+        for (int i = 0; i < marks.size(); i++) {
             System.out.println(marks.get(i));
-            if(marks.get(i).equals(device.getType())){
+            if (marks.get(i).equals(device.getType())) {
                 System.out.println("here");
 //                System.out.println(device.getType());
-                if(device.getType().equals(CommunicationType.SMELL)){
+                if (device.getType().equals(CommunicationType.SMELL)) {
 //                    System.out.println("here");
                     dropSmell(device.getPosition(), device.getAgentSource());
                 }
@@ -40,7 +41,7 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
                 marks.remove(i);
                 check = true;
             }
-            if(check)
+            if (check)
                 break;
 
         }
@@ -48,12 +49,12 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
 
     }
 
-    private void dropSmell(Position position, Agent source){
+    private void dropSmell(Position position, Agent source) {
         Tile[][] tileMap = scenario.getEnvironment().getTileMap();
-        for(Tile[] tiles:tileMap){
-            for(Tile tile:tiles){
-                if(position.distance(tile.getPosition()) <= 3){
-                    Smell smell = new Smell(tile.getPosition(),position, source );
+        for (Tile[] tiles : tileMap) {
+            for (Tile tile : tiles) {
+                if (position.distance(tile.getPosition()) <= 3) {
+                    Smell smell = new Smell(tile.getPosition(), position, source);
                     scenario.getSmellMap().add(smell);
                 }
             }
@@ -63,7 +64,7 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
     @Override
     public boolean hasMark(CommunicationType type) {
         for (CommunicationType m : marks) {
-            if(m.equals(type)){
+            if (m.equals(type)) {
                 return true;
             }
         }
@@ -71,19 +72,19 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
     }
 
     @Override
-    public void findMarker(CommunicationType marker){
+    public void findMarker(CommunicationType marker) {
         marks.add(marker);
     }
 
     @Override
     public int countMark(CommunicationType type) {
-       int count = 0;
+        int count = 0;
 
-       for (CommunicationType m : marks) {
-           if (m == type) {
-               count++;
-           }
-       }
-       return count;
+        for (CommunicationType m : marks) {
+            if (m == type) {
+                count++;
+            }
+        }
+        return count;
     }
 }

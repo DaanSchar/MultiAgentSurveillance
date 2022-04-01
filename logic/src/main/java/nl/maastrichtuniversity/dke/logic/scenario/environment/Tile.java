@@ -22,14 +22,13 @@ public class Tile {
         this.type = type;
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return type == TileType.EMPTY;
     }
 
     public boolean isPassable() {
         return type.isPassable();
     }
-
 
 
 }

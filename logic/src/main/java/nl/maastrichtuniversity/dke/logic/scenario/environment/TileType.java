@@ -10,7 +10,7 @@ public enum TileType {
     UNKNOWN(true, true, 0),
     EMPTY(true, true, 1),
     WALL(true, false, 2),
-    TELEPORT(true,true, 3),
+    TELEPORT(true, true, 3),
     SHADED(true, true, 4),
     SENTRY(true, true, 5),
     TARGET(true, true, 6),

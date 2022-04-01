@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
 import java.lang.Math;
 
 @Getter
@@ -33,7 +34,7 @@ public class Position {
         );
     }
 
-    public double distance(Position other){
+    public double distance(Position other) {
         return Math.abs(Math.sqrt((other.y - this.y) * (other.y - this.y) + (other.x - this.x) * (other.x - this.x)));
     }
 }

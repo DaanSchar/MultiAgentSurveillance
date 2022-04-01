@@ -27,7 +27,7 @@ public class EnvironmentFactory {
     public void addArea(int x1, int y1, int x2, int y2, TileType type) {
         if (DebugSettings.FACTORY) log.info("adding area of type " + type + ": " + x1 + " " + y1 + " " + x2 + " " + y2);
 
-        if (this.tileMap == null && width >0 && height > 0)
+        if (this.tileMap == null && width > 0 && height > 0)
             this.tileMap = new Tile[width][height];
 
         for (int x = x1; x < x2; x++)
@@ -57,13 +57,13 @@ public class EnvironmentFactory {
 
         for (int x = x1; x < x2; x++)
             for (int y = y1; y < y2; y++)
-                tileMap[x][y] = new TeleportTile(new Position(x, y),targetX, targetY, rotation);
+                tileMap[x][y] = new TeleportTile(new Position(x, y), targetX, targetY, rotation);
     }
 
     public void addTile(int x, int y, TileType type) {
         if (x < 0 || x > tileMap.length || y < 0 || y > tileMap[0].length) {
-           return;
+            return;
         }
-        tileMap[x][y] = new Tile(new Position(x,y), type);
+        tileMap[x][y] = new Tile(new Position(x, y), type);
     }
 }

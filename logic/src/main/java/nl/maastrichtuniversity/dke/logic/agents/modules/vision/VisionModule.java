@@ -41,10 +41,9 @@ public class VisionModule extends AgentModule implements IVisionModule {
         boolean[] checkedShaded = {false, false, false};
 
 
-
         List<Agent> scenario_agents = new LinkedList<>();
         Tile[][] tilemap = scenario.getEnvironment().getTileMap();
-        int endTile = getEndTile(position,direction);
+        int endTile = getEndTile(position, direction);
         int startTile = getStartTile(position);
 
         boolean[] canMove = canMove(position, direction);
@@ -81,25 +80,26 @@ public class VisionModule extends AgentModule implements IVisionModule {
         }
     }
 
-    private int getStartTile(Position position){
-        if(scenario.getEnvironment().getTileMap()[position.getX()][position.getY()].getType()==TileType.SENTRY){
+    private int getStartTile(Position position) {
+        if (scenario.getEnvironment().getTileMap()[position.getX()][position.getY()].getType() == TileType.SENTRY) {
             return 2;
-        }else return 0;
+        } else return 0;
     }
-    private int getEndTile(Position position,Direction direction){
-        int end;
-        int sentryVision = viewingDistance*2;
-        if(direction==Direction.SOUTH ){
-            end = (scenario.getEnvironment().getHeight()-1)- position.getY();
-        }else if (direction==Direction.NORTH){
-            end = position.getY();
-        }else if(direction==Direction.EAST){
-            end = (scenario.getEnvironment().getWidth()-1)-position.getX();
-        }else end = position.getX();
 
-        if(scenario.getEnvironment().getTileMap()[position.getX()][position.getY()].getType()==TileType.SENTRY){
+    private int getEndTile(Position position, Direction direction) {
+        int end;
+        int sentryVision = viewingDistance * 2;
+        if (direction == Direction.SOUTH) {
+            end = (scenario.getEnvironment().getHeight() - 1) - position.getY();
+        } else if (direction == Direction.NORTH) {
+            end = position.getY();
+        } else if (direction == Direction.EAST) {
+            end = (scenario.getEnvironment().getWidth() - 1) - position.getX();
+        } else end = position.getX();
+
+        if (scenario.getEnvironment().getTileMap()[position.getX()][position.getY()].getType() == TileType.SENTRY) {
             return Math.min(sentryVision, end);
-        }else return Math.min(end,viewingDistance);
+        } else return Math.min(end, viewingDistance);
     }
 
 
@@ -130,8 +130,6 @@ public class VisionModule extends AgentModule implements IVisionModule {
 
     private boolean checkIfObstructed(Tile[][] tilemap, boolean[] isShaded, int x, int y, int moveX) {
         boolean obstruct = false;
-
-
 
 
         Tile tmp = tilemap[x][y];

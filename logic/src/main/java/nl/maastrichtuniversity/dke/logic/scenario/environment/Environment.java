@@ -47,7 +47,10 @@ public class Environment implements Collection<Tile> {
         List<Tile> neighbors = new ArrayList<>();
 
         for (Direction direction : Direction.getAllDirections()) {
-            try { neighbors.add(getNeighbor(tile, direction)); } catch (ArrayIndexOutOfBoundsException ignored) {}
+            try {
+                neighbors.add(getNeighbor(tile, direction));
+            } catch (ArrayIndexOutOfBoundsException ignored) {
+            }
         }
 
         return neighbors;
@@ -73,11 +76,6 @@ public class Environment implements Collection<Tile> {
     }
 
 
-
-
-
-
-
     @Override
     public int size() {
         return width * height;
@@ -95,7 +93,9 @@ public class Environment implements Collection<Tile> {
 
     @Override
     public boolean contains(Object o) {
-        if (!(o instanceof Tile)) { return false; }
+        if (!(o instanceof Tile)) {
+            return false;
+        }
 
         Tile tile = (Tile) o;
         for (Tile referenceTile : this) {
@@ -125,7 +125,9 @@ public class Environment implements Collection<Tile> {
         var x = tile.getPosition().getX();
         var y = tile.getPosition().getY();
 
-        if (x < 0 || x >= this.width || y < 0 || y >= this.height) { return false; }
+        if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
+            return false;
+        }
 
         tileMap[x][y] = tile;
 
@@ -134,19 +136,24 @@ public class Environment implements Collection<Tile> {
 
     /**
      * replaces the tile at the given position with a tile of type EMPTY
+     *
      * @param o tile we want to remove
      * @return true if the tile was removed, false if it was not found
      */
     @Override
     public boolean remove(Object o) {
-        if (!(o instanceof Tile)) { return false; }
+        if (!(o instanceof Tile)) {
+            return false;
+        }
 
         Tile tile = (Tile) o;
         var tilePosition = tile.getPosition();
         var x = tilePosition.getX();
         var y = tilePosition.getY();
 
-        if (x < 0 || x >= this.width || y < 0 || y >= this.height) { return false; }
+        if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
+            return false;
+        }
 
         tileMap[x][y] = new Tile(tilePosition, TileType.EMPTY);
 
@@ -170,7 +177,9 @@ public class Environment implements Collection<Tile> {
 
         for (Object o : c) {
             boolean removed = this.remove(o);
-            if (!removed) { failedRemove = true; }
+            if (!removed) {
+                failedRemove = true;
+            }
         }
 
         return !failedRemove;
@@ -202,10 +211,10 @@ public class Environment implements Collection<Tile> {
     /**
      * iterators may be used to iterate over the tiles in the environment
      * you use them in a for-each loop like this:
-     *
-     *     for (Tile tile : environment) {
-     *         // do something with the tile
-     *     }
+     * <p>
+     * for (Tile tile : environment) {
+     * // do something with the tile
+     * }
      *
      * @return an iterator over all tiles in the environment
      */
@@ -251,7 +260,7 @@ public class Environment implements Collection<Tile> {
         }
 
         private boolean indexIsTooLarge() {
-            return i >= width|| j >= height;
+            return i >= width || j >= height;
         }
 
         private void incrementIndex() {

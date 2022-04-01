@@ -26,11 +26,11 @@ public class UniformSpawnModule extends AgentModule implements ISpawnModule {
     public Position getSpawnPosition(Agent agent) {
         List<Tile> areas;
 
-        if (agent instanceof Guard){
+        if (agent instanceof Guard) {
             areas = scenario.getEnvironment().get(TileType.SPAWN_GUARDS);
-        }else if(agent instanceof Intruder) {
+        } else if (agent instanceof Intruder) {
             areas = scenario.getEnvironment().get(TileType.SPAWN_GUARDS);
-        }else{
+        } else {
             areas = null;
         }
 
@@ -42,12 +42,7 @@ public class UniformSpawnModule extends AgentModule implements ISpawnModule {
     public Direction getSpawnDirection() {
         int random = new Random().nextInt(4);
 
-        switch (random) {
-            case 1 -> {return Direction.EAST;}
-            case 2 -> {return Direction.SOUTH;}
-            case 3 -> {return Direction.WEST;}
-            default -> { return Direction.NORTH; }
-        }
+        return Direction.getAllDirections().get(random);
     }
 
 }

@@ -39,8 +39,12 @@ public class MovementModule extends AgentModule implements IMovementModule {
     public Position goForward(Position currentPosition, Direction direction, double time) {
         Position facingPosition = getFacingPosition(currentPosition, direction);
 
-        if (!agentCanMoveTo(facingPosition)) { return currentPosition; }
-        if (isTeleportTile(facingPosition)) { return getTeleportDestination(facingPosition); }
+        if (!agentCanMoveTo(facingPosition)) {
+            return currentPosition;
+        }
+        if (isTeleportTile(facingPosition)) {
+            return getTeleportDestination(facingPosition);
+        }
 
         return facingPosition;
     }
@@ -48,12 +52,16 @@ public class MovementModule extends AgentModule implements IMovementModule {
     @Override
     public Position sprint(Position position, Direction direction) {
         Position newPos = position.add(new Position(direction.getMoveX() * 2, direction.getMoveY() * 2));
-        if (agentCanMoveTo(newPos)) { return newPos; }
+        if (agentCanMoveTo(newPos)) {
+            return newPos;
+        }
         return position;
     }
 
-    private boolean agentCanMoveTo(Position position){
-        if (!positionIsInMap(position)) { return false; }
+    private boolean agentCanMoveTo(Position position) {
+        if (!positionIsInMap(position)) {
+            return false;
+        }
         Tile tile = getTileAt(position);
 
         return tile.isPassable();
@@ -85,7 +93,7 @@ public class MovementModule extends AgentModule implements IMovementModule {
         return scenario.getEnvironment().getTileMap()[position.getX()][position.getY()];
     }
 
-    private void checkIfActionIsRotation(MoveAction action) throws ActionIsNotRotationException{
+    private void checkIfActionIsRotation(MoveAction action) throws ActionIsNotRotationException {
         if (action != MoveAction.ROTATE_LEFT && action != MoveAction.ROTATE_RIGHT) {
             throw new ActionIsNotRotationException();
         }
@@ -93,11 +101,21 @@ public class MovementModule extends AgentModule implements IMovementModule {
 
     private Direction getNewRotatedDirection(Direction currentDirection, MoveAction action) {
         switch (currentDirection) {
-            case NORTH -> { return action == MoveAction.ROTATE_RIGHT ? Direction.EAST : Direction.WEST; }
-            case SOUTH -> { return action == MoveAction.ROTATE_RIGHT ? Direction.WEST : Direction.EAST; }
-            case EAST ->  { return action == MoveAction.ROTATE_RIGHT ? Direction.SOUTH : Direction.NORTH; }
-            case WEST ->  { return action == MoveAction.ROTATE_RIGHT ? Direction.NORTH : Direction.SOUTH; }
-            default ->    { return currentDirection; }
+            case NORTH -> {
+                return action == MoveAction.ROTATE_RIGHT ? Direction.EAST : Direction.WEST;
+            }
+            case SOUTH -> {
+                return action == MoveAction.ROTATE_RIGHT ? Direction.WEST : Direction.EAST;
+            }
+            case EAST -> {
+                return action == MoveAction.ROTATE_RIGHT ? Direction.SOUTH : Direction.NORTH;
+            }
+            case WEST -> {
+                return action == MoveAction.ROTATE_RIGHT ? Direction.NORTH : Direction.SOUTH;
+            }
+            default -> {
+                return currentDirection;
+            }
         }
     }
 

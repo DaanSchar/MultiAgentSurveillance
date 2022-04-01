@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface IListeningModule {
     boolean getSound(Position position);
+
     List<Direction> getDirection(Position position);
 }

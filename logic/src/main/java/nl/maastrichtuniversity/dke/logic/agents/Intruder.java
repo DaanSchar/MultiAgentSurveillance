@@ -5,9 +5,10 @@ import lombok.Setter;
 
 public class Intruder extends Agent {
     private @Getter @Setter boolean alive;
+
     public Intruder() {
         super();
-        this.alive= true; //all the intruders are alive at start
+        this.alive = true; //all the intruders are alive at start
     }
 
 }

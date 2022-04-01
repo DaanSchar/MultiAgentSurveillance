@@ -23,6 +23,7 @@ public class Game {
 
     /**
      * This method is used to get the singleton instance of the game.
+     *
      * @return the only allowed instance of the game.
      */
     public static Game getInstance() {
@@ -44,9 +45,6 @@ public class Game {
             game.reset();
         }
     }
-
-
-
 
 
     private @Getter Scenario scenario;
@@ -85,7 +83,7 @@ public class Game {
     /**
      * Resets the noise map to empty.
      */
-    public void resetNoise(){
+    public void resetNoise() {
         scenario.getSoundMap().clear();
     }
 
