@@ -23,11 +23,6 @@ import nl.maastrichtuniversity.dke.util.DebugSettings;
 
 import java.awt.*;
 
-/**
- * agent class parent of guard and intruder
- *
- * @Author Parand
- */
 @Getter
 @Slf4j
 @Accessors(chain = true)
@@ -54,7 +49,7 @@ public class Agent {
     }
 
     /**
-     * places the agent at a position determined by the spawn module
+     * places the agent at a position determined by the spawn module.
      */
     public void spawn() {
         position = spawnModule.getSpawnPosition(this);
@@ -62,8 +57,9 @@ public class Agent {
         memoryModule.setSpawnPosition(position);
         updateMemory();
 
-        if (DebugSettings.FACTORY)
+        if (DebugSettings.FACTORY) {
             log.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position + " facing " + this.direction);
+        }
     }
 
     public void explore() {
@@ -88,15 +84,24 @@ public class Agent {
      */
     public boolean dropMark(CommunicationType type) {
         if (communicationModule.hasMark(type)) {
-            if (type.equals(CommunicationType.VISION_BLUE))
+            if (type.equals(CommunicationType.VISION_BLUE)) {
                 communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, Color.BLUE));
-            else if (type.equals(CommunicationType.VISION_RED))
+            }
+            else if (type.equals(CommunicationType.VISION_RED)) {
                 communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, Color.RED));
-            else if (type.equals(CommunicationType.VISION_GREEN))
+            }
+            else if (type.equals(CommunicationType.VISION_GREEN)) {
                 communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, Color.GREEN));
-            else
+            }
+            else {
                 //here you cant see so its just background color
-                communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, new Color(173, 237, 153)));
+                communicationModule.dropMark(
+                        new CommunicationMark(getPosition(),
+                                type,
+                                this,
+                                new Color(173, 237, 153))
+                );
+            }
             updateMemory();
 
             return true;
