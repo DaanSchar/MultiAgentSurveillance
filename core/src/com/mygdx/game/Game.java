@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @Slf4j
-public class Game extends ApplicationAdapter {
+public final class Game extends ApplicationAdapter {
 
     private SpriteBatch batch;
 
@@ -21,7 +21,7 @@ public class Game extends ApplicationAdapter {
 
     @Override
     public void render() {
-        ScreenUtils.clear(56 / 255f, 171 / 255f, 95 / 255f, 1);
+        ScreenUtils.clear(0, 0, 0, 1);
     }
 
     @Override

@@ -5,10 +5,15 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mygdx.game.Game;
 
 public class DesktopLauncher {
-	public static void main (String[] arg) {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 1400;
-		config.height = config.width / 16 * 9;
-		new LwjglApplication(new Game(), config);
-	}
+
+	private final static double screenRatio = 16.0 / 9.0;
+	private final static int width = 1400;
+	private final static int height = (int) (width / screenRatio);
+
+	public static void main(String[] arg) {
+        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        config.width = width;
+        config.height = height;
+        new LwjglApplication(new Game(), config);
+    }
 }
