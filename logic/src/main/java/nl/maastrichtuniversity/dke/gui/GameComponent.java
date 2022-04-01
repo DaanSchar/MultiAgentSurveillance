@@ -9,7 +9,6 @@ import javax.swing.Timer;
 
 import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
-import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.scenario.Smell;
 import nl.maastrichtuniversity.dke.logic.scenario.Sound;
