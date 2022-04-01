@@ -9,11 +9,13 @@ public class TileView {
 
     private final Tile tile;
     private final Texture texture;
+    private final double height;
 
     private final TextureRepository textureRepository;
 
-    public TileView(Tile tile) {
+    public TileView(Tile tile, double height) {
         this.tile = tile;
+        this.height = height;
         this.textureRepository = TextureRepository.getInstance();
         this.texture = determineTextureByTileState();
     }
@@ -34,7 +36,7 @@ public class TileView {
     private Texture determineTextureByTileState() {
         switch (tile.getType()) {
             case EMPTY -> {
-                return textureRepository.get("emptyTile1");
+                return getEmptyTexture();
             }
             case WALL -> {
                 return textureRepository.get("shadedTile4");
@@ -42,6 +44,16 @@ public class TileView {
             default -> {
                 return textureRepository.get("emptyTile4");
             }
+        }
+    }
+
+    private Texture getEmptyTexture() {
+        if (height > 0.6666) {
+            return textureRepository.get("snow1");
+        } else if (height > 0.33333) {
+            return textureRepository.get("sand1");
+        } else {
+            return textureRepository.get("emptyTile1");
         }
     }
 
