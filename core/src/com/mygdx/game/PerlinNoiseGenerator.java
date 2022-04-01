@@ -5,11 +5,13 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.math.MathUtils;
 
 /**
- * Adapted from <a href="http://devmag.org.za/2009/04/25/perlin-noise/">http://devmag.org.za/2009/04/25/perlin-noise/</a>
+ * Adapted from
+ * <a href="http://devmag.org.za/2009/04/25/perlin-noise/">http://devmag.org.za/2009/04/25/perlin-noise/</a>.
  *
  * @author badlogic
  */
 public class PerlinNoiseGenerator {
+
     public static double[][] generateWhiteNoise(int width, int height) {
         double[][] noise = new double[width][height];
         for (int y = 0; y < height; y++) {
@@ -32,17 +34,25 @@ public class PerlinNoiseGenerator {
         int samplePeriod = 1 << octave; // calculates 2 ^ k
         float sampleFrequency = 1.0f / samplePeriod;
         for (int i = 0; i < width; i++) {
-            int sample_i0 = (i / samplePeriod) * samplePeriod;
-            int sample_i1 = (sample_i0 + samplePeriod) % width; // wrap around
-            float horizontal_blend = (i - sample_i0) * sampleFrequency;
+            int sampleI0 = (i / samplePeriod) * samplePeriod;
+            int sampleI1 = (sampleI0 + samplePeriod) % width; // wrap around
+            float horizontalBlend = (i - sampleI0) * sampleFrequency;
 
             for (int j = 0; j < height; j++) {
-                int sample_j0 = (j / samplePeriod) * samplePeriod;
-                int sample_j1 = (sample_j0 + samplePeriod) % height; // wrap around
-                double vertical_blend = (j - sample_j0) * sampleFrequency;
-                double top = interpolate(baseNoise[sample_i0][sample_j0], baseNoise[sample_i1][sample_j0], horizontal_blend);
-                double bottom = interpolate(baseNoise[sample_i0][sample_j1], baseNoise[sample_i1][sample_j1], horizontal_blend);
-                smoothNoise[i][j] = interpolate(top, bottom, vertical_blend);
+                int sampleJ0 = (j / samplePeriod) * samplePeriod;
+                int sampleJ1 = (sampleJ0 + samplePeriod) % height; // wrap around
+                double verticalBlend = (j - sampleJ0) * sampleFrequency;
+                double top = interpolate(
+                        baseNoise[sampleI0][sampleJ0],
+                        baseNoise[sampleI1][sampleJ0],
+                        horizontalBlend
+                );
+                double bottom = interpolate(
+                        baseNoise[sampleI0][sampleJ1],
+                        baseNoise[sampleI1][sampleJ1],
+                        horizontalBlend
+                );
+                smoothNoise[i][j] = interpolate(top, bottom, verticalBlend);
             }
         }
 
@@ -53,7 +63,7 @@ public class PerlinNoiseGenerator {
         int width = baseNoise.length;
         int height = baseNoise[0].length;
         double[][][] smoothNoise = new double[octaveCount][][]; // an array of 2D arrays containing
-        float persistance = 0.7f;
+        final float persistence = 0.7f;
 
         for (int i = 0; i < octaveCount; i++) {
             smoothNoise[i] = generateSmoothNoise(baseNoise, i);
@@ -65,7 +75,7 @@ public class PerlinNoiseGenerator {
         float totalAmplitude = 0.0f;
 
         for (int octave = octaveCount - 1; octave >= 0; octave--) {
-            amplitude *= persistance;
+            amplitude *= persistence;
             totalAmplitude += amplitude;
 
             for (int i = 0; i < width; i++) {
@@ -115,4 +125,8 @@ public class PerlinNoiseGenerator {
         }
         return pixmap;
     }
+
+    private PerlinNoiseGenerator() {
+    };
+
 }

@@ -46,7 +46,7 @@ public final class CameraController implements InputProcessor {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         float dragX = Gdx.input.getDeltaX();
         float dragY = Gdx.input.getDeltaY();
-        float dragMultiplier = 7800f;
+        final float dragMultiplier = 7800f;
         float dragSpeed = (1f / Gdx.graphics.getWidth()) * dragMultiplier;
 
         float moveCameraX = -dragX * dragSpeed * camera.zoom;

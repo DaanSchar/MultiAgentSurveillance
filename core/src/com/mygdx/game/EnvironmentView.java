@@ -21,7 +21,8 @@ public class EnvironmentView implements View {
         this.environment = environment;
         this.textures = new Texture[environment.getWidth()][environment.getHeight()];
         this.tiles = new TileView[environment.getWidth()][environment.getHeight()];
-        this.heightMap = PerlinNoiseGenerator.generatePerlinNoise(environment.getWidth(), environment.getHeight(), 10);
+        final int octaveCount = 10;
+        this.heightMap = PerlinNoiseGenerator.generatePerlinNoise(environment.getWidth(), environment.getHeight(), octaveCount);
         normalizeHeightMap();
 
         this.width = environment.getWidth() * TextureRepository.getInstance().getTextureWidth();
