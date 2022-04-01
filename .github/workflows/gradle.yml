@@ -21,8 +21,8 @@ jobs:
         cache: gradle
     - name: Build with Gradle
       run: ./gradlew build
-    - name: Test with Gradle
-      run: ./gradlew test
+    - name: Test Logic Module with Gradle
+      run: ./gradlew :logic:test
       
   lint:
     runs-on: ubuntu-latest
