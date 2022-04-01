@@ -1,39 +1,45 @@
 package nl.maastrichtuniversity.dke.gui;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class Clock {
+public final class Clock {
 
-    JLabel time = new JLabel();
-    int elapsedTime = 0;
-    int seconds = 0;
-    int minutes = 0;
-    int hours = 0;
+    private final JLabel time = new JLabel();
+    private int elapsedTime = 0;
+    private int seconds = 0;
+    private int minutes = 0;
+    private int hours = 0;
 
     // using string.format to make sec/min/hour appear with 00 before the actual time
-    String seconds_string = String.format("%02d", seconds);
-    String minutes_string = String.format("%02d", minutes);
-    String hours_string = String.format("%02d", hours);
+    private String secondsString = String.format("%02d", seconds);
+    private String minutesString = String.format("%02d", minutes);
+    private String hoursString = String.format("%02d", hours);
 
-    javax.swing.Timer timer = new javax.swing.Timer(1000, e -> {
+    private final int SECONDS_IN_MILLI = 1000;
 
-        elapsedTime = elapsedTime + 1000;
+    javax.swing.Timer timer = new javax.swing.Timer(SECONDS_IN_MILLI, e -> {
+
+        elapsedTime = elapsedTime + SECONDS_IN_MILLI;
         hours = (elapsedTime / 3600000);
         minutes = (elapsedTime / 60000) % 60;
-        seconds = (elapsedTime / 1000) % 60;
-        seconds_string = String.format("%02d", seconds);
-        minutes_string = String.format("%02d", minutes);
-        hours_string = String.format("%02d", hours);
-        time.setText(" " + hours_string + ":" + minutes_string + ":" + seconds_string);
+        seconds = (elapsedTime / SECONDS_IN_MILLI) % 60;
+        secondsString = String.format("%02d", seconds);
+        minutesString = String.format("%02d", minutes);
+        hoursString = String.format("%02d", hours);
+        time.setText(" " + hoursString + ":" + minutesString + ":" + secondsString);
     });
 
-    public JLabel getTime() { return time; }
+    public JLabel getTime() {
+        return time;
+    }
 
-    public void start() { timer.start(); }
+    public void start() {
+        timer.start();
+    }
 
-    public void stop() { timer.stop(); }
+    public void stop() {
+        timer.stop();
+    }
 
     public void reset() {
         timer.stop();
@@ -41,9 +47,9 @@ public class Clock {
         seconds = 0;
         minutes = 0;
         hours = 0;
-        seconds_string = String.format("%02d", seconds);
-        minutes_string = String.format("%02d", minutes);
-        hours_string = String.format("%02d", hours);
-        time.setText(hours_string + ":" + minutes_string + ":" + seconds_string);
+        secondsString = String.format("%02d", seconds);
+        minutesString = String.format("%02d", minutes);
+        hoursString = String.format("%02d", hours);
+        time.setText(hoursString + ":" + minutesString + ":" + secondsString);
     }
 }
