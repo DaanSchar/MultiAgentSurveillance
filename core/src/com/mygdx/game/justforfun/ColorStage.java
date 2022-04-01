@@ -22,8 +22,8 @@ public class ColorStage extends ShapeRendererStage {
     @Override
     public void draw() {
         super.draw();
-        shapeRenderer.setAutoShapeType(true);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        getShapeRenderer().setAutoShapeType(true);
+        getShapeRenderer().begin(ShapeRenderer.ShapeType.Filled);
 
         for (int i = 0; i < heightMapR.length; i++) {
             for (int j = 0; j < heightMapR[i].length; j++) {
@@ -32,7 +32,7 @@ public class ColorStage extends ShapeRendererStage {
                         (float) heightMapG[i][j],
                         (float) heightMapB[i][j], 1f
                 );
-                shapeRenderer.rect(
+                getShapeRenderer().rect(
                         i * rectangleSize,
                         j * rectangleSize,
                         rectangleSize,
@@ -41,7 +41,7 @@ public class ColorStage extends ShapeRendererStage {
                 );
             }
         }
-        shapeRenderer.end();
+        getShapeRenderer().end();
     }
 
 }

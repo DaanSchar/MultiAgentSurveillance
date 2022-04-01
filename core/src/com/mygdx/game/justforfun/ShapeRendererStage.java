@@ -5,11 +5,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.mygdx.game.CameraController;
+import lombok.Getter;
 
 public class ShapeRendererStage extends Stage {
 
-    protected CameraController cameraController;
-    protected ShapeRenderer shapeRenderer;
+    private CameraController cameraController;
+    private @Getter ShapeRenderer shapeRenderer;
 
     private final int worldWidth;
     private final int worldHeight;
