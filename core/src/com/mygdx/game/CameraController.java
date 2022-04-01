@@ -16,6 +16,10 @@ public final class CameraController implements InputProcessor {
     private final float worldWidth;
     private final float worldHeight;
 
+    private static final float MAX_ZOOM = 2.0f;
+    private static final float MIN_ZOOM = 0.2f;
+    private static final float ZOOM_STEP = 0.05f;
+
     public CameraController(EnvironmentView environmentView) {
         this.worldWidth = environmentView.getWidth();
         this.worldHeight = environmentView.getHeight();
@@ -33,14 +37,10 @@ public final class CameraController implements InputProcessor {
 
     @Override
     public boolean scrolled(float amountX, float amountY) {
-        float maxZoom = 2.0f;
-        float minZoom = 0.1f;
-        float zoomStep = 0.05f;
-
-        if (amountY > 0 && camera.zoom < maxZoom) {
-            camera.zoom += zoomStep;
-        } else if (amountY < 0 && camera.zoom > minZoom) {
-            camera.zoom -= zoomStep;
+        if (amountY > 0 && camera.zoom < MAX_ZOOM) {
+            camera.zoom += ZOOM_STEP;
+        } else if (amountY < 0 && camera.zoom > MIN_ZOOM) {
+            camera.zoom -= ZOOM_STEP;
         }
 
         return true;
@@ -50,7 +50,8 @@ public final class CameraController implements InputProcessor {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         float dragX = Gdx.input.getDeltaX();
         float dragY = Gdx.input.getDeltaY();
-        float dragSpeed = 7800f / Gdx.graphics.getWidth();
+        float dragMultiplier = 7800f;
+        float dragSpeed = (1f / Gdx.graphics.getWidth()) * dragMultiplier;
 
         float moveCameraX = -dragX * dragSpeed * camera.zoom;
         float moveCameraY = dragY * dragSpeed * camera.zoom;

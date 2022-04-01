@@ -4,12 +4,11 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mygdx.game.GameGUI;
 
-public class DesktopLauncher {
+public final class DesktopLauncher {
 
-
-    private final static double SCREEN_RATIO = 16.0 / 9.0;
-    private final static int WIDTH = 1400;
-    private final static int HEIGHT = (int) (WIDTH / SCREEN_RATIO);
+    private static final double SCREEN_RATIO = 16.0 / 9.0;
+    private static final int WIDTH = 1400;
+    private static final int HEIGHT = (int) (WIDTH / SCREEN_RATIO);
 
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
@@ -23,5 +22,8 @@ public class DesktopLauncher {
         config.vSyncEnabled = false;
         config.foregroundFPS = 0;
         config.backgroundFPS = 0;
+    }
+
+    private DesktopLauncher() {
     }
 }

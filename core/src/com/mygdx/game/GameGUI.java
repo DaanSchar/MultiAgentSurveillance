@@ -26,7 +26,6 @@ public final class GameGUI extends ApplicationAdapter {
 
     @Override
     public void render() {
-        log.info("FPS: {}", Gdx.graphics.getFramesPerSecond());
         ScreenUtils.clear(0, 0, 0, 1);
         gameComponent.draw();
     }

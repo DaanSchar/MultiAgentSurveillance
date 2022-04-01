@@ -8,30 +8,40 @@ import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 public class TileView {
 
     private final Tile tile;
-    private Texture texture;
+    private final Texture texture;
 
     private final TextureRepository textureRepository;
 
     public TileView(Tile tile) {
         this.tile = tile;
         this.textureRepository = TextureRepository.getInstance();
+        this.texture = determineTextureByTileState();
     }
 
     public void draw(Batch batch) {
-        determineTextureByTileState();
         drawTile(batch);
     }
 
     private void drawTile(Batch batch) {
         Position position = tile.getPosition();
-        batch.draw(texture, position.getX() * textureRepository.getTextureWidth(), position.getY() * textureRepository.getTextureHeight());
+        batch.draw(
+                texture,
+                position.getX() * textureRepository.getTextureWidth(),
+                position.getY() * textureRepository.getTextureHeight()
+        );
     }
 
-    private void determineTextureByTileState() {
+    private Texture determineTextureByTileState() {
         switch (tile.getType()) {
-            case EMPTY -> texture = textureRepository.get("emptyTile1");
-            case WALL -> texture = textureRepository.get("shadedTile4");
-            default -> texture = textureRepository.get("emptyTile4");
+            case EMPTY -> {
+                return textureRepository.get("emptyTile1");
+            }
+            case WALL -> {
+                return textureRepository.get("shadedTile4");
+            }
+            default -> {
+                return textureRepository.get("emptyTile4");
+            }
         }
     }
 
