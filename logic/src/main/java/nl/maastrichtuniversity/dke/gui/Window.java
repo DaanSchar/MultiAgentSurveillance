@@ -7,7 +7,9 @@ public class Window {
     private static JFrame windowInstance;
 
     public static JFrame getInstance() {
-        if (windowInstance == null) { createWindowInstance(); }
+        if (windowInstance == null) {
+            createWindowInstance();
+        }
 
         return windowInstance;
     }
@@ -23,13 +25,6 @@ public class Window {
         windowInstance.setSize(800, 600);
         windowInstance.setLocationRelativeTo(null);
         windowInstance.setIconImage(ImageFactory.getInstance().get("gameIcon"));
-    }
-
-    public static void main(String[] args) {
-        var frame = getInstance();
-
-        frame.setContentPane(SplashMenu.getInstance().getPanel());
-        frame.setVisible(true);
     }
 
 }
