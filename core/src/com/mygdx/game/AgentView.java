@@ -7,7 +7,7 @@ import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.List;
 
-public class AgentView implements View{
+public class AgentView implements View {
 
     private final List<Guard> guards;
     private final List<Intruder> intruders;
@@ -26,9 +26,9 @@ public class AgentView implements View{
 
     private void drawGuard(Batch batch, Guard guard) {
         Position position = guard.getPosition();
-            batch.draw(texturesRepository.get("guard1"),
-                    position.getX() * texturesRepository.getTextureWidth(),
-                    position.getY() * texturesRepository.getTextureHeight()
-            );
+        batch.draw(texturesRepository.get("guard1"),
+                position.getX() * texturesRepository.getTextureWidth(),
+                position.getY() * texturesRepository.getTextureHeight()
+        );
     }
 }

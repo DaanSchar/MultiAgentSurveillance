@@ -7,7 +7,7 @@ import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 
 import java.util.Arrays;
 
-public class EnvironmentView implements View{
+public class EnvironmentView implements View {
 
     private final Environment environment;
     private final Texture[][] textures;

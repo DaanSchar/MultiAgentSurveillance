@@ -3,7 +3,6 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.mygdx.game.justforfun.ColorStage;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +47,7 @@ public final class GameGUI extends ApplicationAdapter {
     }
 
     private void draw() {
-        ScreenUtils.clear(0, 0, 0, 10);
+        ScreenUtils.clear(0, 0, 0, 1);
         gameComponent.draw();
     }
 

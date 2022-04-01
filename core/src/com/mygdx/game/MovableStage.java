@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 
 public class MovableStage extends Stage {
 
-    protected CameraController cameraController;
+    private final CameraController cameraController;
 
     private final int worldWidth;
     private final int worldHeight;
