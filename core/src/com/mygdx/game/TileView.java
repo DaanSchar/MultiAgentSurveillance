@@ -48,9 +48,9 @@ public class TileView {
     }
 
     private Texture getEmptyTexture() {
-        if (height > 0.6666) {
+        if (height > 2f/3f) {
             return textureRepository.get("snow1");
-        } else if (height > 0.33333) {
+        } else if (height > 1f/3f) {
             return textureRepository.get("sand1");
         } else {
             return textureRepository.get("emptyTile1");

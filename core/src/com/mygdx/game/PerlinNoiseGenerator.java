@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
  *
  * @author badlogic
  */
-public class PerlinNoiseGenerator {
+public final class PerlinNoiseGenerator {
 
     public static double[][] generateWhiteNoise(int width, int height) {
         double[][] noise = new double[width][height];
