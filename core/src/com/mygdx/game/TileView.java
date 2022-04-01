@@ -10,10 +10,11 @@ public class TileView {
     private final Tile tile;
     private Texture texture;
 
-    private static final TextureRepository textureRepository = TextureRepository.getInstance();
+    private final TextureRepository textureRepository;
 
     public TileView(Tile tile) {
         this.tile = tile;
+        this.textureRepository = TextureRepository.getInstance();
     }
 
     public void draw(Batch batch) {
@@ -33,9 +34,5 @@ public class TileView {
             default -> texture = textureRepository.get("emptyTile4");
         }
     }
-
-
-
-
 
 }

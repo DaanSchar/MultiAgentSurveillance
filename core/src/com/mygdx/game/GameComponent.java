@@ -24,7 +24,7 @@ public class GameComponent {
     }
 
     public void resize(int width, int height) {
-        cameraController.getViewport().update(width, height);
+        cameraController.resize(width, height);
     }
 
     public void dispose() {
@@ -32,8 +32,7 @@ public class GameComponent {
     }
 
     private void updateCamera() {
-        cameraController.getCamera().update();
-        batch.setProjectionMatrix(cameraController.getCamera().combined);
+        cameraController.updateBatch(batch);
     }
 
     private void drawBatch() {
@@ -41,6 +40,5 @@ public class GameComponent {
         environmentView.draw(batch);
         batch.end();
     }
-
 
 }

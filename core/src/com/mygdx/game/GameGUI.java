@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -11,7 +12,7 @@ import java.io.File;
 
 @Getter
 @Slf4j
-public final class GUIGame extends ApplicationAdapter {
+public final class GameGUI extends ApplicationAdapter {
 
     private Game game;
     private GameComponent gameComponent;
@@ -25,6 +26,7 @@ public final class GUIGame extends ApplicationAdapter {
 
     @Override
     public void render() {
+        log.info("FPS: {}", Gdx.graphics.getFramesPerSecond());
         ScreenUtils.clear(0, 0, 0, 1);
         gameComponent.draw();
     }
@@ -43,8 +45,5 @@ public final class GUIGame extends ApplicationAdapter {
         Game.setMapFile(new File("core/assets/testmap.txt"));
         game = Game.getInstance();
     }
-
-
-
 
 }

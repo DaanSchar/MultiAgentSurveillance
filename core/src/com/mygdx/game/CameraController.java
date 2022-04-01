@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import lombok.Getter;
@@ -15,12 +16,9 @@ public final class CameraController implements InputProcessor {
     private final float worldWidth;
     private final float worldHeight;
 
-    private final float DRAG_MULTIPLIER;
-
     public CameraController(EnvironmentView environmentView) {
         this.worldWidth = environmentView.getWidth();
         this.worldHeight = environmentView.getHeight();
-        this.DRAG_MULTIPLIER = (Gdx.graphics.getWidth() / worldWidth) * 20f;
 
         setupViewPort();
     }
@@ -52,12 +50,22 @@ public final class CameraController implements InputProcessor {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         float dragX = Gdx.input.getDeltaX();
         float dragY = Gdx.input.getDeltaY();
+        float dragSpeed = 7800f / Gdx.graphics.getWidth();
 
-        float moveCameraX = -dragX * DRAG_MULTIPLIER * camera.zoom;
-        float moveCameraY = dragY * DRAG_MULTIPLIER * camera.zoom;
+        float moveCameraX = -dragX * dragSpeed * camera.zoom;
+        float moveCameraY = dragY * dragSpeed * camera.zoom;
 
         camera.translate(moveCameraX, moveCameraY);
         return true;
+    }
+
+    public void resize(int width, int height) {
+        viewport.update(width, height);
+    }
+
+    public void updateBatch(Batch batch) {
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
     }
 
     @Override
@@ -95,4 +103,5 @@ public final class CameraController implements InputProcessor {
         float middleY = worldHeight / 2f;
         camera.position.set(middleX, middleY, 0);
     }
+
 }

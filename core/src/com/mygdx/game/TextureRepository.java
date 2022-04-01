@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import java.util.HashMap;
 
-public class TextureRepository {
+public final class TextureRepository {
 
     private static TextureRepository instance;
 
