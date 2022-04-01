@@ -39,9 +39,9 @@ public final class TextureRepository {
         textures.put("emptyTile1", new Texture("empty/tile1.png"));
         textures.put("emptyTile2", new Texture("empty/tile2.png"));
         textures.put("emptyTile3", new Texture("empty/tile3.png"));
-        textures.put("emptyTile4", new Texture("empty/tile3.png"));
-        textures.put("emptyTile5", new Texture("empty/tile4.png"));
-        textures.put("emptyTile6", new Texture("empty/tile5.png"));
+        textures.put("emptyTile4", new Texture("empty/tile4.png"));
+        textures.put("emptyTile5", new Texture("empty/tile5.png"));
+        textures.put("emptyTile6", new Texture("empty/tile6.png"));
 
         textures.put("shadedTile1", new Texture("shaded/tile1.png"));
         textures.put("shadedTile2", new Texture("shaded/tile2.png"));
