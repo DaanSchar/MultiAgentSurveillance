@@ -7,7 +7,7 @@ import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 
 import java.util.Arrays;
 
-public class EnvironmentView {
+public class EnvironmentView implements View{
 
     private final Environment environment;
     private final Texture[][] textures;
@@ -23,6 +23,7 @@ public class EnvironmentView {
         this.tiles = new TileView[environment.getWidth()][environment.getHeight()];
         this.heightMap = PerlinNoiseGenerator.generatePerlinNoise(environment.getWidth(), environment.getHeight(), 10);
         normalizeHeightMap();
+
         this.width = environment.getWidth() * TextureRepository.getInstance().getTextureWidth();
         this.height = environment.getHeight() * TextureRepository.getInstance().getTextureWidth();
 

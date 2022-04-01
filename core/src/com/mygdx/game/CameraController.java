@@ -4,13 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import lombok.Getter;
 
 public final class CameraController implements InputProcessor {
 
-    private @Getter Viewport viewport;
     private @Getter OrthographicCamera camera;
 
     private final float worldWidth;
@@ -20,19 +19,16 @@ public final class CameraController implements InputProcessor {
     private static final float MIN_ZOOM = 0.2f;
     private static final float ZOOM_STEP = 0.05f;
 
-    public CameraController(EnvironmentView environmentView) {
-        this.worldWidth = environmentView.getWidth();
-        this.worldHeight = environmentView.getHeight();
+    public CameraController(Stage stage) {
+        this.worldWidth = stage.getWidth();
+        this.worldHeight = stage.getHeight();
 
-        setupViewPort();
+        setupCamera();
     }
 
-    private void setupViewPort() {
+    private void setupCamera() {
         camera = new OrthographicCamera();
         centerCameraPosition();
-
-        viewport = new FillViewport(worldWidth, worldHeight, camera);
-        viewport.apply();
     }
 
     @Override
@@ -60,13 +56,14 @@ public final class CameraController implements InputProcessor {
         return true;
     }
 
-    public void resize(int width, int height) {
-        viewport.update(width, height);
-    }
-
-    public void updateBatch(Batch batch) {
+    public void update(Batch batch) {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
+    }
+
+    public void update(ShapeRenderer shapeRenderer) {
+        camera.update();
+        shapeRenderer.setProjectionMatrix(camera.combined);
     }
 
     @Override

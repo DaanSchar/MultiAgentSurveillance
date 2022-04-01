@@ -1,44 +1,26 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
-
-public class GameComponent {
+public class GameComponent extends MovableStage {
 
     private final EnvironmentView environmentView;
+    private final AgentView agentView;
 
-    private final SpriteBatch batch;
-    private final CameraController cameraController;
-
-    public GameComponent(Environment environment) {
-        this.environmentView = new EnvironmentView(environment);
-        this.cameraController = new CameraController(environmentView);
-        this.batch = new SpriteBatch();
-        Gdx.input.setInputProcessor(cameraController);
+    public GameComponent(EnvironmentView environmentView, AgentView agentView) {
+        super(environmentView.getWidth(), environmentView.getHeight());
+        this.environmentView = environmentView;
+        this.agentView = agentView;
     }
 
     public void draw() {
-        updateCamera();
+        super.draw();
         drawBatch();
     }
 
-    public void resize(int width, int height) {
-        cameraController.resize(width, height);
-    }
-
-    public void dispose() {
-        batch.dispose();
-    }
-
-    private void updateCamera() {
-        cameraController.updateBatch(batch);
-    }
-
     private void drawBatch() {
-        batch.begin();
-        environmentView.draw(batch);
-        batch.end();
+        getBatch().begin();
+        environmentView.draw(getBatch());
+        agentView.draw(getBatch());
+        getBatch().end();
     }
 
 }

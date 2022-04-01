@@ -53,6 +53,8 @@ public final class TextureRepository {
         textures.put("shadedTile2", new Texture("shaded/tile2.png"));
         textures.put("shadedTile3", new Texture("shaded/tile3.png"));
         textures.put("shadedTile4", new Texture("shaded/tile3.png"));
+
+        textures.put("guard1", new Texture("guard/guard1.png"));
     }
 
 }

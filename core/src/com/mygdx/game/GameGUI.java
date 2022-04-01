@@ -1,10 +1,9 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.mygdx.game.justforfun.ColorStage;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -18,21 +17,38 @@ public final class GameGUI extends ApplicationAdapter {
 
     private Game game;
     private GameComponent gameComponent;
-    private double[][] heightMap;
-    ShapeRenderer batch;
+
+    private float totalTimePassed;
+    private final float timeInterval = 0.25f;
 
     @SneakyThrows
     @Override
     public void create() {
         setupGame();
-        gameComponent = new GameComponent(game.getScenario().getEnvironment());
-        this.heightMap = PerlinNoiseGenerator.generatePerlinNoise(100, 100, 25);
-        batch = new ShapeRenderer();
+        gameComponent = new GameComponent(
+                new EnvironmentView(game.getScenario().getEnvironment()),
+                new AgentView(game.getScenario().getGuards(), game.getScenario().getIntruders())
+        );
     }
 
     @Override
     public void render() {
-        ScreenUtils.clear(0, 0, 0, 1);
+        totalTimePassed += Gdx.graphics.getDeltaTime();
+
+        if (totalTimePassed > timeInterval) {
+            totalTimePassed = 0;
+            update();
+        }
+
+        draw();
+    }
+
+    private void update() {
+        game.update();
+    }
+
+    private void draw() {
+        ScreenUtils.clear(0, 0, 0, 10);
         gameComponent.draw();
     }
 
@@ -49,6 +65,7 @@ public final class GameGUI extends ApplicationAdapter {
     private void setupGame() {
         Game.setMapFile(new File("core/assets/testmap.txt"));
         game = Game.getInstance();
+        game.init();
     }
 
 }
