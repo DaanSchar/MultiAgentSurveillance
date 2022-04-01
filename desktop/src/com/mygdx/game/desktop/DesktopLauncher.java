@@ -6,14 +6,14 @@ import com.mygdx.game.Game;
 
 public class DesktopLauncher {
 
-	private final static double screenRatio = 16.0 / 9.0;
-	private final static int width = 1400;
-	private final static int height = (int) (width / screenRatio);
+	private final static double SCREEN_RATIO = 16.0 / 9.0;
+	private final static int WIDTH = 1400;
+	private final static int HEIGHT = (int) (WIDTH / SCREEN_RATIO);
 
 	public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.width = width;
-        config.height = height;
+        config.width = WIDTH;
+        config.height = HEIGHT;
         new LwjglApplication(new Game(), config);
     }
 }
