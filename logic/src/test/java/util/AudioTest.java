@@ -1,14 +1,14 @@
 package util;
 
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.listening.ListeningModule;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.NoiseModule;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.util.Direction;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.Scenario;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.Sound;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.logic.agents.modules.listening.ListeningModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.NoiseModule;
+import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
+import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.scenario.Sound;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
+import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -76,7 +76,6 @@ public class AudioTest {
         noiseModule.makeWalkingSound(agentPosition);
         List<Sound> soundMap = s.getSoundMap();
         for(Sound sound:soundMap){
-            System.out.println(sound.getPosition());
             int X = sound.getPosition().getX();
             int Y = sound.getPosition().getY();
             assert(Math.abs(X)-Math.abs(agentPosition.getX()) <= 2);

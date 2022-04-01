@@ -1,4 +1,4 @@
-package main.java.nl.maastrichtuniversity.dke.util;
+package nl.maastrichtuniversity.dke.util;
 
 public class DebugSettings {
 

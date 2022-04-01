@@ -1,8 +1,8 @@
-package main.java.nl.maastrichtuniversity.dke.logic.scenario;
+package nl.maastrichtuniversity.dke.logic.scenario;
 
 import lombok.Getter;
 import lombok.Setter;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 public class Sound {
     private  @Getter @Setter Position source; //it holds the original tile where the sound is coming from

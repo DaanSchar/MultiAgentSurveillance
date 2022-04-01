@@ -1,9 +1,9 @@
-package main.java.nl.maastrichtuniversity.dke.logic.agents.modules.vision;
+package nl.maastrichtuniversity.dke.logic.agents.modules.vision;
 
-import main.java.nl.maastrichtuniversity.dke.logic.agents.Agent;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.util.Direction;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.logic.agents.Agent;
+import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.List;
 

@@ -1,12 +1,12 @@
-package main.java.nl.maastrichtuniversity.dke.logic.scenario.util;
+package nl.maastrichtuniversity.dke.logic.scenario.util;
 
 import lombok.extern.slf4j.Slf4j;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.factory.AgentFactory;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.Scenario;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.factory.EnvironmentFactory;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.factory.ScenarioFactory;
-import main.java.nl.maastrichtuniversity.dke.util.DebugSettings;
+import nl.maastrichtuniversity.dke.logic.agents.factory.AgentFactory;
+import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
+import nl.maastrichtuniversity.dke.logic.scenario.factory.EnvironmentFactory;
+import nl.maastrichtuniversity.dke.logic.scenario.factory.ScenarioFactory;
+import nl.maastrichtuniversity.dke.util.DebugSettings;
 
 import java.io.File;
 import java.util.Scanner;

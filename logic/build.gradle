@@ -1,9 +1,13 @@
 sourceCompatibility = 14
 dependencies {
-    implementation 'org.junit.jupiter:junit-jupiter:5.7.0'
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.2'
 }
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-sourceSets.main.java.srcDirs = [ "src/" ]
+tasks.withType(Test) {
+    useJUnitPlatform()
+}
+
+sourceSets.main.java.srcDirs = [ "src/main/java" ]
 
 eclipse.project.name = appName + "-logic"

@@ -1,4 +1,4 @@
-package main.java.nl.maastrichtuniversity.dke.logic.agents.util.exceptions;
+package nl.maastrichtuniversity.dke.logic.agents.util.exceptions;
 
 public class ActionIsNotRotationException extends Exception {
 

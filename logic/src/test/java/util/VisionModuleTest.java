@@ -2,13 +2,13 @@ package util;
 
 
 
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.vision.VisionModule;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.util.Direction;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.Scenario;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.logic.agents.modules.vision.VisionModule;
+import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
+import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
+import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -68,7 +68,6 @@ public class VisionModuleTest {
 
         vm.useVision(new Position(1,1), Direction.NORTH);
         List<Tile> obstacles =vm.getObstacles();
-        System.out.println(obstacles);
 
 
         Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(1, 1));
@@ -124,9 +123,7 @@ public class VisionModuleTest {
 
         vm.useVision(new Position(0,0), Direction.EAST);
         List<Tile> obstacles =vm.getObstacles();
-        for(Tile t : obstacles){
-            System.out.println("new Position("+t.getPosition().getX()+","+t.getPosition().getY()+"));");
-        }
+
         Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(0,0));
         Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(0,1));
         Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(1,0));
@@ -212,7 +209,6 @@ public class VisionModuleTest {
 
         vm.useVision(new Position(3,3), Direction.WEST);
         List<Tile> obstacles =vm.getObstacles();
-        System.out.println(obstacles);
 
         Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(1,3));
         Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(1,2));
@@ -268,7 +264,6 @@ public class VisionModuleTest {
 
         vm.useVision(new Position(2,2), Direction.NORTH);
         List<Tile> obstacles =vm.getObstacles();
-        System.out.println(obstacles);
         Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(2,0));
         Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(1,0));
         Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(3,0));
@@ -295,7 +290,6 @@ public class VisionModuleTest {
 
         vm.useVision(new Position(1,2), Direction.EAST);
         List<Tile> obstacles =vm.getObstacles();
-        System.out.println(obstacles);
         Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(3,2));
         Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(3,1));
         Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(3,3));
@@ -321,7 +315,6 @@ public class VisionModuleTest {
 
         vm.useVision(new Position(2,1), Direction.SOUTH);
         List<Tile> obstacles =vm.getObstacles();
-        System.out.println(obstacles);
     }
 
 

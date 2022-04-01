@@ -1,4 +1,4 @@
-package main.java.nl.maastrichtuniversity.dke.logic.agents.modules.communication;
+package nl.maastrichtuniversity.dke.logic.agents.modules.communication;
 
 public interface ICommunicationModule {
 

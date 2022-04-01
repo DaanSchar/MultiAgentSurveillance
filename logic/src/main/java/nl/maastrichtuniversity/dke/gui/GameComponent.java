@@ -1,4 +1,4 @@
-package main.java.nl.maastrichtuniversity.dke.gui;
+package nl.maastrichtuniversity.dke.gui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,16 +7,16 @@ import java.util.List;
 
 import javax.swing.Timer;
 
-import main.java.nl.maastrichtuniversity.dke.logic.Game;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.Agent;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.util.Direction;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.Smell;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.Sound;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.Scenario;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
+import nl.maastrichtuniversity.dke.logic.Game;
+import nl.maastrichtuniversity.dke.logic.agents.Agent;
+import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
+import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
+import nl.maastrichtuniversity.dke.logic.scenario.Smell;
+import nl.maastrichtuniversity.dke.logic.scenario.Sound;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
+import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

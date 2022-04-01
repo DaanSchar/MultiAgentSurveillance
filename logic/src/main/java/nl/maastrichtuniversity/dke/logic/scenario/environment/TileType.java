@@ -1,4 +1,4 @@
-package main.java.nl.maastrichtuniversity.dke.logic.scenario.environment;
+package nl.maastrichtuniversity.dke.logic.scenario.environment;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

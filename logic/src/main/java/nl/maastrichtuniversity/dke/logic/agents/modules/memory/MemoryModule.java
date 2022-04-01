@@ -1,19 +1,19 @@
-package main.java.nl.maastrichtuniversity.dke.logic.agents.modules.memory;
+package nl.maastrichtuniversity.dke.logic.agents.modules.memory;
 
 import lombok.Getter;
 import lombok.Setter;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.Agent;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.smell.ISmellModule;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.util.Direction;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.Scenario;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.MemoryTile;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.logic.agents.Agent;
+import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.smell.ISmellModule;
+import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
+import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
+import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.MemoryTile;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
+import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

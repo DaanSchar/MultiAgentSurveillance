@@ -1,4 +1,4 @@
-package main.java.nl.maastrichtuniversity.dke.logic.agents.util;
+package nl.maastrichtuniversity.dke.logic.agents.util;
 
 import lombok.Getter;
 

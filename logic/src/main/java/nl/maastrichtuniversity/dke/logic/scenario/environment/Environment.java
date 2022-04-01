@@ -1,9 +1,9 @@
-package main.java.nl.maastrichtuniversity.dke.logic.scenario.environment;
+package nl.maastrichtuniversity.dke.logic.scenario.environment;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.util.Direction;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
+import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.ArrayList;
 import java.util.Collection;

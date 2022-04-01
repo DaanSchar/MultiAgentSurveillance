@@ -1,8 +1,8 @@
-package main.java.nl.maastrichtuniversity.dke.logic.agents.modules.spawn;
+package nl.maastrichtuniversity.dke.logic.agents.modules.spawn;
 
-import main.java.nl.maastrichtuniversity.dke.logic.agents.Agent;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.util.Direction;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.logic.agents.Agent;
+import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
+import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 /**
  * A spawn module determines how a new agent is spawned into the environment.

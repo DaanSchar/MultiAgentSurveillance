@@ -1,4 +1,4 @@
-package main.java.nl.maastrichtuniversity.dke.gui;
+package nl.maastrichtuniversity.dke.gui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,10 +8,10 @@ import java.util.Objects;
 import java.util.List;
 import java.util.ArrayList;
 
-import main.java.nl.maastrichtuniversity.dke.logic.Game;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.Agent;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.Scenario;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
+import nl.maastrichtuniversity.dke.logic.Game;
+import nl.maastrichtuniversity.dke.logic.agents.Agent;
+import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 
 /**
  * GUIboard class

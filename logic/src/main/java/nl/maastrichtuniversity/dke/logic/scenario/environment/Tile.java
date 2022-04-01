@@ -1,7 +1,7 @@
-package main.java.nl.maastrichtuniversity.dke.logic.scenario.environment;
+package nl.maastrichtuniversity.dke.logic.scenario.environment;
 
 import lombok.*;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 @Getter
 @EqualsAndHashCode

@@ -1,6 +1,6 @@
-package main.java.nl.maastrichtuniversity.dke.logic.agents.modules.smell;
+package nl.maastrichtuniversity.dke.logic.agents.modules.smell;
 
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.List;
 

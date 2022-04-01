@@ -1,8 +1,8 @@
-package main.java.nl.maastrichtuniversity.dke.logic.agents.modules.exploration;
+package nl.maastrichtuniversity.dke.logic.agents.modules.exploration;
 
-import main.java.nl.maastrichtuniversity.dke.logic.agents.util.Direction;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
+import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
+import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 public interface IExplorationModule {
 

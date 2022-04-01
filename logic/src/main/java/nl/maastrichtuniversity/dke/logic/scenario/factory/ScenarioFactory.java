@@ -1,12 +1,12 @@
-package main.java.nl.maastrichtuniversity.dke.logic.scenario.factory;
+package nl.maastrichtuniversity.dke.logic.scenario.factory;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.factory.AgentFactory;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.Scenario;
-import main.java.nl.maastrichtuniversity.dke.util.DebugSettings;
+import nl.maastrichtuniversity.dke.logic.agents.factory.AgentFactory;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
+import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.util.DebugSettings;
 
 @Setter
 @Getter

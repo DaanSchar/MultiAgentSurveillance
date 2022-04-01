@@ -1,6 +1,6 @@
-package main.java.nl.maastrichtuniversity.dke.logic.agents;
+package nl.maastrichtuniversity.dke.logic.agents;
 
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,7 +25,7 @@ public class Fleet<T extends Agent> extends ArrayList<T> {
             tiles.addAll((agent.getMemoryModule()).getCoveredTiles());
         }
 
-        return tiles.stream().toList();
+        return new ArrayList<>(tiles);
     }
 
 }

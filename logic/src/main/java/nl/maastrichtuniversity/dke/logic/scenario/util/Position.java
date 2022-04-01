@@ -1,4 +1,4 @@
-package main.java.nl.maastrichtuniversity.dke.logic.scenario.util;
+package nl.maastrichtuniversity.dke.logic.scenario.util;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

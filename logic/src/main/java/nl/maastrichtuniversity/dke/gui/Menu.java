@@ -1,6 +1,6 @@
-package main.java.nl.maastrichtuniversity.dke.gui;
+package nl.maastrichtuniversity.dke.gui;
 
-import main.java.nl.maastrichtuniversity.dke.logic.Game;
+import nl.maastrichtuniversity.dke.logic.Game;
 
 import javax.swing.*;
 import java.awt.*;

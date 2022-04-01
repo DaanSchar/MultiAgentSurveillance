@@ -1,9 +1,9 @@
-package main.java.nl.maastrichtuniversity.dke.logic.agents.modules.communication;
+package nl.maastrichtuniversity.dke.logic.agents.modules.communication;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.Agent;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.logic.agents.Agent;
+import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import java.awt.Color;
 
 @Getter

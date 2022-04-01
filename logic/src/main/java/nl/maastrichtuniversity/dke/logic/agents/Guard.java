@@ -1,4 +1,4 @@
-package main.java.nl.maastrichtuniversity.dke.logic.agents;
+package nl.maastrichtuniversity.dke.logic.agents;
 
 import lombok.extern.slf4j.Slf4j;
 

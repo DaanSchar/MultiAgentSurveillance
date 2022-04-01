@@ -1,16 +1,16 @@
-package main.java.nl.maastrichtuniversity.dke.logic.agents.modules.exploration;
+package nl.maastrichtuniversity.dke.logic.agents.modules.exploration;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import main.java.nl.maastrichtuniversity.dke.logic.Game;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovementModule;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.util.Direction;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.MemoryTile;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.logic.Game;
+import nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovementModule;
+import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
+import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.MemoryTile;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
+import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.*;
 

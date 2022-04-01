@@ -1,11 +1,11 @@
-package main.java.nl.maastrichtuniversity.dke.logic;
+package nl.maastrichtuniversity.dke.logic;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.Fleet;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.Guard;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.Scenario;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.util.MapParser;
+import nl.maastrichtuniversity.dke.logic.agents.Fleet;
+import nl.maastrichtuniversity.dke.logic.agents.Guard;
+import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.scenario.util.MapParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

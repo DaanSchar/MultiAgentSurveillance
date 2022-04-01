@@ -1,9 +1,9 @@
-package main.java.nl.maastrichtuniversity.dke.logic.scenario;
+package nl.maastrichtuniversity.dke.logic.scenario;
 
 import lombok.Getter;
 import lombok.Setter;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.Agent;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.logic.agents.Agent;
+import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 public class Smell {
         private  @Getter @Setter Position source;

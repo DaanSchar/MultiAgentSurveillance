@@ -1,11 +1,11 @@
-package main.java.nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration;
+package nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration;
 
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.Scenario;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.util.Position;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.Sound;
+import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
+import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 
 public class NoiseModule extends AgentModule implements INoiseModule {
     private final double hearingDistanceWalking;

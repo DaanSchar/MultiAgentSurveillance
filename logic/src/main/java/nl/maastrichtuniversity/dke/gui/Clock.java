@@ -1,4 +1,4 @@
-package main.java.nl.maastrichtuniversity.dke.gui;
+package nl.maastrichtuniversity.dke.gui;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

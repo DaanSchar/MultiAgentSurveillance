@@ -1,25 +1,25 @@
-package main.java.nl.maastrichtuniversity.dke.logic.agents;
+package nl.maastrichtuniversity.dke.logic.agents;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
-import main.java.nl.maastrichtuniversity.dke.logic.Game;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.communication.ICommunicationModule;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.exploration.IExplorationModule;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.memory.IMemoryModule;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovementModule;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.INoiseModule;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.smell.ISmellModule;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.spawn.ISpawnModule;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.util.Direction;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.util.Position;
-import main.java.nl.maastrichtuniversity.dke.util.DebugSettings;
+import nl.maastrichtuniversity.dke.logic.Game;
+import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
+import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
+import nl.maastrichtuniversity.dke.logic.agents.modules.communication.ICommunicationModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.exploration.IExplorationModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.memory.IMemoryModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovementModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.INoiseModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.smell.ISmellModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.ISpawnModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
+import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
+import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
+import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.util.DebugSettings;
 
 import java.awt.*;
 

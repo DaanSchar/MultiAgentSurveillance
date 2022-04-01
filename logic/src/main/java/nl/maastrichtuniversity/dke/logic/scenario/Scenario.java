@@ -1,12 +1,12 @@
-package main.java.nl.maastrichtuniversity.dke.logic.scenario;
+package nl.maastrichtuniversity.dke.logic.scenario;
 
 import lombok.Getter;
 import lombok.Setter;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.Fleet;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.Guard;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.Intruder;
-import main.java.nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
-import main.java.nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
+import nl.maastrichtuniversity.dke.logic.agents.Fleet;
+import nl.maastrichtuniversity.dke.logic.agents.Guard;
+import nl.maastrichtuniversity.dke.logic.agents.Intruder;
+import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 
 import java.util.ArrayList;
 import java.util.List;
