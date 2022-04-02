@@ -8,7 +8,8 @@ import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 public class TileView {
 
     private final Tile tile;
-    private final Texture texture;
+    private final Texture tileTexture;
+    private final Texture stateTexture;
     private final double height;
 
     private final TextureRepository textureRepository;
@@ -17,20 +18,26 @@ public class TileView {
         this.tile = tile;
         this.height = height;
         this.textureRepository = TextureRepository.getInstance();
-        this.texture = determineTextureByTileState();
+        this.tileTexture = getTileTexture();
+        this.stateTexture = determineTextureByTileState();
     }
 
     public void draw(Batch batch) {
-        drawTile(batch);
+        drawTile(tileTexture, batch);
+        drawTile(stateTexture, batch);
     }
 
-    private void drawTile(Batch batch) {
+    private void drawTile(Texture texture, Batch batch) {
+        if (texture == null) {
+            return;
+        }
         Position position = tile.getPosition();
         batch.draw(
                 texture,
                 position.getX() * textureRepository.getTextureWidth(),
                 position.getY() * textureRepository.getTextureHeight()
         );
+
     }
 
     private Texture determineTextureByTileState() {
@@ -38,8 +45,14 @@ public class TileView {
             case EMPTY -> {
                 return getEmptyTexture();
             }
+            case DESTINATION_TELEPORT -> {
+                return textureRepository.get("teleportDestination");
+            }
             case WALL -> {
                 return textureRepository.get("shadedTile4");
+            }
+            case SPAWN_GUARDS -> {
+                return textureRepository.get("sand1");
             }
             default -> {
                 return textureRepository.get("emptyTile4");
@@ -47,14 +60,18 @@ public class TileView {
         }
     }
 
-    private Texture getEmptyTexture() {
-        if (height > 2f/3f) {
-            return textureRepository.get("snow1");
-        } else if (height > 1f/3f) {
-            return textureRepository.get("sand1");
+    private Texture getTileTexture() {
+        if (height > 2f / 3f) {
+            return textureRepository.get("stone1");
+        } else if (height > 1f / 3f) {
+            return textureRepository.get("grass1");
         } else {
-            return textureRepository.get("emptyTile1");
+            return textureRepository.get("dirt1");
         }
+    }
+
+    private Texture getEmptyTexture() {
+        return null;
     }
 
 }
