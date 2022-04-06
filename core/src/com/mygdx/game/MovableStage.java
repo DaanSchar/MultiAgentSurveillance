@@ -47,12 +47,12 @@ public class MovableStage extends Stage {
 
     @Override
     public float getWidth() {
-        return super.getWidth();
+        return worldWidth;
     }
 
     @Override
     public float getHeight() {
-        return super.getHeight();
+        return worldHeight;
     }
 
 }

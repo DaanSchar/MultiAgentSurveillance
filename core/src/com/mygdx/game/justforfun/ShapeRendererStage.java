@@ -9,8 +9,8 @@ import lombok.Getter;
 
 public class ShapeRendererStage extends Stage {
 
-    private CameraController cameraController;
-    private @Getter ShapeRenderer shapeRenderer;
+    private final CameraController cameraController;
+    private @Getter final ShapeRenderer shapeRenderer;
 
     private final int worldWidth;
     private final int worldHeight;
