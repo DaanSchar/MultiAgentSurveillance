@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.Game;
 
 import java.io.File;
+import java.util.Objects;
 
 @Getter
 @Slf4j
@@ -50,8 +51,7 @@ public final class GameGUI extends ApplicationAdapter {
         ScreenUtils.clear(0, 0, 0, 1);
         gameComponent.draw();
     }
-
-    @Override
+   @Override
     public void dispose() {
         gameComponent.dispose();
     }
@@ -62,9 +62,13 @@ public final class GameGUI extends ApplicationAdapter {
     }
 
     private void setupGame() {
-        Game.setMapFile(new File("core/assets/testmap.txt"));
+        Game.setMapFile(getMapFile());
         game = Game.getInstance();
         game.init();
+    }
+
+    private File getMapFile() {
+        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("testmap.txt")).getFile());
     }
 
 }
