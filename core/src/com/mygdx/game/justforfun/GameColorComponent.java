@@ -2,10 +2,9 @@ package com.mygdx.game.justforfun;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class GameColorComponent extends ShapeRendererStage{
+public class GameColorComponent extends ShapeRendererStage {
 
     private final EnvironmentColorView environmentView;
-
 
     public GameColorComponent(EnvironmentColorView environmentView) {
         super(environmentView.getWidth(), environmentView.getHeight());

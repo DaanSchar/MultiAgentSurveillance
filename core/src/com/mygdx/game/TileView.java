@@ -61,9 +61,12 @@ public class TileView {
     }
 
     private Texture getTileTexture() {
-        if (height > 2f / 3f) {
+        final float third = 1 / 3f;
+
+
+        if (height > 2 * third) {
             return textureRepository.get("stone1");
-        } else if (height > 1f / 3f) {
+        } else if (height > 1 * third) {
             return textureRepository.get("grass1");
         } else {
             return textureRepository.get("dirt1");
