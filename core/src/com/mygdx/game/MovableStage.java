@@ -42,7 +42,6 @@ public class MovableStage extends Stage {
     @Override
     public void dispose() {
         super.dispose();
-        getBatch().dispose();
     }
 
     @Override
