@@ -2,7 +2,7 @@ package com.mygdx.game.justforfun;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mygdx.game.PerlinNoiseGenerator;
+import com.mygdx.game.util.PerlinNoiseGenerator;
 import lombok.Getter;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;

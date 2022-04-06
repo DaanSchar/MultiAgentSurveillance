@@ -1,5 +1,8 @@
 package com.mygdx.game;
 
+import com.mygdx.game.views.AgentView;
+import com.mygdx.game.views.EnvironmentView;
+
 public class GameComponent extends MovableStage {
 
     private final EnvironmentView environmentView;

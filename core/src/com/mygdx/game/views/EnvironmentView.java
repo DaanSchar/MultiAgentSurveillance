@@ -1,13 +1,15 @@
-package com.mygdx.game;
+package com.mygdx.game.views;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.mygdx.game.util.PerlinNoiseGenerator;
+import com.mygdx.game.util.TextureRepository;
 import lombok.Getter;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 
 import java.util.Arrays;
 
-public class EnvironmentView implements View {
+public class EnvironmentView {
 
     private final Environment environment;
     private final Texture[][] textures;
