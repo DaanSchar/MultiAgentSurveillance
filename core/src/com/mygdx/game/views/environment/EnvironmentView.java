@@ -1,5 +1,6 @@
 package com.mygdx.game.views.environment;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.mygdx.game.util.PerlinNoiseGenerator;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
@@ -16,6 +17,17 @@ public class EnvironmentView extends Group {
         this.heightMap = generateHeightMap(10);
 
         addTileViews();
+    }
+
+    public void update() {
+        super.clear();
+        addTileViews();
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+        update();
     }
 
     private void addTileViews() {

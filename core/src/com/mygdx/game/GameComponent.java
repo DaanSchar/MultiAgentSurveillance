@@ -9,13 +9,16 @@ import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 
 public class GameComponent extends MovableStage {
 
-    private final EnvironmentView environmentView;
-    private final FleetView fleetView;
-    private final SoundView soundView;
+    private Scenario scenario;
+
+    private EnvironmentView environmentView;
+    private FleetView fleetView;
+    private SoundView soundView;
 
     public GameComponent(Scenario scenario, Environment environment) {
         super(environment.getWidth(), environment.getHeight());
-        this.environmentView = new EnvironmentView(environment);
+        this.scenario = scenario;
+        this.environmentView = new EnvironmentView(scenario.getEnvironment());
         this.fleetView = new FleetView(scenario.getGuards(), scenario.getIntruders());
         this.soundView = new SoundView(scenario);
     }
