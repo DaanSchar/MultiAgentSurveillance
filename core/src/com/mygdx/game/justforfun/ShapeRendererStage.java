@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.mygdx.game.CameraController;
+import com.mygdx.game.gamecomponent.CameraController;
 import lombok.Getter;
 
 public class ShapeRendererStage extends Stage {
