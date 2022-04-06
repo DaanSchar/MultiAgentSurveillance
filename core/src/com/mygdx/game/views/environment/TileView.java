@@ -1,12 +1,13 @@
-package com.mygdx.game.views;
+package com.mygdx.game.views.environment;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.util.TextureRepository;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
-public class TileView {
+public class TileView extends Actor {
 
     private final Tile tile;
     private final Texture tileTexture;
@@ -23,7 +24,7 @@ public class TileView {
         this.stateTexture = determineTextureByTileState();
     }
 
-    public void draw(Batch batch) {
+    public void draw(Batch batch, float parentAlpha) {
         drawTile(tileTexture, batch);
         drawTile(stateTexture, batch);
     }
@@ -33,10 +34,13 @@ public class TileView {
             return;
         }
         Position position = tile.getPosition();
+        batch.draw(texture, position.getX(), position.getY(), 1, 1);
         batch.draw(
                 texture,
-                position.getX() * textureRepository.getTextureWidth(),
-                position.getY() * textureRepository.getTextureHeight()
+                position.getX() * TextureRepository.TILE_WIDTH,
+                position.getY() * TextureRepository.TILE_HEIGHT,
+                TextureRepository.TILE_WIDTH,
+                TextureRepository.TILE_HEIGHT
         );
 
     }
@@ -63,7 +67,6 @@ public class TileView {
 
     private Texture getTileTexture() {
         final float third = 1 / 3f;
-
 
         if (height > 2 * third) {
             return textureRepository.get("stone1");

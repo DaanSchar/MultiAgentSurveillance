@@ -8,6 +8,9 @@ public final class TextureRepository {
 
     private static TextureRepository instance;
 
+    public static final int TILE_WIDTH = 1;
+    public static final int TILE_HEIGHT = 1;
+
     public static TextureRepository getInstance() {
         if (instance == null) {
             instance = new TextureRepository();
@@ -18,21 +21,13 @@ public final class TextureRepository {
 
     private final HashMap<String, Texture> textures;
 
-    public Texture get(String key) {
-        return textures.get(key);
-    }
-
-    public int getTextureWidth() {
-        return textures.get("grass1").getWidth();
-    }
-
-    public int getTextureHeight() {
-        return textures.get("grass1").getHeight();
-    }
-
     private TextureRepository() {
         textures = new HashMap<>();
         addTextures();
+    }
+
+    public Texture get(String key) {
+        return textures.get(key);
     }
 
     private void addTextures() {
