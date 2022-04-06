@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.math.MathUtils;
 
+import java.util.Arrays;
+
 /**
  * Adapted from
  * <a href="http://devmag.org.za/2009/04/25/perlin-noise/">http://devmag.org.za/2009/04/25/perlin-noise/</a>.
@@ -99,6 +101,23 @@ public final class PerlinNoiseGenerator {
         return generatePerlinNoise(baseNoise, octaveCount);
     }
 
+    public static double[][] generateNormalizedPerlinNoise(int width, int height, int octaveCount) {
+        double[][] map = generatePerlinNoise(width, height, octaveCount);
+        normalizeMap(map);
+        return map;
+    }
+
+    private static void normalizeMap(double[][] map) {
+        double max = Arrays.stream(map).flatMapToDouble(Arrays::stream).max().getAsDouble();
+        double min = Arrays.stream(map).flatMapToDouble(Arrays::stream).min().getAsDouble();
+
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[0].length; j++) {
+                map[i][j] = (map[i][j] - min) / (max - min);
+            }
+        }
+    }
+
     public static byte[] generateHeightMap(int width, int height, int min, int max, int octaveCount) {
         double[][] baseNoise = generateWhiteNoise(width, height);
         double[][] noise = generatePerlinNoise(baseNoise, octaveCount);
@@ -127,6 +146,6 @@ public final class PerlinNoiseGenerator {
     }
 
     private PerlinNoiseGenerator() {
-    };
+    }
 
 }

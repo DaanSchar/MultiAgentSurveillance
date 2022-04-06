@@ -16,8 +16,8 @@ public final class CameraController implements InputProcessor {
     private final float worldWidth;
     private final float worldHeight;
 
-    private static final float MAX_ZOOM = 2.0f;
-    private static final float MIN_ZOOM = 0.2f;
+    private static final float MAX_ZOOM = 1.5f;
+    private static final float MIN_ZOOM = 0.1f;
     private static final float ZOOM_STEP = 0.05f;
 
     public CameraController(Stage stage) {
@@ -47,7 +47,7 @@ public final class CameraController implements InputProcessor {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         float dragX = Gdx.input.getDeltaX();
         float dragY = Gdx.input.getDeltaY();
-        final float dragMultiplier = 7800f;
+        final float dragMultiplier = 127f;
         float dragSpeed = (1f / Gdx.graphics.getWidth()) * dragMultiplier;
 
         float moveCameraX = -dragX * dragSpeed * camera.zoom;
@@ -76,6 +76,12 @@ public final class CameraController implements InputProcessor {
         return false;
     }
 
+    private void centerCameraPosition() {
+        float middleX = worldWidth / 2f;
+        float middleY = worldHeight / 2f;
+        camera.position.set(middleX, middleY, 0);
+    }
+
     @Override
     public boolean keyUp(int keycode) {
         return false;
@@ -99,12 +105,6 @@ public final class CameraController implements InputProcessor {
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         return false;
-    }
-
-    private void centerCameraPosition() {
-        float middleX = worldWidth / 2f;
-        float middleY = worldHeight / 2f;
-        camera.position.set(middleX, middleY, 0);
     }
 
 }

@@ -3,8 +3,6 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.mygdx.game.views.AgentView;
-import com.mygdx.game.views.EnvironmentView;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -27,10 +25,7 @@ public final class GameGUI extends ApplicationAdapter {
     @Override
     public void create() {
         setupGame();
-        gameComponent = new GameComponent(
-                new EnvironmentView(game.getScenario().getEnvironment()),
-                new AgentView(game.getScenario().getGuards(), game.getScenario().getIntruders())
-        );
+        gameComponent = new GameComponent(game.getScenario(), game.getScenario().getEnvironment());
     }
 
     @Override
@@ -53,7 +48,8 @@ public final class GameGUI extends ApplicationAdapter {
         ScreenUtils.clear(0, 0, 0, 1);
         gameComponent.draw();
     }
-   @Override
+
+    @Override
     public void dispose() {
         gameComponent.dispose();
     }

@@ -1,29 +1,42 @@
 package com.mygdx.game;
 
-import com.mygdx.game.views.AgentView;
-import com.mygdx.game.views.EnvironmentView;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.mygdx.game.views.environment.EnvironmentView;
+import com.mygdx.game.views.fleet.FleetView;
+import com.mygdx.game.views.sound.SoundView;
+import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 
 public class GameComponent extends MovableStage {
 
     private final EnvironmentView environmentView;
-    private final AgentView agentView;
+    private final FleetView fleetView;
+    private final SoundView soundView;
 
-    public GameComponent(EnvironmentView environmentView, AgentView agentView) {
-        super(environmentView.getWidth(), environmentView.getHeight());
-        this.environmentView = environmentView;
-        this.agentView = agentView;
+    public GameComponent(Scenario scenario, Environment environment) {
+        super(environment.getWidth(), environment.getHeight());
+        this.environmentView = new EnvironmentView(environment);
+        this.fleetView = new FleetView(scenario.getGuards(), scenario.getIntruders());
+        this.soundView = new SoundView(scenario);
     }
 
     public void draw() {
         super.draw();
-        drawBatch();
+        drawTextures();
+        drawShapes();
     }
 
-    private void drawBatch() {
+    private void drawTextures() {
         getBatch().begin();
-        environmentView.draw(getBatch());
-        agentView.draw(getBatch());
+        environmentView.draw(getBatch(), 1f);
+        fleetView.draw(getBatch(), 1f);
         getBatch().end();
+    }
+
+    private void drawShapes() {
+        getShapeRenderer().begin(ShapeRenderer.ShapeType.Point);
+        soundView.draw(getShapeRenderer(), 0f);
+        getShapeRenderer().end();
     }
 
 }
