@@ -12,7 +12,6 @@ import java.util.Arrays;
 public class EnvironmentView {
 
     private final Environment environment;
-    private final Texture[][] textures;
     private final TileView[][] tiles;
     private final double[][] heightMap;
 
@@ -21,7 +20,6 @@ public class EnvironmentView {
 
     public EnvironmentView(Environment environment) {
         this.environment = environment;
-        this.textures = new Texture[environment.getWidth()][environment.getHeight()];
         this.tiles = new TileView[environment.getWidth()][environment.getHeight()];
         final int octaveCount = 10;
         this.heightMap = PerlinNoiseGenerator.generatePerlinNoise(
@@ -38,16 +36,16 @@ public class EnvironmentView {
     }
 
     public void draw(Batch batch) {
-        for (int i = 0; i < textures.length; i++) {
-            for (int j = 0; j < textures[0].length; j++) {
-                tiles[i][j].draw(batch);
+        for (TileView[] tileRow : tiles) {
+            for (int i = 0; i < tiles[0].length; i++) {
+                tileRow[i].draw(batch);
             }
         }
     }
 
     private void initTiles() {
-        for (int i = 0; i < textures.length; i++) {
-            for (int j = 0; j < textures[0].length; j++) {
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles[0].length; j++) {
                 tiles[i][j] = new TileView(environment.getTileMap()[i][j], heightMap[i][j]);
             }
         }
@@ -57,7 +55,6 @@ public class EnvironmentView {
         double max = Arrays.stream(heightMap).flatMapToDouble(Arrays::stream).max().getAsDouble();
         double min = Arrays.stream(heightMap).flatMapToDouble(Arrays::stream).min().getAsDouble();
 
-        Arrays.stream(heightMap).forEach(row -> Arrays.stream(row).map(value -> value = (value - min) / (max - min)));
         for (int i = 0; i < heightMap.length; i++) {
             for (int j = 0; j < heightMap[0].length; j++) {
                 heightMap[i][j] = (heightMap[i][j] - min) / (max - min);
