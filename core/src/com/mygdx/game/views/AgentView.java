@@ -1,13 +1,14 @@
-package com.mygdx.game;
+package com.mygdx.game.views;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.mygdx.game.util.TextureRepository;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.List;
 
-public class AgentView implements View {
+public class AgentView {
 
     private final List<Guard> guards;
     private final List<Intruder> intruders;

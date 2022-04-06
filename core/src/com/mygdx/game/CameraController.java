@@ -69,7 +69,6 @@ public final class CameraController implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-
         if (keycode == Input.Keys.SPACE) {
             centerCameraPosition();
         }

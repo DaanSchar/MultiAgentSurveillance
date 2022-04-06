@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.util;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
