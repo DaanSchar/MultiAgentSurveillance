@@ -1,7 +1,6 @@
 package com.mygdx.game.util;
 
 import com.badlogic.gdx.graphics.Texture;
-import lombok.Getter;
 
 import java.util.HashMap;
 

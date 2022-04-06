@@ -29,7 +29,7 @@ public class SoundView {
                     TextureRepository.TILE_HEIGHT,
                     color, color, color, color
             );
-        } );
+        });
     }
 
 }
