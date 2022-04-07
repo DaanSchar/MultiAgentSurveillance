@@ -3,6 +3,7 @@ package com.mygdx.game.views.environment;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.mygdx.game.util.PerlinNoiseGenerator;
+import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
@@ -12,11 +13,13 @@ import java.util.List;
 
 public class EnvironmentView extends Group {
 
-    private final Environment environment;
+    private Environment environment;
+    private final Scenario scenario;
     private final double[][] heightMap;
 
-    public EnvironmentView(Environment environment) {
-        this.environment = environment;
+    public EnvironmentView(Scenario scenario) {
+        this.scenario = scenario;
+        this.environment = scenario.getGuards().getMemoryMap();
         this.heightMap = generateHeightMap(10);
 
         addTileViews();
@@ -24,6 +27,7 @@ public class EnvironmentView extends Group {
 
     public void update() {
         super.clear();
+        environment = scenario.getGuards().getMemoryMap();
         addTileViews();
     }
 
