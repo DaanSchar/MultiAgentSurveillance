@@ -23,5 +23,4 @@ public class CommunicationMark {
         this.color = color;
     }
 
-
 }

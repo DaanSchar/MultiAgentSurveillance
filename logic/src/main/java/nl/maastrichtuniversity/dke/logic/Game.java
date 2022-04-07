@@ -4,20 +4,14 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.Fleet;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
-import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.util.MapParser;
-import org.junit.jupiter.api.MethodOrderer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
 @Slf4j
 public class Game {
-
-    private static final Logger logger = LoggerFactory.getLogger(Game.class);
 
     private static File mapFile;
     private static Game game;
@@ -41,17 +35,19 @@ public class Game {
         Game.mapFile = mapFile;
 
         if (game == null) {
-            logger.info("Creating new game instance.");
+            log.info("Creating new game instance.");
             game = new Game();
         } else {
-            logger.info("Map file changed, resetting game.");
+            log.info("Map file changed, resetting game.");
             game.reset();
         }
     }
 
 
-    private final @Getter Scenario scenario;
-    private @Getter double time;
+    private final @Getter
+    Scenario scenario;
+    private @Getter
+    double time;
 
     /**
      * Resets the game by re-reading the map file,
@@ -79,10 +75,10 @@ public class Game {
     private void updateGuards() {
         Fleet<Guard> guards = scenario.getGuards();
         double x = Math.random();
-        if(x<0.5){
+        if (x < 0.5) {
             guards.forEach(Guard::explore);
 
-        }else{
+        } else {
             guards.forEach(guard -> guard.dropMark(CommunicationType.VISION_BLUE));
         }
         guards.forEach(Guard::listen);

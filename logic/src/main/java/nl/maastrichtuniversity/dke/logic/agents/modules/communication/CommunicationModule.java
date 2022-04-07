@@ -35,8 +35,9 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
                 marks.remove(i);
                 check = true;
             }
-            if (check)
+            if (check) {
                 break;
+            }
 
         }
 
@@ -44,10 +45,11 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
     }
 
     private void dropSmell(Position position, Agent source) {
+        int smellingDistance = 3;
         Tile[][] tileMap = scenario.getEnvironment().getTileMap();
         for (Tile[] tiles : tileMap) {
             for (Tile tile : tiles) {
-                if (position.distance(tile.getPosition()) <= 3) {
+                if (position.distance(tile.getPosition()) <= smellingDistance) {
                     Smell smell = new Smell(tile.getPosition(), position, source);
                     scenario.getSmellMap().add(smell);
                 }

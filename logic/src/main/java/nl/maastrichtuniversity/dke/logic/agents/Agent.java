@@ -58,7 +58,8 @@ public class Agent {
         updateMemory();
 
         if (DebugSettings.FACTORY) {
-            log.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position + " facing " + this.direction);
+            log.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " +
+                    this.position + " facing " + this.direction);
         }
     }
 
@@ -105,7 +106,8 @@ public class Agent {
     }
 
     public Agent newInstance() {
-        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule, communicationModule, memoryModule, listeningModule, smellModule);
+        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule,
+                communicationModule, memoryModule, listeningModule, smellModule);
     }
 
     private void rotate(MoveAction rotation, double time) {
