@@ -29,10 +29,13 @@ public class UniformSpawnModule extends AgentModule implements ISpawnModule {
         if (agent instanceof Guard) {
             areas = scenario.getEnvironment().get(TileType.SPAWN_GUARDS);
         } else if (agent instanceof Intruder) {
-            areas = scenario.getEnvironment().get(TileType.SPAWN_GUARDS);
+            areas = scenario.getEnvironment().get(TileType.SPAWN_INTRUDERS);
         } else {
             areas = null;
         }
+
+        if(areas == null) return null;
+        if(areas.size() == 0) return null;
 
         Tile spawnTile = areas.get(new Random().nextInt(areas.size()));
 

@@ -55,6 +55,7 @@ public final class TextureRepository {
 
         // agents
         textures.put("guard1", new Texture("guard/guard1.png"));
+        textures.put("intruder1", new Texture("intruder/intruder1.png"));
 
         textures.put("shadedTile1", new Texture("shaded/tile1.png"));
         textures.put("shadedTile2", new Texture("shaded/tile2.png"));

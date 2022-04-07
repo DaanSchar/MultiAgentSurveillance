@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.Fleet;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
+import nl.maastrichtuniversity.dke.logic.agents.Intruder;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.util.MapParser;
 import org.slf4j.Logger;
@@ -64,6 +65,7 @@ public class Game {
      */
     public void init() {
         scenario.getGuards().forEach(Guard::spawn);
+        scenario.getIntruders().forEach(Intruder::spawn);
     }
 
     public void update() {
@@ -71,12 +73,19 @@ public class Game {
         time += scenario.getTimeStep();
 
         updateGuards();
+        updateIntruders();
     }
 
     private void updateGuards() {
         Fleet<Guard> guards = scenario.getGuards();
         guards.forEach(Guard::explore);
         guards.forEach(Guard::listen);
+    }
+
+    private void updateIntruders() {
+        Fleet<Intruder> intruders = scenario.getIntruders();
+        intruders.forEach(Intruder::explore);
+        intruders.forEach(Intruder::listen);
     }
 
     /**

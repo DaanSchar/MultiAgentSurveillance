@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.util.TextureRepository;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
+import nl.maastrichtuniversity.dke.logic.agents.Intruder;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 
@@ -27,7 +28,7 @@ public class AgentView extends Actor {
 
     private void drawAgent(Batch batch, Agent agent) {
         Position position = agent.getPosition();
-        Texture texture = agent instanceof Guard ? textureRepository.get("guard1") : textureRepository.get("guard1");
+        Texture texture = getAgentTexture(agent);
         batch.draw(
                 texture,
                 position.getX() * TextureRepository.TILE_WIDTH,
@@ -35,5 +36,13 @@ public class AgentView extends Actor {
                 TextureRepository.TILE_WIDTH,
                 TextureRepository.TILE_HEIGHT
         );
+    }
+
+    private Texture getAgentTexture(Agent agent) {
+        if(agent instanceof Guard)
+            return textureRepository.get("guard1");
+        else if(agent instanceof Intruder)
+            return textureRepository.get("intruder1");
+        return null;
     }
 }
