@@ -26,7 +26,8 @@ public final class GameGUI extends ApplicationAdapter {
     @Override
     public void create() {
         setupGame();
-        gameComponent = new GameComponent(game.getScenario(), game.getScenario().getEnvironment());
+        gameComponent = new GameComponent(game);
+        Gdx.input.setInputProcessor(gameComponent);
     }
 
     @Override

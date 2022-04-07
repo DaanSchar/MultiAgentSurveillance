@@ -1,17 +1,16 @@
 package com.mygdx.game.gamecomponent;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.views.environment.EnvironmentView;
 import com.mygdx.game.views.communication.CommunicationView;
 import com.mygdx.game.views.fleet.FleetView;
 import com.mygdx.game.views.smell.SmellView;
 import com.mygdx.game.views.sound.SoundView;
+import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 
 public class GameComponent extends MovableStage {
-
-    private Scenario scenario;
 
     private EnvironmentView environmentView;
     private FleetView fleetView;
@@ -19,11 +18,17 @@ public class GameComponent extends MovableStage {
     private SoundView soundView;
     private SmellView smellView;
 
-    public GameComponent(Scenario scenario, Environment environment) {
-        super(environment.getWidth(), environment.getHeight());
-        this.scenario = scenario;
+    private final Game game;
+
+    public GameComponent(Game game) {
+        super(game.getScenario().getEnvironment().getWidth(), game.getScenario().getEnvironment().getHeight());
+        this.game = game;
+        reset(game.getScenario());
+    }
+
+    public void reset(Scenario scenario) {
         this.environmentView = new EnvironmentView(scenario.getEnvironment());
-        this.fleetView = new FleetView(scenario.getGuards(), scenario.getIntruders());
+        this.fleetView = new FleetView(scenario);
         this.soundView = new SoundView(scenario);
         this.smellView = new SmellView(scenario);
         this.communicationView = new CommunicationView(scenario);
@@ -51,4 +56,14 @@ public class GameComponent extends MovableStage {
         getShapeRenderer().end();
     }
 
+    @Override
+    public boolean keyDown(int keyCode) {
+        if (keyCode == Input.Keys.R) {
+            game.reset();
+            reset(game.getScenario());
+            return true;
+        } else {
+            return super.keyDown(keyCode);
+        }
+    }
 }
