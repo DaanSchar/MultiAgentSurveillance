@@ -66,6 +66,11 @@ public class MovableStage extends Stage {
     }
 
     @Override
+    public boolean scrolled(float amountX, float amountY) {
+        return cameraController.scrolled(amountX, amountY);
+    }
+
+    @Override
     public boolean keyDown(int keyCode) {
         return cameraController.keyDown(keyCode);
     }
