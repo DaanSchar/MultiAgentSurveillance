@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="util.VisionModuleTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2022-04-07T11:00:01" hostname="LAPTOP-4B9G9B6G" time="0.01">
+  <properties/>
+  <testcase name="testGetObstaclesEAST()" classname="util.VisionModuleTest" time="0.001"/>
+  <testcase name="testGetObstaclesWEST()" classname="util.VisionModuleTest" time="0.001"/>
+  <testcase name="testGetObstaclesNORTH()" classname="util.VisionModuleTest" time="0.001"/>
+  <testcase name="testGetObstaclesSOUTH()" classname="util.VisionModuleTest" time="0.001"/>
+  <testcase name="testSentryNORTH()" classname="util.VisionModuleTest" time="0.0"/>
+  <testcase name="testSentrySOUTH()" classname="util.VisionModuleTest" time="0.0"/>
+  <testcase name="testSentry()" classname="util.VisionModuleTest" time="0.0"/>
+  <testcase name="testShaded()" classname="util.VisionModuleTest" time="0.001"/>
+  <testcase name="testSentryEAST()" classname="util.VisionModuleTest" time="0.001"/>
+  <testcase name="testSentryWEST()" classname="util.VisionModuleTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

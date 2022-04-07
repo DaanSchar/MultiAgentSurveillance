@@ -30,6 +30,7 @@ public class MovableStage extends Stage {
         super.getViewport().apply();
     }
 
+
     @Override
     public void draw() {
         updateCamera();

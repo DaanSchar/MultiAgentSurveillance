@@ -3,27 +3,42 @@ package com.mygdx.game.views.environment;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.mygdx.game.util.PerlinNoiseGenerator;
+import lombok.Getter;
+import lombok.Setter;
+import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 public class EnvironmentView extends Group {
 
-    private final Environment environment;
+    private Environment environment;
+    private final Scenario scenario;
     private final double[][] heightMap;
+    @Getter
+    @Setter
+    public boolean memory;
 
-    public EnvironmentView(Environment environment) {
-        this.environment = environment;
+    public EnvironmentView(Scenario scenario, boolean memory) {
+        this.scenario = scenario;
+        this.environment = scenario.getEnvironment();
         int octaveCount = 10;
         this.heightMap = generateHeightMap(octaveCount);
+        this.memory = memory;
 
         addTileViews();
     }
 
     public void update() {
-        super.clear();
-        addTileViews();
-
+        if (memory) {
+            super.clear();
+            environment = scenario.getGuards().getMemoryMap();
+            addTileViews();
+        } else {
+            super.clear();
+            environment = scenario.getEnvironment();
+            addTileViews();
+        }
     }
 
     @Override
