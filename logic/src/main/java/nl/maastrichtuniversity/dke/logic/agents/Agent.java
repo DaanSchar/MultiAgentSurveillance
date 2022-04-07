@@ -31,18 +31,29 @@ public class Agent {
     private static int agentCount;
     private final int id;
 
-    private @Setter Position position;
-    private @Setter Direction direction;
+    private @Setter
+    Position position;
+    private @Setter
+    Direction direction;
 
-    private @Setter ISpawnModule spawnModule;
-    private @Setter IMovementModule movement;
-    private @Setter IVisionModule visionModule;
-    private @Setter ICommunicationModule communicationModule;
-    private @Setter INoiseModule noiseModule;
-    private @Setter IListeningModule listeningModule;
-    private @Setter IMemoryModule memoryModule;
-    private @Setter ISmellModule smellModule;
-    private @Setter IExplorationModule explorationModule;
+    private @Setter
+    ISpawnModule spawnModule;
+    private @Setter
+    IMovementModule movement;
+    private @Setter
+    IVisionModule visionModule;
+    private @Setter
+    ICommunicationModule communicationModule;
+    private @Setter
+    INoiseModule noiseModule;
+    private @Setter
+    IListeningModule listeningModule;
+    private @Setter
+    IMemoryModule memoryModule;
+    private @Setter
+    ISmellModule smellModule;
+    private @Setter
+    IExplorationModule explorationModule;
 
     public Agent() {
         this.id = agentCount++;
@@ -58,8 +69,8 @@ public class Agent {
         updateMemory();
 
         if (DebugSettings.FACTORY) {
-            log.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " +
-                    this.position + " facing " + this.direction);
+            log.info(this.getClass().getSimpleName() + " " + this.id + " spawned at "
+                    + this.position + " facing " + this.direction);
         }
     }
 
@@ -85,11 +96,11 @@ public class Agent {
      */
     public boolean dropMark(CommunicationType type) {
         if (communicationModule.hasMark(type)) {
-                communicationModule.dropMark(
-                        new CommunicationMark(getPosition(),
-                                type,
-                                this
-                ));
+            communicationModule.dropMark(
+                    new CommunicationMark(getPosition(),
+                            type,
+                            this
+                    ));
             updateMemory();
 
             return true;

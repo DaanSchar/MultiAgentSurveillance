@@ -14,7 +14,7 @@ public class EnvironmentView extends Group {
 
     public EnvironmentView(Environment environment) {
         this.environment = environment;
-        int octaveCount = 10;
+        final int octaveCount = 10;
         this.heightMap = generateHeightMap(octaveCount);
 
         addTileViews();
