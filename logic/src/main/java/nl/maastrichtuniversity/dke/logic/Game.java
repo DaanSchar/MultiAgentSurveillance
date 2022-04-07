@@ -83,7 +83,7 @@ public class Game {
             guards.forEach(Guard::explore);
 
         }else{
-            guards.forEach(guard -> guard.dropMark(CommunicationType.SMELL));
+            guards.forEach(guard -> guard.dropMark(CommunicationType.VISION_BLUE));
         }
         guards.forEach(Guard::listen);
 

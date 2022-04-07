@@ -16,7 +16,7 @@ public class CommunicationMark {
     private final Agent agentSource;
     private Color color;
 
-    public CommunicationMark(Position position, CommunicationType type, Agent agent, Color color) {
+    public CommunicationMark(Position position, CommunicationType type, Agent agent) {
         this.position = position;
         this.type = type;
         this.agentSource = agent;

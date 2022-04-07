@@ -29,9 +29,9 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
 //        System.out.println(device.getType());
         boolean check = false;
         for (int i = 0; i < marks.size(); i++) {
-            System.out.println(marks.get(i));
+//            System.out.println(marks.get(i));
             if (marks.get(i).equals(device.getType())) {
-                System.out.println("here");
+//                System.out.println("here");
 //                System.out.println(device.getType());
                 if (device.getType().equals(CommunicationType.SMELL)) {
 //                    System.out.println("here");

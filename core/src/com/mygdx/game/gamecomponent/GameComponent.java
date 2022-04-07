@@ -27,7 +27,7 @@ public class GameComponent extends MovableStage {
         this.fleetView = new FleetView(scenario.getGuards(), scenario.getIntruders());
         this.soundView = new SoundView(scenario);
         this.smellView= new SmellView(scenario);
-        this.communicationView = new CommunicationView(scenario.getCommunicationMarks());
+        this.communicationView = new CommunicationView(scenario);
 //        System.out.println(scenario.getCommunicationMarks().toString());
 
     }
