@@ -85,7 +85,7 @@ public class Agent {
     public boolean dropMark(CommunicationType type) {
         if (communicationModule.hasMark(type)) {
             if (type.equals(CommunicationType.VISION_BLUE)) {
-                communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, Color.BLUE));
+//                communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, Color.BLUE));
             }
             else if (type.equals(CommunicationType.VISION_RED)) {
                 communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, Color.RED));

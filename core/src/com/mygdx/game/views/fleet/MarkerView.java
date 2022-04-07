@@ -5,31 +5,37 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.util.TextureRepository;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
-import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
-
-public class AgentView extends Actor {
-
-    private final Agent agent;
+public class MarkerView extends Actor {
+    private final CommunicationMark mark;
 
     private final TextureRepository textureRepository;
 
-    public AgentView(Agent agent) {
-        this.agent = agent;
+    public MarkerView(CommunicationMark mark) {
+        this.mark = mark ;
         this.textureRepository = TextureRepository.getInstance();
     }
 
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        drawAgent(batch, agent);
+        drawMarker(batch, mark);
     }
-
-    private void drawAgent(Batch batch, Agent agent) {
-        Position position = agent.getPosition();
-        Texture texture = agent instanceof Guard ? textureRepository.get("guard1") : textureRepository.get("guard1");
+    private void drawMarker(Batch batch, CommunicationMark mark) {
+        Position position = mark.getPosition();
+        Texture texture;
+        if(mark.getType().equals(CommunicationType.VISION_BLUE)){
+            texture = textureRepository.get("blueMarker");
+        }else if(mark.getType().equals(CommunicationType.VISION_RED)){
+            texture = textureRepository.get("redMarker");
+        }else if(mark.getType().equals(CommunicationType.VISION_GREEN)){
+            texture = textureRepository.get("greenMarker");
+        }else{
+            texture = null;
+        }
         batch.draw(
                 texture,
                 position.getX() * TextureRepository.TILE_WIDTH,
@@ -38,5 +44,4 @@ public class AgentView extends Actor {
                 TextureRepository.TILE_HEIGHT
         );
     }
-
 }

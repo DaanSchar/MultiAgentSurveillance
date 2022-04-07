@@ -79,7 +79,7 @@ public class Game {
     private void updateGuards() {
         Fleet<Guard> guards = scenario.getGuards();
         double x = Math.random();
-        if(x<0.8){
+        if(x<0.5){
             guards.forEach(Guard::explore);
 
         }else{
