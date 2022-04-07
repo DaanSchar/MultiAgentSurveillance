@@ -3,6 +3,8 @@ package com.mygdx.game.views.environment;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.mygdx.game.util.PerlinNoiseGenerator;
+import lombok.Getter;
+import lombok.Setter;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
@@ -16,19 +18,28 @@ public class EnvironmentView extends Group {
     private Environment environment;
     private final Scenario scenario;
     private final double[][] heightMap;
+    @Getter
+    @Setter
+    public boolean memory;
 
-    public EnvironmentView(Scenario scenario) {
+    public EnvironmentView(Scenario scenario, boolean memory) {
         this.scenario = scenario;
-        this.environment = scenario.getGuards().getMemoryMap();
+        this.environment = scenario.getEnvironment();
         this.heightMap = generateHeightMap(10);
-
+        this.memory = memory;
         addTileViews();
     }
 
     public void update() {
-        super.clear();
-        environment = scenario.getGuards().getMemoryMap();
-        addTileViews();
+        if (memory) {
+            super.clear();
+            environment = scenario.getGuards().getMemoryMap();
+            addTileViews();
+        } else {
+            super.clear();
+            environment = scenario.getEnvironment();
+            addTileViews();
+        }
     }
 
     @Override
@@ -39,19 +50,19 @@ public class EnvironmentView extends Group {
         System.out.println(t.size());
     }
 
-    private void addTileViews() {
+    protected void addTileViews() {
         for (Tile tile : environment) {
             addTileView(tile);
         }
     }
 
-    private void addTileView(Tile tile) {
+    protected void addTileView(Tile tile) {
         Position position = tile.getPosition();
         float height = (float) heightMap[position.getX()][position.getY()];
         this.addActor(new TileView(tile, height));
     }
 
-    private double[][] generateHeightMap(int octaveCount) {
+    protected double[][] generateHeightMap(int octaveCount) {
         return PerlinNoiseGenerator.generateNormalizedPerlinNoise(
                 environment.getWidth(),
                 environment.getHeight(),

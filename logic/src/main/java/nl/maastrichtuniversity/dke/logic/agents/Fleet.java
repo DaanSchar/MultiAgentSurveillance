@@ -57,10 +57,6 @@ public class Fleet<T extends Agent> extends ArrayList<T> {
             }
         }
         Environment env = new Environment(tileMap.length,tileMap[0].length,tileMap);
-        /*
-        List<Tile> t = env.get(TileType.UNKNOWN);
-        System.out.println(t.size());
-        */
         return env;
     }
 

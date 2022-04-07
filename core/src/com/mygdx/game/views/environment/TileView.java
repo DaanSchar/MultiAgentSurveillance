@@ -60,7 +60,7 @@ public class TileView extends Actor {
                 return textureRepository.get("sand1");
             }
             case UNKNOWN -> {
-                return  textureRepository.get("unexplored");
+                return textureRepository.get("unexplored");
             }
             default -> {
                 return textureRepository.get("emptyTile4");
