@@ -1,5 +1,6 @@
 package com.mygdx.game.views.fleet;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
@@ -11,8 +12,17 @@ public class CommunicationView extends Group {
 
     public CommunicationView(Scenario scenario) {
         this.markers = scenario.getCommunicationMarks();
+    }
 
+    public void update() {
+        super.clear();
         addMarkers();
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+        update();
     }
 
     private void addMarkers() {

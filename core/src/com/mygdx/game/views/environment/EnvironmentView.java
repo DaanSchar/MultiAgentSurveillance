@@ -22,6 +22,7 @@ public class EnvironmentView extends Group {
     public void update() {
         super.clear();
         addTileViews();
+
     }
 
     @Override

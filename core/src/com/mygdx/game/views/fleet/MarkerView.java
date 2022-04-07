@@ -14,7 +14,7 @@ public class MarkerView extends Actor {
     private final TextureRepository textureRepository;
 
     public MarkerView(CommunicationMark mark) {
-        this.mark = mark ;
+        this.mark = mark;
         this.textureRepository = TextureRepository.getInstance();
     }
 
@@ -23,16 +23,17 @@ public class MarkerView extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         drawMarker(batch, mark);
     }
+
     private void drawMarker(Batch batch, CommunicationMark mark) {
         Position position = mark.getPosition();
         Texture texture;
-        if(mark.getType().equals(CommunicationType.VISION_BLUE)){
+        if (mark.getType().equals(CommunicationType.VISION_BLUE)) {
             texture = textureRepository.get("blueMarker");
-        }else if(mark.getType().equals(CommunicationType.VISION_RED)){
+        } else if (mark.getType().equals(CommunicationType.VISION_RED)) {
             texture = textureRepository.get("redMarker");
-        }else if(mark.getType().equals(CommunicationType.VISION_GREEN)){
+        } else if (mark.getType().equals(CommunicationType.VISION_GREEN)) {
             texture = textureRepository.get("greenMarker");
-        }else{
+        } else {
             texture = null;
 
         }
