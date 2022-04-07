@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * Collection of Agents
+ * Collection of Agents.
  *
  * @param <T> type of agent
  */
@@ -33,9 +33,9 @@ public class Fleet<T extends Agent> extends ArrayList<T> {
     }
 
     /**
-     * @return environment explored by all agents
+     * @return environment explored by all agents.
      */
-    public Environment getMemoryMap(){
+    public Environment getMemoryMap() {
         List<Environment> memories = new ArrayList<>();
         for (Agent agent : this) {
             memories.add(agent.getMemoryModule().getMap());
@@ -43,20 +43,19 @@ public class Fleet<T extends Agent> extends ArrayList<T> {
 
         Tile[][] tileMap = new Tile[memories.get(0).getWidth()][memories.get(0).getHeight()];
 
-        for (int i = 0;i<memories.get(0).getHeight();i++){
-            for (int j = 0;j<memories.get(0).getWidth();j++){
-                for(Environment environment:memories){
+        for (int i = 0; i < memories.get(0).getHeight(); i++) {
+            for (int j = 0; j < memories.get(0).getWidth(); j++) {
+                for (Environment environment : memories) {
                     Boolean isUnknown = environment.getTileMap()[j][i].getType().equals(TileType.UNKNOWN);
-                    if (!isUnknown){
+                    if (!isUnknown) {
                         tileMap[j][i] = environment.getTileMap()[j][i];
                         break;
                     }
-                    tileMap[j][i] = new Tile(new Position(j,i),TileType.UNKNOWN);
+                    tileMap[j][i] = new Tile(new Position(j, i), TileType.UNKNOWN);
                 }
-
             }
         }
-        Environment env = new Environment(tileMap.length,tileMap[0].length,tileMap);
+        Environment env = new Environment(tileMap.length, tileMap[0].length, tileMap);
         return env;
     }
 
