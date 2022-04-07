@@ -1,6 +1,5 @@
 package com.mygdx.game.gamecomponent;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FillViewport;
@@ -22,7 +21,6 @@ public class MovableStage extends Stage {
         this.cameraController = new CameraController(this);
         this.shapeRenderer = new ShapeRenderer();
         shapeRenderer.setAutoShapeType(true);
-        Gdx.input.setInputProcessor(cameraController);
 
         setupViewport();
     }
@@ -61,4 +59,13 @@ public class MovableStage extends Stage {
         return worldHeight;
     }
 
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return cameraController.touchDragged(screenX, screenY, pointer);
+    }
+
+    @Override
+    public boolean keyDown(int keyCode) {
+        return cameraController.keyDown(keyCode);
+    }
 }

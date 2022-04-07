@@ -3,6 +3,7 @@ package com.mygdx.game.views.fleet;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
+import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 
 import java.util.List;
 
@@ -11,9 +12,9 @@ public class FleetView extends Group {
     private final List<Guard> guards;
     private final List<Intruder> intruders;
 
-    public FleetView(List<Guard> guards, List<Intruder> individuals) {
-        this.guards = guards;
-        this.intruders = individuals;
+    public FleetView(Scenario scenario) {
+        this.guards = scenario.getGuards();
+        this.intruders = scenario.getIntruders();
 
         addAgents();
     }
