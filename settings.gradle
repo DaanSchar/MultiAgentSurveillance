@@ -1,2 +1,2 @@
-rootProject.name = 'MultiAgentSurveillance'
+include 'desktop', 'core', 'logic'
 

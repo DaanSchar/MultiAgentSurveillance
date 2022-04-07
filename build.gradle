@@ -1,39 +1,97 @@
-plugins {
-    id 'java'
-    id 'application'
+buildscript {
+
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        gradlePluginPortal()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        google()
+    }
+    dependencies {
+
+
+    }
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+allprojects {
+    apply plugin: "eclipse"
 
-repositories {
-    mavenCentral()
+    version = '1.0'
+    ext {
+        appName = "MultiAgentGame"
+        gdxVersion = '1.10.0'
+        roboVMVersion = '2.3.12'
+        box2DLightsVersion = '1.5'
+        ashleyVersion = '1.7.3'
+        aiVersion = '1.8.2'
+        gdxControllersVersion = '2.1.0'
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        google()
+        gradlePluginPortal()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+    }
 }
 
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-    implementation group: 'org.deeplearning4j', name: 'deeplearning4j-nn', version: '1.0.0-beta7'
-    implementation group: 'org.deeplearning4j', name: 'rl4j', version: '1.0.0-M1.1'
-    implementation group: 'org.deeplearning4j', name: 'rl4j-api', version: '1.0.0-M1.1'
-    implementation group: 'org.deeplearning4j', name: 'rl4j-core', version: '1.0.0-M1.1'
-    implementation group: 'org.nd4j', name: 'nd4j-backends', version: '1.0.0-beta7'
-    implementation group: 'org.nd4j', name: 'nd4j-cuda-10.1', version: '1.0.0-beta7'
-    implementation group: 'org.nd4j', name: 'nd4j-native-platform', version: '1.0.0-beta7'
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.35'
-    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.35'
-    compileOnly 'org.projectlombok:lombok:1.18.22'
-    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+project(":desktop") {
+    apply plugin: "java-library"
 
-    testCompileOnly 'org.projectlombok:lombok:1.18.22'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 
+    dependencies {
+        implementation project(":core")
+        api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+        api "com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-desktop"
+        api "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+
+    }
 }
 
-test {
-    useJUnitPlatform()
+project(":core") {
+    apply plugin: "java-library"
+
+
+    dependencies {
+        api "com.badlogicgames.gdx:gdx:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        api "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
+        api "com.badlogicgames.gdx:gdx-bullet:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+        api "com.badlogicgames.ashley:ashley:$ashleyVersion"
+        implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.35'
+        implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.35'
+        compileOnly 'org.projectlombok:lombok:1.18.22'
+        annotationProcessor 'org.projectlombok:lombok:1.18.22'
+        implementation group: 'org.apache.commons', name: 'commons-math3', version: '3.0'
+
+
+        testCompileOnly 'org.projectlombok:lombok:1.18.22'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    }
 }
 
-application {
-    mainClass = 'nl.maastrichtuniversity.dke.gui.Menu'
+project(":logic") {
+    apply plugin: "java-library"
+
+
+    dependencies {
+        implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.35'
+        implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.35'
+        compileOnly 'org.projectlombok:lombok:1.18.22'
+        annotationProcessor 'org.projectlombok:lombok:1.18.22'
+        implementation group: 'org.apache.commons', name: 'commons-math3', version: '3.0'
+
+
+        testCompileOnly 'org.projectlombok:lombok:1.18.22'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    }
 }
