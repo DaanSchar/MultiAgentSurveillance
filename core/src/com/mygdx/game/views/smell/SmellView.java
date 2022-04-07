@@ -1,4 +1,4 @@
-package com.mygdx.game.views.sound;
+package com.mygdx.game.views.smell;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;

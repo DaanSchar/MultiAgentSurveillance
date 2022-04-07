@@ -2,10 +2,9 @@ package com.mygdx.game.gamecomponent;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.views.environment.EnvironmentView;
-import com.mygdx.game.views.fleet.CommunicationView;
+import com.mygdx.game.views.communication.CommunicationView;
 import com.mygdx.game.views.fleet.FleetView;
-import com.mygdx.game.views.fleet.MarkerView;
-import com.mygdx.game.views.sound.SmellView;
+import com.mygdx.game.views.smell.SmellView;
 import com.mygdx.game.views.sound.SoundView;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;

@@ -1,4 +1,4 @@
-package com.mygdx.game.views.fleet;
+package com.mygdx.game.views.communication;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;

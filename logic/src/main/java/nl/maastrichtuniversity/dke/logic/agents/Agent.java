@@ -84,23 +84,11 @@ public class Agent {
      */
     public boolean dropMark(CommunicationType type) {
         if (communicationModule.hasMark(type)) {
-            if (type.equals(CommunicationType.VISION_BLUE)) {
-                communicationModule.dropMark(new CommunicationMark(getPosition(), type, this));
-            }
-            else if (type.equals(CommunicationType.VISION_RED)) {
-                communicationModule.dropMark(new CommunicationMark(getPosition(), type, this));
-            }
-            else if (type.equals(CommunicationType.VISION_GREEN)) {
-                communicationModule.dropMark(new CommunicationMark(getPosition(), type, this));
-            }
-            else {
-                //here you cant see so its just background color
                 communicationModule.dropMark(
                         new CommunicationMark(getPosition(),
                                 type,
                                 this
                 ));
-            }
             updateMemory();
 
             return true;
