@@ -17,7 +17,7 @@ import java.util.Objects;
 public final class GameGUI extends ApplicationAdapter {
 
     private Game game;
-    public static GameComponent gameComponent;
+    private GameComponent gameComponent;
 
     private float totalTimePassed;
     private final float timeInterval = 0.25f;

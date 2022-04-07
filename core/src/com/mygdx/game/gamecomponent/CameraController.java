@@ -7,9 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.mygdx.game.GameGUI;
 import lombok.Getter;
-import nl.maastrichtuniversity.dke.logic.Game;
 
 public final class CameraController implements InputProcessor {
 

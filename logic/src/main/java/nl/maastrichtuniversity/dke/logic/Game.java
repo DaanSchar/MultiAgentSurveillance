@@ -14,8 +14,6 @@ import java.io.File;
 @Slf4j
 public class Game {
 
-    private static final Logger logger = LoggerFactory.getLogger(Game.class);
-
     private static File mapFile;
     private static Game game;
 
@@ -38,10 +36,10 @@ public class Game {
         Game.mapFile = mapFile;
 
         if (game == null) {
-            logger.info("Creating new game instance.");
+            log.info("Creating new game instance.");
             game = new Game();
         } else {
-            logger.info("Map file changed, resetting game.");
+            log.info("Map file changed, resetting game.");
             game.reset();
         }
     }
@@ -95,6 +93,5 @@ public class Game {
         this.time = 0.0;
         init();
     }
-
 
 }

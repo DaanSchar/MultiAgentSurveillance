@@ -47,7 +47,9 @@ public class BrickAndMortar implements IExplorationModule {
         this.currentPosition = currentPosition;
         this.currentDirection = currentDirection;
 
-        if (isDoneExploring) return MoveAction.DO_NOTHING;
+        if (isDoneExploring) {
+            return MoveAction.DO_NOTHING;
+        }
 
         markingStep();
         return navigationStep();
@@ -101,7 +103,7 @@ public class BrickAndMortar implements IExplorationModule {
 
     private MoveAction getMoveToBestUnexploredTile() {
         MemoryTile targetTile = getBestUnexploredTile();
-        Position nextPosition = movementModule.goForward(currentPosition, currentDirection, Game.getInstance().getTime());
+        Position nextPosition = getNextPosition();
 
         boolean targetTileAhead = nextPosition.equals(targetTile.getPosition());
 
@@ -112,13 +114,17 @@ public class BrickAndMortar implements IExplorationModule {
 
     private MoveAction getMoveToBestExploredTile() {
         Tile targetTile = getBestExploredTile();
-        Position nextPosition = movementModule.goForward(currentPosition, currentDirection, Game.getInstance().getTime());
+        Position nextPosition = getNextPosition();
 
         if (nextPosition.equals(targetTile.getPosition())) {
             return MoveAction.MOVE_FORWARD;
         }
 
         return MoveAction.ROTATE_LEFT;
+    }
+
+    private Position getNextPosition() {
+        return movementModule.goForward(currentPosition, currentDirection, Game.getInstance().getTime());
     }
 
     private MemoryTile getCurrentTile() {
@@ -184,11 +190,15 @@ public class BrickAndMortar implements IExplorationModule {
     }
 
     private List<Tile> getUnexploredNeighboringTiles(Tile tile) {
-        return environment.getNeighborsAndFilter(tile, (neighbor) -> !((MemoryTile) neighbor).isExplored() && neighbor.isPassable());
+        return environment.getNeighborsAndFilter(tile,
+                (neighbor) -> !((MemoryTile) neighbor).isExplored() && neighbor.isPassable()
+        );
     }
 
     private List<Tile> getExploredNeighboringTiles(Tile tile) {
-        return environment.getNeighborsAndFilter(tile, neighbor -> ((MemoryTile) neighbor).isExplored() && neighbor.isPassable());
+        return environment.getNeighborsAndFilter(tile,
+                neighbor -> ((MemoryTile) neighbor).isExplored() && neighbor.isPassable()
+        );
     }
 
     private boolean pathExists(Tile start, Tile end) {
