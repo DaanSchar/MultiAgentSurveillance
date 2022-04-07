@@ -14,18 +14,18 @@ import java.util.HashMap;
  * Factory for all images used in the GUI.
  */
 @Slf4j
-public class ImageFactory {
+public final class ImageFactory {
 
     private HashMap<String, BufferedImage> images;
 
     private static final String ROOT = "logic/src/main/resources/images/";
 
-    private static final Logger logger = LoggerFactory.getLogger(ImageFactory.class);
-
     private static ImageFactory factoryInstance;
 
     public static ImageFactory getInstance() {
-        if (factoryInstance == null) { factoryInstance = new ImageFactory(); }
+        if (factoryInstance == null) {
+            factoryInstance = new ImageFactory();
+        }
 
         return factoryInstance;
     }
@@ -88,7 +88,6 @@ public class ImageFactory {
         images.put("guard2", readImage("guard/guard2.png"));
         images.put("guard3", readImage("guard/guard3.png"));
         images.put("guard4", readImage("guard/guard4.png"));
-
         images.put("guardback1", readImage("guard/guardback1.png"));
         images.put("guardback2", readImage("guard/guardback2.png"));
         images.put("guardback3", readImage("guard/guardback3.png"));
@@ -109,16 +108,17 @@ public class ImageFactory {
     }
 
     /**
-     * returns the image with the given name
+     * returns the image with the given name.
+     *
      * @param key the name of the image
      * @return the image
      */
     public BufferedImage get(String key) {
         BufferedImage image = images.get(key);
 
-        if (image == null)
+        if (image == null) {
             log.error("Image not found with key: {}", key);
-
+        }
         return image;
     }
 

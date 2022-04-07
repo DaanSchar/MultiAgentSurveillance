@@ -36,4 +36,5 @@ public class AgentView extends Actor {
                 TextureRepository.TILE_HEIGHT
         );
     }
+
 }

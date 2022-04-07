@@ -58,7 +58,8 @@ public class Agent {
         updateMemory();
 
         if (DebugSettings.FACTORY) {
-            log.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " + this.position + " facing " + this.direction);
+            log.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " +
+                    this.position + " facing " + this.direction);
         }
     }
 
@@ -84,24 +85,11 @@ public class Agent {
      */
     public boolean dropMark(CommunicationType type) {
         if (communicationModule.hasMark(type)) {
-            if (type.equals(CommunicationType.VISION_BLUE)) {
-                communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, Color.BLUE));
-            }
-            else if (type.equals(CommunicationType.VISION_RED)) {
-                communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, Color.RED));
-            }
-            else if (type.equals(CommunicationType.VISION_GREEN)) {
-                communicationModule.dropMark(new CommunicationMark(getPosition(), type, this, Color.GREEN));
-            }
-            else {
-                //here you cant see so its just background color
                 communicationModule.dropMark(
                         new CommunicationMark(getPosition(),
                                 type,
-                                this,
-                                new Color(173, 237, 153))
-                );
-            }
+                                this
+                ));
             updateMemory();
 
             return true;
@@ -118,7 +106,8 @@ public class Agent {
     }
 
     public Agent newInstance() {
-        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule, communicationModule, memoryModule, listeningModule, smellModule);
+        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule,
+                communicationModule, memoryModule, listeningModule, smellModule);
     }
 
     private void rotate(MoveAction rotation, double time) {

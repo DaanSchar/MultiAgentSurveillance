@@ -25,24 +25,19 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
 
     @Override
     public void dropMark(CommunicationMark device) {
-//        System.out.println("here");
-//        System.out.println(device.getType());
         boolean check = false;
         for (int i = 0; i < marks.size(); i++) {
-            System.out.println(marks.get(i));
             if (marks.get(i).equals(device.getType())) {
-                System.out.println("here");
-//                System.out.println(device.getType());
                 if (device.getType().equals(CommunicationType.SMELL)) {
-//                    System.out.println("here");
                     dropSmell(device.getPosition(), device.getAgentSource());
                 }
                 scenario.getCommunicationMarks().add(device);
                 marks.remove(i);
                 check = true;
             }
-            if (check)
+            if (check) {
                 break;
+            }
 
         }
 
@@ -50,10 +45,11 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
     }
 
     private void dropSmell(Position position, Agent source) {
+        int smellingDistance = 3;
         Tile[][] tileMap = scenario.getEnvironment().getTileMap();
         for (Tile[] tiles : tileMap) {
             for (Tile tile : tiles) {
-                if (position.distance(tile.getPosition()) <= 3) {
+                if (position.distance(tile.getPosition()) <= smellingDistance) {
                     Smell smell = new Smell(tile.getPosition(), position, source);
                     scenario.getSmellMap().add(smell);
                 }
