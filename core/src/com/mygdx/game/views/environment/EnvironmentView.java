@@ -11,8 +11,6 @@ import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
-import java.util.List;
-
 public class EnvironmentView extends Group {
 
     private Environment environment;
@@ -25,8 +23,10 @@ public class EnvironmentView extends Group {
     public EnvironmentView(Scenario scenario, boolean memory) {
         this.scenario = scenario;
         this.environment = scenario.getEnvironment();
-        this.heightMap = generateHeightMap(10);
+        int octaveCount = 10;
+        this.heightMap = generateHeightMap(octaveCount);
         this.memory = memory;
+
         addTileViews();
     }
 
@@ -46,23 +46,21 @@ public class EnvironmentView extends Group {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         update();
-        List<Tile> t = environment.get(TileType.UNKNOWN);
-        System.out.println(t.size());
     }
 
-    protected void addTileViews() {
+    private void addTileViews() {
         for (Tile tile : environment) {
             addTileView(tile);
         }
     }
 
-    protected void addTileView(Tile tile) {
+    private void addTileView(Tile tile) {
         Position position = tile.getPosition();
         float height = (float) heightMap[position.getX()][position.getY()];
         this.addActor(new TileView(tile, height));
     }
 
-    protected double[][] generateHeightMap(int octaveCount) {
+    private double[][] generateHeightMap(int octaveCount) {
         return PerlinNoiseGenerator.generateNormalizedPerlinNoise(
                 environment.getWidth(),
                 environment.getHeight(),
