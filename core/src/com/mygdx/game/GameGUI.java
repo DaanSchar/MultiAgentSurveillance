@@ -17,7 +17,7 @@ import java.util.Objects;
 public final class GameGUI extends ApplicationAdapter {
 
     private Game game;
-    private GameComponent gameComponent;
+    public static GameComponent gameComponent;
 
     private float totalTimePassed;
     private final float timeInterval = 0.25f;
@@ -26,7 +26,8 @@ public final class GameGUI extends ApplicationAdapter {
     @Override
     public void create() {
         setupGame();
-        gameComponent = new GameComponent(game.getScenario(), game.getScenario().getEnvironment());
+        gameComponent = new GameComponent(game);
+        Gdx.input.setInputProcessor(gameComponent);
     }
 
     @Override

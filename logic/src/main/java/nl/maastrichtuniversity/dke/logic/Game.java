@@ -47,7 +47,7 @@ public class Game {
     }
 
 
-    private final @Getter Scenario scenario;
+    private @Getter Scenario scenario;
     private @Getter double time;
 
     /**
@@ -55,6 +55,7 @@ public class Game {
      * setting the time to 0 and re-initializing the agents.
      */
     public void reset() {
+        scenario = new MapParser(mapFile).createScenario();
         game.time = 0.0;
         init();
     }

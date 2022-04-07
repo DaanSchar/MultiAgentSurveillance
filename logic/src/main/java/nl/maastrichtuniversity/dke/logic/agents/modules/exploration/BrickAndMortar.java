@@ -27,8 +27,7 @@ public class BrickAndMortar implements IExplorationModule {
 
     private List<Direction> directionPriority;
 
-    private @Getter
-    boolean isDoneExploring;
+    private @Getter boolean isDoneExploring;
 
     private final IMovementModule movementModule;
 
