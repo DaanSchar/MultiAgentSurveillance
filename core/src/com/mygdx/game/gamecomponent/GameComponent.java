@@ -3,6 +3,7 @@ package com.mygdx.game.gamecomponent;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.views.environment.EnvironmentView;
 import com.mygdx.game.views.fleet.FleetView;
+import com.mygdx.game.views.sound.SmellView;
 import com.mygdx.game.views.sound.SoundView;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
@@ -14,6 +15,7 @@ public class GameComponent extends MovableStage {
     private EnvironmentView environmentView;
     private FleetView fleetView;
     private SoundView soundView;
+    private SmellView smellView;
 
     public GameComponent(Scenario scenario, Environment environment) {
         super(environment.getWidth(), environment.getHeight());
@@ -21,6 +23,8 @@ public class GameComponent extends MovableStage {
         this.environmentView = new EnvironmentView(scenario.getEnvironment());
         this.fleetView = new FleetView(scenario.getGuards(), scenario.getIntruders());
         this.soundView = new SoundView(scenario);
+        this.smellView= new SmellView(scenario);
+
     }
 
     public void draw() {
@@ -39,6 +43,7 @@ public class GameComponent extends MovableStage {
     private void drawShapes() {
         getShapeRenderer().begin(ShapeRenderer.ShapeType.Point);
         soundView.draw(getShapeRenderer(), 0f);
+        smellView.draw(getShapeRenderer(), 1f);
         getShapeRenderer().end();
     }
 

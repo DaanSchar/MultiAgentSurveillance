@@ -4,8 +4,11 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.Fleet;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
+import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
+import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.util.MapParser;
+import org.junit.jupiter.api.MethodOrderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,9 +78,18 @@ public class Game {
 
     private void updateGuards() {
         Fleet<Guard> guards = scenario.getGuards();
-        guards.forEach(Guard::explore);
+        double x = Math.random();
+        if(x<0.8){
+            guards.forEach(Guard::explore);
+
+        }else{
+            guards.forEach(guard -> guard.dropMark(CommunicationType.SMELL));
+        }
         guards.forEach(Guard::listen);
+
+
     }
+
 
     /**
      * Resets the noise map to empty.

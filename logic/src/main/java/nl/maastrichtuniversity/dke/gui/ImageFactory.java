@@ -88,7 +88,6 @@ public class ImageFactory {
         images.put("guard2", readImage("guard/guard2.png"));
         images.put("guard3", readImage("guard/guard3.png"));
         images.put("guard4", readImage("guard/guard4.png"));
-
         images.put("guardback1", readImage("guard/guardback1.png"));
         images.put("guardback2", readImage("guard/guardback2.png"));
         images.put("guardback3", readImage("guard/guardback3.png"));
