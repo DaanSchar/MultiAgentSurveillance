@@ -65,6 +65,11 @@ public final class TextureRepository {
         textures.put("emptyTile5", new Texture("empty/tile5.png"));
         textures.put("emptyTile6", new Texture("empty/tile6.png"));
 
+        // markers
+        textures.put("blueMarker", new Texture("markers/blueMarker.png"));
+        textures.put("redMarker", new Texture("markers/redMarker.png"));
+        textures.put("greenMarker", new Texture("markers/greenMarker.png"));
+
     }
 
 }
