@@ -8,7 +8,6 @@ import lombok.Setter;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 public class EnvironmentView extends Group {
