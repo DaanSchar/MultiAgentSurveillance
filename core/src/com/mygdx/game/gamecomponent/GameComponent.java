@@ -23,7 +23,7 @@ public class GameComponent extends MovableStage {
     }
 
     public void reset(Scenario scenario) {
-        this.environmentView = new EnvironmentView(scenario.getEnvironment());
+        this.environmentView = new EnvironmentView(scenario.getGuards().getMemoryMap());
         this.fleetView = new FleetView(scenario);
         this.soundView = new SoundView(scenario);
     }

@@ -59,6 +59,9 @@ public class TileView extends Actor {
             case SPAWN_GUARDS -> {
                 return textureRepository.get("sand1");
             }
+            case UNKNOWN -> {
+                return  textureRepository.get("unexplored");
+            }
             default -> {
                 return textureRepository.get("emptyTile4");
             }

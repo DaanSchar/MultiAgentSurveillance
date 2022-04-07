@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="util.FactoryTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-04-07T11:00:01" hostname="LAPTOP-4B9G9B6G" time="0.031">
+  <properties/>
+  <testcase name="testScenarioFromMapParser()" classname="util.FactoryTest" time="0.031"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

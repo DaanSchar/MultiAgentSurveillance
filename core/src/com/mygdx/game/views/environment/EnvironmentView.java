@@ -5,7 +5,10 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.mygdx.game.util.PerlinNoiseGenerator;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+
+import java.util.List;
 
 public class EnvironmentView extends Group {
 
@@ -28,6 +31,8 @@ public class EnvironmentView extends Group {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         update();
+        List<Tile> t = environment.get(TileType.UNKNOWN);
+        System.out.println(t.size());
     }
 
     private void addTileViews() {
