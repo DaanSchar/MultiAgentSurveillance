@@ -73,13 +73,7 @@ public class Game {
 
     private void updateGuards() {
         Fleet<Guard> guards = scenario.getGuards();
-        double x = Math.random();
-        if (x < 0.5) {
-            guards.forEach(Guard::explore);
-
-        } else {
-            guards.forEach(guard -> guard.dropMark(CommunicationType.VISION_BLUE));
-        }
+        guards.forEach(Guard::explore);
         guards.forEach(Guard::listen);
 
 

@@ -27,7 +27,7 @@ public class GameComponent extends MovableStage {
     }
 
     public void reset(Scenario scenario) {
-        this.environmentView = new EnvironmentView(scenario, false);
+        this.environmentView = new EnvironmentView(scenario);
         this.fleetView = new FleetView(scenario);
         this.soundView = new SoundView(scenario);
         this.smellView = new SmellView(scenario);
@@ -57,8 +57,8 @@ public class GameComponent extends MovableStage {
             return true;
         }
         if (keyCode == Input.Keys.G) {
-            boolean isMemory = environmentView.isMemory();
-            environmentView.setMemory(!isMemory);
+            boolean isMemory = environmentView.isShowMemoryMap();
+            environmentView.setShowMemoryMap(!isMemory);
             return true;
         } else {
             return super.keyDown(keyCode);

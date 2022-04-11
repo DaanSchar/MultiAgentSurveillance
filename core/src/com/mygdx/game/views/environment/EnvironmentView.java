@@ -15,30 +15,22 @@ public class EnvironmentView extends Group {
     private Environment environment;
     private final Scenario scenario;
     private final double[][] heightMap;
-    @Getter
-    @Setter
-    public boolean memory;
+    private @Getter @Setter boolean showMemoryMap;
 
-    public EnvironmentView(Scenario scenario, boolean memory) {
+    public EnvironmentView(Scenario scenario) {
         this.scenario = scenario;
         this.environment = scenario.getEnvironment();
         int octaveCount = 10;
         this.heightMap = generateHeightMap(octaveCount);
-        this.memory = memory;
+        this.showMemoryMap = false;
 
         addTileViews();
     }
 
     public void update() {
-        if (memory) {
-            super.clear();
-            environment = scenario.getGuards().getMemoryMap();
-            addTileViews();
-        } else {
-            super.clear();
-            environment = scenario.getEnvironment();
-            addTileViews();
-        }
+        super.clear();
+        this.environment = getTileMap();
+        addTileViews();
     }
 
     @Override
@@ -51,6 +43,14 @@ public class EnvironmentView extends Group {
         for (Tile tile : environment) {
             addTileView(tile);
         }
+    }
+
+    private Environment getTileMap() {
+        if (showMemoryMap) {
+            return scenario.getGuards().getMemoryMap();
+        }
+
+        return scenario.getEnvironment();
     }
 
     private void addTileView(Tile tile) {
