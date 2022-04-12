@@ -1,4 +1,9 @@
-# Project exclude paths
-/.gradle/
-buid/
-*/buid/**
+# Gradle
+.gradle
+/build/
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
