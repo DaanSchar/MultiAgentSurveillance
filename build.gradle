@@ -71,6 +71,15 @@ project(":core") {
         annotationProcessor 'org.projectlombok:lombok:1.18.22'
         implementation group: 'org.apache.commons', name: 'commons-math3', version: '3.0'
 
+        // Deep learning/Reinforcement learning
+        implementation group: 'org.deeplearning4j', name: 'deeplearning4j-nn', version: '1.0.0-beta7'
+        implementation group: 'org.deeplearning4j', name: 'rl4j', version: '1.0.0-beta7'
+        implementation group: 'org.deeplearning4j', name: 'rl4j-api', version: '1.0.0-beta7'
+        implementation group: 'org.deeplearning4j', name: 'rl4j-core', version: '1.0.0-beta7'
+        implementation group: 'org.nd4j', name: 'nd4j-backends', version: '1.0.0-beta7'
+        implementation group: 'org.nd4j', name: 'nd4j-cuda-10.1', version: '1.0.0-beta7'
+        implementation group: 'org.nd4j', name: 'nd4j-native-platform', version: '1.0.0-beta7'
+
 
         testCompileOnly 'org.projectlombok:lombok:1.18.22'
         testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
