@@ -21,8 +21,6 @@ import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import nl.maastrichtuniversity.dke.util.DebugSettings;
 
-import java.awt.*;
-
 @Getter
 @Slf4j
 @Accessors(chain = true)
@@ -73,6 +71,7 @@ public class Agent {
             case MOVE_FORWARD -> moveForward(Game.getInstance().getTime());
             case ROTATE_LEFT -> rotate(MoveAction.ROTATE_LEFT, Game.getInstance().getTime());
             case ROTATE_RIGHT -> rotate(MoveAction.ROTATE_RIGHT, Game.getInstance().getTime());
+            case STAND_STILL -> {}
             default -> log.info("not performing MoveAction: {}", action);
         }
 
