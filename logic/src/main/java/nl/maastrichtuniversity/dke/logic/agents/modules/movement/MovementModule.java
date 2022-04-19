@@ -3,6 +3,7 @@ package nl.maastrichtuniversity.dke.logic.agents.modules.movement;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
@@ -17,11 +18,13 @@ import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 public class MovementModule extends AgentModule implements IMovementModule {
 
     private @Getter @Setter double baseSpeed, sprintSpeed;
+    private MovesTimeTracker timeTracker;
 
     public MovementModule(Scenario scenario, double baseSpeed, double sprintSpeed) {
         super(scenario);
         this.baseSpeed = baseSpeed;
         this.sprintSpeed = sprintSpeed;
+        this.timeTracker = new MovesTimeTracker(0);// TODO: add timestepsize here
     }
 
     @Override
@@ -40,6 +43,9 @@ public class MovementModule extends AgentModule implements IMovementModule {
         Position facingPosition = getFacingPosition(currentPosition, direction);
 
         if (!agentCanMoveTo(facingPosition)) {
+            return currentPosition;
+        }
+        if (!timeTracker.canPerformAction(baseSpeed)) {
             return currentPosition;
         }
         if (isTeleportTile(facingPosition)) {
@@ -118,12 +124,24 @@ public class MovementModule extends AgentModule implements IMovementModule {
             }
         }
     }
+}
 
-//  TODO: re-implement difference in speed. (Daan)
+class MovesTimeTracker {
 
-//    private boolean isTimeToMove(double time) {
-//        return time - lastTimeMoved > 1.0/(baseSpeed/10.0);
-//    }
+    private double lastTimeMoved;
+    private final double timeStepSize;
+
+    public MovesTimeTracker(double timeStepSize) {
+        this.timeStepSize = timeStepSize;
+    }
+
+    public boolean canPerformAction(double speed) {
+        int currentTimeStep = Game.getInstance().getCurrentTimeStep();
+        double currentTime = currentTimeStep * timeStepSize;
+        double timeSinceLastTimeMoved = currentTime - lastTimeMoved;
+
+        return timeSinceLastTimeMoved >= (1 / speed);
+    }
 
 }
 

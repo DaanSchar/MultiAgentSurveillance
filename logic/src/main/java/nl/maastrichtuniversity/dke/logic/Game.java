@@ -46,6 +46,7 @@ public class Game {
 
     private @Getter Scenario scenario;
     private @Getter double time;
+    private @Getter int currentTimeStep;
 
     /**
      * Resets the game by re-reading the map file,
@@ -53,6 +54,7 @@ public class Game {
      */
     public void reset() {
         scenario = new MapParser(mapFile).createScenario();
+        currentTimeStep = 0;
         game.time = 0.0;
         init();
     }
@@ -67,6 +69,7 @@ public class Game {
     public void update() {
         resetNoise();
         time += scenario.getTimeStep();
+        currentTimeStep++;
 
         updateGuards();
     }
@@ -93,6 +96,7 @@ public class Game {
     protected Game() {
         this.scenario = new MapParser(mapFile).createScenario();
         this.time = 0.0;
+        this.currentTimeStep = 0;
         init();
     }
 
