@@ -48,7 +48,7 @@ public class BrickAndMortar implements IExplorationModule {
         this.currentDirection = currentDirection;
 
         if (isDoneExploring) {
-            return MoveAction.DO_NOTHING;
+            return MoveAction.STAND_STILL;
         }
 
         markingStep();
@@ -77,7 +77,7 @@ public class BrickAndMortar implements IExplorationModule {
             nextMove = getMoveToBestExploredTile();
         } else {
             isDoneExploring = true;
-            nextMove = MoveAction.DO_NOTHING;
+            nextMove = MoveAction.STAND_STILL;
         }
 
         return nextMove;
