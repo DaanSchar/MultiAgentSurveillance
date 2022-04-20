@@ -58,7 +58,7 @@ public class TeleportTest {
     @Test
     void testTeleport(){
         MovementModule movementModule = new MovementModule(s,1,1);
-        Position position = movementModule.goForward(new Position(1,2), Direction.EAST,4);
+        Position position = movementModule.goForward(new Position(1,2), Direction.EAST);
         assert (position.equals(new Position(4,4)));
     }
 }

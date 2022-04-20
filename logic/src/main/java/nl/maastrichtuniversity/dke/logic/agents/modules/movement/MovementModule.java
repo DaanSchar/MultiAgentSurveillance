@@ -1,7 +1,5 @@
 package nl.maastrichtuniversity.dke.logic.agents.modules.movement;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
@@ -17,18 +15,19 @@ import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 @Slf4j
 public class MovementModule extends AgentModule implements IMovementModule {
 
-    private @Getter @Setter double baseSpeed, sprintSpeed;
-    private MovesTimeTracker timeTracker;
+    private final double baseSpeed;
+    private final double sprintSpeed;
+    private double lastTimeMoved;
 
     public MovementModule(Scenario scenario, double baseSpeed, double sprintSpeed) {
         super(scenario);
         this.baseSpeed = baseSpeed;
         this.sprintSpeed = sprintSpeed;
-        this.timeTracker = new MovesTimeTracker(0);// TODO: add timestepsize here
+        this.lastTimeMoved = 0;
     }
 
     @Override
-    public Direction rotate(Direction currentDirection, MoveAction action, double time) {
+    public Direction rotate(Direction currentDirection, MoveAction action) {
         try {
             checkIfActionIsRotation(action);
             return getNewRotatedDirection(currentDirection, action);
@@ -39,15 +38,25 @@ public class MovementModule extends AgentModule implements IMovementModule {
     }
 
     @Override
-    public Position goForward(Position currentPosition, Direction direction, double time) {
+    public Position goForward(Position currentPosition, Direction direction) {
+        Position nextPosition = getForwardPosition(currentPosition, direction);
+
+        if (enoughTimeHasElapsedSinceLastMove(baseSpeed)) {
+            lastTimeMoved = getCurrentTime();
+            return nextPosition;
+        }
+
+        return currentPosition;
+    }
+
+    @Override
+    public Position getForwardPosition(Position currentPosition, Direction direction) {
         Position facingPosition = getFacingPosition(currentPosition, direction);
 
         if (!agentCanMoveTo(facingPosition)) {
             return currentPosition;
         }
-        if (!timeTracker.canPerformAction(baseSpeed)) {
-            return currentPosition;
-        }
+
         if (isTeleportTile(facingPosition)) {
             return getTeleportDestination(facingPosition);
         }
@@ -124,23 +133,20 @@ public class MovementModule extends AgentModule implements IMovementModule {
             }
         }
     }
-}
 
-class MovesTimeTracker {
-
-    private double lastTimeMoved;
-    private final double timeStepSize;
-
-    public MovesTimeTracker(double timeStepSize) {
-        this.timeStepSize = timeStepSize;
+    private boolean enoughTimeHasElapsedSinceLastMove(double speed) {
+        return getElapsedTimeSinceLastMove() >= (1.0 / speed);
     }
 
-    public boolean canPerformAction(double speed) {
+    private double getCurrentTime() {
         int currentTimeStep = Game.getInstance().getCurrentTimeStep();
-        double currentTime = currentTimeStep * timeStepSize;
-        double timeSinceLastTimeMoved = currentTime - lastTimeMoved;
+        double timeStepSize = scenario.getTimeStep();
 
-        return timeSinceLastTimeMoved >= (1 / speed);
+        return currentTimeStep * timeStepSize;
+    }
+
+    private double getElapsedTimeSinceLastMove() {
+        return getCurrentTime() - lastTimeMoved;
     }
 
 }

@@ -124,7 +124,7 @@ public class BrickAndMortar implements IExplorationModule {
     }
 
     private Position getNextPosition() {
-        return movementModule.goForward(currentPosition, currentDirection, Game.getInstance().getTime());
+        return movementModule.getForwardPosition(currentPosition, currentDirection);
     }
 
     private MemoryTile getCurrentTile() {
