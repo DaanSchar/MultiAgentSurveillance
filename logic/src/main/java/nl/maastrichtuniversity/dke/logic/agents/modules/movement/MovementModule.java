@@ -23,7 +23,7 @@ public class MovementModule extends AgentModule implements IMovementModule {
         super(scenario);
         this.baseSpeed = baseSpeed;
         this.sprintSpeed = sprintSpeed;
-        this.lastTimeMoved = 0;
+        this.lastTimeMoved = -1;
     }
 
     @Override
@@ -45,6 +45,8 @@ public class MovementModule extends AgentModule implements IMovementModule {
             lastTimeMoved = getCurrentTime();
             return nextPosition;
         }
+
+        System.out.println("Not enough time has passed since last move");
 
         return currentPosition;
     }
