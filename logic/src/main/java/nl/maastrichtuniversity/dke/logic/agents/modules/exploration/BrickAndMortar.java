@@ -2,7 +2,6 @@ package nl.maastrichtuniversity.dke.logic.agents.modules.exploration;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovementModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
@@ -83,10 +82,6 @@ public class BrickAndMortar implements IExplorationModule {
         return nextMove;
     }
 
-    /**
-     * true if the there exists no path between all
-     * explored/unexplored tiles would the agent mark this tile as visited.
-     */
     private boolean currentCellBlocksPath() {
         List<Tile> neighbours = getPassableNeighbors(getCurrentTile());
 
@@ -107,7 +102,9 @@ public class BrickAndMortar implements IExplorationModule {
 
         boolean targetTileAhead = nextPosition.equals(targetTile.getPosition());
 
-        if (targetTileAhead || targetTile.getType() == TileType.TELEPORT) return MoveAction.MOVE_FORWARD;
+        if (targetTileAhead || targetTile.getType() == TileType.TELEPORT) {
+            return MoveAction.MOVE_FORWARD;
+        }
 
         return MoveAction.ROTATE_LEFT;
     }
@@ -133,9 +130,6 @@ public class BrickAndMortar implements IExplorationModule {
         return (MemoryTile) environment.getTileMap()[x][y];
     }
 
-    /**
-     * the best tile is the tile which has the most adjacent non-passable tiles.
-     */
     private MemoryTile getBestUnexploredTile() {
         List<Tile> unexploredTiles = getUnexploredNeighboringTiles(getCurrentTile());
 
@@ -150,10 +144,6 @@ public class BrickAndMortar implements IExplorationModule {
         return (MemoryTile) unexploredTiles.get(0);
     }
 
-    /**
-     * best tile means it will choose the first tile considered
-     * explored according to the direction priority.
-     */
     private Tile getBestExploredTile() {
         for (Direction direction : directionPriority) {
             MemoryTile tile = (MemoryTile) getFacingTile(getCurrentTile(), direction);
@@ -210,12 +200,12 @@ public class BrickAndMortar implements IExplorationModule {
         private Queue<Tile> queue;
         private List<Tile> visited;
 
-        public BFS() {
+        BFS() {
             this.queue = new LinkedList<>();
             this.visited = new ArrayList<>();
         }
 
-        public boolean pathExists(Tile start, Tile goal) {
+        boolean pathExists(Tile start, Tile goal) {
             this.queue = new LinkedList<>();
             this.visited = new ArrayList<>();
             queue.add(start);

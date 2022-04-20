@@ -11,7 +11,9 @@ public enum MoveAction {
 
     private @Getter final int value;
 
-    MoveAction(int action) {this.value = action;}
+    MoveAction(int action) {
+        this.value = action;
+    }
 
 
 

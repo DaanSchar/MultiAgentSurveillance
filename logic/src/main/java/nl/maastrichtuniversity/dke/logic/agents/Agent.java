@@ -55,8 +55,8 @@ public class Agent {
         updateMemory();
 
         if (DebugSettings.FACTORY) {
-            log.info(this.getClass().getSimpleName() + " " + this.id + " spawned at " +
-                    this.position + " facing " + this.direction);
+            log.info(this.getClass().getSimpleName() + " " + this.id + " spawned at "
+                    + this.position + " facing " + this.direction);
         }
     }
 
@@ -70,7 +70,7 @@ public class Agent {
             case MOVE_FORWARD -> moveForward();
             case ROTATE_LEFT -> rotate(MoveAction.ROTATE_LEFT);
             case ROTATE_RIGHT -> rotate(MoveAction.ROTATE_RIGHT);
-            case STAND_STILL -> {}
+            case STAND_STILL -> { /* do nothing */ }
             default -> log.info("not performing MoveAction: {}", action);
         }
 
