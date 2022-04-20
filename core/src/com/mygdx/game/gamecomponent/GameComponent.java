@@ -8,10 +8,7 @@ import com.mygdx.game.views.fleet.FleetView;
 import com.mygdx.game.views.smell.SmellView;
 import com.mygdx.game.views.sound.SoundView;
 import nl.maastrichtuniversity.dke.logic.Game;
-import nl.maastrichtuniversity.dke.logic.agents.Fleet;
-import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 
 public class GameComponent extends MovableStage {
 
