@@ -8,7 +8,10 @@ import com.mygdx.game.views.fleet.FleetView;
 import com.mygdx.game.views.smell.SmellView;
 import com.mygdx.game.views.sound.SoundView;
 import nl.maastrichtuniversity.dke.logic.Game;
+import nl.maastrichtuniversity.dke.logic.agents.Fleet;
+import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 
 public class GameComponent extends MovableStage {
 
@@ -32,6 +35,7 @@ public class GameComponent extends MovableStage {
         this.soundView = new SoundView(scenario);
         this.smellView = new SmellView(scenario);
         this.communicationView = new CommunicationView(scenario);
+        this.clear();
         this.addActor(environmentView);
         this.addActor(fleetView);
         this.addActor(communicationView);
@@ -52,16 +56,23 @@ public class GameComponent extends MovableStage {
     @Override
     public boolean keyDown(int keyCode) {
         if (keyCode == Input.Keys.R) {
-            game.reset();
-            reset(game.getScenario());
-            return true;
+            onKeyPressR();
         }
+
         if (keyCode == Input.Keys.G) {
-            boolean isMemory = environmentView.isShowMemoryMap();
-            environmentView.setShowMemoryMap(!isMemory);
-            return true;
-        } else {
-            return super.keyDown(keyCode);
+            onKeyPressG();
         }
+
+        return super.keyDown(keyCode);
+    }
+
+    private void onKeyPressR() {
+        game.reset();
+        reset(game.getScenario());
+    }
+
+    private void onKeyPressG() {
+        boolean isMemory = environmentView.isShowMemoryMap();
+        environmentView.setShowMemoryMap(!isMemory);
     }
 }
