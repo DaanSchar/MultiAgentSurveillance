@@ -120,7 +120,7 @@ public class Agent {
         noiseModule.makeWalkingSound(position);
     }
 
-    private void sprintForward(){
+    private void sprintForward() {
         position = movement.sprint(position, direction);
         visionModule.useVision(position, direction);
         var list = visionModule.getObstacles();
