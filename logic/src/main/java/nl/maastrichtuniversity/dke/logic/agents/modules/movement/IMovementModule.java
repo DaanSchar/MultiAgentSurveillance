@@ -11,6 +11,5 @@ public interface IMovementModule {
 
     Position getForwardPosition(Position position, Direction direction);
 
-    @Deprecated
     Position sprint(Position position, Direction direction);
 }
