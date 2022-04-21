@@ -35,29 +35,23 @@ public enum Direction {
         return directions;
     }
 
-    public int getOptimalRotation(Direction currentDirection, Direction targetDirection){
-        if (currentDirection == targetDirection) { return 0; }
-
-        if (currentDirection == Direction.NORTH) {
-            if (targetDirection == Direction.EAST) { return 1; }
-            if (targetDirection == Direction.WEST) { return -1; }
-            return 1;
-        } else if (currentDirection == Direction.EAST) {
-            if (targetDirection == Direction.SOUTH) { return 1; }
-            if (targetDirection == Direction.NORTH) { return -1; }
-            return 1;
-        } else if (currentDirection == Direction.SOUTH) {
-            if (targetDirection == Direction.WEST) { return 1; }
-            if (targetDirection == Direction.EAST) { return -1; }
-            return 1;
-        }
-        if (currentDirection == Direction.WEST) {
-            if (targetDirection == Direction.NORTH) { return 1; }
-            if (targetDirection == Direction.SOUTH) { return -1; }
-            return 1;
-        }
-
-        return 0;
+    public static Direction leftOf(Direction direction) {
+        return switch (direction) {
+            case NORTH -> WEST;
+            case EAST -> NORTH;
+            case SOUTH -> EAST;
+            case WEST -> SOUTH;
+            default -> throw new IllegalArgumentException("Direction not found");
+        };
     }
 
+    public static Direction rightOf(Direction direction) {
+        return switch (direction) {
+            case NORTH -> EAST;
+            case EAST -> SOUTH;
+            case SOUTH -> WEST;
+            case WEST -> NORTH;
+            default -> throw new IllegalArgumentException("Direction not found");
+        };
+    }
 }

@@ -35,7 +35,7 @@ public class Intruder extends Agent {
     }
 
     private boolean seesTarget() {
-        List<Tile> obstacles = super.getVisionModule().getObstacles();
+        List<Tile> obstacles = super.getVisionModule().getVisibleTiles();
         if(containsTarget(obstacles)){
             return true;
         }
