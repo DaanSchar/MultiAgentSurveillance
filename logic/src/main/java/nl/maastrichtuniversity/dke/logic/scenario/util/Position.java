@@ -6,8 +6,6 @@ import lombok.Setter;
 import lombok.ToString;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 
-import java.lang.Math;
-
 @Getter
 @Setter
 @ToString
