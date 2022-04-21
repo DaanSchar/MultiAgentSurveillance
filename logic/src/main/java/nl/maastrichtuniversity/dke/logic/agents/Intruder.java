@@ -2,14 +2,19 @@ package nl.maastrichtuniversity.dke.logic.agents;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Slf4j
 public class Intruder extends Agent {
 
     private @Getter @Setter boolean alive;
 
     public Intruder() {
         super();
-        this.alive = true; //all the intruders are alive at start
+        this.alive = true;
     }
 
     @Override
@@ -21,6 +26,7 @@ public class Intruder extends Agent {
         } else {
             super.explore();
         }
+        super.update();
     }
 
     private void walkTowardsTarget() {
@@ -34,6 +40,26 @@ public class Intruder extends Agent {
     }
 
     private boolean seesGuard() {
-        return false;
+        log.info("Intruder sees guards: " + getVisibleGuards().size());
+        return getVisibleGuards().size() > 0;
+    }
+
+    private List<Guard> getVisibleGuards() {
+        List<Agent> visibleAgents = this.getVisionModule().getAgents();
+        List<Agent> visibleGuards = filterGuards(visibleAgents);
+
+        return castAgentsToGuards(visibleGuards);
+    }
+
+    private List<Agent> filterGuards(List<Agent> agents) {
+        return agents.stream()
+                .filter(agent -> agent instanceof Guard)
+                .collect(Collectors.toList());
+    }
+
+    private List<Guard> castAgentsToGuards(List<Agent> agents) {
+        return agents.stream()
+                .map(agent -> (Guard) agent)
+                .collect(Collectors.toList());
     }
 }

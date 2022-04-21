@@ -61,7 +61,8 @@ public class Agent {
     }
 
     public void update() {
-        explore();
+        listen();
+        updateMemory();
     }
 
     public void explore() {
@@ -78,8 +79,6 @@ public class Agent {
             case STAND_STILL -> { /* do nothing */ }
             default -> log.info("not performing MoveAction: {}", action);
         }
-
-        updateMemory();
     }
 
     /**
@@ -93,8 +92,6 @@ public class Agent {
                                 type,
                                 this
                 ));
-            updateMemory();
-
             return true;
         }
         return false;

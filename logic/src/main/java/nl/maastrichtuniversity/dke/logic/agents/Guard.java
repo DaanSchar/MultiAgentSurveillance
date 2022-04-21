@@ -10,4 +10,9 @@ public class Guard extends Agent {
         super();
     }
 
+    @Override
+    public void update() {
+        super.explore();
+        super.update();
+    }
 }
