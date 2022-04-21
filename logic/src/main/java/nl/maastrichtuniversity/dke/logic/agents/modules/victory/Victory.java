@@ -16,34 +16,25 @@ public class Victory implements IVictory {
         this.scenario = scenario;
     }
 
-    /**
-     *  The intruder wins if he is 3 seconds in any of the target
-     *  areas or visits the target area twice with a time difference
-     *  of at least 3 seconds
-     */
     public boolean checkIntruderVictory(){
         return checkTargetArea(scenario.getIntruders());
     }
 
-    /**
-     *  The guards win if the intruder is no more than
-     *  0.5 meter away and in sight.
-     */
     public boolean checkGuardVictory(){
         for (Guard guard : scenario.getGuards()) {
-            if (guard.getVisionModule().getAgents().size()>1){
+            if (guard.getVisionModule().getAgents().size() > 1) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean checkTargetArea(List<Intruder> agents){
+    public boolean checkTargetArea(List<Intruder> agents) {
         List<Tile> tiles= scenario.getEnvironment().get(TileType.TARGET);
         for (Tile tile : tiles) {
             for (Agent agent : agents) {
-                if (agent.getPosition().getX() == tile.getPosition().getX() &&
-                        agent.getPosition().getY() == tile.getPosition().getY()) {
+                if (agent.getPosition().getX() == tile.getPosition().getX()
+                        && agent.getPosition().getY() == tile.getPosition().getY()) {
                     return true;
                 }
             }
