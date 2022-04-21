@@ -3,7 +3,6 @@ package nl.maastrichtuniversity.dke.logic.scenario.environment;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
-import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.ArrayList;
@@ -79,7 +78,6 @@ public class Environment implements Collection<Tile> {
             }
         }
     }
-
 
     @Override
     public int size() {

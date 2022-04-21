@@ -82,7 +82,7 @@ public class Agent {
         }
     }
 
-    public void goToLocation(Position target){
+    public void goToLocation(Position target) {
         actionsList = makeActionList(target);
         follow();
     }
@@ -139,14 +139,14 @@ public class Agent {
             }
         }
         while (!queue.isEmpty()) {
-            Node U = queue.poll();
-            visited.add(U);
+            Node u = queue.poll();
+            visited.add(u);
             for (Node v : queue) {
                 if (!visited.contains(v)) {
-                    int tempDis = U.getCost();
+                    int tempDis = u.getCost();
                     if (tempDis < v.getCost()) {
                         v.setCost(tempDis);
-                        v.setPrevious(U);
+                        v.setPrevious(u);
                     }
                 }
             }
@@ -158,8 +158,9 @@ public class Agent {
                 break;
             }
         }
-        for (Node vertex = t; vertex != null; vertex = vertex.getPrevious())
+        for (Node vertex = t; vertex != null; vertex = vertex.getPrevious()) {
             path.add(vertex.current);
+        }
         Collections.reverse(path);
 
         return path;
