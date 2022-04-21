@@ -22,4 +22,18 @@ public class Intruder extends Agent {
             super.explore();
         }
     }
+
+    private void walkTowardsTarget() {
+    }
+
+    private boolean seesTarget() {
+        return false;
+    }
+
+    private void escapeFromGuard() {
+    }
+
+    private boolean seesGuard() {
+        return false;
+    }
 }
