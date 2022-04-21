@@ -5,9 +5,11 @@ import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 public interface IMovementModule {
-    Direction rotate(Direction currentDirection, MoveAction rotation, double time);
+    Direction rotate(Direction currentDirection, MoveAction rotation);
 
-    Position goForward(Position position, Direction direction, double time);
+    Position goForward(Position position, Direction direction);
+
+    Position getForwardPosition(Position position, Direction direction);
 
     @Deprecated
     Position sprint(Position position, Direction direction);

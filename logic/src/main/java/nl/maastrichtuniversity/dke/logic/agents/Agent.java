@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
-import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.ICommunicationModule;
@@ -20,8 +19,6 @@ import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import nl.maastrichtuniversity.dke.util.DebugSettings;
-
-import java.awt.*;
 
 @Getter
 @Slf4j
@@ -81,9 +78,10 @@ public class Agent {
 
     public void move(MoveAction action) {
         switch (action) {
-            case MOVE_FORWARD -> moveForward(Game.getInstance().getTime());
-            case ROTATE_LEFT -> rotate(MoveAction.ROTATE_LEFT, Game.getInstance().getTime());
-            case ROTATE_RIGHT -> rotate(MoveAction.ROTATE_RIGHT, Game.getInstance().getTime());
+            case MOVE_FORWARD -> moveForward();
+            case ROTATE_LEFT -> rotate(MoveAction.ROTATE_LEFT);
+            case ROTATE_RIGHT -> rotate(MoveAction.ROTATE_RIGHT);
+            case STAND_STILL -> { /* do nothing */ }
             default -> log.info("not performing MoveAction: {}", action);
         }
 
@@ -121,12 +119,12 @@ public class Agent {
                 communicationModule, memoryModule, listeningModule, smellModule);
     }
 
-    private void rotate(MoveAction rotation, double time) {
-        direction = movement.rotate(direction, rotation, time);
+    private void rotate(MoveAction rotation) {
+        direction = movement.rotate(direction, rotation);
     }
 
-    private void moveForward(double time) {
-        position = movement.goForward(position, direction, time);
+    private void moveForward() {
+        position = movement.goForward(position, direction);
         visionModule.useVision(position, direction);
         var list = visionModule.getObstacles();
         noiseModule.makeWalkingSound(position);
@@ -148,6 +146,5 @@ public class Agent {
         this.direction = direction;
         this.id = id;
     }
-
 
 }
