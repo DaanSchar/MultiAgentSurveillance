@@ -3,6 +3,8 @@ package nl.maastrichtuniversity.dke.logic.agents;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +35,10 @@ public class Intruder extends Agent {
     }
 
     private boolean seesTarget() {
+        List<Tile> obstacles = super.getVisionModule().getObstacles();
+        if(containsTarget(obstacles)){
+            return true;
+        }
         return false;
     }
 
@@ -64,5 +70,14 @@ public class Intruder extends Agent {
         return agents.stream()
                 .map(agent -> (Guard) agent)
                 .collect(Collectors.toList());
+    }
+
+    private boolean containsTarget(List<Tile> obstacles) {
+        for(Tile t:obstacles){
+            if(t.getType().equals(TileType.TARGET)){
+                return true;
+            }
+        }
+        return false;
     }
 }
