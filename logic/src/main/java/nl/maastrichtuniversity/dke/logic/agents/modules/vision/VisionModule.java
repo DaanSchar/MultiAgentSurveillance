@@ -52,8 +52,8 @@ public class VisionModule extends AgentModule implements IVisionModule {
     }
 
     private List<Position> getAllVisiblePositions() {
-        Position left = Position.getPosInDirection(currentPosition, Direction.leftOf(currentDirection));
-        Position right = Position.getPosInDirection(currentPosition, Direction.rightOf(currentDirection));
+        Position left = currentPosition.getPosInDirection(Direction.leftOf(currentDirection));
+        Position right = currentPosition.getPosInDirection(Direction.rightOf(currentDirection));
 
         List<Position> leftRow = getVisiblePositionsRow(left, currentDirection);
         List<Position> rightRow = getVisiblePositionsRow(right, currentDirection);
@@ -81,7 +81,7 @@ public class VisionModule extends AgentModule implements IVisionModule {
             }
 
             if (isPartiallySeeThroughTile(possiblePos)) {
-                Position last = Position.getPosInDirection(possiblePos, direction);
+                Position last = possiblePos.getPosInDirection(direction);
                 visiblePositions.add(last);
                 break;
             }
@@ -97,7 +97,7 @@ public class VisionModule extends AgentModule implements IVisionModule {
 
         for (int i = 0; i < range; i++) {
             positionsRow.add(targetPosition);
-            targetPosition = Position.getPosInDirection(targetPosition, direction);
+            targetPosition = targetPosition.getPosInDirection(direction);
         }
 
         removeOutOfMapPositions(positionsRow);

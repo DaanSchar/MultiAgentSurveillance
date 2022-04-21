@@ -19,13 +19,11 @@ public class Position {
         this.y = y;
     }
 
-    public static Position getPosInDirection(Position position, Direction direction) {
-        return new Position(position, direction);
-    }
-
-    private Position(Position position, Direction direction) {
-        this.x = position.x + direction.getMoveX();
-        this.y = position.y + direction.getMoveY();
+    public Position getPosInDirection(Direction direction) {
+        return new Position(
+                this.x + direction.getMoveX(),
+                this.y + direction.getMoveY()
+        );
     }
 
     public Position add(Position other) {
