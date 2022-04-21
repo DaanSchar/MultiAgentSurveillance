@@ -16,11 +16,11 @@ public class Victory implements IVictory {
         this.scenario = scenario;
     }
 
-    public boolean checkIntruderVictory(){
+    public boolean checkIntruderVictory() {
         return checkTargetArea(scenario.getIntruders());
     }
 
-    public boolean checkGuardVictory(){
+    public boolean checkGuardVictory() {
         for (Guard guard : scenario.getGuards()) {
             if (guard.getVisionModule().getAgents().size() > 1) {
                 return true;

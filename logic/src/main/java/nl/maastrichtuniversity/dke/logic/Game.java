@@ -72,7 +72,7 @@ public class Game {
     public void update() {
         if (victory.checkIntruderVictory() || victory.checkGuardVictory()) {
             // Intruders and Guards stop when the target is reached
-            // Implement end game screen
+            // TODO: implement end game screen
 
         } else {
             resetNoise();
