@@ -32,12 +32,6 @@ public class VisionModule extends AgentModule implements IVisionModule {
         this.viewingDistance = viewingDistance;
     }
 
-    /**
-     * Method adds Tile/Agent to respective list,if is visible
-     *
-     * @param position  position of agent
-     * @param direction direction agent is facing
-     */
     @Override
     public void useVision(Position position, Direction direction) {
         this.currentPosition = position;

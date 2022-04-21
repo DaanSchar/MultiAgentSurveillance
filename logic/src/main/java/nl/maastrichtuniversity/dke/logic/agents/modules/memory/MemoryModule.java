@@ -68,7 +68,8 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
                 .collect(Collectors.toList());
     }
 
-    public void update(IVisionModule visionModule, IListeningModule listeningModule, ISmellModule smellModule, Position position) {
+    public void update(IVisionModule visionModule, IListeningModule listeningModule,
+                       ISmellModule smellModule, Position position) {
         setPreviousPosition(this.position);
         setPosition(position);
         updateVision(visionModule);

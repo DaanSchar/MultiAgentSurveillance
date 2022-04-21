@@ -138,12 +138,6 @@ public class Environment implements Collection<Tile> {
         return true;
     }
 
-    /**
-     * replaces the tile at the given position with a tile of type EMPTY
-     *
-     * @param o tile we want to remove
-     * @return true if the tile was removed, false if it was not found
-     */
     @Override
     public boolean remove(Object o) {
         if (!(o instanceof Tile)) {
@@ -212,16 +206,6 @@ public class Environment implements Collection<Tile> {
         return (T[]) new Object[0];
     }
 
-    /**
-     * iterators may be used to iterate over the tiles in the environment
-     * you use them in a for-each loop like this:
-     * <p>
-     * for (Tile tile : environment) {
-     * // do something with the tile
-     * }
-     *
-     * @return an iterator over all tiles in the environment
-     */
     @Override
     public Iterator<Tile> iterator() {
         return new EnvironmentIterator(this.tileMap);
@@ -232,7 +216,8 @@ public class Environment implements Collection<Tile> {
         private final Tile[][] internalTileMap;
         private final int width;
         private final int height;
-        private int i, j;
+        private int i;
+        private int j;
 
         public EnvironmentIterator(Tile[][] tileMap) {
             this.internalTileMap = tileMap;
