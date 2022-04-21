@@ -15,4 +15,13 @@ public class Guard extends Agent {
         super.explore();
         super.update();
     }
+
+    public void chasing() {
+        for (Agent agent : getVisionModule().getVisibleAgents()) {
+            if (agent instanceof Intruder) {
+                agent.getDirection();
+            }
+        }
+    }
+
 }

@@ -91,7 +91,6 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         }
     }
 
-    //TODO: add sound to update method in memory
     private void updateVision(IVisionModule vision) {
         discoveredTiles.clear();
 

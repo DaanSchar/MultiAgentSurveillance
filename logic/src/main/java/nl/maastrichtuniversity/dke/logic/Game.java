@@ -19,11 +19,6 @@ public class Game {
 
     private static final File DEFAULT_MAP = new File("src/main/resources/maps/testmap.txt");
 
-    /**
-     * This method is used to get the singleton instance of the game.
-     *
-     * @return the only allowed instance of the game.
-     */
     public static Game getInstance() {
         if (game == null) {
             setMapFile(DEFAULT_MAP);
@@ -48,12 +43,8 @@ public class Game {
     private @Getter Scenario scenario;
     private @Getter double time;
     private @Getter int currentTimeStep;
-    private @Getter Victory victory;
+    private @Getter final Victory victory;
 
-    /**
-     * Resets the game by re-reading the map file,
-     * setting the time to 0 and re-initializing the agents.
-     */
     public void reset() {
         scenario = new MapParser(mapFile).createScenario();
         currentTimeStep = 0;
@@ -61,27 +52,18 @@ public class Game {
         init();
     }
 
-    /**
-     * Initializes the game.
-     */
     public void init() {
         scenario.getGuards().forEach(Guard::spawn);
         scenario.getIntruders().forEach(Intruder::spawn);
     }
 
     public void update() {
-        if (victory.checkIntruderVictory() || victory.checkGuardVictory()) {
-            // Intruders and Guards stop when the target is reached
-            // TODO: implement end game screen
+        resetNoise();
+        time += scenario.getTimeStep();
+        currentTimeStep++;
 
-        } else {
-            resetNoise();
-            time += scenario.getTimeStep();
-            currentTimeStep++;
-
-            updateGuards();
-            updateIntruders();
-        }
+        updateGuards();
+        updateIntruders();
     }
 
     private void updateIntruders() {
@@ -94,17 +76,10 @@ public class Game {
         guards.forEach(Guard::update);
     }
 
-
-    /**
-     * Resets the noise map to empty.
-     */
     public void resetNoise() {
         scenario.getSoundMap().clear();
     }
 
-    /**
-     * Private constructor to prevent instantiation.
-     */
     protected Game() {
         this.scenario = new MapParser(mapFile).createScenario();
         this.time = 0.0;
