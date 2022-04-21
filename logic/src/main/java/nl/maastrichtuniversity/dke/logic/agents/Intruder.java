@@ -21,6 +21,7 @@ public class Intruder extends Agent {
 
     @Override
     public void update() {
+        seesTarget();
         if (seesGuard()) {
             escapeFromGuard();
         } else if (seesTarget()) {
@@ -36,7 +37,7 @@ public class Intruder extends Agent {
 
     private boolean seesTarget() {
         List<Tile> obstacles = super.getVisionModule().getObstacles();
-        if(obstacles.contains(TileType.TARGET)){
+        if(containsTarget(obstacles)){
             return true;
         }
         return false;
@@ -67,5 +68,14 @@ public class Intruder extends Agent {
         return agents.stream()
                 .map(agent -> (Guard) agent)
                 .collect(Collectors.toList());
+    }
+
+    private boolean containsTarget(List<Tile> obstacles) {
+        for(Tile t:obstacles){
+            if(t.getType().equals(TileType.TARGET)){
+                return true;
+            }
+        }
+        return false;
     }
 }
