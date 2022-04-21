@@ -21,7 +21,6 @@ public class Intruder extends Agent {
 
     @Override
     public void update() {
-        seesTarget();
         if (seesGuard()) {
             escapeFromGuard();
         } else if (seesTarget()) {
