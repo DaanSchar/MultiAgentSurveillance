@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.logic.agents;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -17,8 +18,16 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.ISpawnModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import nl.maastrichtuniversity.dke.util.DebugSettings;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.PriorityQueue;
+
+import static nl.maastrichtuniversity.dke.logic.agents.util.Direction.getDirectionAfterRotation;
 
 @Getter
 @Slf4j
@@ -32,6 +41,7 @@ public class Agent {
     Position position;
     private @Setter
     Direction direction;
+    List<MoveAction> actionsList;
 
     private @Setter
     ISpawnModule spawnModule;
@@ -51,6 +61,9 @@ public class Agent {
     ISmellModule smellModule;
     private @Setter
     IExplorationModule explorationModule;
+
+    private List<Position> followList;
+
 
     public Agent() {
         this.id = agentCount++;
@@ -87,6 +100,101 @@ public class Agent {
 
         updateMemory();
     }
+
+    public void goToLocation(Position target){
+        actionsList = makeActionList(target);
+        follow();
+    }
+
+    public void follow() {
+        move(actionsList.remove(0));
+    }
+
+    public List<MoveAction> makeActionList(Position target){
+        List<Position> positions = findShortestPath(this.getPosition(), position);
+        List<MoveAction> actionList = new ArrayList<>();
+        Direction currentDirection = this.getDirection();
+        for(int i =0; i < positions.size()-1; i++){
+            List<MoveAction> getRotation = getRotation(currentDirection, positions.get(i), positions.get(i+1));
+            for(MoveAction rotate: getRotation){
+                if(!rotate.equals(MoveAction.STAND_STILL)){
+                    actionsList.add(rotate);
+                    currentDirection = getDirectionAfterRotation(rotate,currentDirection);
+                }
+            }
+            actionsList.add(MoveAction.MOVE_FORWARD);
+        }
+        return actionList;
+    }
+
+    public List<MoveAction> getRotation(Direction agentDirection, Position from, Position to){
+        List<MoveAction> rotate = new ArrayList<>();
+        Position forward = from.add(new Position(agentDirection.getMoveX(), agentDirection.getMoveY()));
+        if(forward.equals(to)){
+            rotate.add(MoveAction.STAND_STILL);
+        }else if(forward.getX() + to.getX() == 0){
+            rotate.add(MoveAction.ROTATE_LEFT);
+            rotate.add(MoveAction.ROTATE_LEFT);
+        }else if(forward.getX() + to.getX() == 1){
+            rotate.add(MoveAction.ROTATE_RIGHT);
+        }else{
+            rotate.add(MoveAction.ROTATE_LEFT);
+        }
+        return rotate;
+
+    }
+    private List<Position> findShortestPath(Position start, Position target){
+        PriorityQueue<Node> queue= new PriorityQueue<Node>((o1, o2) -> o1.cost - o2.cost );
+        List<Node> visited = new ArrayList<>();
+        List<Position> path = new ArrayList<>();
+        for(Tile tile: this.getMemoryModule().getCoveredTiles()){
+            if(tile.isPassable()){
+                if(!tile.getPosition().equals(start)){
+                    queue.add(new Node(Integer.MAX_VALUE, tile.getPosition(),null));
+                }else{
+                    queue.add(new Node(0, start, null));
+                }
+            }
+        }
+        while(!queue.isEmpty()){
+            Node U = queue.poll();
+            visited.add(U);
+            for(Node v:queue){
+                if(!visited.contains(v)){
+                    int tempDis = U.getCost();
+                    if(tempDis < v.getCost()){
+                        v.setCost(tempDis);
+                        v.setPrevious(U);
+                    }
+                }
+            }
+        }
+        Node t = null;
+        for(Node x: visited){
+            if(x.current.equals(target)){
+                t = x;
+                break;
+            }
+        }
+        for (Node vertex = t; vertex != null; vertex = vertex.getPrevious())
+            path.add(vertex.current);
+        Collections.reverse(path);
+
+        return path;
+    }
+
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    private class Node{
+        private int cost;
+        private Position current;
+        private Node previous;
+    }
+
+
+
 
     /**
      * @param type a type of communication device want to drop
