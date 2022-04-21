@@ -20,7 +20,7 @@ public class Victory implements IVictory {
 
     public boolean checkGuardVictory() {
         for (Guard guard : scenario.getGuards()) {
-            if (guard.getVisionModule().getAgents().size() > 1) {
+            if (guard.getVisionModule().getVisibleAgents().size() > 1) {
                 return true;
             }
         }
