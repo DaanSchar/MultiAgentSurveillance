@@ -46,8 +46,6 @@ public class MovementModule extends AgentModule implements IMovementModule {
             return nextPosition;
         }
 
-        System.out.println("Not enough time has passed since last move");
-
         return currentPosition;
     }
 
