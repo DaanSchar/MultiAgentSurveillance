@@ -10,8 +10,8 @@ import java.util.List;
 public interface IVisionModule {
     void useVision(Position position, Direction direction);
 
-    List<Tile> getObstacles();
+    List<Tile> getVisibleTiles();
 
-    List<Agent> getAgents();
+    List<Agent> getVisibleAgents();
 
 }

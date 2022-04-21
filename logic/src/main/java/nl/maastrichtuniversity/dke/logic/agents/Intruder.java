@@ -24,7 +24,7 @@ public class Intruder extends Agent {
         } else if (seesTarget()) {
             walkTowardsTarget();
         } else {
-            super.explore();
+//            super.explore();
         }
         super.update();
     }
@@ -40,13 +40,16 @@ public class Intruder extends Agent {
     }
 
     private boolean seesGuard() {
-        log.info("Intruder sees guards: " + getVisibleGuards().size());
         return getVisibleGuards().size() > 0;
     }
 
     private List<Guard> getVisibleGuards() {
-        List<Agent> visibleAgents = this.getVisionModule().getAgents();
+        List<Agent> visibleAgents = this.getVisionModule().getVisibleAgents();
         List<Agent> visibleGuards = filterGuards(visibleAgents);
+
+        if (visibleAgents.size() > 0) {
+            System.out.println(visibleAgents.size());
+        }
 
         return castAgentsToGuards(visibleGuards);
     }

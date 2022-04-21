@@ -117,14 +117,14 @@ public class Agent {
     private void moveForward() {
         position = movement.goForward(position, direction);
         visionModule.useVision(position, direction);
-        var list = visionModule.getObstacles();
+        var list = visionModule.getVisibleTiles();
         noiseModule.makeWalkingSound(position);
     }
 
     private void sprintForward() {
         position = movement.sprint(position, direction);
         visionModule.useVision(position, direction);
-        var list = visionModule.getObstacles();
+        var list = visionModule.getVisibleTiles();
         noiseModule.makeSprintingSound(position);
     }
 

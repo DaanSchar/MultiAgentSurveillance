@@ -67,6 +67,10 @@ public class Environment implements Collection<Tile> {
         return tileMap[x + direction.getMoveX()][y + direction.getMoveY()];
     }
 
+    public Tile getAt(Position position) throws ArrayIndexOutOfBoundsException {
+        return tileMap[position.getX()][position.getY()];
+    }
+
     private void fillMapWithEmptyTiles() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {

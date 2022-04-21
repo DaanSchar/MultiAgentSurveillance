@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 
 import java.lang.Math;
 
@@ -18,6 +19,15 @@ public class Position {
     public Position(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public static Position getPosInDirection(Position position, Direction direction) {
+        return new Position(position, direction);
+    }
+
+    private Position(Position position, Direction direction) {
+        this.x = position.x + direction.getMoveX();
+        this.y = position.y + direction.getMoveY();
     }
 
     public Position add(Position other) {

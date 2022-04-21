@@ -12,6 +12,8 @@ import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Getter
 @Slf4j
@@ -19,13 +21,119 @@ public class VisionModule extends AgentModule implements IVisionModule {
 
     private final int viewingDistance;
 
-    private List<Agent> agents = new LinkedList<>();
-    private List<Tile> obstacles = new LinkedList<>();
+    private List<Agent> visibleAgents = new LinkedList<>();
+    private List<Tile> visibleTiles = new LinkedList<>();
 
     public VisionModule(Scenario scenario, int viewingDistance) {
         super(scenario);
         this.viewingDistance = viewingDistance;
     }
+
+    public void see(Position position, Direction direction) {
+        visibleAgents.clear();
+        visibleTiles.clear();
+
+        Position currentViewedPosition = position;
+        // maybe use a while loop instead of for loop
+        for (int i = 0; i < getViewingDistance(position); i++) {
+            processTileAt(currentViewedPosition);
+
+            if (!isSeeThrough(currentViewedPosition)) {
+                break;
+            }
+
+            if (isPartiallySeeThrough(currentViewedPosition)) {
+                currentViewedPosition = Position.getPosInDirection(currentViewedPosition, direction);
+                processTileAt(currentViewedPosition);
+                break;
+            }
+
+            currentViewedPosition = Position.getPosInDirection(currentViewedPosition, direction);
+        }
+    }
+
+    private void processTileAt(Position position) {
+        if (isOutOfMap(position)) {
+            return;
+        }
+
+        visibleTiles.add(getTileAt(position));
+        addPresentAgents(position);
+    }
+
+    private void addPresentAgents(Position position) {
+        for (Agent agent : getAgents()) {
+            if (agent.getPosition().equals(position)) {
+                visibleAgents.add(agent);
+            }
+        }
+    }
+
+    private List<Agent> getAgents() {
+        return Stream.concat(
+                scenario.getGuards().stream(),
+                scenario.getIntruders().stream()
+        ).collect(Collectors.toList());
+    }
+
+    private int getViewingDistance(Position position) {
+        Tile tile = getTileAt(position);
+
+        if (tile.getType() == TileType.SENTRY) {
+            return 2 * viewingDistance;
+        }
+
+        return viewingDistance;
+    }
+
+    private boolean isSeeThrough(Position position) {
+        Tile tile = getTileAt(position);
+
+        if (tile.getType() == TileType.DOOR) {
+            return tile.isOpened();
+        }
+
+        return tile.getType() != TileType.WALL;
+    }
+
+    private boolean isPartiallySeeThrough(Position position) {
+        Tile tile = getTileAt(position);
+
+        return tile.getType() == TileType.SHADED;
+    }
+
+    private boolean isOutOfMap(Position position) {
+        int mapWidth = scenario.getEnvironment().getWidth();
+        int mapHeight = scenario.getEnvironment().getHeight();
+
+        return position.getX() < 0 || position.getY() < 0
+                || position.getX() >= mapWidth || position.getY() >= mapHeight;
+    }
+
+    private Tile getTileAt(Position position) {
+        if (isOutOfMap(position)) {
+            return null;
+        }
+
+        return scenario.getEnvironment().getAt(position);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Method adds Tile/Agent to respective list,if is visible
@@ -35,8 +143,8 @@ public class VisionModule extends AgentModule implements IVisionModule {
      */
     @Override
     public void useVision(Position position, Direction direction) {
-        agents.clear();
-        obstacles.clear();
+        visibleAgents.clear();
+        visibleTiles.clear();
         boolean[] isShaded = {false, false, false};
         boolean[] checkedShaded = {false, false, false};
 
@@ -146,7 +254,7 @@ public class VisionModule extends AgentModule implements IVisionModule {
         if (!tmp.isOpened() && tmp.getType() == TileType.WALL) { // only non-transparent tile-type is wall?
             obstruct = true;
         }
-        obstacles.add(tmp);
+        visibleTiles.add(tmp);
 
         return obstruct;
     }
@@ -154,7 +262,7 @@ public class VisionModule extends AgentModule implements IVisionModule {
     private void addAgentIfPresent(List<Agent> scenario_agents, Position p) {
         for (Agent a : scenario_agents) {
             if (a.getPosition().equals(p)) {
-                agents.add(a);
+                visibleAgents.add(a);
                 break;
             }
         }

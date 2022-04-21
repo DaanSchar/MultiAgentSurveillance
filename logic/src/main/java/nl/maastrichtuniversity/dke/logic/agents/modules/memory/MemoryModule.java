@@ -94,7 +94,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     private void updateVision(IVisionModule vision) {
         discoveredTiles.clear();
 
-        for (Tile tile : vision.getObstacles()) {
+        for (Tile tile : vision.getVisibleTiles()) {
             int x = tile.getPosition().getX();
             int y = tile.getPosition().getY();
 
@@ -103,7 +103,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
                 map.getTileMap()[x][y] = new MemoryTile(tile);
             }
         }
-        for (Agent agentSee : vision.getAgents()) {
+        for (Agent agentSee : vision.getVisibleAgents()) {
             if (agents.get(agentSee.getId()) != null) {
                 agents.get(agentSee.getId()).setPosition(agentSee.getPosition());
                 agents.get(agentSee.getId()).setDirection(agentSee.getDirection());
