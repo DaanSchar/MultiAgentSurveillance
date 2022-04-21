@@ -16,8 +16,6 @@ import java.util.Random;
 
 public class UniformSpawnModule extends AgentModule implements ISpawnModule {
 
-    static int rr = 0;
-
     public UniformSpawnModule(Scenario scenario) {
         super(scenario);
     }
@@ -37,18 +35,14 @@ public class UniformSpawnModule extends AgentModule implements ISpawnModule {
         }
 
         Tile spawnTile = areas.get(new Random().nextInt(areas.size()));
-        return new Position(10, 10 + rr++);
 
-
-//        return new Position(spawnTile.getPosition().getX(), spawnTile.getPosition().getY());
+        return new Position(spawnTile.getPosition().getX(), spawnTile.getPosition().getY());
     }
 
     public Direction getSpawnDirection() {
         int random = new Random().nextInt(4);
 
-        return Direction.SOUTH;
-
-//        return Direction.getAllDirections().get(random);
+        return Direction.getAllDirections().get(random);
     }
 
 }

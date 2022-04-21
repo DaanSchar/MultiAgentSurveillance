@@ -3,6 +3,7 @@ package nl.maastrichtuniversity.dke.logic.agents;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 
@@ -12,7 +13,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class Intruder extends Agent {
 
-    private @Getter @Setter boolean alive;
+    private @Getter
+    @Setter
+    boolean alive;
 
     public Intruder() {
         super();
@@ -26,7 +29,7 @@ public class Intruder extends Agent {
         } else if (seesTarget()) {
             walkTowardsTarget();
         } else {
-//            super.explore();
+            super.explore();
         }
         super.update();
     }
@@ -36,13 +39,12 @@ public class Intruder extends Agent {
 
     private boolean seesTarget() {
         List<Tile> obstacles = super.getVisionModule().getVisibleTiles();
-        if(containsTarget(obstacles)){
-            return true;
-        }
-        return false;
+
+        return containsTarget(obstacles);
     }
 
     private void escapeFromGuard() {
+        /* run away from the seen guard */
     }
 
     private boolean seesGuard() {
@@ -52,10 +54,6 @@ public class Intruder extends Agent {
     private List<Guard> getVisibleGuards() {
         List<Agent> visibleAgents = this.getVisionModule().getVisibleAgents();
         List<Agent> visibleGuards = filterGuards(visibleAgents);
-
-        if (visibleAgents.size() > 0) {
-            System.out.println(visibleAgents.size());
-        }
 
         return castAgentsToGuards(visibleGuards);
     }
@@ -73,8 +71,8 @@ public class Intruder extends Agent {
     }
 
     private boolean containsTarget(List<Tile> obstacles) {
-        for(Tile t:obstacles){
-            if(t.getType().equals(TileType.TARGET)){
+        for (Tile t : obstacles) {
+            if (t.getType().equals(TileType.TARGET)) {
                 return true;
             }
         }

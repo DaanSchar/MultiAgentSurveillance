@@ -104,13 +104,14 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
             }
         }
         for (Agent agentSee : vision.getVisibleAgents()) {
-            if (agents.get(agentSee.getId()) != null) {
-                agents.get(agentSee.getId()).setPosition(agentSee.getPosition());
-                agents.get(agentSee.getId()).setDirection(agentSee.getDirection());
-            } else {
-                agents.add(agentSee.getId(), agentSee.newInstance());
+            if (agents.size() > 0) {
+                if (agents.get(agentSee.getId()) != null) {
+                    agents.get(agentSee.getId()).setPosition(agentSee.getPosition());
+                    agents.get(agentSee.getId()).setDirection(agentSee.getDirection());
+                } else {
+                    agents.add(agentSee.getId(), agentSee.newInstance());
+                }
             }
-
         }
     }
 

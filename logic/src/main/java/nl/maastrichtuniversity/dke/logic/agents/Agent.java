@@ -28,18 +28,29 @@ public class Agent {
     private static int agentCount;
     private final int id;
 
-    private @Setter Position position;
-    private @Setter Direction direction;
+    private @Setter
+    Position position;
+    private @Setter
+    Direction direction;
 
-    private @Setter ISpawnModule spawnModule;
-    private @Setter IMovementModule movement;
-    private @Setter IVisionModule visionModule;
-    private @Setter ICommunicationModule communicationModule;
-    private @Setter INoiseModule noiseModule;
-    private @Setter IListeningModule listeningModule;
-    private @Setter IMemoryModule memoryModule;
-    private @Setter ISmellModule smellModule;
-    private @Setter IExplorationModule explorationModule;
+    private @Setter
+    ISpawnModule spawnModule;
+    private @Setter
+    IMovementModule movement;
+    private @Setter
+    IVisionModule visionModule;
+    private @Setter
+    ICommunicationModule communicationModule;
+    private @Setter
+    INoiseModule noiseModule;
+    private @Setter
+    IListeningModule listeningModule;
+    private @Setter
+    IMemoryModule memoryModule;
+    private @Setter
+    ISmellModule smellModule;
+    private @Setter
+    IExplorationModule explorationModule;
 
     public Agent() {
         this.id = agentCount++;
@@ -62,6 +73,8 @@ public class Agent {
 
     public void update() {
         listen();
+        see();
+        updateMemory();
     }
 
     public void explore() {
@@ -78,38 +91,35 @@ public class Agent {
             case STAND_STILL -> { /* do nothing */ }
             default -> log.info("not performing MoveAction: {}", action);
         }
-
-        updateMemory();
     }
 
-    /**
-     * @param type a type of communication device want to drop
-     * @return if the type was available and agent droped it
-     */
     public boolean dropMark(CommunicationType type) {
         if (communicationModule.hasMark(type)) {
-                communicationModule.dropMark(
-                        new CommunicationMark(getPosition(),
-                                type,
-                                this
-                ));
-            updateMemory();
+            communicationModule.dropMark(
+                    new CommunicationMark(getPosition(),
+                            type,
+                            this
+                    ));
             return true;
         }
         return false;
     }
 
-    public void listen() {
-        listeningModule.getDirection(this.position);
-    }
-
-    public void updateMemory() {
-        memoryModule.update(visionModule, listeningModule, smellModule, getPosition());
-    }
-
     public Agent newInstance() {
         return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule,
                 communicationModule, memoryModule, listeningModule, smellModule);
+    }
+
+    private void see() {
+        visionModule.useVision(position, direction);
+    }
+
+    private void listen() {
+        listeningModule.getDirection(this.position);
+    }
+
+    private void updateMemory() {
+        memoryModule.update(visionModule, listeningModule, smellModule, getPosition());
     }
 
     private void rotate(MoveAction rotation) {
@@ -118,15 +128,11 @@ public class Agent {
 
     private void moveForward() {
         position = movement.goForward(position, direction);
-        visionModule.useVision(position, direction);
-        var list = visionModule.getVisibleTiles();
         noiseModule.makeWalkingSound(position);
     }
 
     private void sprintForward() {
         position = movement.sprint(position, direction);
-        visionModule.useVision(position, direction);
-        var list = visionModule.getVisibleTiles();
         noiseModule.makeSprintingSound(position);
     }
 
