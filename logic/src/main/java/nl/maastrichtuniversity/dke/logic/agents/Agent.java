@@ -19,6 +19,8 @@ import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
+import java.util.List;
+
 @Getter
 @Slf4j
 @Accessors(chain = true)
@@ -44,9 +46,6 @@ public class Agent {
         this.id = agentCount++;
     }
 
-    /**
-     * places the agent at a position determined by the spawn module.
-     */
     public void spawn() {
         position = spawnModule.getSpawnPosition(this);
         direction = spawnModule.getSpawnDirection();
@@ -79,7 +78,8 @@ public class Agent {
     public boolean dropMark(CommunicationType type) {
         if (communicationModule.hasMark(type)) {
             communicationModule.dropMark(
-                    new CommunicationMark(getPosition(),
+                    new CommunicationMark(
+                            getPosition(),
                             type,
                             this
                     )
@@ -87,11 +87,6 @@ public class Agent {
             return true;
         }
         return false;
-    }
-
-    public Agent newInstance() {
-        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule,
-                communicationModule, memoryModule, listeningModule, smellModule);
     }
 
     private void view() {
@@ -118,6 +113,20 @@ public class Agent {
     private void sprintForward() {
         position = movement.sprint(position, direction);
         noiseModule.makeSprintingSound(position);
+    }
+
+    protected List<Direction> getDirectionsOfSounds() {
+        return this.getListeningModule().getDirection(getPosition());
+    }
+
+    protected List<Agent> getVisibleAgents() {
+        return this.getVisionModule().getVisibleAgents();
+    }
+
+
+    public Agent newInstance() {
+        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule,
+                communicationModule, memoryModule, listeningModule, smellModule);
     }
 
     private Agent(Direction direction, Position position, int id, ISpawnModule spawnModule, IMovementModule movement,

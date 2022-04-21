@@ -3,7 +3,6 @@ package nl.maastrichtuniversity.dke.logic.agents;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 
@@ -23,16 +22,16 @@ public class Intruder extends Agent {
     @Override
     public void update() {
         if (seesGuard()) {
-            escapeFromGuard();
+            avoidGuards();
         } else if (seesTarget()) {
-            walkTowardsTarget();
+            navigateToTarget();
         } else {
             super.explore();
         }
         super.update();
     }
 
-    private void walkTowardsTarget() {
+    private void navigateToTarget() {
     }
 
     private boolean seesTarget() {
@@ -41,7 +40,7 @@ public class Intruder extends Agent {
         return containsTarget(obstacles);
     }
 
-    private void escapeFromGuard() {
+    private void avoidGuards() {
         /* run away from the seen guard */
     }
 
@@ -50,7 +49,7 @@ public class Intruder extends Agent {
     }
 
     private List<Guard> getVisibleGuards() {
-        List<Agent> visibleAgents = this.getVisionModule().getVisibleAgents();
+        List<Agent> visibleAgents = super.getVisibleAgents();
         List<Agent> visibleGuards = filterGuards(visibleAgents);
 
         return castAgentsToGuards(visibleGuards);
