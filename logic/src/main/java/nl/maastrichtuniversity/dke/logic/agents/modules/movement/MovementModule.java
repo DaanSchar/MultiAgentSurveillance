@@ -50,6 +50,18 @@ public class MovementModule extends AgentModule implements IMovementModule {
     }
 
     @Override
+    public Position sprint(Position currentPosition, Direction direction) {
+        Position nextPosition = getForwardPosition(currentPosition, direction);
+
+        if (enoughTimeHasElapsedSinceLastMove(sprintSpeed)) {
+            lastTimeMoved = getCurrentTime();
+            return nextPosition;
+        }
+
+        return currentPosition;
+    }
+
+    @Override
     public Position getForwardPosition(Position currentPosition, Direction direction) {
         Position facingPosition = getFacingPosition(currentPosition, direction);
 
@@ -62,15 +74,6 @@ public class MovementModule extends AgentModule implements IMovementModule {
         }
 
         return facingPosition;
-    }
-
-    @Override
-    public Position sprint(Position position, Direction direction) {
-        Position newPos = position.add(new Position(direction.getMoveX() * 2, direction.getMoveY() * 2));
-        if (agentCanMoveTo(newPos)) {
-            return newPos;
-        }
-        return position;
     }
 
     private boolean agentCanMoveTo(Position position) {
