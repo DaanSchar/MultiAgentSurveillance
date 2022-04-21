@@ -21,10 +21,8 @@ public class VisionModule extends AgentModule implements IVisionModule {
 
     private final int viewingDistance;
 
-    @Getter
-    private final List<Agent> visibleAgents = new LinkedList<>();
-    @Getter
-    private final List<Tile> visibleTiles = new LinkedList<>();
+    @Getter private final List<Agent> visibleAgents = new LinkedList<>();
+    @Getter private final List<Tile> visibleTiles = new LinkedList<>();
 
     private Position currentPosition;
     private Direction currentDirection;

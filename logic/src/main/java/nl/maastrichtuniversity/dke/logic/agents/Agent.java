@@ -18,7 +18,6 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
-import nl.maastrichtuniversity.dke.util.DebugSettings;
 
 @Getter
 @Slf4j
@@ -28,29 +27,18 @@ public class Agent {
     private static int agentCount;
     private final int id;
 
-    private @Setter
-    Position position;
-    private @Setter
-    Direction direction;
+    private @Setter Position position;
+    private @Setter Direction direction;
 
-    private @Setter
-    ISpawnModule spawnModule;
-    private @Setter
-    IMovementModule movement;
-    private @Setter
-    IVisionModule visionModule;
-    private @Setter
-    ICommunicationModule communicationModule;
-    private @Setter
-    INoiseModule noiseModule;
-    private @Setter
-    IListeningModule listeningModule;
-    private @Setter
-    IMemoryModule memoryModule;
-    private @Setter
-    ISmellModule smellModule;
-    private @Setter
-    IExplorationModule explorationModule;
+    private @Setter ISpawnModule spawnModule;
+    private @Setter IMovementModule movement;
+    private @Setter IVisionModule visionModule;
+    private @Setter ICommunicationModule communicationModule;
+    private @Setter INoiseModule noiseModule;
+    private @Setter IListeningModule listeningModule;
+    private @Setter IMemoryModule memoryModule;
+    private @Setter ISmellModule smellModule;
+    private @Setter IExplorationModule explorationModule;
 
     public Agent() {
         this.id = agentCount++;
@@ -64,16 +52,11 @@ public class Agent {
         direction = spawnModule.getSpawnDirection();
         memoryModule.setSpawnPosition(position);
         updateMemory();
-
-        if (DebugSettings.FACTORY) {
-            log.info(this.getClass().getSimpleName() + " " + this.id + " spawned at "
-                    + this.position + " facing " + this.direction);
-        }
     }
 
     public void update() {
         listen();
-        see();
+        view();
         updateMemory();
     }
 
@@ -99,7 +82,8 @@ public class Agent {
                     new CommunicationMark(getPosition(),
                             type,
                             this
-                    ));
+                    )
+            );
             return true;
         }
         return false;
@@ -110,7 +94,7 @@ public class Agent {
                 communicationModule, memoryModule, listeningModule, smellModule);
     }
 
-    private void see() {
+    private void view() {
         visionModule.useVision(position, direction);
     }
 
@@ -139,7 +123,6 @@ public class Agent {
     private Agent(Direction direction, Position position, int id, ISpawnModule spawnModule, IMovementModule movement,
                   IVisionModule visionModule, INoiseModule noiseModule, ICommunicationModule communicationModule,
                   IMemoryModule memoryModule, IListeningModule listeningModule, ISmellModule smellModule) {
-
         this.spawnModule = spawnModule;
         this.visionModule = visionModule;
         this.movement = movement;

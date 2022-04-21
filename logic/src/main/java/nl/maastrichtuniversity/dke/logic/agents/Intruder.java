@@ -13,9 +13,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class Intruder extends Agent {
 
-    private @Getter
-    @Setter
-    boolean alive;
+    private @Getter @Setter boolean alive;
 
     public Intruder() {
         super();
