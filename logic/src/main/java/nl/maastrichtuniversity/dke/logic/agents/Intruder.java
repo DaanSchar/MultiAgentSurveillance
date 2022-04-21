@@ -12,4 +12,14 @@ public class Intruder extends Agent {
         this.alive = true; //all the intruders are alive at start
     }
 
+    @Override
+    public void update() {
+        if (seesGuard()) {
+            escapeFromGuard();
+        } else if (seesTarget()) {
+            walkTowardsTarget();
+        } else {
+            super.explore();
+        }
+    }
 }

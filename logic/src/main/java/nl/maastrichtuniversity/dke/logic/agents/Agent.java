@@ -60,6 +60,10 @@ public class Agent {
         }
     }
 
+    public void update() {
+        explore();
+    }
+
     public void explore() {
         MoveAction nextMove = explorationModule.explore(getPosition(), getDirection());
         move(nextMove);
