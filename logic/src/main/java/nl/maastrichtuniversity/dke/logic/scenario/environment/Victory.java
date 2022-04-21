@@ -16,8 +16,8 @@ public class Victory {
     //-The intruder wins if he is 3 seconds in any of the target
     // areas or visits the target area twice with a time difference
     // of at least 3 seconds
-    public boolean checkIntruerVectory(){
-        return checkTargetArea(scenario.getIntruders());
+    public boolean checkIntruerVectory(int gamemode){
+        return checkTargetArea(scenario.getIntruders(),gamemode);
     }
     //-The guards win if the intruder is no more than
     // 0.5 meter away and in sight.
@@ -30,17 +30,23 @@ public class Victory {
         return false;
     }
 
-    public boolean checkTargetArea(List<Intruder> agents){
+    public boolean checkTargetArea(List<Intruder> agents,int gamemode){
 
         List<Tile> tiles= scenario.getEnvironment().get(TileType.TARGET);
+        int countIntrudersFoundTarget=0;
         for (Tile tile : tiles) {
             for (Agent agent : agents) {
-            if (agent.getPosition().getX()==tile.getPosition().getX() &&
-                agent.getPosition().getY()==tile.getPosition().getY()){
-                return true;
-                }
-            }
+                    if (agent.getPosition().getX()==tile.getPosition().getX() &&
+                            agent.getPosition().getY()==tile.getPosition().getY()){
+                        countIntrudersFoundTarget++;
+                    }
         }
+            if (gamemode==1&&countIntrudersFoundTarget==agents.size()){
+                return true;}
+            if (gamemode==0&&countIntrudersFoundTarget>0){
+            return true;}
+        }
+
         return false;
 
     }
