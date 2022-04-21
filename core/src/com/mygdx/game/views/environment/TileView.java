@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.util.TextureRepository;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 public class TileView extends Actor {
@@ -59,6 +60,9 @@ public class TileView extends Actor {
             case SPAWN_GUARDS -> {
                 return textureRepository.get("sand1");
             }
+            case UNKNOWN -> {
+                return null;
+            }
             default -> {
                 return textureRepository.get("emptyTile4");
             }
@@ -67,6 +71,10 @@ public class TileView extends Actor {
 
     private Texture getTileTexture() {
         final float third = 1 / 3f;
+
+        if (tile.getType() == TileType.UNKNOWN) {
+            return null;
+        }
 
         if (height > 2 * third) {
             return textureRepository.get("stone1");

@@ -32,6 +32,7 @@ public class MovableStage extends Stage {
 
     @Override
     public void draw() {
+        super.draw();
         updateCamera();
     }
 
@@ -62,6 +63,11 @@ public class MovableStage extends Stage {
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         return cameraController.touchDragged(screenX, screenY, pointer);
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        return cameraController.scrolled(amountX, amountY);
     }
 
     @Override

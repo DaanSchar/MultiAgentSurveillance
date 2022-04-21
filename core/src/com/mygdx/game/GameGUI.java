@@ -20,7 +20,7 @@ public final class GameGUI extends ApplicationAdapter {
     private GameComponent gameComponent;
 
     private float totalTimePassed;
-    private final float timeInterval = 0.25f;
+    private final float timeInterval = 0.00f;
 
     @SneakyThrows
     @Override

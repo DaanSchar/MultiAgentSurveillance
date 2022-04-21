@@ -27,26 +27,19 @@ public class GameComponent extends MovableStage {
     }
 
     public void reset(Scenario scenario) {
-        this.environmentView = new EnvironmentView(scenario.getEnvironment());
+        this.environmentView = new EnvironmentView(scenario);
         this.fleetView = new FleetView(scenario);
         this.soundView = new SoundView(scenario);
         this.smellView = new SmellView(scenario);
         this.communicationView = new CommunicationView(scenario);
-
+        this.addActor(environmentView);
+        this.addActor(fleetView);
+        this.addActor(communicationView);
     }
 
     public void draw() {
         super.draw();
-        drawTextures();
         drawShapes();
-    }
-
-    private void drawTextures() {
-        getBatch().begin();
-        environmentView.draw(getBatch(), 1f);
-        fleetView.draw(getBatch(), 1f);
-        communicationView.draw(getBatch(), 1f);
-        getBatch().end();
     }
 
     private void drawShapes() {
@@ -61,6 +54,11 @@ public class GameComponent extends MovableStage {
         if (keyCode == Input.Keys.R) {
             game.reset();
             reset(game.getScenario());
+            return true;
+        }
+        if (keyCode == Input.Keys.G) {
+            boolean isMemory = environmentView.isShowMemoryMap();
+            environmentView.setShowMemoryMap(!isMemory);
             return true;
         } else {
             return super.keyDown(keyCode);

@@ -42,6 +42,7 @@ public final class TextureRepository {
         textures.put("stone2", new Texture("empty/stone2.png"));
         textures.put("dirt1", new Texture("empty/dirt2.png"));
         textures.put("dirt2", new Texture("empty/dirt2.png"));
+        textures.put("unexplored", new Texture("empty/blackmark.png"));
 
         // structures
         textures.put("teleportDestination", new Texture("structure/teleportDestination.png"));

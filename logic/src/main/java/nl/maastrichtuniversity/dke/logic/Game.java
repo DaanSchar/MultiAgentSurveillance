@@ -4,17 +4,14 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.Fleet;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
+import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.util.MapParser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
 @Slf4j
 public class Game {
-
-    private static final Logger logger = LoggerFactory.getLogger(Game.class);
 
     private static File mapFile;
     private static Game game;
@@ -38,16 +35,16 @@ public class Game {
         Game.mapFile = mapFile;
 
         if (game == null) {
-            logger.info("Creating new game instance.");
+            log.info("Creating new game instance.");
             game = new Game();
         } else {
-            logger.info("Map file changed, resetting game.");
+            log.info("Map file changed, resetting game.");
             game.reset();
         }
     }
 
 
-    private final @Getter Scenario scenario;
+    private @Getter Scenario scenario;
     private @Getter double time;
 
     /**
@@ -55,6 +52,7 @@ public class Game {
      * setting the time to 0 and re-initializing the agents.
      */
     public void reset() {
+        scenario = new MapParser(mapFile).createScenario();
         game.time = 0.0;
         init();
     }
@@ -77,7 +75,10 @@ public class Game {
         Fleet<Guard> guards = scenario.getGuards();
         guards.forEach(Guard::explore);
         guards.forEach(Guard::listen);
+
+
     }
+
 
     /**
      * Resets the noise map to empty.
@@ -94,6 +95,5 @@ public class Game {
         this.time = 0.0;
         init();
     }
-
 
 }
