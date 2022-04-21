@@ -34,45 +34,42 @@ public enum Direction {
 
         return directions;
     }
-    public static Direction getDirectionAfterRotation(MoveAction action, Direction direction){
-        if(direction.equals(Direction.NORTH)){
-            if(action.equals(MoveAction.STAND_STILL)){
+
+    public static Direction getDirectionAfterRotation(MoveAction action, Direction direction) {
+        if (direction.equals(Direction.NORTH)) {
+            if (action.equals(MoveAction.STAND_STILL)) {
                 return Direction.NORTH;
-            } else if(action.equals(MoveAction.ROTATE_LEFT)){
+            } else if (action.equals(MoveAction.ROTATE_LEFT)) {
                 return Direction.WEST;
-            }else {
+            } else {
                 return Direction.EAST;
             }
-        }
-        else if(direction.equals(Direction.EAST)){
-            if(action.equals(MoveAction.STAND_STILL)){
+        } else if (direction.equals(Direction.EAST)) {
+            if (action.equals(MoveAction.STAND_STILL)) {
                 return Direction.EAST;
-            } else if(action.equals(MoveAction.ROTATE_LEFT)){
+            } else if (action.equals(MoveAction.ROTATE_LEFT)) {
                 return Direction.NORTH;
-            }else {
+            } else {
                 return Direction.SOUTH;
             }
-        }
-        else if(direction.equals(Direction.WEST)){
-            if(action.equals(MoveAction.STAND_STILL)){
+        } else if (direction.equals(Direction.WEST)) {
+            if (action.equals(MoveAction.STAND_STILL)) {
                 return Direction.WEST;
-            } else if(action.equals(MoveAction.ROTATE_LEFT)){
+            } else if (action.equals(MoveAction.ROTATE_LEFT)) {
                 return Direction.SOUTH;
-            }else {
+            } else {
                 return Direction.NORTH;
             }
-        }
-        else{
-            if(action.equals(MoveAction.STAND_STILL)){
+        } else {
+            if (action.equals(MoveAction.STAND_STILL)) {
                 return Direction.SOUTH;
-            } else if(action.equals(MoveAction.ROTATE_LEFT)){
+            } else if (action.equals(MoveAction.ROTATE_LEFT)) {
                 return Direction.EAST;
-            }else {
+            } else {
                 return Direction.WEST;
             }
         }
     }
-
 
     public static Direction leftOf(Direction direction) {
         return switch (direction) {

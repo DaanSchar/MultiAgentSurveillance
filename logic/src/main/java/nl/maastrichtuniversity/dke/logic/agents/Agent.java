@@ -21,11 +21,7 @@ import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
-import java.util.List;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.PriorityQueue;
+import java.util.*;
 
 import static nl.maastrichtuniversity.dke.logic.agents.util.Direction.getDirectionAfterRotation;
 
@@ -50,7 +46,7 @@ public class Agent {
     private @Setter ISmellModule smellModule;
     private @Setter IExplorationModule explorationModule;
 
-    List<MoveAction> actionsList;
+    private List<MoveAction> actionsList;
     private List<Position> followList;
 
     public Agent() {
@@ -95,16 +91,16 @@ public class Agent {
         move(actionsList.remove(0));
     }
 
-    public List<MoveAction> makeActionList(Position target){
+    public List<MoveAction> makeActionList(Position target) {
         List<Position> positions = findShortestPath(this.getPosition(), position);
         List<MoveAction> actionList = new ArrayList<>();
         Direction currentDirection = this.getDirection();
-        for(int i =0; i < positions.size()-1; i++){
-            List<MoveAction> getRotation = getRotation(currentDirection, positions.get(i), positions.get(i+1));
-            for(MoveAction rotate: getRotation){
-                if(!rotate.equals(MoveAction.STAND_STILL)){
+        for (int i = 0; i < positions.size() - 1; i++) {
+            List<MoveAction> getRotation = getRotation(currentDirection, positions.get(i), positions.get(i + 1));
+            for (MoveAction rotate : getRotation) {
+                if (!rotate.equals(MoveAction.STAND_STILL)) {
                     actionsList.add(rotate);
-                    currentDirection = getDirectionAfterRotation(rotate,currentDirection);
+                    currentDirection = getDirectionAfterRotation(rotate, currentDirection);
                 }
             }
             actionsList.add(MoveAction.MOVE_FORWARD);
@@ -112,42 +108,43 @@ public class Agent {
         return actionList;
     }
 
-    public List<MoveAction> getRotation(Direction agentDirection, Position from, Position to){
+    public List<MoveAction> getRotation(Direction agentDirection, Position from, Position to) {
         List<MoveAction> rotate = new ArrayList<>();
         Position forward = from.add(new Position(agentDirection.getMoveX(), agentDirection.getMoveY()));
-        if(forward.equals(to)){
+        if (forward.equals(to)) {
             rotate.add(MoveAction.STAND_STILL);
-        }else if(forward.getX() + to.getX() == 0){
+        } else if (forward.getX() + to.getX() == 0) {
             rotate.add(MoveAction.ROTATE_LEFT);
             rotate.add(MoveAction.ROTATE_LEFT);
-        }else if(forward.getX() + to.getX() == 1){
+        } else if (forward.getX() + to.getX() == 1) {
             rotate.add(MoveAction.ROTATE_RIGHT);
-        }else{
+        } else {
             rotate.add(MoveAction.ROTATE_LEFT);
         }
         return rotate;
 
     }
-    private List<Position> findShortestPath(Position start, Position target){
-        PriorityQueue<Node> queue= new PriorityQueue<Node>((o1, o2) -> o1.cost - o2.cost );
+
+    private List<Position> findShortestPath(Position start, Position target) {
+        PriorityQueue<Node> queue = new PriorityQueue<>(Comparator.comparingInt(o -> o.cost));
         List<Node> visited = new ArrayList<>();
         List<Position> path = new ArrayList<>();
-        for(Tile tile: this.getMemoryModule().getCoveredTiles()){
-            if(tile.isPassable()){
-                if(!tile.getPosition().equals(start)){
-                    queue.add(new Node(Integer.MAX_VALUE, tile.getPosition(),null));
-                }else{
+        for (Tile tile : this.getMemoryModule().getCoveredTiles()) {
+            if (tile.isPassable()) {
+                if (!tile.getPosition().equals(start)) {
+                    queue.add(new Node(Integer.MAX_VALUE, tile.getPosition(), null));
+                } else {
                     queue.add(new Node(0, start, null));
                 }
             }
         }
-        while(!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             Node U = queue.poll();
             visited.add(U);
-            for(Node v:queue){
-                if(!visited.contains(v)){
+            for (Node v : queue) {
+                if (!visited.contains(v)) {
                     int tempDis = U.getCost();
-                    if(tempDis < v.getCost()){
+                    if (tempDis < v.getCost()) {
                         v.setCost(tempDis);
                         v.setPrevious(U);
                     }
@@ -155,8 +152,8 @@ public class Agent {
             }
         }
         Node t = null;
-        for(Node x: visited){
-            if(x.current.equals(target)){
+        for (Node x : visited) {
+            if (x.current.equals(target)) {
                 t = x;
                 break;
             }
@@ -168,23 +165,15 @@ public class Agent {
         return path;
     }
 
-
     @Getter
     @Setter
     @AllArgsConstructor
-    private class Node{
+    private class Node {
         private int cost;
         private Position current;
         private Node previous;
     }
 
-
-
-
-    /**
-     * @param type a type of communication device want to drop
-     * @return if the type was available and agent droped it
-     */
     public boolean dropMark(CommunicationType type) {
         if (communicationModule.hasMark(type)) {
             communicationModule.dropMark(
