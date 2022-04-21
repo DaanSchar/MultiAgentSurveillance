@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Intruder extends Agent {
+
     private @Getter @Setter boolean alive;
 
     public Intruder() {
