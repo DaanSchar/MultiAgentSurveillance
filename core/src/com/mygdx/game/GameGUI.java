@@ -20,7 +20,7 @@ public final class GameGUI extends ApplicationAdapter {
     private GameComponent gameComponent;
 
     private float totalTimePassed;
-    private final float timeInterval = 0.00f;
+    private static float timeInterval = 0.00f;
 
     @SneakyThrows
     @Override
@@ -69,6 +69,18 @@ public final class GameGUI extends ApplicationAdapter {
 
     private File getMapFile() {
         return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("testmap.txt")).getFile());
+    }
+
+    public static void incrementTimeInterval() {
+        if (timeInterval < 0.1f) {
+            timeInterval += 0.01f;
+        }
+    }
+
+    public static void decrementTimeInterval() {
+        if (timeInterval > 0f) {
+            timeInterval -= 0.01f;
+        }
     }
 
 }

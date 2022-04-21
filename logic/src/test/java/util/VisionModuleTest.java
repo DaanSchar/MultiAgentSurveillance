@@ -2,6 +2,7 @@ package util;
 
 
 
+import nl.maastrichtuniversity.dke.logic.agents.Fleet;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.VisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
@@ -33,6 +34,8 @@ public class VisionModuleTest {
     @BeforeEach
     void setup() {
         s = new Scenario("Test", 0, 0, 0, null);
+        s.setIntruders(new Fleet<>());
+        s.setGuards(new Fleet<>());
 
         Tile[][] tilemap = new Tile[4][4];
 
@@ -67,14 +70,13 @@ public class VisionModuleTest {
         s.getEnvironment().getTileMap()[2][0].setType(TileType.WALL);
 
         vm.useVision(new Position(1,1), Direction.NORTH);
-        List<Tile> obstacles =vm.getObstacles();
+        List<Tile> obstacles =vm.getVisibleTiles();
 
-
-        Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(1, 1));
-        Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(0, 1));
-        Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(2, 1));
-        Assertions.assertEquals(obstacles.get(3).getPosition(), new Position(1, 0));
-        Assertions.assertEquals(obstacles.get(4).getPosition(), new Position(2, 0));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(1,1)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(0,1)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(2,1)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(1,0)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(2,0)));
     }
 
     /** south direction is x:0 y:1, so up from P
@@ -94,17 +96,17 @@ public class VisionModuleTest {
 
 
         vm.useVision(new Position(1,0), Direction.SOUTH);
-        List<Tile> obstacles =vm.getObstacles();
+        List<Tile> obstacles =vm.getVisibleTiles();
 
-        Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(1,0));
-        Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(0,0));
-        Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(2,0));
-        Assertions.assertEquals(obstacles.get(3).getPosition(), new Position(1,1));
-        Assertions.assertEquals(obstacles.get(4).getPosition(), new Position(0,1));
-        Assertions.assertEquals(obstacles.get(5).getPosition(), new Position(2,1));
-        Assertions.assertEquals(obstacles.get(6).getPosition(), new Position(0,2));
-        Assertions.assertEquals(obstacles.get(7).getPosition(), new Position(2,2));
-        Assertions.assertEquals(obstacles.get(8).getPosition(), new Position(2, 3));
+       Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(1, 0)));
+       Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(0, 0)));
+       Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(2, 0)));
+       Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(1, 1)));
+       Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(0, 1)));
+       Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(2, 1)));
+       Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(0, 2)));
+       Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(2, 2)));
+
     }
 
     /** east direction is x:1 y:0, so right from P
@@ -122,15 +124,15 @@ public class VisionModuleTest {
         s.getEnvironment().getTileMap()[2][0].setType(TileType.WALL);
 
         vm.useVision(new Position(0,0), Direction.EAST);
-        List<Tile> obstacles =vm.getObstacles();
+        List<Tile> obstacles =vm.getVisibleTiles();
 
-        Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(0,0));
-        Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(0,1));
-        Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(1,0));
-        Assertions.assertEquals(obstacles.get(3).getPosition(), new Position(1,1));
-        Assertions.assertEquals(obstacles.get(4).getPosition(), new Position(2,0));
-        Assertions.assertEquals(obstacles.get(5).getPosition(), new Position(2,1));
-        Assertions.assertEquals(obstacles.get(6).getPosition(), new Position(3,1));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(0,0)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(0,1)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(1,0)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(1,1)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(2,0)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(2,1)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(3,1)));
     }
 
     /** west direction is x:-1 y:0, so left from P
@@ -149,12 +151,12 @@ public class VisionModuleTest {
 
 
         vm.useVision(new Position(3,0), Direction.WEST);
-        List<Tile> obstacles =vm.getObstacles();
+        List<Tile> obstacles =vm.getVisibleTiles();
 
-         Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(3,0));
-         Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(3,1));
-         Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(2,0));
-         Assertions.assertEquals(obstacles.get(3).getPosition(), new Position(1,0));
+         Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(3,0)));
+         Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(3,1)));
+         Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(2,0)));
+         Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(1,0)));
     }
 
     /** shaded test, can only see one tile after a shaded tile
@@ -174,18 +176,18 @@ public class VisionModuleTest {
 
 
         vm.useVision(new Position(1,0), Direction.SOUTH);
-        List<Tile> obstacles =vm.getObstacles();
+        List<Tile> obstacles =vm.getVisibleTiles();
 
-        Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(1,0));
-        Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(0,0));
-        Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(2,0));
-        Assertions.assertEquals(obstacles.get(3).getPosition(), new Position(1,1));
-        Assertions.assertEquals(obstacles.get(4).getPosition(), new Position(0,1));
-        Assertions.assertEquals(obstacles.get(5).getPosition(), new Position(2,1));
-        Assertions.assertEquals(obstacles.get(6).getPosition(), new Position(1,2));
-        Assertions.assertEquals(obstacles.get(7).getPosition(), new Position(0,2));
-        Assertions.assertEquals(obstacles.get(8).getPosition(), new Position(2,2));
-        Assertions.assertEquals(obstacles.get(9).getPosition(), new Position(2, 3));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(1,0)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(0,0)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(2,0)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(1,1)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(0,1)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(2,1)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(1,2)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(0,2)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(2,2)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(2, 3)));
 
 
     }
@@ -208,12 +210,14 @@ public class VisionModuleTest {
 
 
         vm.useVision(new Position(3,3), Direction.WEST);
-        List<Tile> obstacles =vm.getObstacles();
+        List<Tile> obstacles =vm.getVisibleTiles();
 
-        Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(1,3));
-        Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(1,2));
-        Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(0,3));
-        Assertions.assertEquals(obstacles.get(3).getPosition(), new Position(0,2));
+
+
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(1,3)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(1,2)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(0,3)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(0,2)));
 
 
     }
@@ -236,11 +240,11 @@ public class VisionModuleTest {
 
 
         vm.useVision(new Position(2,1), Direction.SOUTH);
-        List<Tile> obstacles =vm.getObstacles();
+        List<Tile> obstacles =vm.getVisibleTiles();
 
-        Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(2,3));
-        Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(1,3));
-        Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(3,3));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(2,3)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(1,3)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(3,3)));
 
 
     }
@@ -263,10 +267,10 @@ public class VisionModuleTest {
 
 
         vm.useVision(new Position(2,2), Direction.NORTH);
-        List<Tile> obstacles =vm.getObstacles();
-        Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(2,0));
-        Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(1,0));
-        Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(3,0));
+        List<Tile> obstacles =vm.getVisibleTiles();
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(2,0)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(1,0)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(3,0)));
     }
 
 
@@ -289,10 +293,10 @@ public class VisionModuleTest {
 
 
         vm.useVision(new Position(1,2), Direction.EAST);
-        List<Tile> obstacles =vm.getObstacles();
-        Assertions.assertEquals(obstacles.get(0).getPosition(), new Position(3,2));
-        Assertions.assertEquals(obstacles.get(1).getPosition(), new Position(3,1));
-        Assertions.assertEquals(obstacles.get(2).getPosition(), new Position(3,3));
+        List<Tile> obstacles =vm.getVisibleTiles();
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(3,2)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(3,1)));
+        Assertions.assertTrue(tileListContainsPosition(obstacles, new Position(3,3)));
     }
 
 
@@ -314,11 +318,19 @@ public class VisionModuleTest {
 
 
         vm.useVision(new Position(2,1), Direction.SOUTH);
-        List<Tile> obstacles =vm.getObstacles();
+        List<Tile> obstacles =vm.getVisibleTiles();
     }
 
 
+    private boolean tileListContainsPosition(List<Tile> tiles, Position position) {
+        for (Tile tile : tiles) {
+            if (tile.getPosition().equals(position)) {
+                return true;
+            }
+        }
 
+        return false;
+    }
 
 
 }

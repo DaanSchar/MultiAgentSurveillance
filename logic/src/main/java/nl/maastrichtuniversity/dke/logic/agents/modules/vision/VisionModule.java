@@ -10,195 +10,171 @@ import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-@Getter
 @Slf4j
 public class VisionModule extends AgentModule implements IVisionModule {
 
     private final int viewingDistance;
 
-    private List<Agent> agents = new LinkedList<>();
-    private List<Tile> obstacles = new LinkedList<>();
+    @Getter private final List<Agent> visibleAgents = new LinkedList<>();
+    @Getter private final List<Tile> visibleTiles = new LinkedList<>();
+
+    private Position currentPosition;
+    private Direction currentDirection;
 
     public VisionModule(Scenario scenario, int viewingDistance) {
         super(scenario);
         this.viewingDistance = viewingDistance;
     }
 
-    /**
-     * Method adds Tile/Agent to respective list,if is visible
-     *
-     * @param position  position of agent
-     * @param direction direction agent is facing
-     */
     @Override
     public void useVision(Position position, Direction direction) {
-        agents.clear();
-        obstacles.clear();
-        boolean[] isShaded = {false, false, false};
-        boolean[] checkedShaded = {false, false, false};
+        this.currentPosition = position;
+        this.currentDirection = direction;
 
+        clear();
+        processVision();
+    }
 
-        List<Agent> scenario_agents = new LinkedList<>();
-        Tile[][] tilemap = scenario.getEnvironment().getTileMap();
-        int endTile = getEndTile(position, direction);
-        int startTile = getStartTile(position);
+    private void clear() {
+        visibleAgents.clear();
+        visibleTiles.clear();
+    }
 
-        boolean[] canMove = canMove(position, direction);
-        boolean canMove1 = canMove[0];
-        boolean canMove2 = canMove[1];
+    private void processVision() {
+        List<Position> visiblePositions = getAllVisiblePositions();
+        processTilesAtPositions(visiblePositions);
+    }
 
-        boolean obstruct0 = false;
-        boolean obstruct1 = false;
-        boolean obstruct2 = false;
-        for (int i = startTile; i <= endTile; i++) {
-            if (!isShaded[0]) {
-                obstruct0 = checkTile(tilemap, scenario_agents, position, direction, obstruct0, true, isShaded, 0, 0, i);
+    private List<Position> getAllVisiblePositions() {
+        Position left = currentPosition.getPosInDirection(Direction.leftOf(currentDirection));
+        Position right = currentPosition.getPosInDirection(Direction.rightOf(currentDirection));
 
-            } else if (!checkedShaded[0]) {
-                obstruct0 = checkTile(tilemap, scenario_agents, position, direction, obstruct0, true, isShaded, 0, 0, i);
-                checkedShaded[0] = true;
+        List<Position> leftRow = getVisiblePositionsRow(left, currentDirection);
+        List<Position> rightRow = getVisiblePositionsRow(right, currentDirection);
+        List<Position> centerRow = getVisiblePositionsRow(currentPosition, currentDirection);
 
-            }
-            if (!isShaded[1]) {
-                obstruct1 = checkTile(tilemap, scenario_agents, position, direction, obstruct1, canMove1, isShaded, -1, -1, i);
-            } else if (!checkedShaded[1]) {
-                obstruct1 = checkTile(tilemap, scenario_agents, position, direction, obstruct1, canMove1, isShaded, -1, -1, i);
-                checkedShaded[1] = true;
+        return concatLists(leftRow, centerRow, rightRow);
+    }
 
-            }
-            if (!isShaded[2]) {
-                obstruct2 = checkTile(tilemap, scenario_agents, position, direction, obstruct2, canMove2, isShaded, 1, 1, i);
-            } else if (!checkedShaded[2]) {
-                obstruct2 = checkTile(tilemap, scenario_agents, position, direction, obstruct2, canMove2, isShaded, 1, 1, i);
-                checkedShaded[2] = true;
-
-            }
-
+    private void processTilesAtPositions(List<Position> visiblePositions) {
+        for (Position pos : visiblePositions) {
+            visibleTiles.add(getTileAt(pos));
+            addPresentAgents(pos);
         }
     }
 
-    private int getStartTile(Position position) {
-        if (scenario.getEnvironment().getTileMap()[position.getX()][position.getY()].getType() == TileType.SENTRY) {
-            return 2;
-        } else return 0;
-    }
+    private List<Position> getVisiblePositionsRow(Position position, Direction direction) {
+        List<Position> positionsInRange = getPositionsRowInRange(position, direction);
+        List<Position> visiblePositions = new ArrayList<>();
 
-    private int getEndTile(Position position, Direction direction) {
-        int end;
-        int sentryVision = viewingDistance * 2;
-        if (direction == Direction.SOUTH) {
-            end = (scenario.getEnvironment().getHeight() - 1) - position.getY();
-        } else if (direction == Direction.NORTH) {
-            end = position.getY();
-        } else if (direction == Direction.EAST) {
-            end = (scenario.getEnvironment().getWidth() - 1) - position.getX();
-        } else end = position.getX();
+        for (Position possiblePos : positionsInRange) {
+            visiblePositions.add(possiblePos);
 
-        if (scenario.getEnvironment().getTileMap()[position.getX()][position.getY()].getType() == TileType.SENTRY) {
-            return Math.min(sentryVision, end);
-        } else return Math.min(end, viewingDistance);
-    }
-
-
-    /**
-     * This method, checks if tile is visible and non-empty, then  it adds it.
-     *
-     * @param tilemap  the map of the environment
-     * @param obstruct - true if obstacle blocking vision, false if not
-     * @param canMove  - true if possible to see a neighbouring columns, false if not
-     * @param moveX    shift in X
-     * @param moveY    shift in Y
-     * @param i        iteration
-     * @return true if obstacle blocking vision, false if not
-     */
-    private boolean checkTile(Tile[][] tilemap, List<Agent> agents, Position position, Direction direction,
-                              boolean obstruct, boolean canMove, boolean[] isShaded, int moveX, int moveY, int i) {
-        if (!obstruct) {
-            if (canMove) {
-                Position coordinates = getCoordinates(direction, position, i, moveX, moveY);
-                if (coordinates.getX() < 0 || coordinates.getY() < 0) return true;
-                obstruct = checkIfObstructed(tilemap, isShaded, coordinates.getX(), coordinates.getY(), moveX);
-                addAgentIfPresent(agents, new Position(coordinates.getX(), coordinates.getY()));
+            if (!isSeeThroughTile(possiblePos)) {
+                break;
             }
-        }
-        return obstruct;
-    }
 
-
-    private boolean checkIfObstructed(Tile[][] tilemap, boolean[] isShaded, int x, int y, int moveX) {
-        boolean obstruct = false;
-
-
-        Tile tmp = tilemap[x][y];
-        if (tmp.getType() == TileType.SHADED) {
-            if (moveX == 0) {
-                isShaded[0] = true;
-            } else if (moveX == -1) {
-                isShaded[1] = true;
-            } else {
-                isShaded[2] = true;
-            }
-        }
-
-        if (!tmp.isOpened() && tmp.getType() == TileType.WALL) { // only non-transparent tile-type is wall?
-            obstruct = true;
-        }
-        obstacles.add(tmp);
-
-        return obstruct;
-    }
-
-    private void addAgentIfPresent(List<Agent> scenario_agents, Position p) {
-        for (Agent a : scenario_agents) {
-            if (a.getPosition().equals(p)) {
-                agents.add(a);
+            if (isPartiallySeeThroughTile(possiblePos)) {
+                Position last = possiblePos.getPosInDirection(direction);
+                visiblePositions.add(last);
                 break;
             }
         }
+
+        return visiblePositions;
     }
 
-    private Position getCoordinates(Direction direction, Position position, int iteration, int moveX, int moveY) {
-        Position coordinate;
+    private List<Position> getPositionsRowInRange(Position position, Direction direction) {
+        List<Position> positionsRow = new ArrayList<>();
+        int range = getViewingDistance();
+        Position targetPosition = position;
 
-        if (direction == Direction.NORTH || direction == Direction.SOUTH) {
-            coordinate = new Position(
-                    (position.getX() + moveX) + direction.getMoveX() * iteration,
-                    (position.getY()) + direction.getMoveY() * iteration
-            );
-        } else {
-            coordinate = new Position(
-                    (position.getX()) + direction.getMoveX() * iteration,
-                    (position.getY() + moveY) + direction.getMoveY() * iteration
-            );
+        for (int i = 0; i < range; i++) {
+            positionsRow.add(targetPosition);
+            targetPosition = targetPosition.getPosInDirection(direction);
         }
 
-        return coordinate;
+        removeOutOfMapPositions(positionsRow);
+
+        return positionsRow;
     }
 
+    private void removeOutOfMapPositions(List<Position> positions) {
+        positions.removeIf(this::isOutOfMap);
+    }
 
-    private boolean[] canMove(Position position, Direction direction) {
-        boolean canMove1 = false;
-        boolean canMove2 = false;
-
-        if (direction == Direction.NORTH || direction == Direction.SOUTH) {
-            if (position.getX() - 1 >= 0) {
-                canMove1 = true;
-            }
-            if (position.getX() + 1 < scenario.getEnvironment().getWidth()) {
-                canMove2 = true;
-            }
-        } else {
-            if (position.getY() - 1 >= 0) {
-                canMove1 = true;
-            }
-            if (position.getY() + 1 < scenario.getEnvironment().getHeight()) {
-                canMove2 = true;
+    private void addPresentAgents(Position position) {
+        for (Agent agent : getAgents()) {
+            if (agent.getPosition().equals(position)) {
+                visibleAgents.add(agent);
             }
         }
-
-        return new boolean[]{canMove1, canMove2};
     }
+
+    private List<Agent> getAgents() {
+        return Stream.concat(
+                scenario.getGuards().stream(),
+                scenario.getIntruders().stream()
+        ).collect(Collectors.toList());
+    }
+
+    private int getViewingDistance() {
+        Tile tile = getTileAt(currentPosition);
+
+        if (tile.getType() == TileType.SENTRY) {
+            return 2 * viewingDistance;
+        }
+
+        return viewingDistance;
+    }
+
+    private boolean isSeeThroughTile(Position position) {
+        Tile tile = getTileAt(position);
+
+        if (tile.getType() == TileType.DOOR) {
+            return tile.isOpened();
+        }
+
+        return tile.getType() != TileType.WALL;
+    }
+
+    private boolean isPartiallySeeThroughTile(Position position) {
+        Tile tile = getTileAt(position);
+
+        return tile.getType() == TileType.SHADED;
+    }
+
+    private boolean isOutOfMap(Position position) {
+        int mapWidth = scenario.getEnvironment().getWidth();
+        int mapHeight = scenario.getEnvironment().getHeight();
+
+        return position.getX() < 0 || position.getY() < 0
+                || position.getX() >= mapWidth || position.getY() >= mapHeight;
+    }
+
+    private Tile getTileAt(Position position) {
+        if (isOutOfMap(position)) {
+            return null;
+        }
+
+        return scenario.getEnvironment().getAt(position);
+    }
+
+    @SafeVarargs
+    private List<Position> concatLists(List<Position>... lists) {
+        List<Position> concat = new ArrayList<>();
+
+        for (List<Position> list : lists) {
+            concat.addAll(list);
+        }
+
+        return concat;
+    }
+
 }

@@ -46,7 +46,17 @@ public class MovementModule extends AgentModule implements IMovementModule {
             return nextPosition;
         }
 
-        System.out.println("Not enough time has passed since last move");
+        return currentPosition;
+    }
+
+    @Override
+    public Position sprint(Position currentPosition, Direction direction) {
+        Position nextPosition = getForwardPosition(currentPosition, direction);
+
+        if (enoughTimeHasElapsedSinceLastMove(sprintSpeed)) {
+            lastTimeMoved = getCurrentTime();
+            return nextPosition;
+        }
 
         return currentPosition;
     }
@@ -64,15 +74,6 @@ public class MovementModule extends AgentModule implements IMovementModule {
         }
 
         return facingPosition;
-    }
-
-    @Override
-    public Position sprint(Position position, Direction direction) {
-        Position newPos = position.add(new Position(direction.getMoveX() * 2, direction.getMoveY() * 2));
-        if (agentCanMoveTo(newPos)) {
-            return newPos;
-        }
-        return position;
     }
 
     private boolean agentCanMoveTo(Position position) {

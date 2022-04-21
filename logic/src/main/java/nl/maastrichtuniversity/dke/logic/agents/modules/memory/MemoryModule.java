@@ -68,7 +68,8 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
                 .collect(Collectors.toList());
     }
 
-    public void update(IVisionModule visionModule, IListeningModule listeningModule, ISmellModule smellModule, Position position) {
+    public void update(IVisionModule visionModule, IListeningModule listeningModule,
+                       ISmellModule smellModule, Position position) {
         setPreviousPosition(this.position);
         setPosition(position);
         updateVision(visionModule);
@@ -93,7 +94,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     private void updateVision(IVisionModule vision) {
         discoveredTiles.clear();
 
-        for (Tile tile : vision.getObstacles()) {
+        for (Tile tile : vision.getVisibleTiles()) {
             int x = tile.getPosition().getX();
             int y = tile.getPosition().getY();
 
@@ -102,14 +103,15 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
                 map.getTileMap()[x][y] = new MemoryTile(tile);
             }
         }
-        for (Agent agentSee : vision.getAgents()) {
-            if (agents.get(agentSee.getId()) != null) {
-                agents.get(agentSee.getId()).setPosition(agentSee.getPosition());
-                agents.get(agentSee.getId()).setDirection(agentSee.getDirection());
-            } else {
-                agents.add(agentSee.getId(), agentSee.newInstance());
+        for (Agent agentSee : vision.getVisibleAgents()) {
+            if (agents.size() > 0) {
+                if (agents.get(agentSee.getId()) != null) {
+                    agents.get(agentSee.getId()).setPosition(agentSee.getPosition());
+                    agents.get(agentSee.getId()).setDirection(agentSee.getDirection());
+                } else {
+                    agents.add(agentSee.getId(), agentSee.newInstance());
+                }
             }
-
         }
     }
 

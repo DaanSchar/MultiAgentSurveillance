@@ -20,11 +20,11 @@ import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
-import nl.maastrichtuniversity.dke.util.DebugSettings;
+
+import java.util.List;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.PriorityQueue;
 
 import static nl.maastrichtuniversity.dke.logic.agents.util.Direction.getDirectionAfterRotation;
@@ -37,51 +37,37 @@ public class Agent {
     private static int agentCount;
     private final int id;
 
-    private @Setter
-    Position position;
-    private @Setter
-    Direction direction;
+    private @Setter Position position;
+    private @Setter Direction direction;
+
+    private @Setter ISpawnModule spawnModule;
+    private @Setter IMovementModule movement;
+    private @Setter IVisionModule visionModule;
+    private @Setter ICommunicationModule communicationModule;
+    private @Setter INoiseModule noiseModule;
+    private @Setter IListeningModule listeningModule;
+    private @Setter IMemoryModule memoryModule;
+    private @Setter ISmellModule smellModule;
+    private @Setter IExplorationModule explorationModule;
+
     List<MoveAction> actionsList;
-
-    private @Setter
-    ISpawnModule spawnModule;
-    private @Setter
-    IMovementModule movement;
-    private @Setter
-    IVisionModule visionModule;
-    private @Setter
-    ICommunicationModule communicationModule;
-    private @Setter
-    INoiseModule noiseModule;
-    private @Setter
-    IListeningModule listeningModule;
-    private @Setter
-    IMemoryModule memoryModule;
-    private @Setter
-    ISmellModule smellModule;
-    private @Setter
-    IExplorationModule explorationModule;
-
     private List<Position> followList;
-
 
     public Agent() {
         this.id = agentCount++;
     }
 
-    /**
-     * places the agent at a position determined by the spawn module.
-     */
     public void spawn() {
         position = spawnModule.getSpawnPosition(this);
         direction = spawnModule.getSpawnDirection();
         memoryModule.setSpawnPosition(position);
         updateMemory();
+    }
 
-        if (DebugSettings.FACTORY) {
-            log.info(this.getClass().getSimpleName() + " " + this.id + " spawned at "
-                    + this.position + " facing " + this.direction);
-        }
+    public void update() {
+        listen();
+        view();
+        updateMemory();
     }
 
     public void explore() {
@@ -92,13 +78,12 @@ public class Agent {
     public void move(MoveAction action) {
         switch (action) {
             case MOVE_FORWARD -> moveForward();
+            case SPRINT_FORWARD -> sprintForward();
             case ROTATE_LEFT -> rotate(MoveAction.ROTATE_LEFT);
             case ROTATE_RIGHT -> rotate(MoveAction.ROTATE_RIGHT);
             case STAND_STILL -> { /* do nothing */ }
             default -> log.info("not performing MoveAction: {}", action);
         }
-
-        updateMemory();
     }
 
     public void goToLocation(Position target){
@@ -203,28 +188,27 @@ public class Agent {
     public boolean dropMark(CommunicationType type) {
         if (communicationModule.hasMark(type)) {
             communicationModule.dropMark(
-                    new CommunicationMark(getPosition(),
+                    new CommunicationMark(
+                            getPosition(),
                             type,
                             this
-                    ));
-            updateMemory();
-
+                    )
+            );
             return true;
         }
         return false;
     }
 
-    public void listen() {
+    private void view() {
+        visionModule.useVision(position, direction);
+    }
+
+    private void listen() {
         listeningModule.getDirection(this.position);
     }
 
-    public void updateMemory() {
+    private void updateMemory() {
         memoryModule.update(visionModule, listeningModule, smellModule, getPosition());
-    }
-
-    public Agent newInstance() {
-        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule,
-                communicationModule, memoryModule, listeningModule, smellModule);
     }
 
     private void rotate(MoveAction rotation) {
@@ -233,15 +217,31 @@ public class Agent {
 
     private void moveForward() {
         position = movement.goForward(position, direction);
-        visionModule.useVision(position, direction);
-        var list = visionModule.getObstacles();
         noiseModule.makeWalkingSound(position);
+    }
+
+    private void sprintForward() {
+        position = movement.sprint(position, direction);
+        noiseModule.makeSprintingSound(position);
+    }
+
+    protected List<Direction> getDirectionsOfSounds() {
+        return this.getListeningModule().getDirection(getPosition());
+    }
+
+    protected List<Agent> getVisibleAgents() {
+        return this.getVisionModule().getVisibleAgents();
+    }
+
+
+    public Agent newInstance() {
+        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule,
+                communicationModule, memoryModule, listeningModule, smellModule);
     }
 
     private Agent(Direction direction, Position position, int id, ISpawnModule spawnModule, IMovementModule movement,
                   IVisionModule visionModule, INoiseModule noiseModule, ICommunicationModule communicationModule,
                   IMemoryModule memoryModule, IListeningModule listeningModule, ISmellModule smellModule) {
-
         this.spawnModule = spawnModule;
         this.visionModule = visionModule;
         this.movement = movement;
