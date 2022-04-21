@@ -1,8 +1,7 @@
 package nl.maastrichtuniversity.dke.logic.agents.modules.movement;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
@@ -16,16 +15,19 @@ import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 @Slf4j
 public class MovementModule extends AgentModule implements IMovementModule {
 
-    private @Getter @Setter double baseSpeed, sprintSpeed;
+    private final double baseSpeed;
+    private final double sprintSpeed;
+    private double lastTimeMoved;
 
     public MovementModule(Scenario scenario, double baseSpeed, double sprintSpeed) {
         super(scenario);
         this.baseSpeed = baseSpeed;
         this.sprintSpeed = sprintSpeed;
+        this.lastTimeMoved = -1;
     }
 
     @Override
-    public Direction rotate(Direction currentDirection, MoveAction action, double time) {
+    public Direction rotate(Direction currentDirection, MoveAction action) {
         try {
             checkIfActionIsRotation(action);
             return getNewRotatedDirection(currentDirection, action);
@@ -36,12 +38,27 @@ public class MovementModule extends AgentModule implements IMovementModule {
     }
 
     @Override
-    public Position goForward(Position currentPosition, Direction direction, double time) {
+    public Position goForward(Position currentPosition, Direction direction) {
+        Position nextPosition = getForwardPosition(currentPosition, direction);
+
+        if (enoughTimeHasElapsedSinceLastMove(baseSpeed)) {
+            lastTimeMoved = getCurrentTime();
+            return nextPosition;
+        }
+
+        System.out.println("Not enough time has passed since last move");
+
+        return currentPosition;
+    }
+
+    @Override
+    public Position getForwardPosition(Position currentPosition, Direction direction) {
         Position facingPosition = getFacingPosition(currentPosition, direction);
 
         if (!agentCanMoveTo(facingPosition)) {
             return currentPosition;
         }
+
         if (isTeleportTile(facingPosition)) {
             return getTeleportDestination(facingPosition);
         }
@@ -119,11 +136,20 @@ public class MovementModule extends AgentModule implements IMovementModule {
         }
     }
 
-//  TODO: re-implement difference in speed. (Daan)
+    private boolean enoughTimeHasElapsedSinceLastMove(double speed) {
+        return getElapsedTimeSinceLastMove() >= (1.0 / speed);
+    }
 
-//    private boolean isTimeToMove(double time) {
-//        return time - lastTimeMoved > 1.0/(baseSpeed/10.0);
-//    }
+    private double getCurrentTime() {
+        int currentTimeStep = Game.getInstance().getCurrentTimeStep();
+        double timeStepSize = scenario.getTimeStep();
+
+        return currentTimeStep * timeStepSize;
+    }
+
+    private double getElapsedTimeSinceLastMove() {
+        return getCurrentTime() - lastTimeMoved;
+    }
 
 }
 
