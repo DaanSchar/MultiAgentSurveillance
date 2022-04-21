@@ -86,14 +86,12 @@ public class Game {
 
     private void updateIntruders() {
         Fleet<Intruder> intruders = scenario.getIntruders();
-        intruders.forEach(Intruder::explore);
-        intruders.forEach(Intruder::listen);
+        intruders.forEach(Intruder::update);
     }
 
     private void updateGuards() {
         Fleet<Guard> guards = scenario.getGuards();
-        guards.forEach(Guard::explore);
-        guards.forEach(Guard::listen);
+        guards.forEach(Guard::update);
     }
 
 
