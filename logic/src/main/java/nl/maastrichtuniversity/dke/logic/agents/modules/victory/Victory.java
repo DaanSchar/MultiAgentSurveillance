@@ -12,9 +12,7 @@ import java.util.List;
 public class Victory implements IVictory {
     private Scenario scenario;
 
-    public Victory(Scenario scenario){
-        this.scenario = scenario;
-    }
+    public Victory(Scenario scenario) { this.scenario = scenario; }
 
     public boolean checkIntruderVictory() {
         return checkTargetArea(scenario.getIntruders());
