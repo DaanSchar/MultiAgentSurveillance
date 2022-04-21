@@ -11,4 +11,16 @@ public class Intruder extends Agent {
         this.alive = true; //all the intruders are alive at start
     }
 
+    @Override
+    public void explore() {
+        super.explore();
+    }
+
+
+
+
+
+
+
+
 }
