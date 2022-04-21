@@ -11,28 +11,17 @@ public class Guard extends Agent {
     }
 
     @Override
-    public void explore() {
-        super.explore();
-    }
-
-    public void chasing(){
-       for(Agent agent: getVisionModule().getAgents()){
-           if(agent instanceof Intruder){
-               agent.getDirection();
-           }
-       }
-    }
-
-
-
-
-
-
-
-
-    @Override
     public void update() {
         super.explore();
         super.update();
     }
+
+    public void chasing() {
+        for (Agent agent : getVisionModule().getVisibleAgents()) {
+            if (agent instanceof Intruder) {
+                agent.getDirection();
+            }
+        }
+    }
+
 }
