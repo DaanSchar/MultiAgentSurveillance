@@ -84,6 +84,19 @@ public class Agent {
         }
     }
 
+    public void toggleDoor() {
+        Tile facingTile = getFacingTile();
+    }
+
+    public void breakWindow() {
+
+    }
+
+    private Tile getFacingTile() {
+        Position facingPosition = movement.getForwardPosition(getPosition(), getDirection());
+        return memoryModule.getMap().getAt(facingPosition);
+    }
+
     public void goToLocation(Position target) {
         List<Position> pathToTarget = findShortestPath(getPosition(), target);
         this.path = new LinkedList<>(pathToTarget);
