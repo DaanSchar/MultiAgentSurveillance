@@ -12,7 +12,7 @@ public class WindowTile extends Tile {
         isBroken = false;
     }
 
-    public void breakGlass() {
+    public void breakWindow() {
         isBroken = true;
     }
 }

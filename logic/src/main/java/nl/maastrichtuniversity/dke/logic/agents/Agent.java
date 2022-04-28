@@ -21,6 +21,7 @@ import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.DoorTile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.WindowTile;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.*;
@@ -35,18 +36,29 @@ public class Agent {
     private static int agentCount;
     private final int id;
 
-    private @Setter Position position;
-    private @Setter Direction direction;
+    private @Setter
+    Position position;
+    private @Setter
+    Direction direction;
 
-    private @Setter ISpawnModule spawnModule;
-    private @Setter IMovementModule movement;
-    private @Setter IVisionModule visionModule;
-    private @Setter ICommunicationModule communicationModule;
-    private @Setter INoiseModule noiseModule;
-    private @Setter IListeningModule listeningModule;
-    private @Setter IMemoryModule memoryModule;
-    private @Setter ISmellModule smellModule;
-    private @Setter IExplorationModule explorationModule;
+    private @Setter
+    ISpawnModule spawnModule;
+    private @Setter
+    IMovementModule movement;
+    private @Setter
+    IVisionModule visionModule;
+    private @Setter
+    ICommunicationModule communicationModule;
+    private @Setter
+    INoiseModule noiseModule;
+    private @Setter
+    IListeningModule listeningModule;
+    private @Setter
+    IMemoryModule memoryModule;
+    private @Setter
+    ISmellModule smellModule;
+    private @Setter
+    IExplorationModule explorationModule;
 
     private List<MoveAction> actionsList;
     private List<Position> followList;
@@ -97,6 +109,14 @@ public class Agent {
     }
 
     public void breakWindow() {
+        Tile facingTile = getFacingTile();
+        if (facingTile.getType() == TileType.WINDOW) {
+            WindowTile windowTile = (WindowTile) facingTile;
+            if (!windowTile.isBroken()) {
+                windowTile.breakWindow();
+                // TODO: make window noises
+            }
+        }
 
     }
 
