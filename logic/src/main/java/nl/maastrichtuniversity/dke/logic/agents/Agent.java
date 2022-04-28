@@ -49,6 +49,8 @@ public class Agent {
     private List<MoveAction> actionsList;
     private List<Position> followList;
 
+    private Queue<Position> path;
+
     public Agent() {
         this.id = agentCount++;
     }
@@ -83,8 +85,9 @@ public class Agent {
     }
 
     public void goToLocation(Position target) {
-        actionsList = makeActionList(target);
-        follow();
+        List<Position> pathToTarget = findShortestPath(getPosition(), target);
+        this.path = new LinkedList<>(pathToTarget);
+        log.info("path to target: {}", findShortestPath(getPosition(), target));
     }
 
     public void follow() {
@@ -122,7 +125,6 @@ public class Agent {
             rotate.add(MoveAction.ROTATE_LEFT);
         }
         return rotate;
-
     }
 
     private List<Position> findShortestPath(Position start, Position target) {
