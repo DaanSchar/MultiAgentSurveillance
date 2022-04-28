@@ -9,8 +9,6 @@ import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
-import java.awt.image.BufferedImage;
-
 
 public class AgentView extends Actor {
 
