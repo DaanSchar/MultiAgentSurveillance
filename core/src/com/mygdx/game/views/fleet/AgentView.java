@@ -25,26 +25,28 @@ public class AgentView extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         //drawAgent(batch, agent);
-        if (agent instanceof Guard){
+        if (agent instanceof Guard) {
             switch (agent.getDirection()) {
                 case NORTH -> drawAgent(batch, agent, getFramedAgentTexture("guard"));
                 case SOUTH -> drawAgent(batch, agent, getFramedAgentTexture("guardback"));
                 case EAST -> drawAgent(batch, agent, getFramedAgentTexture("guardright"));
                 case WEST -> drawAgent(batch, agent, getFramedAgentTexture("guardleft"));
+                default -> drawAgent(batch, agent, getFramedAgentTexture("guard"));
             }
         }
-        if (agent instanceof Intruder){
+        if (agent instanceof Intruder) {
             switch (agent.getDirection()) {
                 case NORTH -> drawAgent(batch, agent, getFramedAgentTexture("intruder"));
                 case SOUTH -> drawAgent(batch, agent, getFramedAgentTexture("intruderback"));
                 case EAST -> drawAgent(batch, agent, getFramedAgentTexture("intruderright"));
                 case WEST -> drawAgent(batch, agent, getFramedAgentTexture("intruderleft"));
+                default -> drawAgent(batch, agent, getFramedAgentTexture("intruder"));
             }
         }
 
     }
 
-    private void drawAgent(Batch batch, Agent agent , Texture texture) {
+    private void drawAgent(Batch batch, Agent agent, Texture texture) {
         Position position = agent.getPosition();
         //Texture texture = agent instanceof Guard ? textureRepository.get("guard1") : textureRepository.get("guard1");
         batch.draw(
@@ -56,10 +58,12 @@ public class AgentView extends Actor {
         );
         updateFrames();
     }
+
     private Texture getFramedAgentTexture(String name) {
         name += Integer.toString(frame + 1);
         return textureRepository.get(name);
     }
+
     private void updateFrames() {
         if (frame < 2) {
             frame++;
