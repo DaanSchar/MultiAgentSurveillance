@@ -23,7 +23,7 @@ public class Victory {
     // 0.5 meter away and in sight.
     public boolean checkGuardVectory(){
         for (Guard guard : scenario.getGuards()) {
-            if (guard.getVisionModule().getAgents().size()>1){
+            if (guard.getVisionModule().getVisibleAgents().size()>1){
                 return true;
             }
         }

@@ -55,10 +55,19 @@ public class TileView extends Actor {
                 return textureRepository.get("teleportDestination");
             }
             case WALL -> {
-                return textureRepository.get("shadedTile4");
+                return textureRepository.get("wall");
             }
             case SPAWN_GUARDS -> {
                 return textureRepository.get("sand1");
+            }
+            case TARGET -> {
+                return textureRepository.get("target");
+            }
+            case SHADED -> {
+                return textureRepository.get("shadedTile4");
+            }
+            case TELEPORT -> {
+                return textureRepository.get("teleport");
             }
             case UNKNOWN -> {
                 return null;
