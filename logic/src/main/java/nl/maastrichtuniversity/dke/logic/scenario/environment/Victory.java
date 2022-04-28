@@ -55,8 +55,8 @@ public class Victory {
     }
 
     public boolean agentStandingOnTile(Agent agent, Tile tile) {
-        return (agent.getPosition().getX() == tile.getPosition().getX() &&
-                agent.getPosition().getY() == tile.getPosition().getY());
+        return (agent.getPosition().getX() == tile.getPosition().getX()
+                && agent.getPosition().getY() == tile.getPosition().getY());
     }
 
 
