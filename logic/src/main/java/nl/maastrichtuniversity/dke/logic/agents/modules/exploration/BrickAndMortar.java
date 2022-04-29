@@ -106,7 +106,14 @@ public class BrickAndMortar implements IExplorationModule {
             return MoveAction.MOVE_FORWARD;
         }
 
-        return MoveAction.ROTATE_LEFT;
+        Position leftOf = currentPosition.getPosInDirection(currentDirection.leftOf());
+        boolean targetTileLeftOf = leftOf.equals(targetTile.getPosition());
+
+        if (targetTileLeftOf) {
+            return MoveAction.ROTATE_LEFT;
+        }
+
+        return MoveAction.ROTATE_RIGHT;
     }
 
     private MoveAction getMoveToBestExploredTile() {
