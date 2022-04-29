@@ -52,7 +52,9 @@ public class AgentFactory {
         for (int i = 0; i < numOfAgents; i++) {
             agents.add(buildGuard());
         }
-        if (DebugSettings.FACTORY) log.info("Created {} Guards", numOfAgents);
+        if (DebugSettings.FACTORY) {
+            log.info("Created {} Guards", numOfAgents);
+        }
 
         return agents;
     }
@@ -63,7 +65,9 @@ public class AgentFactory {
         for (int i = 0; i < numOfAgents; i++) {
             agents.add(buildIntruder());
         }
-        if (DebugSettings.FACTORY) log.info("Created {} intruders", numOfAgents);
+        if (DebugSettings.FACTORY) {
+            log.info("Created {} intruders", numOfAgents);
+        }
 
         return agents;
     }

@@ -1,7 +1,6 @@
 package nl.maastrichtuniversity.dke.logic.agents.modules.movement;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;

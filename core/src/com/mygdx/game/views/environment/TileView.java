@@ -76,14 +76,14 @@ public class TileView extends Actor {
             }
             case DOOR -> {
                 DoorTile doorTile = (DoorTile) tile;
-                if(doorTile.isOpened()){
+                if (doorTile.isOpened()) {
                     return textureRepository.get("openeddoor");
                 }
                 return textureRepository.get("door");
             }
             case WINDOW -> {
                 WindowTile windowTile = (WindowTile) tile;
-                if(windowTile.isBroken()){
+                if (windowTile.isBroken()) {
                     return textureRepository.get("brokenwindow");
                 }
                 return textureRepository.get("window");

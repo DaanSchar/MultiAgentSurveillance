@@ -20,15 +20,14 @@ public class Scenario {
     private double timeStep;
     private double scaling;
 
-    // TODO: add current time here
-    private int currentTimeStep;
-
     private Environment environment;
     private Fleet<Guard> guards;
     private Fleet<Intruder> intruders;
     private List<Smell> smellMap;
     private List<Sound> soundMap;
     private List<CommunicationMark> communicationMarks;
+
+    private int currentTimeStep;
 
     public Scenario(String name, int gameMode, double timeStep, double scaling, Environment environment) {
         this.name = name;
