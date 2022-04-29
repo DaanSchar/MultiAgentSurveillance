@@ -32,6 +32,7 @@ public class Intruder extends Agent {
     }
 
     private void navigateToTarget() {
+        /* navigate to the target */
     }
 
     private boolean seesTarget() {
@@ -41,6 +42,7 @@ public class Intruder extends Agent {
     }
 
     private void avoidGuards() {
+        System.out.println("Intruder is avoiding guards");
         /* run away from the seen guard */
     }
 
