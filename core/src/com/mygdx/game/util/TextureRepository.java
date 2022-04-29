@@ -109,6 +109,14 @@ public final class TextureRepository {
         textures.put("intruderright1", new Texture("intruders/intruderright1.png"));
         textures.put("intruderright2", new Texture("intruders/intruderright2.png"));
         textures.put("intruderright3", new Texture("intruders/intruderright3.png"));
+
+        //others
+        textures.put("door", new Texture("texture/door.png"));
+        textures.put("openeddoor", new Texture("texture/openeddoor.png"));
+        textures.put("window", new Texture("texture/window.png"));
+        textures.put("brokenWindow", new Texture("texture/window2.png"));
+
+
     }
 
 }
