@@ -17,9 +17,9 @@ public class InteractionModule extends AgentModule {
         doorTile.toggleDoor();
     }
 
-    public void breakWindow(Position posOfWindow) {
+    public boolean breakWindow(Position posOfWindow) {
         WindowTile windowTile = (WindowTile) getTileAt(posOfWindow);
-        windowTile.breakWindow();
+        return windowTile.breakWindow();
     }
 
     private Tile getTileAt(Position position) {

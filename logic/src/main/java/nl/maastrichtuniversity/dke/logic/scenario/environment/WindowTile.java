@@ -12,8 +12,13 @@ public class WindowTile extends Tile {
         isBroken = false;
     }
 
-    public void breakWindow() {
-        isBroken = true;
+    public boolean breakWindow() {
+        if (!isBroken) {
+            isBroken = true;
+            return true;
+        }
+
+        return false;
     }
 
     @Override

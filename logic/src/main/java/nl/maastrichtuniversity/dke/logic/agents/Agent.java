@@ -98,17 +98,18 @@ public class Agent {
 
         if (facingTile.getType() == TileType.DOOR) {
             interactionModule.toggleDoor(facingTile.getPosition());
-            // TODO: make door noises
+            // TODO: make door opening noises
         }
     }
 
     public void breakWindow() {
         Tile facingTile = getFacingTile();
+
         if (facingTile.getType() == TileType.WINDOW) {
-            WindowTile windowTile = (WindowTile) facingTile;
-            if (!windowTile.isBroken()) {
-                windowTile.breakWindow();
-                // TODO: make window noises
+            boolean brokeWindow = interactionModule.breakWindow(facingTile.getPosition());
+
+            if (brokeWindow) {
+                // TODO: make window breaking noises
             }
         }
 
