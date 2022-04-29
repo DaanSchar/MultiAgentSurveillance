@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.util.TextureRepository;
+import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
@@ -13,9 +14,11 @@ import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 public class AgentView extends Actor {
 
     private final Agent agent;
-    private int frame = 0; //Current animation frame
 
     private final TextureRepository textureRepository;
+
+    private int textureIndex = 0;
+    private int previousTimeStep = 0;
 
     public AgentView(Agent agent) {
         this.agent = agent;
@@ -24,7 +27,6 @@ public class AgentView extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        //drawAgent(batch, agent);
         if (agent instanceof Guard) {
             switch (agent.getDirection()) {
                 case NORTH -> drawAgent(batch, agent, getFramedAgentTexture("guard"));
@@ -48,7 +50,6 @@ public class AgentView extends Actor {
 
     private void drawAgent(Batch batch, Agent agent, Texture texture) {
         Position position = agent.getPosition();
-        //Texture texture = agent instanceof Guard ? textureRepository.get("guard1") : textureRepository.get("guard1");
         batch.draw(
                 texture,
                 position.getX() * TextureRepository.TILE_WIDTH,
@@ -56,20 +57,29 @@ public class AgentView extends Actor {
                 TextureRepository.TILE_WIDTH,
                 TextureRepository.TILE_HEIGHT
         );
-        updateFrames();
+        updateAgentTextureIndex();
+    }
+
+    private void updateAgentTextureIndex() {
+        int currentTimeStep = Game.getInstance().getScenario().getCurrentTimeStep();
+
+        if (currentTimeStep != this.previousTimeStep) {
+            this.previousTimeStep = currentTimeStep;
+            updateIndex();
+        }
+    }
+
+    private void updateIndex() {
+        if (textureIndex < 2) {
+            textureIndex++;
+        } else {
+            textureIndex = 0;
+        }
     }
 
     private Texture getFramedAgentTexture(String name) {
-        name += Integer.toString(frame + 1);
+        name += Integer.toString(textureIndex + 1);
         return textureRepository.get(name);
-    }
-
-    private void updateFrames() {
-        if (frame < 2) {
-            frame++;
-        } else {
-            frame = 0;
-        }
     }
 
 }
