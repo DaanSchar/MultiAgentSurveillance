@@ -220,14 +220,10 @@ public class Agent {
     }
 
     public boolean dropMark(CommunicationType type) {
+        CommunicationMark mark = new CommunicationMark(getPosition(), type, this);
+
         if (communicationModule.hasMark(type)) {
-            communicationModule.dropMark(
-                    new CommunicationMark(
-                            getPosition(),
-                            type,
-                            this
-                    )
-            );
+            communicationModule.dropMark(mark);
             return true;
         }
         return false;
