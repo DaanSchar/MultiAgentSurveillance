@@ -25,8 +25,6 @@ import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.*;
 
-import static nl.maastrichtuniversity.dke.logic.agents.util.Direction.getDirectionAfterRotation;
-
 @Getter
 @Slf4j
 @Accessors(chain = true)
@@ -143,6 +141,16 @@ public class Agent {
             actionsList.add(MoveAction.MOVE_FORWARD);
         }
         return actionList;
+    }
+
+    private Direction getDirectionAfterRotation(MoveAction rotate, Direction currentDirection) {
+        if (rotate == MoveAction.ROTATE_LEFT) {
+            return currentDirection.leftOf();
+        } else if (rotate == MoveAction.ROTATE_RIGHT) {
+            return currentDirection.rightOf();
+        } else {
+            return currentDirection;
+        }
     }
 
     public List<MoveAction> getRotation(Direction agentDirection, Position from, Position to) {
