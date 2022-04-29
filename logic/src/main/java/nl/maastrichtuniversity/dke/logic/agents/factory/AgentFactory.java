@@ -7,7 +7,7 @@ import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.agents.Fleet;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
-import nl.maastrichtuniversity.dke.logic.agents.modules.InteractionModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.interaction.InteractionModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.exploration.BrickAndMortar;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.ListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.memory.MemoryModule;

@@ -1,5 +1,6 @@
-package nl.maastrichtuniversity.dke.logic.agents.modules;
+package nl.maastrichtuniversity.dke.logic.agents.modules.interaction;
 
+import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.DoorTile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
