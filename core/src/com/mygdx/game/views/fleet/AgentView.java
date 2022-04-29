@@ -40,7 +40,7 @@ public class AgentView extends Actor {
                 case SOUTH -> drawAgent(batch, agent, getFramedAgentTexture("intruderback"));
                 case EAST -> drawAgent(batch, agent, getFramedAgentTexture("intruderright"));
                 case WEST -> drawAgent(batch, agent, getFramedAgentTexture("intruderleft"));
-                default -> drawAgent(batch, agent, getFramedAgentTexture("guard"));
+                default -> drawAgent(batch, agent, getFramedAgentTexture("intruder"));
             }
         }
 
