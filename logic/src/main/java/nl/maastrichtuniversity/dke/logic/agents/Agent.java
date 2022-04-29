@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.logic.agents.modules.InteractionModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.ICommunicationModule;
@@ -47,6 +48,7 @@ public class Agent {
     private @Setter IMemoryModule memoryModule;
     private @Setter ISmellModule smellModule;
     private @Setter IExplorationModule explorationModule;
+    private @Setter InteractionModule interactionModule;
 
     private List<MoveAction> actionsList;
     private List<Position> followList;
@@ -65,6 +67,10 @@ public class Agent {
     }
 
     public void update() {
+        updateInternals();
+    }
+
+    public void updateInternals() {
         listen();
         view();
         updateMemory();
@@ -90,8 +96,7 @@ public class Agent {
         Tile facingTile = getFacingTile();
 
         if (facingTile.getType() == TileType.DOOR) {
-            DoorTile doorTile = (DoorTile) facingTile;
-            doorTile.toggleDoor();
+            interactionModule.toggleDoor(facingTile.getPosition());
             // TODO: make door noises
         }
     }
@@ -101,7 +106,7 @@ public class Agent {
     }
 
     private Tile getFacingTile() {
-        Position facingPosition = movement.getForwardPosition(getPosition(), getDirection());
+        Position facingPosition = getPosition().getPosInDirection(getDirection());
         return memoryModule.getMap().getAt(facingPosition);
     }
 

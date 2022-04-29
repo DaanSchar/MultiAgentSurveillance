@@ -20,6 +20,9 @@ public class Scenario {
     private double timeStep;
     private double scaling;
 
+    // TODO: add current time here
+    private int currentTimeStep;
+
     private Environment environment;
     private Fleet<Guard> guards;
     private Fleet<Intruder> intruders;
@@ -36,6 +39,15 @@ public class Scenario {
         this.smellMap = new ArrayList<>();
         this.communicationMarks = new ArrayList<>();
         this.environment = environment;
+        this.currentTimeStep = 0;
+    }
+
+    public void incrementTimeStep() {
+        currentTimeStep++;
+    }
+
+    public double getCurrentTime() {
+        return currentTimeStep * timeStep;
     }
 
 }

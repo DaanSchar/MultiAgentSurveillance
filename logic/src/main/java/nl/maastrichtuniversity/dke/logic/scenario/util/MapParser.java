@@ -3,6 +3,7 @@ package nl.maastrichtuniversity.dke.logic.scenario.util;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.factory.AgentFactory;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.factory.EnvironmentFactory;
 import nl.maastrichtuniversity.dke.logic.scenario.factory.ScenarioFactory;
@@ -31,6 +32,11 @@ public class MapParser {
         }
     }
 
+    public MapParser() {
+        scenarioFactory = new ScenarioFactory();
+        agentFactory = new AgentFactory();
+    }
+
     public Scenario createScenario() {
         envBuilder = new EnvironmentFactory();
 
@@ -40,6 +46,12 @@ public class MapParser {
             createFieldFromLine(scanner.nextLine());
 
         scenarioFactory.setEnvironment(envBuilder.build());
+        return scenarioFactory.build(agentFactory);
+    }
+
+    public Scenario createDefaultScenario(Environment environment) {
+        setDefaultValues();
+        scenarioFactory.setEnvironment(environment);
         return scenarioFactory.build(agentFactory);
     }
 
@@ -97,6 +109,7 @@ public class MapParser {
     private void setDefaultValues() {
         scenarioFactory.setGameMode(1);
         scenarioFactory.setScaling(0.07);
+        scenarioFactory.setNumberOfGuards(1);
         agentFactory.setBaseSpeedIntruders(5);
         agentFactory.setSprintSpeedIntruders(10);
         agentFactory.setBaseSpeedGuards(5);

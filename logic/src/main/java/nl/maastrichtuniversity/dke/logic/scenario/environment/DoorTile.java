@@ -3,7 +3,7 @@ package nl.maastrichtuniversity.dke.logic.scenario.environment;
 import lombok.Getter;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
-public class DoorTile extends Tile{
+public class DoorTile extends Tile {
 
     private @Getter boolean isOpened;
 
@@ -14,5 +14,10 @@ public class DoorTile extends Tile{
 
     public void toggleDoor() {
         isOpened = !isOpened;
+    }
+
+    @Override
+    public boolean isPassable() {
+        return super.isPassable() && isOpened;
     }
 }

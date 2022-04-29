@@ -76,7 +76,8 @@ public class Game {
         guards.forEach(Guard::update);
     }
 
-    public void resetNoise() {
+    public void resetNoise()
+    {
         scenario.getSoundMap().clear();
     }
 

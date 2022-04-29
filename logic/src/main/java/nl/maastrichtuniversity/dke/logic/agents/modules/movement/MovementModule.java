@@ -142,10 +142,7 @@ public class MovementModule extends AgentModule implements IMovementModule {
     }
 
     private double getCurrentTime() {
-        int currentTimeStep = Game.getInstance().getCurrentTimeStep();
-        double timeStepSize = scenario.getTimeStep();
-
-        return currentTimeStep * timeStepSize;
+        return scenario.getCurrentTime();
     }
 
     private double getElapsedTimeSinceLastMove() {

@@ -7,6 +7,7 @@ import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.agents.Fleet;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
+import nl.maastrichtuniversity.dke.logic.agents.modules.InteractionModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.exploration.BrickAndMortar;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.ListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.memory.MemoryModule;
@@ -93,7 +94,8 @@ public class AgentFactory {
                 .setMemoryModule(new MemoryModule(scenario))
                 .setListeningModule(new ListeningModule(scenario))
                 .setSmellModule(new SmellModule(scenario, smellingDistance))
-                .setExplorationModule(new BrickAndMortar(agent.getMemoryModule().getMap(), agent.getMovement()));
+                .setExplorationModule(new BrickAndMortar(agent.getMemoryModule().getMap(), agent.getMovement()))
+                .setInteractionModule(new InteractionModule(scenario));
     }
 
     private List<CommunicationType> getMarkers() {
