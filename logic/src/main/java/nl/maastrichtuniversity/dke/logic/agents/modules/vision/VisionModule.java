@@ -52,8 +52,8 @@ public class VisionModule extends AgentModule implements IVisionModule {
     }
 
     private List<Position> getAllVisiblePositions() {
-        Position left = currentPosition.getPosInDirection(Direction.leftOf(currentDirection));
-        Position right = currentPosition.getPosInDirection(Direction.rightOf(currentDirection));
+        Position left = currentPosition.getPosInDirection(currentDirection.leftOf());
+        Position right = currentPosition.getPosInDirection(currentDirection.rightOf());
 
         List<Position> leftRow = getVisiblePositionsRow(left, currentDirection);
         List<Position> rightRow = getVisiblePositionsRow(right, currentDirection);

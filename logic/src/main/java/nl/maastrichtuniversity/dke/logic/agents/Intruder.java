@@ -32,6 +32,7 @@ public class Intruder extends Agent {
     }
 
     private void navigateToTarget() {
+        /* navigate to the target */
     }
 
     private boolean seesTarget() {
