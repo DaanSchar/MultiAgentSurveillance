@@ -11,6 +11,7 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.interaction.InteractionM
 import nl.maastrichtuniversity.dke.logic.agents.modules.exploration.BrickAndMortar;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.ListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.memory.MemoryModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.movement.PathFinderModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.NoiseModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.movement.MovementModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationModule;
@@ -99,7 +100,8 @@ public class AgentFactory {
                 .setListeningModule(new ListeningModule(scenario))
                 .setSmellModule(new SmellModule(scenario, smellingDistance))
                 .setExplorationModule(new BrickAndMortar(agent.getMemoryModule().getMap(), agent.getMovement()))
-                .setInteractionModule(new InteractionModule(scenario));
+                .setInteractionModule(new InteractionModule(scenario))
+                .setPathFinderModule(new PathFinderModule(agent.getMemoryModule()));
     }
 
     private List<CommunicationType> getMarkers() {

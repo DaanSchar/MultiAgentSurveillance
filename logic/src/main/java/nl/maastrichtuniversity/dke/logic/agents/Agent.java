@@ -13,6 +13,7 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.exploration.IExploration
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.memory.IMemoryModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovementModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.movement.PathFinderModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.INoiseModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.smell.ISmellModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.ISpawnModule;
@@ -46,6 +47,7 @@ public class Agent {
     private @Setter ISmellModule smellModule;
     private @Setter IExplorationModule explorationModule;
     private @Setter InteractionModule interactionModule;
+    private @Setter PathFinderModule pathFinderModule;
 
     private List<MoveAction> actionsList;
     private List<Position> followList;
@@ -117,9 +119,9 @@ public class Agent {
     }
 
     public void goToLocation(Position target) {
-        List<Position> pathToTarget = findShortestPath(getPosition(), target);
+        List<Position> pathToTarget = pathFinderModule.findShortestPath(getPosition(), target);
         this.path = new LinkedList<>(pathToTarget);
-        log.info("path to target: {}", findShortestPath(getPosition(), target));
+        log.info("path to target: {}", pathFinderModule.findShortestPath(getPosition(), target));
     }
 
     public void follow() {
@@ -127,7 +129,7 @@ public class Agent {
     }
 
     public List<MoveAction> makeActionList(Position target) {
-        List<Position> positions = findShortestPath(this.getPosition(), position);
+        List<Position> positions = pathFinderModule.findShortestPath(this.getPosition(), position);
         List<MoveAction> actionList = new ArrayList<>();
         Direction currentDirection = this.getDirection();
         for (int i = 0; i < positions.size() - 1; i++) {
@@ -167,56 +169,6 @@ public class Agent {
             rotate.add(MoveAction.ROTATE_LEFT);
         }
         return rotate;
-    }
-
-    private List<Position> findShortestPath(Position start, Position target) {
-        PriorityQueue<Node> queue = new PriorityQueue<>(Comparator.comparingInt(o -> o.cost));
-        List<Node> visited = new ArrayList<>();
-        List<Position> path = new ArrayList<>();
-        for (Tile tile : this.getMemoryModule().getCoveredTiles()) {
-            if (tile.isPassable()) {
-                if (!tile.getPosition().equals(start)) {
-                    queue.add(new Node(Integer.MAX_VALUE, tile.getPosition(), null));
-                } else {
-                    queue.add(new Node(0, start, null));
-                }
-            }
-        }
-        while (!queue.isEmpty()) {
-            Node u = queue.poll();
-            visited.add(u);
-            for (Node v : queue) {
-                if (!visited.contains(v)) {
-                    int tempDis = u.getCost();
-                    if (tempDis < v.getCost()) {
-                        v.setCost(tempDis);
-                        v.setPrevious(u);
-                    }
-                }
-            }
-        }
-        Node t = null;
-        for (Node x : visited) {
-            if (x.current.equals(target)) {
-                t = x;
-                break;
-            }
-        }
-        for (Node vertex = t; vertex != null; vertex = vertex.getPrevious()) {
-            path.add(vertex.current);
-        }
-        Collections.reverse(path);
-
-        return path;
-    }
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    private class Node {
-        private int cost;
-        private Position current;
-        private Node previous;
     }
 
     public boolean dropMark(CommunicationType type) {
