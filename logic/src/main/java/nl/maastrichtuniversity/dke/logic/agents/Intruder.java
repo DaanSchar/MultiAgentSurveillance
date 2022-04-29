@@ -42,7 +42,6 @@ public class Intruder extends Agent {
     }
 
     private void avoidGuards() {
-        System.out.println("Intruder is avoiding guards");
         /* run away from the seen guard */
     }
 
