@@ -1,9 +1,10 @@
-package nl.maastrichtuniversity.dke.logic.scenario.environment;
+package nl.maastrichtuniversity.dke.logic.scenario;
 
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
-import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 
 import java.util.List;
 
@@ -55,8 +56,8 @@ public class Victory {
     }
 
     public boolean agentStandingOnTile(Agent agent, Tile tile) {
-        return (agent.getPosition().getX() == tile.getPosition().getX()
-                && agent.getPosition().getY() == tile.getPosition().getY());
+        return agent.getPosition().getX() == tile.getPosition().getX()
+                && agent.getPosition().getY() == tile.getPosition().getY();
     }
 
 

@@ -41,14 +41,10 @@ public class Game {
 
 
     private @Getter Scenario scenario;
-    private @Getter double time;
-    private @Getter int currentTimeStep;
     private @Getter final Victory victory;
 
     public void reset() {
         scenario = new MapParser(mapFile).createScenario();
-        currentTimeStep = 0;
-        game.time = 0.0;
         init();
     }
 
@@ -59,9 +55,7 @@ public class Game {
 
     public void update() {
         resetNoise();
-        time += scenario.getTimeStep();
-        currentTimeStep++;
-
+        scenario.incrementTimeStep();
         updateGuards();
         updateIntruders();
     }
@@ -82,8 +76,6 @@ public class Game {
 
     protected Game() {
         this.scenario = new MapParser(mapFile).createScenario();
-        this.time = 0.0;
-        this.currentTimeStep = 0;
         this.victory = new Victory(this.scenario);
         init();
     }

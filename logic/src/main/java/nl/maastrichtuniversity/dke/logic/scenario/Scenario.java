@@ -27,6 +27,8 @@ public class Scenario {
     private List<Sound> soundMap;
     private List<CommunicationMark> communicationMarks;
 
+    private int currentTimeStep;
+
     public Scenario(String name, int gameMode, double timeStep, double scaling, Environment environment) {
         this.name = name;
         this.gameMode = gameMode;
@@ -36,6 +38,15 @@ public class Scenario {
         this.smellMap = new ArrayList<>();
         this.communicationMarks = new ArrayList<>();
         this.environment = environment;
+        this.currentTimeStep = 0;
+    }
+
+    public void incrementTimeStep() {
+        currentTimeStep++;
+    }
+
+    public double getCurrentTime() {
+        return currentTimeStep * timeStep;
     }
 
 }

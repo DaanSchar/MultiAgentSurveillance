@@ -3,6 +3,7 @@ package nl.maastrichtuniversity.dke.logic.scenario.util;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.factory.AgentFactory;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.factory.EnvironmentFactory;
 import nl.maastrichtuniversity.dke.logic.scenario.factory.ScenarioFactory;
@@ -31,15 +32,27 @@ public class MapParser {
         }
     }
 
+    public MapParser() {
+        scenarioFactory = new ScenarioFactory();
+        agentFactory = new AgentFactory();
+    }
+
     public Scenario createScenario() {
         envBuilder = new EnvironmentFactory();
 
         setDefaultValues();
 
-        while (scanner.hasNextLine())
+        while (scanner.hasNextLine()) {
             createFieldFromLine(scanner.nextLine());
+        }
 
         scenarioFactory.setEnvironment(envBuilder.build());
+        return scenarioFactory.build(agentFactory);
+    }
+
+    public Scenario createDefaultScenario(Environment environment) {
+        setDefaultValues();
+        scenarioFactory.setEnvironment(environment);
         return scenarioFactory.build(agentFactory);
     }
 
@@ -60,9 +73,7 @@ public class MapParser {
 
         switch (key) {
             case "name" -> scenarioFactory.setName(value);
-            case "gameFile" -> {
-                if (DebugSettings.FACTORY) log.error("GameFile not implemented yet");
-            }
+            case "gameFile" -> log("GameFile not implemented yet");
             case "gameMode" -> scenarioFactory.setGameMode(Integer.parseInt(value));
             case "height" -> envBuilder.setHeight(Integer.parseInt(value));
             case "width" -> envBuilder.setWidth(Integer.parseInt(value));
@@ -79,9 +90,7 @@ public class MapParser {
             case "wall" -> addArea(values, TileType.WALL);
             case "teleport" -> addTeleport(value);
             case "shaded" -> addArea(values, TileType.SHADED);
-            case "texture" -> {
-                if (DebugSettings.FACTORY) log.error("Texture not implemented yet");
-            }
+            case "texture" -> log("Texture not implemented yet");
             case "window" -> addArea(values, TileType.WINDOW);
             case "door" -> addArea(values, TileType.DOOR);
             case "sentrytower" -> addArea(values, TileType.SENTRY);
@@ -97,11 +106,15 @@ public class MapParser {
     private void setDefaultValues() {
         scenarioFactory.setGameMode(1);
         scenarioFactory.setScaling(0.07);
+        scenarioFactory.setNumberOfGuards(1);
         agentFactory.setBaseSpeedIntruders(5);
         agentFactory.setSprintSpeedIntruders(10);
         agentFactory.setBaseSpeedGuards(5);
-        scenarioFactory.setTimeStep(0.1);
-        agentFactory.setViewingDistance(Math.max(agentFactory.getBaseSpeedGuards(), agentFactory.getBaseSpeedIntruders()) * 2);
+        scenarioFactory.setTimeStep(1.0);
+        agentFactory.setViewingDistance(Math.max(
+                agentFactory.getBaseSpeedGuards(),
+                agentFactory.getBaseSpeedIntruders()) * 2
+        );
         agentFactory.setHearingDistanceWalking(6);
         agentFactory.setHearingDistanceSprinting(10);
         agentFactory.setSmellingDistance(7);
@@ -132,6 +145,12 @@ public class MapParser {
         );
 
         envBuilder.addTile(Integer.parseInt(values[4]), Integer.parseInt(values[5]), TileType.DESTINATION_TELEPORT);
+    }
+
+    private void log(String message) {
+        if (DebugSettings.FACTORY) {
+            log.info(message);
+        }
     }
 
 }

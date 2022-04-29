@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.logic.agents.modules.interaction.InteractionModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.ICommunicationModule;
@@ -19,6 +20,7 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.*;
@@ -45,9 +47,12 @@ public class Agent {
     private @Setter IMemoryModule memoryModule;
     private @Setter ISmellModule smellModule;
     private @Setter IExplorationModule explorationModule;
+    private @Setter InteractionModule interactionModule;
 
     private List<MoveAction> actionsList;
     private List<Position> followList;
+
+    private Queue<Position> path;
 
     public Agent() {
         this.id = agentCount++;
@@ -61,6 +66,10 @@ public class Agent {
     }
 
     public void update() {
+        updateInternals();
+    }
+
+    public void updateInternals() {
         listen();
         view();
         updateMemory();
@@ -82,9 +91,37 @@ public class Agent {
         }
     }
 
+    public void toggleDoor() {
+        Tile facingTile = getFacingTile();
+
+        if (facingTile.getType() == TileType.DOOR) {
+            interactionModule.toggleDoor(facingTile.getPosition());
+            // TODO: make door opening noises
+        }
+    }
+
+    public void breakWindow() {
+        Tile facingTile = getFacingTile();
+
+        if (facingTile.getType() == TileType.WINDOW) {
+            boolean brokeWindow = interactionModule.breakWindow(facingTile.getPosition());
+
+            if (brokeWindow) {
+                // TODO: make window breaking noises
+            }
+        }
+
+    }
+
+    private Tile getFacingTile() {
+        Position facingPosition = getPosition().getPosInDirection(getDirection());
+        return memoryModule.getMap().getAt(facingPosition);
+    }
+
     public void goToLocation(Position target) {
-        actionsList = makeActionList(target);
-        follow();
+        List<Position> pathToTarget = findShortestPath(getPosition(), target);
+        this.path = new LinkedList<>(pathToTarget);
+        log.info("path to target: {}", findShortestPath(getPosition(), target));
     }
 
     public void follow() {
@@ -122,7 +159,6 @@ public class Agent {
             rotate.add(MoveAction.ROTATE_LEFT);
         }
         return rotate;
-
     }
 
     private List<Position> findShortestPath(Position start, Position target) {

@@ -7,6 +7,7 @@ import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.agents.Fleet;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
+import nl.maastrichtuniversity.dke.logic.agents.modules.interaction.InteractionModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.exploration.BrickAndMortar;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.ListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.memory.MemoryModule;
@@ -51,7 +52,9 @@ public class AgentFactory {
         for (int i = 0; i < numOfAgents; i++) {
             agents.add(buildGuard());
         }
-        if (DebugSettings.FACTORY) log.info("Created {} Guards", numOfAgents);
+        if (DebugSettings.FACTORY) {
+            log.info("Created {} Guards", numOfAgents);
+        }
 
         return agents;
     }
@@ -62,7 +65,9 @@ public class AgentFactory {
         for (int i = 0; i < numOfAgents; i++) {
             agents.add(buildIntruder());
         }
-        if (DebugSettings.FACTORY) log.info("Created {} intruders", numOfAgents);
+        if (DebugSettings.FACTORY) {
+            log.info("Created {} intruders", numOfAgents);
+        }
 
         return agents;
     }
@@ -93,7 +98,8 @@ public class AgentFactory {
                 .setMemoryModule(new MemoryModule(scenario))
                 .setListeningModule(new ListeningModule(scenario))
                 .setSmellModule(new SmellModule(scenario, smellingDistance))
-                .setExplorationModule(new BrickAndMortar(agent.getMemoryModule().getMap(), agent.getMovement()));
+                .setExplorationModule(new BrickAndMortar(agent.getMemoryModule().getMap(), agent.getMovement()))
+                .setInteractionModule(new InteractionModule(scenario));
     }
 
     private List<CommunicationType> getMarkers() {
