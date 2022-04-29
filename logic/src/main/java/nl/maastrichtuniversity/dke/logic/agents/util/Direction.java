@@ -71,8 +71,18 @@ public enum Direction {
         }
     }
 
-    public static Direction leftOf(Direction direction) {
-        return switch (direction) {
+    public Direction opposite() {
+        return switch (this) {
+            case NORTH -> SOUTH;
+            case EAST -> WEST;
+            case SOUTH -> NORTH;
+            case WEST -> EAST;
+            default -> throw new IllegalArgumentException("Direction not found");
+        };
+    }
+
+    public Direction leftOf() {
+        return switch (this) {
             case NORTH -> WEST;
             case EAST -> NORTH;
             case SOUTH -> EAST;
@@ -81,8 +91,8 @@ public enum Direction {
         };
     }
 
-    public static Direction rightOf(Direction direction) {
-        return switch (direction) {
+    public Direction rightOf() {
+        return switch (this) {
             case NORTH -> EAST;
             case EAST -> SOUTH;
             case SOUTH -> WEST;
@@ -90,4 +100,5 @@ public enum Direction {
             default -> throw new IllegalArgumentException("Direction not found");
         };
     }
+
 }
