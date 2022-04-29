@@ -217,9 +217,13 @@ public class BrickAndMortar implements IExplorationModule {
             this.visited = new ArrayList<>();
             queue.add(start);
 
-            Tile current;
+            return foundPathToGoal(goal);
+        }
+
+        private boolean foundPathToGoal(Tile goal) {
             while (!queue.isEmpty()) {
-                current = queue.poll();
+                Tile current = queue.poll();
+
                 if (current.equals(goal)) {
                     return true;
                 }
@@ -230,16 +234,23 @@ public class BrickAndMortar implements IExplorationModule {
                     if (neighbour.equals(goal)) {
                         return true;
                     }
-                    // not including the tile which the agent is currently on, as we are trying to find a path
-                    // between 2 tiles, would the current tile be marked as visited.
-                    if (!visited.contains(neighbour) && !neighbour.equals(getCurrentTile())) {
-                        queue.add(neighbour);
-                        visited.add(neighbour);
-                    }
 
+                    addUnvisitedTiles(neighbour);
                 }
             }
+
             return false;
+        }
+
+        private void addUnvisitedTiles(Tile tile) {
+            if (!tileIsVisited(tile) && !tile.equals(getCurrentTile())) {
+                queue.add(tile);
+                visited.add(tile);
+            }
+        }
+
+        private boolean tileIsVisited(Tile tile) {
+            return visited.contains(tile);
         }
 
     }
