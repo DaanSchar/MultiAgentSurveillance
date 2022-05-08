@@ -37,11 +37,22 @@ public class Dijkstra implements PathFinderModule {
     public List<Position> getShortestPath(Position start, Position goal) {
         clear(start);
 
+        // This will determine if we calculate distances for all tiles, slowing down the algorithm considerably.
+        // For now, it is set to true for visualizing the algorithm in the UI.
+        boolean calculateFullMap = true;
+
+        Tile currentTile;
         while (!unvisited.isEmpty()) {
-            Tile currentTile = getTileWithShortestDistanceToStart();
+            currentTile = getTileWithShortestDistanceToStart();
             updateNeighbourDistances(currentTile);
             visited.add(currentTile);
             unvisited.remove(currentTile);
+
+            if (!calculateFullMap) {
+                if (currentTile.getPosition().equals(goal)) {
+                    break;
+                }
+            }
         }
 
         return getPath(start, goal);
