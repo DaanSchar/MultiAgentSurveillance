@@ -25,7 +25,6 @@ public class Intruder extends Agent {
         if (seesGuard()) {
             avoidGuards();
         } else if (seesTarget()) {
-            log.info("Intruder sees target");
             navigateToTarget();
         } else {
             super.explore();
@@ -74,12 +73,16 @@ public class Intruder extends Agent {
     }
 
     private boolean containsTarget(List<Tile> obstacles) {
-        for (Tile t : obstacles) {
-            if (t.getType().equals(TileType.TARGET)) {
+        for (Tile tile : obstacles) {
+            if (isTarget(tile)) {
                 return true;
             }
         }
         return false;
+    }
+
+    private boolean isTarget(Tile tile) {
+        return tile.getType().equals(TileType.TARGET);
     }
 
     private Tile getTarget() {

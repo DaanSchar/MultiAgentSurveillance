@@ -1,7 +1,9 @@
 package nl.maastrichtuniversity.dke.logic.agents.modules.pathfind;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.MemoryTile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
@@ -13,10 +15,10 @@ import java.util.List;
 @Slf4j
 public class Dijkstra implements PathFinderModule{
 
-    private final Environment environment;
+    private final @Getter Environment environment;
 
-    private final List<Tile> visited;
-    private final List<Tile> unvisited;
+    private List<Tile> visited;
+    private List<Tile> unvisited;
 
     private int[][] shortestPathFromStart;
     private final Tile[][] previousTile;
@@ -42,7 +44,22 @@ public class Dijkstra implements PathFinderModule{
             unvisited.remove(currentTile);
         }
 
+//        print();
+
         return getPath(start, goal);
+    }
+
+    void print() {
+        for (int i = 0; i < environment.getWidth(); i++) {
+            for (int j = 0; j < environment.getHeight(); j++) {
+                if (shortestPathFromStart[i][j] == Integer.MAX_VALUE) {
+                    System.out.print(" - ");
+                } else
+                    System.out.print(" " + getDistanceFromStart(new Tile(new Position(i, j), TileType.WALL)) + " ");
+            }
+            System.out.println();
+        }
+        System.out.println("-----------------------------------------------------");
     }
 
     public boolean pathExists(Position start, Position goal) {
@@ -53,7 +70,7 @@ public class Dijkstra implements PathFinderModule{
         resetDistances(start);
         resetPreviousTile();
         resetUnvisited();
-        visited.clear();
+        visited = new ArrayList<>();
     }
 
     private void resetDistances(Position start) {
@@ -76,8 +93,8 @@ public class Dijkstra implements PathFinderModule{
     }
 
     private void resetUnvisited() {
-        unvisited.clear();
-        unvisited.addAll(getWalkableTiles());
+        this.unvisited = new ArrayList<>();
+        this.unvisited.addAll(getWalkableTiles());
     }
 
     private List<Tile> getWalkableTiles() {
@@ -85,7 +102,7 @@ public class Dijkstra implements PathFinderModule{
     }
 
     private boolean isWalkable(Tile tile) {
-        return tile.getType() != TileType.UNKNOWN && tile.isPassable();
+        return tile.getType() != TileType.UNKNOWN && ((MemoryTile)tile).isPassable(true);
     }
 
     private Tile getTileWithShortestDistanceToStart() {
@@ -126,12 +143,19 @@ public class Dijkstra implements PathFinderModule{
         }
     }
 
+    public int getDistanceFromStart(Position position) {
+        return this.shortestPathFromStart[position.getX()][position.getY()];
+    }
+
     private int getDistanceFromStart(Tile tile) {
         Position position = tile.getPosition();
         return this.shortestPathFromStart[position.getX()][position.getY()];
     }
 
     private void setDistanceFromStart(Tile tile, int distance) {
+        if (distance < 0) {
+            distance += Integer.MAX_VALUE;
+        }
         Position position = tile.getPosition();
         this.shortestPathFromStart[position.getX()][position.getY()] = distance;
     }

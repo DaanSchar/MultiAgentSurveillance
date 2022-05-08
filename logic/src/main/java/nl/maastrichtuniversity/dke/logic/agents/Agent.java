@@ -36,6 +36,7 @@ public class Agent {
     private @Setter Position position;
     private @Setter Direction direction;
     private Position nextDestination;
+    private @Setter Position goalPosition;
 
     private @Setter ISpawnModule spawnModule;
     private @Setter IMovementModule movement;
@@ -88,8 +89,6 @@ public class Agent {
 
     public void moveToLocation(Position target) {
         List<Position> pathToTarget = pathFinderModule.getShortestPath(getPosition(), target);
-        log.info("current position: {}", getPosition());
-        log.info("path to target: {}", pathToTarget);
 
         if (pathToTarget.size() > 1) {
             this.nextDestination = pathToTarget.get(1);
