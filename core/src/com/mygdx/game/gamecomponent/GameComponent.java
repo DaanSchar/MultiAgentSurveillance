@@ -72,6 +72,7 @@ public class GameComponent extends MovableStage {
             case Input.Keys.EQUALS -> GameGUI.decrementTimeInterval();
             case Input.Keys.P -> pauseGame();
             case Input.Keys.D -> togglePathFindView();
+            default -> super.keyDown(keyCode);
         }
 
         return super.keyDown(keyCode);

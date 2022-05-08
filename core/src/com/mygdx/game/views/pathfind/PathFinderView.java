@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
+
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.mygdx.game.util.TextureRepository;
 import lombok.Getter;
@@ -103,11 +103,13 @@ public class PathFinderView extends Group {
         float colorValue = sqrtDistance / (float) (Math.sqrt(maxDistance() / 3f));
         float alpha = sqrtDistance / (float) Math.sqrt(maxDistance());
 
-        if (distance % 15 == 0) {
+        int distanceInterval = 5;
+
+        if (distance % (3 * distanceInterval) == 0) {
             return new Color(0, 0, colorValue, alpha);
-        } else if (distance % 10 == 0) {
+        } else if (distance % (2 * distanceInterval) == 0) {
             return new Color(0, colorValue, 0, alpha);
-        } else if (distance % 5 == 0) {
+        } else if (distance % distanceInterval == 0) {
             return new Color(colorValue, 0, 0, alpha);
         }
 
@@ -115,13 +117,13 @@ public class PathFinderView extends Group {
     }
 
     private Texture getPixmapTexture(Color color) {
-        return new Texture(getPixmapRectangle( color));
+        return new Texture(getPixmapRectangle(color));
     }
 
-    public static Pixmap getPixmapRectangle(Color color){
+    public static Pixmap getPixmapRectangle(Color color) {
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(color);
-        pixmap.fillRectangle(0,0, pixmap.getWidth(), pixmap.getHeight());
+        pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
         return pixmap;
     }
 

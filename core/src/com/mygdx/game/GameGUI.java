@@ -22,6 +22,10 @@ public final class GameGUI extends ApplicationAdapter {
     private float totalTimePassed;
     private static float timeInterval = 0.00f;
 
+    private static final float MAX_TIME_INTERVAL = 0.1f;
+    private static final float MIN_TIME_INTERVAL = 0f;
+    private static final float TIME_INTERVAL_INCREMENT = 0.01f;
+
     private static boolean isPaused;
 
     @SneakyThrows
@@ -83,14 +87,14 @@ public final class GameGUI extends ApplicationAdapter {
     }
 
     public static void incrementTimeInterval() {
-        if (timeInterval < 0.1f) {
-            timeInterval += 0.01f;
+        if (timeInterval < MAX_TIME_INTERVAL) {
+            timeInterval += TIME_INTERVAL_INCREMENT;
         }
     }
 
     public static void decrementTimeInterval() {
-        if (timeInterval > 0f) {
-            timeInterval -= 0.01f;
+        if (timeInterval > MIN_TIME_INTERVAL) {
+            timeInterval -= TIME_INTERVAL_INCREMENT;
         }
     }
 
