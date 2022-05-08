@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Slf4j
-public class Dijkstra implements PathFinderModule{
+public class Dijkstra implements PathFinderModule {
 
     private final @Getter Environment environment;
 
@@ -37,7 +37,7 @@ public class Dijkstra implements PathFinderModule{
     public List<Position> getShortestPath(Position start, Position goal) {
         clear(start);
 
-        while(!unvisited.isEmpty()) {
+        while (!unvisited.isEmpty()) {
             Tile currentTile = getTileWithShortestDistanceToStart();
             updateNeighbourDistances(currentTile);
             visited.add(currentTile);
@@ -87,7 +87,7 @@ public class Dijkstra implements PathFinderModule{
     }
 
     private boolean isWalkable(Tile tile) {
-        return tile.getType() != TileType.UNKNOWN && ((MemoryTile)tile).isPassable(true);
+        return tile.getType() != TileType.UNKNOWN && ((MemoryTile) tile).isPassable(true);
     }
 
     private Tile getTileWithShortestDistanceToStart() {
