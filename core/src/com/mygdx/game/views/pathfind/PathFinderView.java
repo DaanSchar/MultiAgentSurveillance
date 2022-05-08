@@ -1,4 +1,4 @@
-package com.mygdx.game.views.environment;
+package com.mygdx.game.views.pathfind;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -19,7 +19,6 @@ import java.util.List;
 public class PathFinderView extends Group {
 
     private final PathFinderModule pathFinder;
-    private final BitmapFont font;
     private final Agent agent;
 
     private @Getter @Setter boolean showPath;
@@ -29,8 +28,6 @@ public class PathFinderView extends Group {
         this.agent = agent;
         this.pathFinder = pathFinder;
         this.showPath = false;
-        this.font = new BitmapFont();
-        setFotStyle();
     }
 
     @Override
@@ -47,12 +44,6 @@ public class PathFinderView extends Group {
         if (showPath) {
             computePath();
         }
-    }
-
-    private void setFotStyle() {
-        font.setColor(1, 1, 1, 1);
-        font.setUseIntegerPositions(false);
-        font.getData().setScale(0.05f);
     }
 
     private void computePath() {
@@ -88,18 +79,16 @@ public class PathFinderView extends Group {
         }
 
         Color color = getScaledColor(distance);
-        batch.draw(
-                getPixmapTexture(color),
-                position.getX() * TextureRepository.TILE_WIDTH,
-                position.getY() * TextureRepository.TILE_HEIGHT,
-                TextureRepository.TILE_WIDTH,
-                TextureRepository.TILE_HEIGHT
-        );
+        drawRectangle(batch, position, color);
     }
 
     private void drawPathTile(Batch batch, Tile tile) {
         Position position = tile.getPosition();
         Color color = new Color(0f, 1f, 0f, 1f);
+        drawRectangle(batch, position, color);
+    }
+
+    private void drawRectangle(Batch batch, Position position, Color color) {
         batch.draw(
                 getPixmapTexture(color),
                 position.getX() * TextureRepository.TILE_WIDTH,
