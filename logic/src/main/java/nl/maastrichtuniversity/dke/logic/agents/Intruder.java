@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
+import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,11 +29,14 @@ public class Intruder extends Agent {
         } else {
             super.explore();
         }
+
         super.update();
     }
 
     private void navigateToTarget() {
-        /* navigate to the target */
+        Tile target = getTarget();
+        Position targetPosition = target.getPosition();
+        moveToLocation(targetPosition);
     }
 
     private boolean seesTarget() {
@@ -69,11 +73,20 @@ public class Intruder extends Agent {
     }
 
     private boolean containsTarget(List<Tile> obstacles) {
-        for (Tile t : obstacles) {
-            if (t.getType().equals(TileType.TARGET)) {
+        for (Tile tile : obstacles) {
+            if (isTarget(tile)) {
                 return true;
             }
         }
         return false;
+    }
+
+    private boolean isTarget(Tile tile) {
+        return tile.getType().equals(TileType.TARGET);
+    }
+
+    private Tile getTarget() {
+        List<Tile> obstacles = super.getVisionModule().getVisibleTiles();
+        return obstacles.stream().filter(tile -> tile.getType().equals(TileType.TARGET)).findFirst().get();
     }
 }
