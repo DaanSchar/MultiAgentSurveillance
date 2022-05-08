@@ -44,22 +44,7 @@ public class Dijkstra implements PathFinderModule{
             unvisited.remove(currentTile);
         }
 
-//        print();
-
         return getPath(start, goal);
-    }
-
-    void print() {
-        for (int i = 0; i < environment.getWidth(); i++) {
-            for (int j = 0; j < environment.getHeight(); j++) {
-                if (shortestPathFromStart[i][j] == Integer.MAX_VALUE) {
-                    System.out.print(" - ");
-                } else
-                    System.out.print(" " + getDistanceFromStart(new Tile(new Position(i, j), TileType.WALL)) + " ");
-            }
-            System.out.println();
-        }
-        System.out.println("-----------------------------------------------------");
     }
 
     public boolean pathExists(Position start, Position goal) {
