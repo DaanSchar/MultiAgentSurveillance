@@ -22,6 +22,8 @@ public final class GameGUI extends ApplicationAdapter {
     private float totalTimePassed;
     private static float timeInterval = 0.00f;
 
+    private static boolean isPaused;
+
     @SneakyThrows
     @Override
     public void create() {
@@ -36,7 +38,10 @@ public final class GameGUI extends ApplicationAdapter {
 
         if (totalTimePassed > timeInterval) {
             totalTimePassed = 0;
-            update();
+
+            if (!isPaused) {
+                update();
+            }
         }
 
         draw();
@@ -44,6 +49,7 @@ public final class GameGUI extends ApplicationAdapter {
 
     private void update() {
         game.update();
+        gameComponent.update();
     }
 
     private void draw() {
@@ -69,6 +75,11 @@ public final class GameGUI extends ApplicationAdapter {
 
     private File getMapFile() {
         return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("testmap.txt")).getFile());
+    }
+
+    public static boolean togglePause() {
+        isPaused = !isPaused;
+        return isPaused;
     }
 
     public static void incrementTimeInterval() {

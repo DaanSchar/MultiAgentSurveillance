@@ -36,7 +36,7 @@ public class EnvironmentView extends Group {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        update();
+//        update();
     }
 
     private void addTileViews() {
