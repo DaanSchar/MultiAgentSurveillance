@@ -11,15 +11,15 @@ public class RandomMapGenerator {
     private final int width = 120;
     private final int height = 80;
     private Tile[][] tileMap;
-    private int maxEighteen = 18;
-    private int maxEight = 8;
-    private int maxThree = 3;
-    private int maxTen = 10;
-    private int maxTwen = 20;
-    private int maxFifty = 50;
-    private int maxSix = 6;
-    private int maxFourTeen = 14;
-    private int maxOne = 1;
+    private static final int maxEighteen = 18;
+    private static final int maxEight = 8;
+    private static final int maxThree = 3;
+    private static final int maxTen = 10;
+    private static final int maxTwen = 20;
+    private static final int maxFifty = 50;
+    private static final int maxSix = 6;
+    private static final int maxFourTeen = 14;
+    private static final int maxOne = 1;
 
 
     public Environment build() {
