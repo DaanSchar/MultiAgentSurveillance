@@ -62,6 +62,9 @@ public class TileView extends Actor {
             case SPAWN_GUARDS -> {
                 return textureRepository.get("sand1");
             }
+            case SPAWN_INTRUDERS -> {
+                return textureRepository.get("sand2");
+            }
             case TARGET -> {
                 return textureRepository.get("target");
             }
@@ -71,21 +74,24 @@ public class TileView extends Actor {
             case TELEPORT -> {
                 return textureRepository.get("teleport");
             }
+            case SENTRY -> {
+                return textureRepository.get("sentry");
+            }
             case UNKNOWN -> {
                 return null;
             }
             case DOOR -> {
-                DoorTile doorTile = (DoorTile) tile;
-                if (doorTile.isOpened()) {
-                    return textureRepository.get("openeddoor");
-                }
+               // DoorTile doorTile = (DoorTile) tile;
+               // if (doorTile.isOpened()) {
+               //     return textureRepository.get("openeddoor");
+               // }
                 return textureRepository.get("door");
             }
             case WINDOW -> {
-                WindowTile windowTile = (WindowTile) tile;
-                if (windowTile.isBroken()) {
-                    return textureRepository.get("brokenwindow");
-                }
+                //WindowTile windowTile = (WindowTile) tile;
+                //if (windowTile.isBroken()) {
+               //     return textureRepository.get("brokenwindow");
+               // }
                 return textureRepository.get("window");
             }
 
