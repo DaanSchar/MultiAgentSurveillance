@@ -6,7 +6,6 @@ import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 
 import java.util.Random;
-import java.util.Random;
 
 public class RandomMapGenerator {
     private final int width = 120;
@@ -43,8 +42,9 @@ public class RandomMapGenerator {
     private void fillInEmptyTiles() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if (tileMap[x][y] == null)
+                if (tileMap[x][y] == null) {
                     tileMap[x][y] = new Tile(new Position(x, y), TileType.EMPTY);
+                }
             }
         }
     }
@@ -161,11 +161,13 @@ public class RandomMapGenerator {
 
     private void createWindow(int x1, int y1, int x2, int y2) {
         int window1y = y1 + 5;
+        int window2y = y1 + 10;
+        x2 = x2 - 1;
 
         tileMap[x1][window1y] = new Tile(new Position(x1, window1y), TileType.WINDOW);
-        tileMap[x1][window1y + 5] = new Tile(new Position(x1, window1y + 5), TileType.WINDOW);
-        tileMap[x2 - 1][window1y] = new Tile(new Position(x2 - 1, window1y), TileType.WINDOW);
-        tileMap[x2 - 1][window1y + 5] = new Tile(new Position(x2 - 1, window1y + 5), TileType.WINDOW);
+        tileMap[x1][window2y] = new Tile(new Position(x1, window2y), TileType.WINDOW);
+        tileMap[x2][window1y] = new Tile(new Position(x2, window1y), TileType.WINDOW);
+        tileMap[x2][window2y] = new Tile(new Position(x2, window2y), TileType.WINDOW);
 
     }
 
