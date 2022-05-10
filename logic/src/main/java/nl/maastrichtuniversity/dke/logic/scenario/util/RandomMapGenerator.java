@@ -11,29 +11,39 @@ public class RandomMapGenerator {
     private final int width = 120;
     private final int height = 80;
     private Tile[][] tileMap;
+    private int maxEighteen = 18;
+    private int maxEight = 8;
+    private int maxThree = 3;
+    private int maxTen = 10;
+    private int maxTwen = 20;
+    private int maxFifty = 50;
+    private int maxSix = 6;
+    private int maxFourTeen = 14;
+    private int maxOne = 1;
+
 
     public Environment build() {
         this.tileMap = new Tile[width][height];
         createBorder(); //WALL BORDER
-        createrArea(18, 8, TileType.SPAWN_INTRUDERS); //SPAWN
-        createrArea(18, 8, TileType.SPAWN_GUARDS); //SPAWN
-        createrArea(3, 3, TileType.TARGET); //TARGET
-        createTeleport(3, 3, 0); //TELEPORT
-        createTeleport(3, 3, 0); //TELEPORT
-        createrArea(10, 20, TileType.SHADED); //SHADED
-        createrArea(1, 1, TileType.SENTRY); //SENTRY
-        createrArea(1, 1, TileType.SENTRY); //SENTRY
-        createrArea(1, 1, TileType.SENTRY); //SENTRY
-        createBigHouse(18, 18); //BIG HOUSE
-        createBigHouse(14, 14); //BIG HOUSE
-        createSmallHouse(6, 6); //SMALL HOUSE
-        createSmallHouse(8, 8); //SMALL HOUSE
-        createrArea(1, 20, TileType.WALL); //r WALL
-        createrArea(20, 1, TileType.WALL); //r WALL
-        createrArea(1, 10, TileType.WALL); //r WALL
-        createrArea(10, 1, TileType.WALL); //r WALL
-        createrArea(50, 1, TileType.WALL); //r WALL
-        createrArea(1, 50, TileType.WALL); //r WALL
+        createrArea(maxEighteen, maxEight, TileType.SPAWN_INTRUDERS); //SPAWN
+        createrArea(maxEighteen, maxEight, TileType.SPAWN_GUARDS); //SPAWN
+        createrArea(maxThree, maxThree, TileType.TARGET); //TARGET
+        createTeleport(maxThree, maxThree, 0); //TELEPORT
+        createTeleport(maxThree, maxThree, 0); //TELEPORT
+        createrArea(maxTen, maxTwen, TileType.SHADED); //SHADED
+        createrArea(maxOne, maxOne, TileType.SENTRY); //SENTRY
+        createrArea(maxOne, maxOne, TileType.SENTRY); //SENTRY
+        createrArea(maxOne, maxOne, TileType.SENTRY); //SENTRY
+        createBigHouse(maxEighteen, maxEighteen); //BIG HOUSE
+        createBigHouse(maxFourTeen, maxFourTeen); //BIG HOUSE
+        createSmallHouse(maxSix, maxSix); //SMALL HOUSE
+        createSmallHouse(maxEight, maxEight); //SMALL HOUSE
+        createrArea(maxOne, maxTwen, TileType.WALL); //r WALL
+        createrArea(maxTwen, maxOne, TileType.WALL); //r WALL
+        createrArea(maxOne, maxTwen, TileType.WALL); //r WALL
+        createrArea(maxTen, maxOne, TileType.WALL); //r WALL
+        createrArea(maxFifty, maxOne, TileType.WALL); //r WALL
+        createrArea(maxOne, maxFifty, TileType.WALL); //r WALL
         fillInEmptyTiles();
         return new Environment(this.width, this.height, this.tileMap);
     }
