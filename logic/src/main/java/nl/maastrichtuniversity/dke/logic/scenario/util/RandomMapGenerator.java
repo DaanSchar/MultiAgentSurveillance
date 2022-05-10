@@ -12,7 +12,6 @@ public class RandomMapGenerator {
     private final int height = 80;
     private Tile[][] tileMap;
 
-
     public Environment build() {
         this.tileMap = new Tile[width][height];
         createBorder(); //WALL BORDER
