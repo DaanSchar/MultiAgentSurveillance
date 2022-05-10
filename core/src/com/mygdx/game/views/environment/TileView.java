@@ -4,10 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.util.TextureRepository;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.DoorTile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.WindowTile;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 public class TileView extends Actor {
@@ -60,6 +58,9 @@ public class TileView extends Actor {
             case SPAWN_GUARDS -> {
                 return textureRepository.get("sand1");
             }
+            case SPAWN_INTRUDERS -> {
+                return textureRepository.get("sand2");
+            }
             case TARGET -> {
                 return textureRepository.get("target");
             }
@@ -69,21 +70,24 @@ public class TileView extends Actor {
             case TELEPORT -> {
                 return textureRepository.get("teleport");
             }
+            case SENTRY -> {
+                return textureRepository.get("sentry");
+            }
             case UNKNOWN -> {
                 return null;
             }
             case DOOR -> {
-                DoorTile doorTile = (DoorTile) tile;
-                if (doorTile.isOpened()) {
-                    return textureRepository.get("openeddoor");
-                }
+                // DoorTile doorTile = (DoorTile) tile;
+                // if (doorTile.isOpened()) {
+                //     return textureRepository.get("openeddoor");
+                // }
                 return textureRepository.get("door");
             }
             case WINDOW -> {
-                WindowTile windowTile = (WindowTile) tile;
-                if (windowTile.isBroken()) {
-                    return textureRepository.get("brokenwindow");
-                }
+                //WindowTile windowTile = (WindowTile) tile;
+                //if (windowTile.isBroken()) {
+                //     return textureRepository.get("brokenwindow");
+                // }
                 return textureRepository.get("window");
             }
 

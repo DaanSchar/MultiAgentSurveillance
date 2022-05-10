@@ -45,6 +45,7 @@ public final class TextureRepository {
         textures.put("unexplored", new Texture("empty/blackmark.png"));
         textures.put("teleport", new Texture("texture/teleport.png"));
         textures.put("target", new Texture("texture/target.png"));
+        textures.put("sentry", new Texture("texture/sentrytower.png"));
 
         // structures
         textures.put("teleportDestination", new Texture("structure/teleportDestination.png"));
@@ -112,7 +113,7 @@ public final class TextureRepository {
 
         //others
         textures.put("door", new Texture("texture/door.png"));
-//        textures.put("openeddoor", new Texture("texture/openeddoor.png"));
+        textures.put("openeddoor", new Texture("texture/opendedoor.png"));
         textures.put("window", new Texture("texture/window.png"));
         textures.put("brokenWindow", new Texture("texture/window2.png"));
 
