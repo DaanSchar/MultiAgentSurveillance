@@ -11,18 +11,19 @@ public class RandomMapGenerator {
     private final int width = 120;
     private final int height = 80;
     private Tile[][] tileMap;
-    private static final int maxEighteen = 18;
-    private static final int maxEight = 8;
-    private static final int maxThree = 3;
-    private static final int maxTen = 10;
-    private static final int maxTwen = 20;
-    private static final int maxFifty = 50;
-    private static final int maxSix = 6;
-    private static final int maxFourTeen = 14;
-    private static final int maxOne = 1;
+
 
 
     public Environment build() {
+         final int maxEighteen = 18;
+         final int maxEight = 8;
+         final int maxThree = 3;
+         final int maxTen = 10;
+         final int maxTwen = 20;
+         final int maxFifty = 50;
+         final int maxSix = 6;
+         final int maxFourTeen = 14;
+         final int maxOne = 1;
         this.tileMap = new Tile[width][height];
         createBorder(); //WALL BORDER
         createrArea(maxEighteen, maxEight, TileType.SPAWN_INTRUDERS); //SPAWN
