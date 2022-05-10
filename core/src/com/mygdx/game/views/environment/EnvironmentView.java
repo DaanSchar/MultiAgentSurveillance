@@ -46,9 +46,10 @@ public class EnvironmentView extends Group {
 
     private Environment getTileMap() {
         if (showMemoryMap) {
-            return scenario.getGuards().getMemoryMap();
+            if(scenario.getGuards().size() != 0) {
+                return scenario.getGuards().getMemoryMap();
+            }
         }
-
         return scenario.getEnvironment();
     }
 
