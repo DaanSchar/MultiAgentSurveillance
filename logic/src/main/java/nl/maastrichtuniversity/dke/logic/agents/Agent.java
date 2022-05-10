@@ -1,6 +1,5 @@
 package nl.maastrichtuniversity.dke.logic.agents;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -13,7 +12,7 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.exploration.IExploration
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.memory.IMemoryModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovementModule;
-import nl.maastrichtuniversity.dke.logic.agents.modules.movement.PathFinderModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.pathfind.PathFinderModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.INoiseModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.smell.ISmellModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.ISpawnModule;
@@ -36,6 +35,8 @@ public class Agent {
 
     private @Setter Position position;
     private @Setter Direction direction;
+    private Position nextDestination;
+    private @Setter Position goalPosition;
 
     private @Setter ISpawnModule spawnModule;
     private @Setter IMovementModule movement;
@@ -48,11 +49,6 @@ public class Agent {
     private @Setter IExplorationModule explorationModule;
     private @Setter InteractionModule interactionModule;
     private @Setter PathFinderModule pathFinderModule;
-
-    private List<MoveAction> actionsList;
-    private List<Position> followList;
-
-    private Queue<Position> path;
 
     public Agent() {
         this.id = agentCount++;
@@ -91,6 +87,16 @@ public class Agent {
         }
     }
 
+    public void moveToLocation(Position target) {
+        List<Position> pathToTarget = pathFinderModule.getShortestPath(getPosition(), target);
+
+        if (pathToTarget.size() > 1) {
+            this.nextDestination = pathToTarget.get(1);
+        }
+
+        moveToNextDestination();
+    }
+
     public void toggleDoor() {
         Tile facingTile = getFacingTile();
 
@@ -113,125 +119,14 @@ public class Agent {
 
     }
 
-    private Tile getFacingTile() {
-        Position facingPosition = getPosition().getPosInDirection(getDirection());
-        return memoryModule.getMap().getAt(facingPosition);
-    }
-
-    public void goToLocation(Position target) {
-        List<Position> pathToTarget = findShortestPath(getPosition(), target);
-        this.path = new LinkedList<>(pathToTarget);
-        log.info("path to target: {}", findShortestPath(getPosition(), target));
-    }
-
-    public void follow() {
-        move(actionsList.remove(0));
-    }
-
-    public List<MoveAction> makeActionList(Position target) {
-        List<Position> positions = findShortestPath(this.getPosition(), position);
-        List<MoveAction> actionList = new ArrayList<>();
-        Direction currentDirection = this.getDirection();
-        for (int i = 0; i < positions.size() - 1; i++) {
-            List<MoveAction> getRotation = getRotation(currentDirection, positions.get(i), positions.get(i + 1));
-            for (MoveAction rotate : getRotation) {
-                if (!rotate.equals(MoveAction.STAND_STILL)) {
-                    actionsList.add(rotate);
-                    currentDirection = getDirectionAfterRotation(rotate, currentDirection);
-                }
-            }
-            actionsList.add(MoveAction.MOVE_FORWARD);
-        }
-        return actionList;
-    }
-
-    private Direction getDirectionAfterRotation(MoveAction rotate, Direction currentDirection) {
-        if (rotate == MoveAction.ROTATE_LEFT) {
-            return currentDirection.leftOf();
-        } else if (rotate == MoveAction.ROTATE_RIGHT) {
-            return currentDirection.rightOf();
-        } else {
-            return currentDirection;
-        }
-    }
-
-    public List<MoveAction> getRotation(Direction agentDirection, Position from, Position to) {
-        List<MoveAction> rotate = new ArrayList<>();
-        Position forward = from.add(new Position(agentDirection.getMoveX(), agentDirection.getMoveY()));
-        if (forward.equals(to)) {
-            rotate.add(MoveAction.STAND_STILL);
-        } else if (forward.getX() + to.getX() == 0) {
-            rotate.add(MoveAction.ROTATE_LEFT);
-            rotate.add(MoveAction.ROTATE_LEFT);
-        } else if (forward.getX() + to.getX() == 1) {
-            rotate.add(MoveAction.ROTATE_RIGHT);
-        } else {
-            rotate.add(MoveAction.ROTATE_LEFT);
-        }
-        return rotate;
-    }
-
-    private List<Position> findShortestPath(Position start, Position target) {
-        PriorityQueue<Node> queue = new PriorityQueue<>(Comparator.comparingInt(o -> o.cost));
-        List<Node> visited = new ArrayList<>();
-        List<Position> path = new ArrayList<>();
-        for (Tile tile : this.getMemoryModule().getCoveredTiles()) {
-            if (tile.isPassable()) {
-                if (!tile.getPosition().equals(start)) {
-                    queue.add(new Node(Integer.MAX_VALUE, tile.getPosition(), null));
-                } else {
-                    queue.add(new Node(0, start, null));
-                }
-            }
-        }
-        while (!queue.isEmpty()) {
-            Node u = queue.poll();
-            visited.add(u);
-            for (Node v : queue) {
-                if (!visited.contains(v)) {
-                    int tempDis = u.getCost();
-                    if (tempDis < v.getCost()) {
-                        v.setCost(tempDis);
-                        v.setPrevious(u);
-                    }
-                }
-            }
-        }
-        Node t = null;
-        for (Node x : visited) {
-            if (x.current.equals(target)) {
-                t = x;
-                break;
-            }
-        }
-        for (Node vertex = t; vertex != null; vertex = vertex.getPrevious()) {
-            path.add(vertex.current);
-        }
-        Collections.reverse(path);
-
-        return path;
-    }
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    private class Node {
-        private int cost;
-        private Position current;
-        private Node previous;
-    }
-
     public boolean dropMark(CommunicationType type) {
+        CommunicationMark mark = new CommunicationMark(getPosition(), type, this);
+
         if (communicationModule.hasMark(type)) {
-            communicationModule.dropMark(
-                    new CommunicationMark(
-                            getPosition(),
-                            type,
-                            this
-                    )
-            );
+            communicationModule.dropMark(mark);
             return true;
         }
+
         return false;
     }
 
@@ -269,6 +164,32 @@ public class Agent {
         return this.getVisionModule().getVisibleAgents();
     }
 
+    private void moveToNextDestination() {
+        if (nextDestination != null) {
+            if (getPosition().equals(nextDestination)) {
+                nextDestination = null;
+            } else {
+                moveToTile(nextDestination);
+            }
+        }
+    }
+
+    private void moveToTile(Position position) {
+        Position facingPosition = getFacingTile().getPosition();
+
+        if (position.equals(facingPosition)) {
+            moveForward();
+        } else if (position.equals(movement.getForwardPosition(getPosition(), getDirection().leftOf()))) {
+            rotate(MoveAction.ROTATE_LEFT);
+        } else {
+            rotate(MoveAction.ROTATE_RIGHT);
+        }
+    }
+
+    private Tile getFacingTile() {
+        Position facingPosition = getPosition().getPosInDirection(getDirection());
+        return memoryModule.getMap().getAt(facingPosition);
+    }
 
     public Agent newInstance() {
         return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule,

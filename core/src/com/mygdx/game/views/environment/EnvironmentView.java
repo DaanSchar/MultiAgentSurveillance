@@ -36,7 +36,6 @@ public class EnvironmentView extends Group {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        update();
     }
 
     private void addTileViews() {
@@ -47,9 +46,10 @@ public class EnvironmentView extends Group {
 
     private Environment getTileMap() {
         if (showMemoryMap) {
-            return scenario.getGuards().getMemoryMap();
+            if (scenario.getGuards().size() != 0) {
+                return scenario.getGuards().getMemoryMap();
+            }
         }
-
         return scenario.getEnvironment();
     }
 

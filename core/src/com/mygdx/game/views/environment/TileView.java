@@ -37,7 +37,6 @@ public class TileView extends Actor {
             return;
         }
         Position position = tile.getPosition();
-        batch.draw(texture, position.getX(), position.getY(), 1, 1);
         batch.draw(
                 texture,
                 position.getX() * TextureRepository.TILE_WIDTH,
@@ -45,7 +44,6 @@ public class TileView extends Actor {
                 TextureRepository.TILE_WIDTH,
                 TextureRepository.TILE_HEIGHT
         );
-
     }
 
     private Texture determineTextureByTileState() {
