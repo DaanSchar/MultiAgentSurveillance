@@ -6,6 +6,7 @@ import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 
 import java.util.Random;
+import java.util.Random;
 
 public class RandomMapGenerator {
     private final int width = 120;
@@ -16,48 +17,50 @@ public class RandomMapGenerator {
     public Environment build() {
         this.tileMap = new Tile[width][height];
         createBorder(); //WALL BORDER
-        createRandomArea(18, 8, TileType.SPAWN_INTRUDERS); //SPAWN
-        createRandomArea(18, 8, TileType.SPAWN_GUARDS); //SPAWN
-        createRandomArea(3, 3, TileType.TARGET); //TARGET
+        createrArea(18, 8, TileType.SPAWN_INTRUDERS); //SPAWN
+        createrArea(18, 8, TileType.SPAWN_GUARDS); //SPAWN
+        createrArea(3, 3, TileType.TARGET); //TARGET
         createTeleport(3, 3, 0); //TELEPORT
         createTeleport(3, 3, 0); //TELEPORT
-        createRandomArea(10, 20, TileType.SHADED); //SHADED
-        createRandomArea(1, 1, TileType.SENTRY); //SENTRY
-        createRandomArea(1, 1, TileType.SENTRY); //SENTRY
-        createRandomArea(1, 1, TileType.SENTRY); //SENTRY
+        createrArea(10, 20, TileType.SHADED); //SHADED
+        createrArea(1, 1, TileType.SENTRY); //SENTRY
+        createrArea(1, 1, TileType.SENTRY); //SENTRY
+        createrArea(1, 1, TileType.SENTRY); //SENTRY
         createBigHouse(18, 18); //BIG HOUSE
         createBigHouse(14, 14); //BIG HOUSE
         createSmallHouse(6, 6); //SMALL HOUSE
         createSmallHouse(8, 8); //SMALL HOUSE
-        createRandomArea(1, 20, TileType.WALL); //RANDOM WALL
-        createRandomArea(20, 1, TileType.WALL); //RANDOM WALL
-        createRandomArea(1, 10, TileType.WALL); //RANDOM WALL
-        createRandomArea(10, 1, TileType.WALL); //RANDOM WALL
-        createRandomArea(50, 1, TileType.WALL); //RANDOM WALL
-        createRandomArea(1, 50, TileType.WALL); //RANDOM WALL
+        createrArea(1, 20, TileType.WALL); //r WALL
+        createrArea(20, 1, TileType.WALL); //r WALL
+        createrArea(1, 10, TileType.WALL); //r WALL
+        createrArea(10, 1, TileType.WALL); //r WALL
+        createrArea(50, 1, TileType.WALL); //r WALL
+        createrArea(1, 50, TileType.WALL); //r WALL
         fillInEmptyTiles();
         return new Environment(this.width, this.height, this.tileMap);
     }
 
     private void fillInEmptyTiles() {
-        for (int x = 0; x < width; x++)
-            for (int y = 0; y < height; y++)
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
                 if (tileMap[x][y] == null)
                     tileMap[x][y] = new Tile(new Position(x, y), TileType.EMPTY);
+            }
+        }
     }
 
-    private void createRandomArea(int maxWidth, int maxHeight, TileType type) {
+    private void createrArea(int maxWidth, int maxHeight, TileType type) {
         Random rand = new Random();
-        int randomX1 = rand.nextInt(width - maxWidth);
-        int randomY1 = rand.nextInt(height - maxHeight);
-        if (freeArea(randomX1, randomY1, (maxWidth + randomX1), (randomY1 + maxHeight))) {
-            for (int x = randomX1; x < (randomX1 + maxWidth); x++) {
-                for (int y = randomY1; y < (randomY1 + maxHeight); y++) {
+        int rX1 = rand.nextInt(width - maxWidth);
+        int rY1 = rand.nextInt(height - maxHeight);
+        if (freeArea(rX1, rY1, (maxWidth + rX1), (rY1 + maxHeight))) {
+            for (int x = rX1; x < (rX1 + maxWidth); x++) {
+                for (int y = rY1; y < (rY1 + maxHeight); y++) {
                     tileMap[x][y] = new Tile(new Position(x, y), type);
                 }
             }
         } else {
-            createRandomArea(maxWidth, maxHeight, type);
+            createrArea(maxWidth, maxHeight, type);
         }
 
     }
@@ -79,12 +82,12 @@ public class RandomMapGenerator {
 
     private void createTeleport(int maxWidth, int maxHeight, int rotation) {
         Random rand = new Random();
-        int randomX1 = rand.nextInt(width - maxWidth);
-        int randomY1 = rand.nextInt(height - maxHeight);
-        if (freeArea(randomX1, randomY1, (maxWidth + randomX1), (randomY1 + maxHeight))) {
+        int rX1 = rand.nextInt(width - maxWidth);
+        int rY1 = rand.nextInt(height - maxHeight);
+        if (freeArea(rX1, rY1, (maxWidth + rX1), (rY1 + maxHeight))) {
             int[] target = createTeleportDis();
-            for (int x = randomX1; x < (randomX1 + maxWidth); x++) {
-                for (int y = randomY1; y < (randomY1 + maxHeight); y++) {
+            for (int x = rX1; x < (rX1 + maxWidth); x++) {
+                for (int y = rY1; y < (rY1 + maxHeight); y++) {
                     tileMap[x][y] = new TeleportTile(new Position(x, y), target[0], target[1], rotation);
                 }
             }
@@ -97,13 +100,13 @@ public class RandomMapGenerator {
     public int[] createTeleportDis() {
         int[] target = new int[2];
         Random rand = new Random();
-        int randomX1 = rand.nextInt(width - 1);
-        int randomY1 = rand.nextInt(height - 1);
-        target[0] = randomX1;
-        target[1] = randomY1;
-        if (freeArea(randomX1, randomY1, (1 + randomX1), (randomY1 + 1))) {
-            for (int x = randomX1; x < (randomX1 + 1); x++) {
-                for (int y = randomY1; y < (randomY1 + 1); y++) {
+        int rX1 = rand.nextInt(width - 1);
+        int rY1 = rand.nextInt(height - 1);
+        target[0] = rX1;
+        target[1] = rY1;
+        if (freeArea(rX1, rY1, (1 + rX1), (rY1 + 1))) {
+            for (int x = rX1; x < (rX1 + 1); x++) {
+                for (int y = rY1; y < (rY1 + 1); y++) {
                     tileMap[x][y] = new Tile(new Position(x, y), TileType.DESTINATION_TELEPORT);
                 }
             }
@@ -116,15 +119,15 @@ public class RandomMapGenerator {
 
     private void createBigHouse(int maxWidth, int maxHeight) {
         Random rand = new Random();
-        int randomX1 = rand.nextInt(width - maxWidth);
-        int randomY1 = rand.nextInt(height - maxHeight);
-        if (freeArea(randomX1, randomY1, (maxWidth + randomX1), (randomY1 + maxHeight))) {
-            createArea(randomX1, randomY1, randomX1 + 1, randomY1 + maxHeight, TileType.WALL);
-            createArea(randomX1, (randomY1 + maxHeight) - 1, (maxWidth + randomX1), (randomY1 + maxHeight), TileType.WALL);
-            createArea((randomX1 + maxHeight) - 1, randomY1, (maxWidth + randomX1), (randomY1 + maxHeight), TileType.WALL);
-            createArea(randomX1, randomY1, (randomX1 + maxHeight), randomY1 + 1, TileType.WALL);
-            createDoor(randomX1 + (maxWidth / 2), randomY1);
-            createWindow(randomX1, randomY1, (maxWidth + randomX1), (randomY1 + maxHeight));
+        int rX1 = rand.nextInt(width - maxWidth);
+        int rY1 = rand.nextInt(height - maxHeight);
+        if (freeArea(rX1, rY1, (maxWidth + rX1), (rY1 + maxHeight))) {
+            createArea(rX1, rY1, rX1 + 1, rY1 + maxHeight, TileType.WALL);
+            createArea(rX1, (rY1 + maxHeight) - 1, (maxWidth + rX1), (rY1 + maxHeight), TileType.WALL);
+            createArea((rX1 + maxHeight) - 1, rY1, (maxWidth + rX1), (rY1 + maxHeight), TileType.WALL);
+            createArea(rX1, rY1, (rX1 + maxHeight), rY1 + 1, TileType.WALL);
+            createDoor(rX1 + (maxWidth / 2), rY1);
+            createWindow(rX1, rY1, (maxWidth + rX1), (rY1 + maxHeight));
 
         } else {
             createBigHouse(maxWidth, maxHeight);
@@ -134,20 +137,20 @@ public class RandomMapGenerator {
 
     private void createSmallHouse(int maxWidth, int maxHeight) {
         Random rand = new Random();
-        int randomX1 = rand.nextInt(width - maxWidth);
-        int randomY1 = rand.nextInt(height - maxHeight);
-        if (freeArea(randomX1, randomY1, (maxWidth + randomX1), (randomY1 + maxHeight))) {
-            createArea(randomX1, randomY1, randomX1 + 1, randomY1 + maxHeight, TileType.WALL);
-            createArea(randomX1, (randomY1 + maxHeight) - 1, (maxWidth + randomX1), (randomY1 + maxHeight), TileType.WALL);
-            createArea((randomX1 + maxHeight) - 1, randomY1, (maxWidth + randomX1), (randomY1 + maxHeight), TileType.WALL);
-            createArea(randomX1, randomY1, (randomX1 + maxHeight), randomY1 + 1, TileType.WALL);
-            createDoor(randomX1 + (maxWidth / 2), randomY1);
+        int rX1 = rand.nextInt(width - maxWidth);
+        int rY1 = rand.nextInt(height - maxHeight);
+        if (freeArea(rX1, rY1, (maxWidth + rX1), (rY1 + maxHeight))) {
+            createArea(rX1, rY1, rX1 + 1, rY1 + maxHeight, TileType.WALL);
+            createArea(rX1, (rY1 + maxHeight) - 1, (maxWidth + rX1), (rY1 + maxHeight), TileType.WALL);
+            createArea((rX1 + maxHeight) - 1, rY1, (maxWidth + rX1), (rY1 + maxHeight), TileType.WALL);
+            createArea(rX1, rY1, (rX1 + maxHeight), rY1 + 1, TileType.WALL);
+            createDoor(rX1 + (maxWidth / 2), rY1);
         } else {
             createSmallHouse(maxWidth, maxHeight);
         }
     }
 
-    private void createRandomWalls() {
+    private void createrWalls() {
 
     }
 
