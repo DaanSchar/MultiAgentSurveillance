@@ -55,15 +55,19 @@ public class EnvironmentFactory {
     }
 
     public void addTeleportArea(int x1, int y1, int x2, int y2, int targetX, int targetY, int rotation) {
-        if (DebugSettings.FACTORY) log.info("adding teleport area: " + x1 + " " + y1 + " " + x2 + " " + y2 +
-                " with target coordinates " + targetX + " " + targetY + " and rotation " + rotation);
+        if (DebugSettings.FACTORY) {
+            log.info("adding teleport area: " + x1 + " " + y1 + " " + x2 + " " + y2 + " with target coordinates " + targetX + " " + targetY + " and rotation " + rotation);
+        }
 
-        if (this.tileMap == null && width > 0 && height > 0)
+        if (this.tileMap == null && width > 0 && height > 0) {
             this.tileMap = new Tile[width][height];
+        }
 
-        for (int x = x1; x < x2; x++)
-            for (int y = y1; y < y2; y++)
+        for (int x = x1; x < x2; x++) {
+            for (int y = y1; y < y2; y++) {
                 tileMap[x][y] = new TeleportTile(new Position(x, y), targetX, targetY, rotation);
+            }
+        }
     }
 
     public void addTile(int x, int y, TileType type) {
