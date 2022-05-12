@@ -103,7 +103,6 @@ public class Agent {
 
         if (facingTile.getType() == TileType.DOOR) {
             interactionModule.toggleDoor(facingTile.getPosition());
-            // TODO: make door opening noises
             noiseModule.makeInteractionNoise(facingTile.getPosition());
         }
     }
@@ -115,7 +114,6 @@ public class Agent {
             boolean brokeWindow = interactionModule.breakWindow(facingTile.getPosition());
 
             if (brokeWindow) {
-                // TODO: make window breaking noises
                 noiseModule.makeInteractionNoise(facingTile.getPosition());
             }
         }
