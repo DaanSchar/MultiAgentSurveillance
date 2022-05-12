@@ -30,6 +30,7 @@ public class Guard extends Agent {
         Intruder intruder = getVisibleIntruder();
 
         if (intruder != null) {
+            getNoiseModule().yell(getPosition());
             moveToLocation(intruder.getPosition());
         }
     }
