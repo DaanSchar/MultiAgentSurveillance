@@ -36,41 +36,27 @@ public class Agent {
     private static int agentCount;
     private final int id;
 
-    private @Setter
-    Position position;
-    private @Setter
-    Direction direction;
-    private @Setter
-    Position goalPosition;
-    private @Setter
-    List<Position> queue = new ArrayList<>();
+    private @Setter Position position;
+    private @Setter Direction direction;
+    private @Setter Position goalPosition;
+    private @Setter List<Position> queue;
 
-    private @Setter
-    ISpawnModule spawnModule;
-    private @Setter
-    IMovementModule movement;
-    private @Setter
-    IVisionModule visionModule;
-    private @Setter
-    ICommunicationModule communicationModule;
-    private @Setter
-    INoiseModule noiseModule;
-    private @Setter
-    IListeningModule listeningModule;
-    private @Setter
-    IMemoryModule memoryModule;
-    private @Setter
-    ISmellModule smellModule;
-    private @Setter
-    IExplorationModule explorationModule;
-    private @Setter
-    InteractionModule interactionModule;
-    private @Setter
-    PathFinderModule pathFinderModule;
+    private @Setter ISpawnModule spawnModule;
+    private @Setter IMovementModule movement;
+    private @Setter IVisionModule visionModule;
+    private @Setter ICommunicationModule communicationModule;
+    private @Setter INoiseModule noiseModule;
+    private @Setter IListeningModule listeningModule;
+    private @Setter IMemoryModule memoryModule;
+    private @Setter ISmellModule smellModule;
+    private @Setter IExplorationModule explorationModule;
+    private @Setter InteractionModule interactionModule;
+    private @Setter PathFinderModule pathFinderModule;
 
 
     public Agent() {
         this.id = agentCount++;
+        this.queue = new ArrayList<>();
     }
 
     public void spawn() {
@@ -217,12 +203,17 @@ public class Agent {
     protected List<Sound> getSoundsAtCurrentPosition() {
         List<Sound> sounds = getMemoryModule().getCurrentSounds();
 
-        return sounds.stream().filter(sound ->
-                !sound.getSource().equals(getPosition())
-        ).collect(Collectors.toList());
+        return sounds.stream().filter(sound -> {
+            Position source = sound.getSource();
+            return !source.equals(getPosition());
+        }).collect(Collectors.toList());
     }
 
-    public Position guessPositionOfSource(Sound sound) {
+    protected boolean hearSound() {
+        return getSoundsAtCurrentPosition().size() > 0;
+    }
+
+    protected Position guessPositionOfSource(Sound sound) {
         Position sourceOfSound = sound.getSource();
 
         if (sourceOfSound == null) {
@@ -241,20 +232,7 @@ public class Agent {
         return new Position(guessX, guessY);
     }
 
-    public boolean hearSoundAtCurrentPosition() {
-        List<Sound> sounds = memoryModule.getCurrentSounds();
-
-        // check if source is not itself
-        for (Sound sound : sounds) {
-            if (!sound.getSource().equals(getPosition())) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private Tile getFacingTile() {
+    protected Tile getFacingTile() {
         Position facingPosition = movement.getForwardPosition(getPosition(), getDirection());
         return memoryModule.getMap().getAt(facingPosition);
     }

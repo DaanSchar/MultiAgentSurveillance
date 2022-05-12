@@ -36,7 +36,7 @@ public class GameComponent extends MovableStage {
         this.soundView = new SoundView(scenario);
         this.smellView = new SmellView(scenario);
         this.communicationView = new CommunicationView(scenario);
-        Agent agent = scenario.getIntruders().get(0);
+        Agent agent = scenario.getGuards().get(0);
         this.pathFinderView = new PathFinderView(agent.getPathFinderModule(), agent);
         this.clear();
         this.addActor(environmentView);

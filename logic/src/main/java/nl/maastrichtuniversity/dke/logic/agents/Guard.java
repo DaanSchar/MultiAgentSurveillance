@@ -3,8 +3,6 @@ package nl.maastrichtuniversity.dke.logic.agents;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.scenario.Sound;
-import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
-import nl.maastrichtuniversity.dke.util.Distribution;
 
 import java.util.List;
 
@@ -23,7 +21,8 @@ public class Guard extends Agent {
     public void move() {
 //        if (seesIntruder()) {
 //            chasing();
-        if (hearSoundAtCurrentPosition()) {
+        if (hearSound()) {
+            log.info("Heard sound");
             List<Sound> sounds = super.getSoundsAtCurrentPosition();
             if (sounds.size() > 0) {
                 Sound sound = sounds.get(0);
