@@ -174,7 +174,7 @@ public class Agent {
         }
     }
 
-    private void moveToTile(Position position) {
+    protected void moveToTile(Position position) {
         Position facingPosition = getFacingTile().getPosition();
 
         if (position.equals(facingPosition)) {
