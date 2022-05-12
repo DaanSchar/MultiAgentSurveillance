@@ -16,7 +16,7 @@ public class Guard extends Agent {
 
     @Override
     public void update() {
-        if (seesIntruder()) {
+        if (seesIntruder() && !getVisibleIntruder().isCaught()) {
             chasing();
             catching();
         } else {
