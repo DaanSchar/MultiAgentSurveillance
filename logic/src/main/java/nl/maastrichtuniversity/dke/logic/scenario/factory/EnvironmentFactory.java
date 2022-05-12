@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.TeleportTile;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.*;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import nl.maastrichtuniversity.dke.util.DebugSettings;
 
@@ -64,6 +61,12 @@ public class EnvironmentFactory {
         if (x < 0 || x > tileMap.length || y < 0 || y > tileMap[0].length) {
             return;
         }
-        tileMap[x][y] = new Tile(new Position(x, y), type);
+        if (type == TileType.DOOR) {
+            tileMap[x][y] = new DoorTile(new Position(x, y));
+        } else if (type == TileType.WINDOW) {
+            tileMap[x][y] = new WindowTile(new Position(x, y));
+        } else {
+            tileMap[x][y] = new Tile(new Position(x, y), type);
+        }
     }
 }

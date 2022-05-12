@@ -1,7 +1,11 @@
 package nl.maastrichtuniversity.dke.logic.scenario.util;
 
+import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.*;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Random;
 
 public class RandomMapGenerator {
@@ -17,10 +21,12 @@ public class RandomMapGenerator {
     private static final int FOURTEEN = 14 / 2;
     private static final int ONE = 1;
     private static final int FIVE = 5;
+    private MapSaver mapSaver = new MapSaver();
 
 
     public Environment build() {
         this.tileMap = new Tile[width][height];
+        mapSaver.scenarioSaver();
         createBorder(); //WALL BORDER
         createrArea(EIGHTEEN, EIGHT, TileType.SPAWN_INTRUDERS); //SPAWN
         createrArea(EIGHTEEN, EIGHT, TileType.SPAWN_GUARDS); //SPAWN
@@ -42,6 +48,7 @@ public class RandomMapGenerator {
         createrArea(FIFTY, ONE, TileType.WALL); //r WALL
         createrArea(ONE, FIFTY, TileType.WALL); //r WALL
         fillInEmptyTiles();
+        mapSaver.saveMap();
         return new Environment(this.width, this.height, this.tileMap);
     }
 
@@ -65,6 +72,7 @@ public class RandomMapGenerator {
                     tileMap[x][y] = new Tile(new Position(x, y), type);
                 }
             }
+            mapSaver.areaSaver(rX1, rY1, (maxWidth + rX1), (rY1 + maxHeight), type);
         } else {
             createrArea(maxWidth, maxHeight, type);
         }
@@ -77,6 +85,8 @@ public class RandomMapGenerator {
                 tileMap[x][y] = new Tile(new Position(x, y), type);
             }
         }
+        mapSaver.areaSaver(x1, y1, x2, y2, type);
+
     }
 
     private void createBorder() {
@@ -90,13 +100,15 @@ public class RandomMapGenerator {
         Random rand = new Random();
         int rX1 = rand.nextInt(width - maxWidth);
         int rY1 = rand.nextInt(height - maxHeight);
+        int[] target = createTeleportDis();
         if (freeArea(rX1, rY1, (maxWidth + rX1), (rY1 + maxHeight))) {
-            int[] target = createTeleportDis();
             for (int x = rX1; x < (rX1 + maxWidth); x++) {
                 for (int y = rY1; y < (rY1 + maxHeight); y++) {
                     tileMap[x][y] = new TeleportTile(new Position(x, y), target[0], target[1], rotation);
                 }
             }
+            mapSaver.teleportSaver(rX1, rY1, (maxWidth + rX1), (rY1 + maxHeight), target[0], target[1], rotation);
+
         } else {
             createTeleport(maxWidth, maxHeight, rotation);
         }
@@ -156,13 +168,13 @@ public class RandomMapGenerator {
         }
     }
 
-    private void createrWalls() {
-
-    }
 
     private void createDoor(int x, int y) {
         tileMap[x][y] = new DoorTile(new Position(x, y));
         tileMap[x - 1][y] = new DoorTile(new Position(x - 1, y));
+        mapSaver.tileSaver(x, y, TileType.DOOR);
+        mapSaver.tileSaver(x - 1, y, TileType.DOOR);
+
     }
 
     private void createWindow(int x1, int y1, int x2, int y2) {
@@ -174,7 +186,10 @@ public class RandomMapGenerator {
         tileMap[x1][window2y] = new WindowTile(new Position(x1, window2y));
         tileMap[x2][window1y] = new WindowTile(new Position(x2, window1y));
         tileMap[x2][window2y] = new WindowTile(new Position(x2, window2y));
-
+        mapSaver.tileSaver(x1, window1y, TileType.WINDOW);
+        mapSaver.tileSaver(x1, window2y, TileType.WINDOW);
+        mapSaver.tileSaver(x2, window1y, TileType.WINDOW);
+        mapSaver.tileSaver(x2, window2y, TileType.WINDOW);
     }
 
     private boolean freeArea(int x1, int y1, int x2, int y2) {
@@ -187,4 +202,5 @@ public class RandomMapGenerator {
         }
         return true;
     }
+
 }

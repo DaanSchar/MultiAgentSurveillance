@@ -8,6 +8,7 @@ import nl.maastrichtuniversity.dke.logic.agents.Intruder;
 import nl.maastrichtuniversity.dke.logic.agents.modules.victory.Victory;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.util.MapParser;
+import nl.maastrichtuniversity.dke.logic.scenario.util.MapSaver;
 
 import java.io.File;
 
