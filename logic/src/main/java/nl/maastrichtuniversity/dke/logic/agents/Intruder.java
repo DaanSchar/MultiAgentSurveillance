@@ -34,14 +34,18 @@ public class Intruder extends Agent {
         if (seesGuard()) {
             avoidGuards();
         } else if (seesTarget()) {
-            if(!droppedBlueMark) {
+            if (!droppedBlueMark) {
                 super.dropMark(CommunicationType.VISION_BLUE);
                 this.droppedBlueMark = true;
             }
             navigateToTarget();
+        } else if (seesBlueMark() && !navigatedToBlueMark) {
+            this.navigatedToBlueMark = true;
+            navigateToBlueMark();
         } else {
             super.explore();
         }
+
     }
 
     private void navigateToTarget() {
