@@ -24,7 +24,9 @@ public class Intruder extends Agent {
 
     @Override
     public void update() {
-        if(this.isCaught) return;
+        if (this.isCaught) {
+            return;
+        }
 
         if (seesGuard()) {
             avoidGuards();
