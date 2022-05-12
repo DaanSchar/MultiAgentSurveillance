@@ -1,11 +1,6 @@
 package nl.maastrichtuniversity.dke.logic.scenario.util;
 
-import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.*;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Random;
 
 public class RandomMapGenerator {

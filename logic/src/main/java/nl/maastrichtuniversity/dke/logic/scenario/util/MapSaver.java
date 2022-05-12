@@ -1,7 +1,5 @@
 package nl.maastrichtuniversity.dke.logic.scenario.util;
 
-import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 
 import java.io.FileWriter;
