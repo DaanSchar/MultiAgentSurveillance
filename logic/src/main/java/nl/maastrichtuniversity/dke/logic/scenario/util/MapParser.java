@@ -108,7 +108,8 @@ public class MapParser {
     private void setDefaultValues() {
         scenarioFactory.setGameMode(1);
         scenarioFactory.setScaling(0.07);
-        scenarioFactory.setNumberOfGuards(1);
+        scenarioFactory.setNumberOfGuards(0);
+        scenarioFactory.setNumberOfIntruders(4);
         agentFactory.setBaseSpeedIntruders(5);
         agentFactory.setSprintSpeedIntruders(10);
         agentFactory.setBaseSpeedGuards(5);
