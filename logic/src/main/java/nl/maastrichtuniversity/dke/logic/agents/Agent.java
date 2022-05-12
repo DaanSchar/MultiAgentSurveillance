@@ -208,6 +208,14 @@ public class Agent {
         }
     }
 
+    protected Position estimatePositionOfSource() {
+        return listeningModule.guessPositionOfSource(position);
+    }
+
+    public boolean hearSoundAtCurrentPosition() {
+        return listeningModule.getSound(getPosition());
+    }
+
     private Tile getFacingTile() {
         Position facingPosition = getPosition().getPosInDirection(getDirection());
         return memoryModule.getMap().getAt(facingPosition);
