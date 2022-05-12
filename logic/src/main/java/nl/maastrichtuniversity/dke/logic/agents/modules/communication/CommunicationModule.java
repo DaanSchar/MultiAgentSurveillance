@@ -106,5 +106,4 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
         return null;
     }
 
-
 }
