@@ -15,7 +15,9 @@ public class EnvironmentView extends Group {
     private Environment environment;
     private final Scenario scenario;
     private final double[][] heightMap;
-    private @Getter @Setter boolean showMemoryMap;
+    private @Getter
+    @Setter
+    boolean showMemoryMap;
 
     public EnvironmentView(Scenario scenario) {
         this.scenario = scenario;
