@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
@@ -10,6 +11,7 @@ import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class NoiseModule extends AgentModule implements INoiseModule {
 
     private final double hearingDistanceWalking;
@@ -40,6 +42,24 @@ public class NoiseModule extends AgentModule implements INoiseModule {
 
         scenario.addSounds(sounds);
     }
+
+    private double getHearingDistance(SoundType soundType) {
+        return switch (soundType) {
+            case WALK -> hearingDistanceWalking;
+            case SPRINT, YELL -> hearingDistanceSprinting;
+            case TOGGLE_DOOR, BREAK_WINDOW -> hearingDistanceInteraction;
+        };
+    }
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public void makeWalkingSound(Position position) {
@@ -93,14 +113,6 @@ public class NoiseModule extends AgentModule implements INoiseModule {
                 }
             }
         }
-    }
-
-    private double getHearingDistance(SoundType soundType) {
-        return switch (soundType) {
-            case WALK -> hearingDistanceWalking;
-            case SPRINT, YELL -> hearingDistanceSprinting;
-            case TOGGLE_DOOR, BREAK_WINDOW -> hearingDistanceInteraction;
-        };
     }
 
 }

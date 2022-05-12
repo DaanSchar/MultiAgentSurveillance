@@ -40,7 +40,7 @@ public class Agent {
     private @Setter Position position;
     private @Setter Direction direction;
     private @Setter Position goalPosition;
-    private @Setter List<Position> queue;
+    protected @Setter List<Position> navigationQueue;
 
     private @Setter ISpawnModule spawnModule;
     private @Setter IMovementModule movement;
@@ -57,7 +57,7 @@ public class Agent {
 
     public Agent() {
         this.id = agentCount++;
-        this.queue = new ArrayList<>();
+        this.navigationQueue = new ArrayList<>();
     }
 
     public void spawn() {
@@ -77,7 +77,6 @@ public class Agent {
     }
 
     public void updateInternals() {
-        listen();
         view();
         updateMemory();
     }
@@ -99,15 +98,15 @@ public class Agent {
     }
 
     public void moveToLocation(Position target) {
-        if (queue.isEmpty()) {
+        if (navigationQueue.isEmpty()) {
             List<Position> pathToTarget = pathFinderModule.getShortestPath(getPosition(), target);
 
-            if (pathToTarget.size() > 1) {
-                queue.add(pathToTarget.get(1));
+            if (pathToTarget.size() > 1 || getPosition().distance(target) >= 1) {
+                navigationQueue.addAll(pathToTarget);
             }
         }
-        moveToNextDestination();
 
+        moveToNextPosInQueue();
     }
 
     public void toggleDoor() {
@@ -147,12 +146,8 @@ public class Agent {
         visionModule.useVision(position, direction);
     }
 
-    private void listen() {
-        listeningModule.getDirection(this.position);
-    }
-
     private void updateMemory() {
-        memoryModule.update(visionModule, listeningModule, smellModule, getPosition());
+        memoryModule.update(visionModule, smellModule, getPosition());
     }
 
     private void rotate(MoveAction rotation) {
@@ -169,23 +164,18 @@ public class Agent {
         noiseModule.makeSound(position, SoundType.SPRINT);
     }
 
-    protected List<Direction> getDirectionsOfSounds() {
-        return this.getListeningModule().getDirection(getPosition());
-    }
-
     protected List<Agent> getVisibleAgents() {
         return this.getVisionModule().getVisibleAgents();
     }
 
-    protected void moveToNextDestination() {
-        if (!queue.isEmpty()) {
-            if (getPosition().equals(queue.get(0))) {
-                queue.remove(0);
+    protected void moveToNextPosInQueue() {
+        if (!navigationQueue.isEmpty()) {
+            if (getPosition().equals(navigationQueue.get(0))) {
+                navigationQueue.remove(0);
             } else {
-                moveToTile(queue.get(0));
+                moveToTile(navigationQueue.get(0));
             }
         }
-
     }
 
     protected void moveToTile(Position position) {
@@ -201,7 +191,9 @@ public class Agent {
     }
 
     protected List<Sound> getSoundsAtCurrentPosition() {
-        List<Sound> sounds = getMemoryModule().getCurrentSounds();
+        List<Sound> sounds = listeningModule.getSounds(getPosition());
+
+//        log.info("Sounds at current position: " + sounds);
 
         return sounds.stream().filter(sound -> {
             Position source = sound.getSource();

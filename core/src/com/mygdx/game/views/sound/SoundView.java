@@ -32,21 +32,6 @@ public class SoundView {
                     color, color, color, color
             );
         });
-//        drawFromMemory(batch, parentAlpha);
-    }
-
-    private void drawFromMemory(ShapeRenderer batch, float parentAlpha) {
-        List<Sound> sounds = scenario.getGuards().get(0).getMemoryModule().getCurrentSounds();
-        sounds.forEach(sound -> {
-            Position position = sound.getSource();
-            batch.rect(
-                    position.getX(),
-                    position.getY(),
-                    TextureRepository.TILE_WIDTH,
-                    TextureRepository.TILE_HEIGHT,
-                    color, color, color, color
-            );
-        });
     }
 
 }

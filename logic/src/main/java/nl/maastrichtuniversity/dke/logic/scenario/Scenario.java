@@ -2,17 +2,22 @@ package nl.maastrichtuniversity.dke.logic.scenario;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.Fleet;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
+import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.SoundType;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
+import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Getter
 @Setter
+@Slf4j
 public class Scenario {
 
     private String name;
@@ -24,7 +29,7 @@ public class Scenario {
     private Fleet<Guard> guards;
     private Fleet<Intruder> intruders;
     private List<Smell> smellMap;
-    private List<List<Sound>> soundMap;
+    private List<Sound> soundMap;
     private List<CommunicationMark> communicationMarks;
 
     private int currentTimeStep;
@@ -43,6 +48,10 @@ public class Scenario {
 
     public void incrementTimeStep() {
         currentTimeStep++;
+
+        if (currentTimeStep % 4 == 0) {
+            soundMap.clear();
+        }
     }
 
     public double getCurrentTime() {
@@ -50,15 +59,11 @@ public class Scenario {
     }
 
     public List<Sound> getSoundMap() {
-        if (soundMap.size() < 1) {
-            return new ArrayList<>();
-        }
-
-        return soundMap.get(soundMap.size() - 1);
+        return soundMap;
     }
 
     public void addSounds(List<Sound> sound) {
-        soundMap.add(sound);
+        soundMap.addAll(sound);
     }
 
 }

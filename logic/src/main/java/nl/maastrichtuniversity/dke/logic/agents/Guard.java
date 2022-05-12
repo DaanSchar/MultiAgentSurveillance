@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.SoundType;
 import nl.maastrichtuniversity.dke.logic.scenario.Sound;
+import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.List;
 
@@ -20,8 +21,6 @@ public class Guard extends Agent {
 
     @Override
     public void move() {
-//        if (seesIntruder()) {
-//            chasing();
         if (hearSound()) {
             log.info("Heard sound");
             List<Sound> sounds = super.getSoundsAtCurrentPosition();
@@ -30,6 +29,7 @@ public class Guard extends Agent {
                 moveToLocation(sound.getSource());
             }
         } else {
+            log.info("Exploring");
 //            super.explore();
         }
 

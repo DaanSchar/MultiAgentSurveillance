@@ -54,7 +54,6 @@ public class Game {
     }
 
     public void update() {
-        resetNoise();
         scenario.incrementTimeStep();
         moveAgents();
         updateAgentInternals();
@@ -74,11 +73,6 @@ public class Game {
 
         guards.forEach(Guard::updateInternals);
         intruders.forEach(Intruder::updateInternals);
-    }
-
-
-    public void resetNoise() {
-        scenario.getSoundMap().clear();
     }
 
     protected Game() {

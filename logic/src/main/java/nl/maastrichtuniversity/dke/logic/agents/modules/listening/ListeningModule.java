@@ -35,6 +35,7 @@ public class ListeningModule extends AgentModule implements IListeningModule {
 
     public List<Sound> getSounds(Position currentPosition) {
         List<Sound> soundMap = scenario.getSoundMap();
+
         List<Sound> sounds = new ArrayList<>();
 
         for (Sound sound : soundMap) {

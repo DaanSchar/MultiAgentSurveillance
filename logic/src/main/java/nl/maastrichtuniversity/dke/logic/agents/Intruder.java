@@ -3,7 +3,6 @@ package nl.maastrichtuniversity.dke.logic.agents;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
@@ -85,7 +84,7 @@ public class Intruder extends Agent {
         }
         List<Position> q = new ArrayList<>();
         q.add(avoid);
-        setQueue(q);
+        setNavigationQueue(q);
         moveToLocation(avoid);
 
     }

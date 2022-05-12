@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface IMemoryModule {
 
-    void update(IVisionModule vision, IListeningModule listeningModule, ISmellModule smellModule, Position position);
+    void update(IVisionModule vision, ISmellModule smellModule, Position position);
 
     Environment getMap();
 

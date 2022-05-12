@@ -69,12 +69,10 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
                 .collect(Collectors.toList());
     }
 
-    public void update(IVisionModule visionModule, IListeningModule listeningModule,
-                       ISmellModule smellModule, Position position) {
+    public void update(IVisionModule visionModule, ISmellModule smellModule, Position position) {
         setPreviousPosition(this.position);
         setPosition(position);
         updateVision(visionModule);
-        updateSound(listeningModule);
         updateSmell(smellModule);
     }
 
@@ -84,10 +82,6 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         }
 
         return sounds.get(sounds.size() - 1);
-    }
-
-    private void updateSound(IListeningModule listeningModule) {
-        sounds.add(listeningModule.getSounds(position));
     }
 
     private void updateSmell(ISmellModule smellModule) {
