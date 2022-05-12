@@ -89,7 +89,6 @@ public class Agent {
         listen();
         view();
         updateMemory();
-
     }
 
     public void explore() {

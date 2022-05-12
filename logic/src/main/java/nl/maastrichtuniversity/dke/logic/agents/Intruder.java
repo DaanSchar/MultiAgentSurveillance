@@ -46,6 +46,8 @@ public class Intruder extends Agent {
             super.explore();
         }
 
+
+        super.update();
     }
 
     private void navigateToTarget() {
@@ -63,24 +65,26 @@ public class Intruder extends Agent {
     private void avoidGuards() {
         /* run away from the seen guard */
         List<Guard> visibleGuards = getVisibleGuards();
-        Position toGuard = this.getPathFinderModule().getShortestPath(getPosition(),
+        Position toGuard = getPathFinderModule().getShortestPath(getPosition(),
                 visibleGuards.get(0).getPosition()).get(0);
-        Position avoid = getPosition();
 
         if (toGuard.getX() != getPosition().getX()) {
             if (toGuard.getX() < getPosition().getX()) {
-                avoid.setX(getPosition().getX() + 1);
+                Position avoid = new Position(getPosition().getX() + 1, getPosition().getY());
+                moveToLocation(avoid);
             } else {
-                avoid.setX(getPosition().getX() - 1);
+                Position avoid = new Position(getPosition().getX() - 1, getPosition().getY());
+                moveToLocation(avoid);
             }
         } else {
             if (toGuard.getY() < getPosition().getY()) {
-                avoid.setY(getPosition().getY() + 1);
+                Position avoid = new Position(getPosition().getX(), getPosition().getY() + 1);
+                moveToLocation(avoid);
             } else {
-                avoid.setY(getPosition().getY() - 1);
+                Position avoid = new Position(getPosition().getX(), getPosition().getY() - 1);
+                moveToLocation(avoid);
             }
         }
-        moveToTile(avoid);
     }
 
     private boolean seesGuard() {
