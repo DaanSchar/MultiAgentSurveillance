@@ -18,9 +18,9 @@ public class FactoryTest {
 
         Assertions.assertEquals(3, guards.size());
         Assertions.assertEquals(0, scenario.getIntruders().size());
-        Assertions.assertEquals(60, environment.getWidth());
-        Assertions.assertEquals(40, environment.getHeight());
-        Assertions.assertEquals(60 * 40, environment.size());
+        Assertions.assertEquals(120, environment.getWidth());
+        Assertions.assertEquals(80, environment.getHeight());
+        Assertions.assertEquals(120 * 80, environment.size());
         Assertions.assertEquals(1, scenario.getGameMode());
         Assertions.assertEquals(0.1, scenario.getScaling());
         Assertions.assertEquals("test environment", scenario.getName());
