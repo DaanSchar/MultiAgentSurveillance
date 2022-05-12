@@ -19,7 +19,7 @@ public class Guard extends Agent {
     @Override
     public void update() {
         if (getVisibleIntruder() != null) {
-            if(!getVisibleIntruder().isCaught()) {
+            if (!getVisibleIntruder().isCaught()) {
                 chasing();
                 catching();
             }
