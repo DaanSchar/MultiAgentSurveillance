@@ -3,6 +3,8 @@ package nl.maastrichtuniversity.dke.logic.agents;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
+import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
@@ -16,10 +18,15 @@ public class Intruder extends Agent {
     private @Getter
     @Setter
     boolean alive;
+    private boolean navigatedToBlueMark; // whether the agent has navigated to the mark that another agent dropped
+    private boolean droppedBlueMark; // did it drop the mark already
 
     public Intruder() {
         super();
         this.alive = true;
+        this.navigatedToBlueMark = false;
+        this.droppedBlueMark = false;
+
     }
 
     @Override
@@ -27,7 +34,14 @@ public class Intruder extends Agent {
         if (seesGuard()) {
             avoidGuards();
         } else if (seesTarget()) {
+            if (!droppedBlueMark) {
+                super.dropMark(CommunicationType.VISION_BLUE);
+                this.droppedBlueMark = true;
+            }
             navigateToTarget();
+        } else if (seesBlueMark() && !navigatedToBlueMark) {
+            this.navigatedToBlueMark = true;
+            navigateToBlueMark();
         } else {
             super.explore();
         }
@@ -113,4 +127,36 @@ public class Intruder extends Agent {
         List<Tile> obstacles = super.getVisionModule().getVisibleTiles();
         return obstacles.stream().filter(tile -> tile.getType().equals(TileType.TARGET)).findFirst().get();
     }
+
+    private boolean seesBlueMark() {
+        List<Tile> obstacles = super.getVisionModule().getVisibleTiles();
+
+        return containsBlueMark(obstacles);
+    }
+
+    private boolean containsBlueMark(List<Tile> obstacles) {
+        for (Tile tile : obstacles) {
+            if (isBlueMark(tile)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isBlueMark(Tile tile) {
+        Position position = tile.getPosition();
+
+        return super.getCommunicationModule().tileHasMark(position, CommunicationType.VISION_BLUE);
+
+    }
+
+    private Position getBlueMark() {
+        return super.getCommunicationModule().getMark(CommunicationType.VISION_BLUE);
+    }
+
+    private void navigateToBlueMark() {
+        Position target = getBlueMark();
+        moveToLocation(target);
+    }
+
 }
