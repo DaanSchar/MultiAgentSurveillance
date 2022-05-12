@@ -53,7 +53,7 @@ public class Intruder extends Agent {
         List<Guard> visibleGuards = getVisibleGuards();
         Position toGuard = getPathFinderModule().getShortestPath(getPosition(),
                 visibleGuards.get(0).getPosition()).get(0);
-        
+
         if (toGuard.getX() != getPosition().getX()) {
             if (toGuard.getX() < getPosition().getX()) {
                 Position avoid = new Position(getPosition().getX() + 1, getPosition().getY());
