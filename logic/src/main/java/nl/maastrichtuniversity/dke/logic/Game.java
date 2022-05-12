@@ -56,19 +56,26 @@ public class Game {
     public void update() {
         resetNoise();
         scenario.incrementTimeStep();
-        updateGuards();
-        updateIntruders();
+        moveAgents();
+        updateAgentInternals();
     }
 
-    private void updateIntruders() {
-        Fleet<Intruder> intruders = scenario.getIntruders();
-        intruders.forEach(Intruder::update);
-    }
-
-    private void updateGuards() {
+    private void moveAgents() {
         Fleet<Guard> guards = scenario.getGuards();
-        guards.forEach(Guard::update);
+        Fleet<Intruder> intruders = scenario.getIntruders();
+
+        guards.forEach(Guard::move);
+        intruders.forEach(Intruder::move);
     }
+
+    private void updateAgentInternals() {
+        Fleet<Intruder> intruders = scenario.getIntruders();
+        Fleet<Guard> guards = scenario.getGuards();
+
+        guards.forEach(Guard::updateInternals);
+        intruders.forEach(Intruder::updateInternals);
+    }
+
 
     public void resetNoise() {
         scenario.getSoundMap().clear();

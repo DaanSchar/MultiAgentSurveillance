@@ -36,6 +36,19 @@ public class ListeningModule extends AgentModule implements IListeningModule {
         return false;
     }
 
+    public List<Sound> getSounds(Position position) {
+        List<Sound> soundMap = scenario.getSoundMap();
+        List<Sound> sounds = new ArrayList<>();
+
+        for (Sound sound : soundMap) {
+            if (sound.getPosition().equals(position)) {
+                sounds.add(sound);
+            }
+        }
+
+        return sounds;
+    }
+
     /**
      * @param position the position in which the agent is right now
      * @return a list of directions, the direction is where the sound is coming from (the sound source),
@@ -62,8 +75,6 @@ public class ListeningModule extends AgentModule implements IListeningModule {
         }
 
         Position guess = sourceOfSound.add(getGuessOffset());
-        log.info("Guessed position of source: " + guess);
-        log.info("Actual position of source: " + sourceOfSound);
         return guess;
     }
 

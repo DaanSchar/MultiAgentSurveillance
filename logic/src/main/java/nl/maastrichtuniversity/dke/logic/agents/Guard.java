@@ -1,6 +1,9 @@
 package nl.maastrichtuniversity.dke.logic.agents;
 
 import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.logic.scenario.Sound;
+import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.util.Distribution;
 
 import java.util.List;
 
@@ -13,16 +16,20 @@ public class Guard extends Agent {
     }
 
     @Override
-    public void update() {
+    public void move() {
         if (seesIntruder()) {
             chasing();
+        } else if (hearSoundAtCurrentPosition()) {
+            Sound sound = super.getSoundAtCurrentPosition();
+            moveToLocation(sound.getSource());
         } else {
             super.explore();
         }
-        super.update();
+
+        super.move();
     }
 
-    public boolean seesIntruder() {
+    private boolean seesIntruder() {
         return getVisibleIntruder() != null;
     }
 
@@ -45,5 +52,4 @@ public class Guard extends Agent {
 
         return null;
     }
-
 }

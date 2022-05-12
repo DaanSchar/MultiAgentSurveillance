@@ -19,9 +19,11 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.ISpawnModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
+import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.util.Distribution;
 
 import java.util.*;
 
@@ -75,14 +77,13 @@ public class Agent {
         updateMemory();
     }
 
-    public void update() {
+    public void move() {
         Tile facingTile = getFacingTile();
 
         if (!facingTile.isOpened()) {
             toggleDoor();
             breakWindow();
         }
-        updateInternals();
     }
 
     public void updateInternals() {
@@ -207,16 +208,52 @@ public class Agent {
         }
     }
 
-    protected Position estimatePositionOfSource() {
-        return listeningModule.guessPositionOfSource(position);
+    protected Sound getSoundAtCurrentPosition() {
+        List<Sound> sounds = getMemoryModule().getCurrentSounds();
+
+        for (Sound sound : sounds) {
+            if (!sound.getSource().equals(getPosition())) {
+                return sound;
+            }
+        }
+
+        return null;
+    }
+
+    public Position guessPositionOfSource(Sound sound) {
+        Position sourceOfSound = sound.getSource();
+
+        if (sourceOfSound == null) {
+            return null;
+        }
+
+        return sourceOfSound.add(getGuessOffset());
+    }
+
+    private Position getGuessOffset() {
+        double mean = 0;
+        double stdDev = 5.0;
+        int guessX = (int) Distribution.normal(mean, stdDev);
+        int guessY = (int) Distribution.normal(mean, stdDev);
+
+        return new Position(guessX, guessY);
     }
 
     public boolean hearSoundAtCurrentPosition() {
-        return listeningModule.getSound(getPosition());
+        List<Sound> sounds = memoryModule.getCurrentSounds();
+
+        // check if source is not itself
+        for (Sound sound : sounds) {
+            if (!sound.getSource().equals(getPosition())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private Tile getFacingTile() {
-        Position facingPosition = getPosition().getPosInDirection(getDirection());
+        Position facingPosition = movement.getForwardPosition(getPosition(), getDirection());
         return memoryModule.getMap().getAt(facingPosition);
     }
 
