@@ -9,4 +9,7 @@ public interface IListeningModule {
     boolean getSound(Position position);
 
     List<Direction> getDirection(Position position);
+
+    Position guessPositionOfSource(Position currentPosition); // Generates a guess for where the sound came from
+
 }
