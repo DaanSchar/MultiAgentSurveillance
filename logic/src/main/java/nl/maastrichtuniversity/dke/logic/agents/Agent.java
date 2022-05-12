@@ -84,6 +84,8 @@ public class Agent {
         listen();
         view();
         updateMemory();
+        toggleDoor();
+        breakWindow();
     }
 
     public void explore() {
@@ -164,8 +166,7 @@ public class Agent {
     private void moveForward() {
         position = movement.goForward(position, direction);
         noiseModule.makeWalkingSound(position);
-        toggleDoor();
-        breakWindow();
+
     }
 
     private void sprintForward() {
