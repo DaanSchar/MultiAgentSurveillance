@@ -19,4 +19,7 @@ public class Distribution {
         return -Math.log(uniform()) / lambda;
     }
 
+    private Distribution() {
+    }
+
 }
