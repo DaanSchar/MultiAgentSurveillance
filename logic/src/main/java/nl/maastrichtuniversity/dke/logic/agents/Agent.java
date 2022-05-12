@@ -26,6 +26,7 @@ import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import nl.maastrichtuniversity.dke.util.Distribution;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Slf4j
@@ -213,16 +214,12 @@ public class Agent {
         }
     }
 
-    protected Sound getSoundAtCurrentPosition() {
+    protected List<Sound> getSoundsAtCurrentPosition() {
         List<Sound> sounds = getMemoryModule().getCurrentSounds();
 
-        for (Sound sound : sounds) {
-            if (!sound.getSource().equals(getPosition())) {
-                return sound;
-            }
-        }
-
-        return null;
+        return sounds.stream().filter(sound ->
+                !sound.getSource().equals(getPosition())
+        ).collect(Collectors.toList());
     }
 
     public Position guessPositionOfSource(Sound sound) {

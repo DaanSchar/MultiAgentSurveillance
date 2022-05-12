@@ -82,13 +82,12 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         if (sounds.size() < 1) {
             return new ArrayList<>();
         }
+
         return sounds.get(sounds.size() - 1);
     }
 
     private void updateSound(IListeningModule listeningModule) {
-        if (listeningModule.getSound(position)) {
-            sounds.add(listeningModule.getSounds(position));
-        }
+        sounds.add(listeningModule.getSounds(position));
     }
 
     private void updateSmell(ISmellModule smellModule) {
@@ -121,10 +120,5 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
             }
         }
     }
-
-    public List<Tile> getVisitedNodes() {
-        return getMap().stream().filter(x -> ((MemoryTile) x).isVisited()).collect(Collectors.toList());
-    }
-
 
 }

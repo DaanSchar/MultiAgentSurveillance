@@ -32,11 +32,6 @@ public class Intruder extends Agent {
 
     }
 
-    @Override
-    public void update() {
-        if (this.isCaught) {
-            return;
-        }
 
     public void move() {
         if (seesGuard()) {
@@ -72,8 +67,6 @@ public class Intruder extends Agent {
     private void avoidGuards() {
         /* run away from the seen guard */
         List<Guard> visibleGuards = getVisibleGuards();
-        Position toGuard = getPathFinderModule().getShortestPath(getPosition(),
-                visibleGuards.get(0).getPosition()).get(0);
         Position avoid;
         Position toGuard = getPathFinderModule().getShortestPath(getPosition(), visibleGuards.get(0).getPosition()).get(0);
 

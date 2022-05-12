@@ -21,13 +21,16 @@ public class Guard extends Agent {
 
     @Override
     public void move() {
-        if (seesIntruder()) {
-            chasing();
-        } else if (hearSoundAtCurrentPosition()) {
-            Sound sound = super.getSoundAtCurrentPosition();
-            moveToLocation(sound.getSource());
+//        if (seesIntruder()) {
+//            chasing();
+        if (hearSoundAtCurrentPosition()) {
+            List<Sound> sounds = super.getSoundsAtCurrentPosition();
+            if (sounds.size() > 0) {
+                Sound sound = sounds.get(0);
+                moveToLocation(sound.getSource());
+            }
         } else {
-            super.explore();
+//            super.explore();
         }
 
         super.move();
