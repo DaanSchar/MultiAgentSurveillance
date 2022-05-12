@@ -57,7 +57,7 @@ public class AudioTest {
      */
     @Test
     public void testNoiseGeneration1(){
-        NoiseModule noiseModule = new NoiseModule(s,2,3);
+        NoiseModule noiseModule = new NoiseModule(s,2,3,0);
         Position agentPosition = new Position(0,0);
         noiseModule.makeWalkingSound(agentPosition);
         List<Sound> soundMap = s.getSoundMap();
@@ -71,7 +71,7 @@ public class AudioTest {
 
     @Test
     public void testNoiseGeneration2(){
-        NoiseModule noiseModule = new NoiseModule(s,2,3);
+        NoiseModule noiseModule = new NoiseModule(s,2,3,0);
         Position agentPosition = new Position(2,3);
         noiseModule.makeWalkingSound(agentPosition);
         List<Sound> soundMap = s.getSoundMap();
@@ -85,7 +85,7 @@ public class AudioTest {
 
     @Test
     public void listeningModuleTest(){
-        NoiseModule noiseModule = new NoiseModule(s,2,3);
+        NoiseModule noiseModule = new NoiseModule(s,2,3,0);
         ListeningModule listeningModule = new ListeningModule(s);
         Position sourceSound = new Position(0,0);
         noiseModule.makeWalkingSound(sourceSound);
@@ -114,7 +114,7 @@ public class AudioTest {
      */
     @Test
     public void directionSoundTest1(){
-        NoiseModule noiseModule = new NoiseModule(s,2,3);
+        NoiseModule noiseModule = new NoiseModule(s,2,3,0);
         ListeningModule listeningModule = new ListeningModule(s);
         Position sourceSound = new Position(2,2);
         noiseModule.makeWalkingSound(sourceSound);
@@ -131,7 +131,7 @@ public class AudioTest {
 
     @Test
     public void directionSoundTest2(){
-        NoiseModule noiseModule = new NoiseModule(s,5,3);
+        NoiseModule noiseModule = new NoiseModule(s,5,3,0);
         ListeningModule listeningModule = new ListeningModule(s);
         Position sourceSound = new Position(2,2);
         noiseModule.makeWalkingSound(sourceSound);
@@ -139,7 +139,7 @@ public class AudioTest {
         List<Direction> directions = listeningModule.getDirection(new Position(0,3));
         assert (directions.get(0).equals(Direction.NORTHEAST));
         directions = listeningModule.getDirection(new Position(0,1));
-        assert (directions.get(0).equals(Direction.SOUTHEAST));;
+        assert (directions.get(0).equals(Direction.SOUTHEAST));
         directions = listeningModule.getDirection(new Position(4,0));
         assert (directions.get(0).equals(Direction.SOUTHWEST));
         directions = listeningModule.getDirection(new Position(4,3));
