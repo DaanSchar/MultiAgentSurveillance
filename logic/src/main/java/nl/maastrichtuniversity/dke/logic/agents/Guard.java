@@ -2,6 +2,7 @@ package nl.maastrichtuniversity.dke.logic.agents;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.SoundType;
 import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public class Guard extends Agent {
         Intruder intruder = getVisibleIntruder();
 
         if (intruder != null) {
-            getNoiseModule().yell(getPosition());
+            getNoiseModule().makeSound(getPosition(), SoundType.YELL);
             moveToLocation(intruder.getPosition());
         }
     }

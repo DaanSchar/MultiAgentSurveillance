@@ -12,6 +12,7 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.exploration.IExploration
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.memory.IMemoryModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovementModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.SoundType;
 import nl.maastrichtuniversity.dke.logic.agents.modules.pathfind.PathFinderModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.INoiseModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.smell.ISmellModule;
@@ -114,7 +115,7 @@ public class Agent {
 
         if (facingTile.getType() == TileType.DOOR) {
             interactionModule.toggleDoor(facingTile.getPosition());
-            noiseModule.makeInteractionNoise(facingTile.getPosition());
+            noiseModule.makeSound(facingTile.getPosition(), SoundType.TOGGLE_DOOR);
         }
     }
 
@@ -125,7 +126,7 @@ public class Agent {
             boolean brokeWindow = interactionModule.breakWindow(facingTile.getPosition());
 
             if (brokeWindow) {
-                noiseModule.makeInteractionNoise(facingTile.getPosition());
+                noiseModule.makeSound(facingTile.getPosition(), SoundType.BREAK_WINDOW);
             }
         }
 
@@ -160,13 +161,12 @@ public class Agent {
 
     private void moveForward() {
         position = movement.goForward(position, direction);
-        noiseModule.makeWalkingSound(position);
-
+        noiseModule.makeSound(position, SoundType.WALK);
     }
 
     private void sprintForward() {
         position = movement.sprint(position, direction);
-        noiseModule.makeSprintingSound(position);
+        noiseModule.makeSound(position, SoundType.SPRINT);
     }
 
     protected List<Direction> getDirectionsOfSounds() {

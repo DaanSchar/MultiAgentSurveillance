@@ -7,12 +7,31 @@ import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 import java.util.List;
 
 public interface IListeningModule {
-    boolean getSound(Position position);
 
+    /**
+     * Returns all sounds hear-able at the given position.
+     *
+     * @param position The position to check.
+     * @return A list of sounds.
+     */
     List<Sound> getSounds(Position position);
 
+    /**
+     * @param position the position in which the agent is right now
+     * @return a boolean representing whether there is a sound in that position
+     */
+    @Deprecated
+    boolean getSound(Position position);
+
+    /**
+     * @param position the position in which the agent is right now
+     * @return a list of directions, the direction is where the sound is coming from (the sound source),
+     * there can be more than one sound in the agents position
+     */
+    @Deprecated
     List<Direction> getDirection(Position position);
 
+    @Deprecated
     Position guessPositionOfSource(Position currentPosition); // Generates a guess for where the sound came from
 
 }

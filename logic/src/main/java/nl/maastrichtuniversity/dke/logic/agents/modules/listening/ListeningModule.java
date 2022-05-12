@@ -14,17 +14,14 @@ import java.util.List;
 
 @Slf4j
 public class ListeningModule extends AgentModule implements IListeningModule {
+
     private final Environment environment;
 
     public ListeningModule(Scenario scenario) {
         super(scenario);
-        environment = scenario.getEnvironment();
+        this.environment = scenario.getEnvironment();
     }
 
-    /**
-     * @param position the position in which the agent is right now
-     * @return a boolean representing whether there is a sound in that position
-     */
     @Override
     public boolean getSound(Position position) {
         List<Sound> soundMap = scenario.getSoundMap();
@@ -36,12 +33,12 @@ public class ListeningModule extends AgentModule implements IListeningModule {
         return false;
     }
 
-    public List<Sound> getSounds(Position position) {
+    public List<Sound> getSounds(Position currentPosition) {
         List<Sound> soundMap = scenario.getSoundMap();
         List<Sound> sounds = new ArrayList<>();
 
         for (Sound sound : soundMap) {
-            if (sound.getPosition().equals(position)) {
+            if (sound.getPosition().equals(currentPosition)) {
                 sounds.add(sound);
             }
         }
@@ -49,11 +46,6 @@ public class ListeningModule extends AgentModule implements IListeningModule {
         return sounds;
     }
 
-    /**
-     * @param position the position in which the agent is right now
-     * @return a list of directions, the direction is where the sound is coming from (the sound source),
-     * there can be more than one sound in the agents position
-     */
     @Override
     public List<Direction> getDirection(Position position) {
         List<Sound> soundMap = scenario.getSoundMap();
@@ -74,8 +66,7 @@ public class ListeningModule extends AgentModule implements IListeningModule {
             return null;
         }
 
-        Position guess = sourceOfSound.add(getGuessOffset());
-        return guess;
+        return sourceOfSound.add(getGuessOffset());
     }
 
     private Position getGuessOffset() {

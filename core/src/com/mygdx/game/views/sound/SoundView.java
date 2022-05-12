@@ -11,28 +11,28 @@ import java.util.List;
 
 public class SoundView {
 
-    private final List<Sound> sounds;
     private final Color color;
-    private Scenario scenario;
+    private final Scenario scenario;
 
     public SoundView(Scenario scenario) {
-        this.sounds = scenario.getSoundMap();
         this.scenario = scenario;
-        color = new Color(0, 0.1f, 0.1f, 0.5f);
+        this.color = new Color(0, 0.1f, 0.1f, 0.5f);
     }
 
     public void draw(ShapeRenderer batch, float parentAlpha) {
-//        sounds.forEach(sound -> {
-//            Position position = sound.getPosition();
-//            batch.rect(
-//                    position.getX(),
-//                    position.getY(),
-//                    TextureRepository.TILE_WIDTH,
-//                    TextureRepository.TILE_HEIGHT,
-//                    color, color, color, color
-//            );
-//        });
-        drawFromMemory(batch, parentAlpha);
+        List<Sound> sounds = scenario.getSoundMap();
+
+        sounds.forEach(sound -> {
+            Position position = sound.getPosition();
+            batch.rect(
+                    position.getX(),
+                    position.getY(),
+                    TextureRepository.TILE_WIDTH,
+                    TextureRepository.TILE_HEIGHT,
+                    color, color, color, color
+            );
+        });
+//        drawFromMemory(batch, parentAlpha);
     }
 
     private void drawFromMemory(ShapeRenderer batch, float parentAlpha) {

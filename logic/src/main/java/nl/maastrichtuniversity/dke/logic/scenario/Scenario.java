@@ -24,7 +24,7 @@ public class Scenario {
     private Fleet<Guard> guards;
     private Fleet<Intruder> intruders;
     private List<Smell> smellMap;
-    private List<Sound> soundMap;
+    private List<List<Sound>> soundMap;
     private List<CommunicationMark> communicationMarks;
 
     private int currentTimeStep;
@@ -34,11 +34,11 @@ public class Scenario {
         this.gameMode = gameMode;
         this.timeStep = timeStep;
         this.scaling = scaling;
-        this.soundMap = new ArrayList<>();
         this.smellMap = new ArrayList<>();
         this.communicationMarks = new ArrayList<>();
         this.environment = environment;
         this.currentTimeStep = 0;
+        this.soundMap = new ArrayList<>();
     }
 
     public void incrementTimeStep() {
@@ -47,6 +47,18 @@ public class Scenario {
 
     public double getCurrentTime() {
         return currentTimeStep * timeStep;
+    }
+
+    public List<Sound> getSoundMap() {
+        if (soundMap.size() < 1) {
+            return new ArrayList<>();
+        }
+
+        return soundMap.get(soundMap.size() - 1);
+    }
+
+    public void addSounds(List<Sound> sound) {
+        soundMap.add(sound);
     }
 
 }
