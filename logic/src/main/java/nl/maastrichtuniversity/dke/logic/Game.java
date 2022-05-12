@@ -10,6 +10,8 @@ import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.util.MapParser;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 public class Game {
@@ -62,7 +64,18 @@ public class Game {
 
     private void updateIntruders() {
         Fleet<Intruder> intruders = scenario.getIntruders();
-        intruders.forEach(Intruder::update);
+        if(intruders.isEmpty()){
+            return;
+        }else{
+            List<Integer> indices = new ArrayList<>();
+            for(int i =0; i < intruders.size();i++){
+                if(intruders.get(i).isCaught()){
+                    indices.add(i);
+                }
+            }
+            intruders.removeAll(indices);
+            intruders.forEach(Intruder::update);
+        }
     }
 
     private void updateGuards() {
