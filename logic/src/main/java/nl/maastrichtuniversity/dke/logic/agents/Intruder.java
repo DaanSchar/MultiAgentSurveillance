@@ -50,7 +50,8 @@ public class Intruder extends Agent {
     private void avoidGuards() {
         /* run away from the seen guard */
         List<Guard> visibleGuards = getVisibleGuards();
-        Position toGuard = this.getPathFinderModule().getShortestPath(getPosition(), visibleGuards.get(0).getPosition()).get(0);
+        Position toGuard = this.getPathFinderModule().getShortestPath(getPosition(),
+                visibleGuards.get(0).getPosition()).get(0);
         Position avoid = getPosition();
 
         if (toGuard.getX() != getPosition().getX()) {
