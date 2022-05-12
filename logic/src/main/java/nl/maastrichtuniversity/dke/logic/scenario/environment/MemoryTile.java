@@ -10,6 +10,8 @@ public class MemoryTile extends Tile {
 
     private boolean visited;
     private boolean explored;
+    private boolean isOpened;
+    private boolean isBroken;
 
     public MemoryTile(Position position) {
         super(position);
@@ -23,12 +25,37 @@ public class MemoryTile extends Tile {
         super(tile.getPosition(), tile.getType());
     }
 
+    public MemoryTile(DoorTile tile) {
+        super(tile.getPosition(), tile.getType());
+        this.isOpened = tile.isOpened();
+    }
+
+    private MemoryTile(WindowTile tile) {
+        super(tile.getPosition(), tile.getType());
+        this.isBroken = tile.isBroken();
+    }
+
     @Override
     public boolean isPassable() {
-        return super.isPassable() && !isVisited();
+        return super.isPassable() && !isVisited() && isPassableIfDoor() && isPassableIfWindow();
     }
 
     public boolean isPassable(boolean ignoreVisited) {
-        return super.isPassable();
+        return super.isPassable() && isPassableIfDoor() && isPassableIfWindow();
+    }
+
+    private boolean isPassableIfDoor() {
+        if (getType() == TileType.DOOR) {
+            return isOpened();
+        }
+
+        return true;
+    }
+    private boolean isPassableIfWindow() {
+        if (getType() == TileType.WINDOW) {
+            return !isBroken();
+        }
+
+        return true;
     }
 }
