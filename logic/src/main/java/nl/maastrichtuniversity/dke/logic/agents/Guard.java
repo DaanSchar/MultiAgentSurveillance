@@ -16,14 +16,13 @@ public class Guard extends Agent {
     public void update() {
         if (seesIntruder()) {
             chasing();
+        } else {
+            super.explore();
         }
-        super.explore();
         super.update();
     }
 
     public boolean seesIntruder() {
-        List<Agent> visibleAgents = getVisibleAgents();
-
         return getVisibleIntruder() != null;
     }
 
@@ -33,7 +32,6 @@ public class Guard extends Agent {
         if (intruder != null) {
             goToLocation(intruder.getPosition());
         }
-
     }
 
     private Intruder getVisibleIntruder() {
