@@ -19,7 +19,6 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.ISpawnModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
-import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
@@ -185,6 +184,14 @@ public class Agent {
         } else {
             rotate(MoveAction.ROTATE_RIGHT);
         }
+    }
+
+    protected Position estimatePositionOfSource() {
+        return listeningModule.guessPositionOfSource(position);
+    }
+
+    public boolean hearSoundAtCurrentPosition() {
+        return listeningModule.getSound(getPosition());
     }
 
     private Tile getFacingTile() {

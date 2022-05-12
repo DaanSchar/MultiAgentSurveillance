@@ -113,7 +113,7 @@ public final class TextureRepository {
 
         //others
         textures.put("door", new Texture("texture/door.png"));
-        textures.put("openeddoor", new Texture("texture/opendedoor.png"));
+        textures.put("openeddoor", new Texture("texture/openddoor.png"));
         textures.put("window", new Texture("texture/window.png"));
         textures.put("brokenWindow", new Texture("texture/window2.png"));
 

@@ -1,15 +1,18 @@
 package nl.maastrichtuniversity.dke.logic.agents.modules.listening;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.util.Distribution;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class ListeningModule extends AgentModule implements IListeningModule {
     private final Environment environment;
 
@@ -51,6 +54,28 @@ public class ListeningModule extends AgentModule implements IListeningModule {
         return soundSource;
     }
 
+    public Position guessPositionOfSource(Position currentPosition) {
+        Position sourceOfSound = getSource(currentPosition);
+
+        if (sourceOfSound == null) {
+            return null;
+        }
+
+        Position guess = sourceOfSound.add(getGuessOffset());
+        log.info("Guessed position of source: " + guess);
+        log.info("Actual position of source: " + sourceOfSound);
+        return guess;
+    }
+
+    private Position getGuessOffset() {
+        double mean = 0;
+        double stdDev = 5.0;
+        int guessX = (int) Distribution.normal(mean, stdDev);
+        int guessY = (int) Distribution.normal(mean, stdDev);
+
+        return new Position(guessX, guessY);
+    }
+
     /**
      * Given the source sound and the actual position of the agent,
      * compute the direction of the source relative to the agent
@@ -80,7 +105,13 @@ public class ListeningModule extends AgentModule implements IListeningModule {
         } else return null;
     }
 
-    public int getRandomNumber(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
+    private Position getSource(Position position) {
+        List<Sound> soundMap = scenario.getSoundMap();
+        for (Sound sound : soundMap) {
+            if (sound.getPosition().equals(position)) {
+                return sound.getSource();
+            }
+        }
+        return null;
     }
 }
