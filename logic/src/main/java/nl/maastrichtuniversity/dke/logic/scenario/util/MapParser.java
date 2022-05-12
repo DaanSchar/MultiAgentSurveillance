@@ -36,11 +36,12 @@ public class MapParser {
     public MapParser() {
         scenarioFactory = new ScenarioFactory();
         agentFactory = new AgentFactory();
+
     }
 
     public Scenario createScenario() {
         envBuilder = new EnvironmentFactory();
-        randomMapGenerator = new RandomMapGenerator();
+        //randomMapGenerator = new RandomMapGenerator();
 
         setDefaultValues();
 
@@ -48,7 +49,7 @@ public class MapParser {
             createFieldFromLine(scanner.nextLine());
         }
 
-        scenarioFactory.setEnvironment(randomMapGenerator.build());
+        scenarioFactory.setEnvironment(envBuilder.build());
         return scenarioFactory.build(agentFactory);
     }
 
@@ -93,9 +94,9 @@ public class MapParser {
             case "teleport" -> addTeleport(value);
             case "shaded" -> addArea(values, TileType.SHADED);
             case "texture" -> log("Texture not implemented yet");
-            case "window" -> addArea(values, TileType.WINDOW);
-            case "door" -> addArea(values, TileType.DOOR);
-            case "sentrytower" -> addArea(values, TileType.SENTRY);
+            case "window" -> addTile(values, TileType.WINDOW);
+            case "door" -> addTile(values, TileType.DOOR);
+            case "sentrytower" -> addTile(values, TileType.SENTRY);
             case "distanceViewing" -> agentFactory.setViewingDistance(Integer.parseInt(value));
             case "distanceHearingWalking" -> agentFactory.setHearingDistanceWalking(Integer.parseInt(value));
             case "distanceHearingSprinting" -> agentFactory.setHearingDistanceSprinting(Integer.parseInt(value));
@@ -131,6 +132,15 @@ public class MapParser {
                 Integer.parseInt(values[1]),
                 Integer.parseInt(values[2]),
                 Integer.parseInt(values[3]),
+                type
+        );
+
+    }
+
+    private void addTile(String[] values, TileType type) {
+        envBuilder.addTile(
+                Integer.parseInt(values[0]),
+                Integer.parseInt(values[1]),
                 type
         );
 

@@ -83,4 +83,27 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
         }
         return count;
     }
+
+    @Override
+    public boolean tileHasMark(Position position, CommunicationType type) {
+        for (CommunicationMark i : scenario.getCommunicationMarks()) {
+            if (i.getPosition().equals(position)) {
+                if (i.getType().equals(type)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Position getMark(CommunicationType type) {
+        for (CommunicationMark i : scenario.getCommunicationMarks()) {
+            if (i.getType().equals(type)) {
+                return i.getPosition();
+            }
+        }
+        return null;
+    }
+
 }

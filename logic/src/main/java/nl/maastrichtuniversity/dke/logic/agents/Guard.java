@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.logic.agents;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
@@ -10,6 +11,9 @@ import java.util.List;
 
 @Slf4j
 public class Guard extends Agent {
+
+    @Getter
+    private final int catchDistance = 1;
 
     public Guard() {
         super();
@@ -37,6 +41,7 @@ public class Guard extends Agent {
         Intruder intruder = getVisibleIntruder();
 
         if (intruder != null) {
+            getNoiseModule().yell(getPosition());
             moveToLocation(intruder.getPosition());
         }
     }
@@ -52,4 +57,18 @@ public class Guard extends Agent {
 
         return null;
     }
+
+    public void catching() {
+        Intruder intruder = getVisibleIntruder();
+        if (intruder == null) {
+            return;
+        }
+
+        if (this.getPosition().distance(intruder.getPosition()) <= catchDistance) {
+            intruder.setCaught(true);
+        }
+    }
+
+
+
 }
