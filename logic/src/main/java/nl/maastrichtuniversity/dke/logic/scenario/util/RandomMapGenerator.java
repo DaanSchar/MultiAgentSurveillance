@@ -1,24 +1,20 @@
 package nl.maastrichtuniversity.dke.logic.scenario.util;
 
-import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.TeleportTile;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.*;
 
 import java.util.Random;
 
 public class RandomMapGenerator {
-    private final int width = 120;
-    private final int height = 80;
+    private final int width = 120 / 2;
+    private final int height = 80 / 2;
     private Tile[][] tileMap;
-    private static final int EIGHTEEN = 18;
-    private static final int EIGHT = 8;
+    private static final int EIGHTEEN = 18 / 2;
+    private static final int EIGHT = 8 / 2;
     private static final int THREE = 3;
-    private static final int TEN = 10;
-    private static final int TWEN = 20;
-    private static final int FIFTY = 50;
-    private static final int SIX = 6;
-    private static final int FOURTEEN = 14;
+    private static final int TEN = 10 / 2;
+    private static final int TWEN = 20 / 2;
+    private static final int FIFTY = 50 / 2;
+    private static final int FOURTEEN = 14 / 2;
     private static final int ONE = 1;
     private static final int FIVE = 5;
 
@@ -37,7 +33,7 @@ public class RandomMapGenerator {
         createrArea(ONE, ONE, TileType.SENTRY); //SENTRY
         createBigHouse(EIGHTEEN, EIGHTEEN); //BIG HOUSE
         createBigHouse(FOURTEEN, FOURTEEN); //BIG HOUSE
-        createSmallHouse(SIX, SIX); //SMALL HOUSE
+        createSmallHouse(EIGHT, EIGHT); //SMALL HOUSE
         createSmallHouse(EIGHT, EIGHT); //SMALL HOUSE
         createrArea(ONE, TWEN, TileType.WALL); //r WALL
         createrArea(TWEN, ONE, TileType.WALL); //r WALL
@@ -165,8 +161,8 @@ public class RandomMapGenerator {
     }
 
     private void createDoor(int x, int y) {
-        tileMap[x][y] = new Tile(new Position(x, y), TileType.DOOR);
-        tileMap[x - 1][y] = new Tile(new Position(x - 1, y), TileType.DOOR);
+        tileMap[x][y] = new DoorTile(new Position(x, y));
+        tileMap[x - 1][y] = new DoorTile(new Position(x - 1, y));
     }
 
     private void createWindow(int x1, int y1, int x2, int y2) {
@@ -174,10 +170,10 @@ public class RandomMapGenerator {
         int window2y = y1 + TEN;
         x2 = x2 - 1;
 
-        tileMap[x1][window1y] = new Tile(new Position(x1, window1y), TileType.WINDOW);
-        tileMap[x1][window2y] = new Tile(new Position(x1, window2y), TileType.WINDOW);
-        tileMap[x2][window1y] = new Tile(new Position(x2, window1y), TileType.WINDOW);
-        tileMap[x2][window2y] = new Tile(new Position(x2, window2y), TileType.WINDOW);
+        tileMap[x1][window1y] = new WindowTile(new Position(x1, window1y));
+        tileMap[x1][window2y] = new WindowTile(new Position(x1, window2y));
+        tileMap[x2][window1y] = new WindowTile(new Position(x2, window1y));
+        tileMap[x2][window2y] = new WindowTile(new Position(x2, window2y));
 
     }
 
