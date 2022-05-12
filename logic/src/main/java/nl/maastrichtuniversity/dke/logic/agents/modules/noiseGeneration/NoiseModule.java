@@ -13,7 +13,8 @@ public class NoiseModule extends AgentModule implements INoiseModule {
     private final double hearingDistanceInteraction;
     private final Environment environment;
 
-    public NoiseModule(Scenario scenario, double hearingDistanceWalking, double hearingDistanceSprinting, double hearingDistanceInteraction) {
+    public NoiseModule(Scenario scenario, double hearingDistanceWalking, double hearingDistanceSprinting,
+                       double hearingDistanceInteraction) {
         super(scenario);
         this.hearingDistanceSprinting = hearingDistanceSprinting;
         this.hearingDistanceWalking = hearingDistanceWalking;
@@ -49,7 +50,7 @@ public class NoiseModule extends AgentModule implements INoiseModule {
     }
 
     @Override
-    public void Yell(Position position) {
+    public void yell(Position position) {
         Tile[][] tileMap = scenario.getEnvironment().getTileMap();
         for (Tile[] tiles : tileMap) {
             for (Tile tile : tiles) {

@@ -7,7 +7,7 @@ public interface INoiseModule {
 
     void makeSprintingSound(Position position); // Generates sprinting sound
 
-    void Yell(Position position); // Generates yelling sound
+    void yell(Position position); // Generates yelling sound
 
     void makeInteractionNoise(Position position); // Generates breaking window / toggle door sound
 
