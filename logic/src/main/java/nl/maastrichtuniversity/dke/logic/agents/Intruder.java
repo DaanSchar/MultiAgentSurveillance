@@ -9,6 +9,7 @@ import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,24 +74,25 @@ public class Intruder extends Agent {
         List<Guard> visibleGuards = getVisibleGuards();
         Position toGuard = getPathFinderModule().getShortestPath(getPosition(),
                 visibleGuards.get(0).getPosition()).get(0);
-
+        Position avoid;
         if (toGuard.getX() != getPosition().getX()) {
             if (toGuard.getX() < getPosition().getX()) {
-                Position avoid = new Position(getPosition().getX() + 1, getPosition().getY());
-                moveToLocation(avoid);
+               avoid  = new Position(getPosition().getX() + 1, getPosition().getY());
             } else {
-                Position avoid = new Position(getPosition().getX() - 1, getPosition().getY());
-                moveToLocation(avoid);
+                avoid = new Position(getPosition().getX() - 1, getPosition().getY());
             }
         } else {
             if (toGuard.getY() < getPosition().getY()) {
-                Position avoid = new Position(getPosition().getX(), getPosition().getY() + 1);
-                moveToLocation(avoid);
+                avoid = new Position(getPosition().getX(), getPosition().getY() + 1);
             } else {
-                Position avoid = new Position(getPosition().getX(), getPosition().getY() - 1);
-                moveToLocation(avoid);
+                avoid = new Position(getPosition().getX(), getPosition().getY() - 1);
             }
         }
+        List<Position> q = new ArrayList<>();
+        q.add(avoid);
+        setQueue(q);
+        moveToLocation(avoid);
+
     }
 
     private boolean seesGuard() {

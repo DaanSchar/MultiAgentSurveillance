@@ -37,9 +37,10 @@ public class Agent {
     Position position;
     private @Setter
     Direction direction;
-    private Position nextDestination;
     private @Setter
     Position goalPosition;
+    private @Setter
+    List<Position> queue = new ArrayList<>();
 
     private @Setter
     ISpawnModule spawnModule;
@@ -63,6 +64,7 @@ public class Agent {
     InteractionModule interactionModule;
     private @Setter
     PathFinderModule pathFinderModule;
+
 
     public Agent() {
         this.id = agentCount++;
@@ -108,13 +110,15 @@ public class Agent {
     }
 
     public void moveToLocation(Position target) {
-        List<Position> pathToTarget = pathFinderModule.getShortestPath(getPosition(), target);
+        if (queue.isEmpty()) {
+            List<Position> pathToTarget = pathFinderModule.getShortestPath(getPosition(), target);
 
-        if (pathToTarget.size() > 1) {
-            this.nextDestination = pathToTarget.get(1);
+            if (pathToTarget.size() > 1) {
+                queue.add(pathToTarget.get(1));
+            }
         }
-
         moveToNextDestination();
+
     }
 
     public void toggleDoor() {
@@ -185,14 +189,15 @@ public class Agent {
         return this.getVisionModule().getVisibleAgents();
     }
 
-    private void moveToNextDestination() {
-        if (nextDestination != null) {
-            if (getPosition().equals(nextDestination)) {
-                nextDestination = null;
+    protected void moveToNextDestination() {
+        if (!queue.isEmpty()) {
+            if (getPosition().equals(queue.get(0))) {
+                queue.remove(0);
             } else {
-                moveToTile(nextDestination);
+                moveToTile(queue.get(0));
             }
         }
+
     }
 
     protected void moveToTile(Position position) {
