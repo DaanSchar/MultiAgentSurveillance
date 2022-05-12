@@ -3,10 +3,12 @@ package nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 public interface INoiseModule {
-    void makeWalkingSound(Position position); //generates walking sound
+    void makeWalkingSound(Position position); // Generates walking sound
 
-    void makeSprintingSound(Position position); //generates sprinting sound
+    void makeSprintingSound(Position position); // Generates sprinting sound
 
-    void Yell(Position position); //generates yelling sound
+    void Yell(Position position); // Generates yelling sound
+
+    void makeInteractionNoise(Position position); // Generates breaking window / toggle door sound
 
 }

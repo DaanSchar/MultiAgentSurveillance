@@ -19,6 +19,7 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.ISpawnModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
+import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
@@ -103,6 +104,7 @@ public class Agent {
         if (facingTile.getType() == TileType.DOOR) {
             interactionModule.toggleDoor(facingTile.getPosition());
             // TODO: make door opening noises
+            noiseModule.makeInteractionNoise(facingTile.getPosition());
         }
     }
 
@@ -114,6 +116,7 @@ public class Agent {
 
             if (brokeWindow) {
                 // TODO: make window breaking noises
+                noiseModule.makeInteractionNoise(facingTile.getPosition());
             }
         }
 

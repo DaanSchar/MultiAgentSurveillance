@@ -10,12 +10,14 @@ import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 public class NoiseModule extends AgentModule implements INoiseModule {
     private final double hearingDistanceWalking;
     private final double hearingDistanceSprinting;
+    private final double hearingDistanceInteraction;
     private final Environment environment;
 
-    public NoiseModule(Scenario scenario, double hearingDistanceWalking, double hearingDistanceSprinting) {
+    public NoiseModule(Scenario scenario, double hearingDistanceWalking, double hearingDistanceSprinting, double hearingDistanceInteraction) {
         super(scenario);
         this.hearingDistanceSprinting = hearingDistanceSprinting;
         this.hearingDistanceWalking = hearingDistanceWalking;
+        this.hearingDistanceInteraction = hearingDistanceInteraction;
         environment = scenario.getEnvironment();
     }
 
@@ -53,6 +55,19 @@ public class NoiseModule extends AgentModule implements INoiseModule {
             for (Tile tile : tiles) {
                 if (position.distance(tile.getPosition()) <= hearingDistanceSprinting) {
                     Sound sound = new Sound(tile.getPosition(), position, true);
+                    scenario.getSoundMap().add(sound);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void makeInteractionNoise(Position position) {
+        Tile[][] tileMap = scenario.getEnvironment().getTileMap();
+        for (Tile[] tiles : tileMap) {
+            for (Tile tile : tiles) {
+                if (position.distance(tile.getPosition()) <= hearingDistanceInteraction) {
+                    Sound sound = new Sound(tile.getPosition(), position, false);
                     scenario.getSoundMap().add(sound);
                 }
             }

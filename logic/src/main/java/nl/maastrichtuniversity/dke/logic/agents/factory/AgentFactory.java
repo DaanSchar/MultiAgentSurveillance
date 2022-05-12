@@ -40,6 +40,7 @@ public class AgentFactory {
     private int viewingDistance;
     private int hearingDistanceWalking;
     private int hearingDistanceSprinting;
+    private int hearingDistanceInteraction;
     private int smellingDistance;
 
     private int numberOfMarkers;
@@ -95,7 +96,7 @@ public class AgentFactory {
                         agent instanceof Guard ? 0 : sprintSpeedIntruders))
                 .setVisionModule(new VisionModule(scenario, viewingDistance))
                 .setCommunicationModule(new CommunicationModule(scenario, getMarkers()))
-                .setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting))
+                .setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting, hearingDistanceInteraction))
                 .setMemoryModule(new MemoryModule(scenario))
                 .setListeningModule(new ListeningModule(scenario))
                 .setSmellModule(new SmellModule(scenario, smellingDistance))
