@@ -13,7 +13,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class Intruder extends Agent {
 
-    private @Getter @Setter boolean alive;
+    private @Getter
+    @Setter
+    boolean alive;
 
     public Intruder() {
         super();
@@ -47,6 +49,25 @@ public class Intruder extends Agent {
 
     private void avoidGuards() {
         /* run away from the seen guard */
+        List<Guard> visibleGuards = getVisibleGuards();
+        Position toGuard = this.getPathFinderModule().getShortestPath(getPosition(),
+                visibleGuards.get(0).getPosition()).get(0);
+        Position avoid = getPosition();
+
+        if (toGuard.getX() != getPosition().getX()) {
+            if (toGuard.getX() < getPosition().getX()) {
+                avoid.setX(getPosition().getX() + 1);
+            } else {
+                avoid.setX(getPosition().getX() - 1);
+            }
+        } else {
+            if (toGuard.getY() < getPosition().getY()) {
+                avoid.setY(getPosition().getY() + 1);
+            } else {
+                avoid.setY(getPosition().getY() - 1);
+            }
+        }
+        moveToTile(avoid);
     }
 
     private boolean seesGuard() {
