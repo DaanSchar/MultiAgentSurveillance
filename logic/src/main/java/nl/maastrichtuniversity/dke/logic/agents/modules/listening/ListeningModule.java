@@ -81,26 +81,26 @@ public class ListeningModule extends AgentModule implements IListeningModule {
      * compute the direction of the source relative to the agent
      ***/
     public Direction computeDirection(Position position, Position source) {
-        int X1 = position.getX();
-        int Y1 = position.getY();
-        int X2 = source.getX();
-        int Y2 = source.getY();
+        int x1 = position.getX();
+        int y1 = position.getY();
+        int x2 = source.getX();
+        int y2 = source.getY();
 
-        if (X1 < X2 && Y1 < Y2) {
+        if (x1 < x2 && y1 < y2) {
             return Direction.SOUTHEAST;
-        } else if (X1 < X2 && Y1 > Y2) {
+        } else if (x1 < x2 && y1 > y2) {
             return Direction.NORTHEAST;
-        } else if (X1 > X2 && Y1 < Y2) {
+        } else if (x1 > x2 && y1 < y2) {
             return Direction.SOUTHWEST;
-        } else if (X1 > X2 && Y1 > Y2) {
+        } else if (x1 > x2 && y1 > y2) {
             return Direction.NORTHWEST;
-        } else if (X1 == X2 && Y1 < Y2) {
+        } else if (x1 == x2 && y1 < y2) {
             return Direction.SOUTH;
-        } else if (X1 == X2 && Y1 > Y2) {
+        } else if (x1 == x2 && y1 > y2) {
             return Direction.NORTH;
-        } else if (X1 > X2 && Y1 == Y2) {
+        } else if (x1 > x2 && y1 == y2) {
             return Direction.WEST;
-        } else if (X1 < X2 && Y1 == Y2) {
+        } else if (x1 < x2 && y1 == y2) {
             return Direction.EAST;
         } else return null;
     }
