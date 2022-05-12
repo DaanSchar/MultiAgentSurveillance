@@ -17,12 +17,14 @@ public class Intruder extends Agent {
 
     private @Getter
     @Setter
+    boolean isCaught;
     boolean alive;
     private boolean navigatedToBlueMark; // whether the agent has navigated to the mark that another agent dropped
     private boolean droppedBlueMark; // did it drop the mark already
 
     public Intruder() {
         super();
+        this.isCaught = false;
         this.alive = true;
         this.navigatedToBlueMark = false;
         this.droppedBlueMark = false;
@@ -31,6 +33,10 @@ public class Intruder extends Agent {
 
     @Override
     public void update() {
+        if (this.isCaught) {
+            return;
+        }
+
         if (seesGuard()) {
             avoidGuards();
         } else if (seesTarget()) {
