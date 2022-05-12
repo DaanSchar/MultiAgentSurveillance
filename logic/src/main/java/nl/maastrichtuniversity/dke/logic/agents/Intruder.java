@@ -18,8 +18,8 @@ public class Intruder extends Agent {
     private @Getter
     @Setter
     boolean alive;
-    boolean navigatedToBlueMark; // whether the agent has navigated to the mark that another agent dropped
-    boolean droppedBlueMark; // did it drop the mark already
+    private boolean navigatedToBlueMark; // whether the agent has navigated to the mark that another agent dropped
+    private boolean droppedBlueMark; // did it drop the mark already
 
     public Intruder() {
         super();
@@ -146,9 +146,8 @@ public class Intruder extends Agent {
     private boolean isBlueMark(Tile tile) {
         Position position = tile.getPosition();
 
-        if (super.getCommunicationModule().tileHasMark(position, CommunicationType.VISION_BLUE)) {
-            return true;
-        } else return false;
+        return super.getCommunicationModule().tileHasMark(position, CommunicationType.VISION_BLUE);
+
     }
 
     private Position getBlueMark() {
