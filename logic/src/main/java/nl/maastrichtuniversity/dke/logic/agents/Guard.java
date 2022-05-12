@@ -8,6 +8,8 @@ import java.util.List;
 @Slf4j
 public class Guard extends Agent {
 
+    int catchDistance = 1;
+
     public Guard() {
         super();
     }
@@ -16,6 +18,7 @@ public class Guard extends Agent {
     public void update() {
         if (seesIntruder()) {
             chasing();
+            catching();
         } else {
             super.explore();
         }
@@ -45,5 +48,16 @@ public class Guard extends Agent {
 
         return null;
     }
+
+    public void catching() {
+        Intruder intruder = getVisibleIntruder();
+        if(intruder == null) return;
+
+        if (this.getPosition().distance(intruder.getPosition()) <= catchDistance ) {
+            intruder.setCaught(true);
+        }
+    }
+
+
 
 }
