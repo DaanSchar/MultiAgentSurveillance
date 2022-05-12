@@ -19,7 +19,7 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.ISpawnModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
-import nl.maastrichtuniversity.dke.logic.scenario.Sound;
+import nl.maastrichtuniversity.dke.logic.scenario.environment.DoorTile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
@@ -77,6 +77,12 @@ public class Agent {
     }
 
     public void update() {
+        Tile facingTile = getFacingTile();
+
+        if (!facingTile.isOpened()) {
+            toggleDoor();
+            breakWindow();
+        }
         updateInternals();
     }
 
@@ -84,8 +90,7 @@ public class Agent {
         listen();
         view();
         updateMemory();
-        toggleDoor();
-        breakWindow();
+
     }
 
     public void explore() {
