@@ -33,22 +33,36 @@ public class Agent {
     private static int agentCount;
     private final int id;
 
-    private @Setter Position position;
-    private @Setter Direction direction;
+    private @Setter
+    Position position;
+    private @Setter
+    Direction direction;
     private Position nextDestination;
-    private @Setter Position goalPosition;
+    private @Setter
+    Position goalPosition;
 
-    private @Setter ISpawnModule spawnModule;
-    private @Setter IMovementModule movement;
-    private @Setter IVisionModule visionModule;
-    private @Setter ICommunicationModule communicationModule;
-    private @Setter INoiseModule noiseModule;
-    private @Setter IListeningModule listeningModule;
-    private @Setter IMemoryModule memoryModule;
-    private @Setter ISmellModule smellModule;
-    private @Setter IExplorationModule explorationModule;
-    private @Setter InteractionModule interactionModule;
-    private @Setter PathFinderModule pathFinderModule;
+    private @Setter
+    ISpawnModule spawnModule;
+    private @Setter
+    IMovementModule movement;
+    private @Setter
+    IVisionModule visionModule;
+    private @Setter
+    ICommunicationModule communicationModule;
+    private @Setter
+    INoiseModule noiseModule;
+    private @Setter
+    IListeningModule listeningModule;
+    private @Setter
+    IMemoryModule memoryModule;
+    private @Setter
+    ISmellModule smellModule;
+    private @Setter
+    IExplorationModule explorationModule;
+    private @Setter
+    InteractionModule interactionModule;
+    private @Setter
+    PathFinderModule pathFinderModule;
 
     public Agent() {
         this.id = agentCount++;
@@ -62,6 +76,12 @@ public class Agent {
     }
 
     public void update() {
+        Tile facingTile = getFacingTile();
+
+        if (!facingTile.isOpened()) {
+            toggleDoor();
+            breakWindow();
+        }
         updateInternals();
     }
 
@@ -69,6 +89,7 @@ public class Agent {
         listen();
         view();
         updateMemory();
+
     }
 
     public void explore() {
@@ -102,7 +123,7 @@ public class Agent {
 
         if (facingTile.getType() == TileType.DOOR) {
             interactionModule.toggleDoor(facingTile.getPosition());
-            // TODO: make door opening noises
+            noiseModule.makeInteractionNoise(facingTile.getPosition());
         }
     }
 
@@ -113,7 +134,7 @@ public class Agent {
             boolean brokeWindow = interactionModule.breakWindow(facingTile.getPosition());
 
             if (brokeWindow) {
-                // TODO: make window breaking noises
+                noiseModule.makeInteractionNoise(facingTile.getPosition());
             }
         }
 
@@ -149,6 +170,7 @@ public class Agent {
     private void moveForward() {
         position = movement.goForward(position, direction);
         noiseModule.makeWalkingSound(position);
+
     }
 
     private void sprintForward() {
@@ -174,7 +196,7 @@ public class Agent {
         }
     }
 
-    private void moveToTile(Position position) {
+    protected void moveToTile(Position position) {
         Position facingPosition = getFacingTile().getPosition();
 
         if (position.equals(facingPosition)) {
