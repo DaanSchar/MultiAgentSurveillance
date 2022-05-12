@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.GameGUI;
 import com.mygdx.game.views.environment.EnvironmentView;
 import com.mygdx.game.views.communication.CommunicationView;
+import com.mygdx.game.views.message.MessageView;
 import com.mygdx.game.views.pathfind.PathFinderView;
 import com.mygdx.game.views.fleet.FleetView;
 import com.mygdx.game.views.smell.SmellView;
@@ -21,6 +22,7 @@ public class GameComponent extends MovableStage {
     private CommunicationView communicationView;
     private SoundView soundView;
     private SmellView smellView;
+    private MessageView messageView;
 
     private final Game game;
 
@@ -38,6 +40,7 @@ public class GameComponent extends MovableStage {
         this.communicationView = new CommunicationView(scenario);
         Agent agent = scenario.getIntruders().get(0);
         this.pathFinderView = new PathFinderView(agent.getPathFinderModule(), agent);
+        this.messageView = new MessageView();
         this.clear();
         this.addActor(environmentView);
         this.addActor(fleetView);
@@ -81,6 +84,10 @@ public class GameComponent extends MovableStage {
     private void resetGame() {
         game.reset();
         reset(game.getScenario());
+    }
+
+    public void endGameMessage() {
+        messageView.render();
     }
 
     private void toggleMemoryView() {

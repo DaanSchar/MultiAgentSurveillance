@@ -52,8 +52,19 @@ public final class GameGUI extends ApplicationAdapter {
     }
 
     private void update() {
-        game.update();
-        gameComponent.update();
+        if (game.getVictory().checkIntruderVictory()) {
+            // gameComponent.endGameMessage();
+            // game.getVictory().checkGuardVictory() ||
+            if (game.getVictory().checkGuardVictory()) {
+                //System.out.println("END GAME: GUARD WINS");
+            } else {
+                System.out.println("END GAME: INTRUDER WINS");
+            }
+
+        } else {
+            game.update();
+            gameComponent.update();
+        }
     }
 
     private void draw() {

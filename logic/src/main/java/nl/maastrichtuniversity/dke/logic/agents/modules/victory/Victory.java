@@ -1,7 +1,6 @@
 package nl.maastrichtuniversity.dke.logic.agents.modules.victory;
 
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
-import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
@@ -16,17 +15,23 @@ public class Victory implements IVictory {
         this.scenario = scenario;
     }
 
+    //Intruders win when at least one intruder goes into the target area
     public boolean checkIntruderVictory() {
         return checkTargetArea(scenario.getIntruders());
     }
 
+    // Guards win whenever every intruder is caugth
     public boolean checkGuardVictory() {
-        for (Guard guard : scenario.getGuards()) {
-            if (guard.getVisionModule().getVisibleAgents().size() > 1) {
-                return true;
+        boolean victory = false;
+        for (Intruder intruder : scenario.getIntruders()) {
+            if (!intruder.isAlive()) {
+                victory = true;
+            } else {
+                victory = false;
+                break;
             }
         }
-        return false;
+        return victory;
     }
 
     public boolean checkTargetArea(List<Intruder> agents) {
