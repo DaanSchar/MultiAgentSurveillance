@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.logic.agents;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -8,14 +9,20 @@ import java.util.List;
 @Slf4j
 public class Guard extends Agent {
 
+    @Getter
+    private final int catchDistance = 1;
+
     public Guard() {
         super();
     }
 
     @Override
     public void update() {
-        if (seesIntruder()) {
-            chasing();
+        if (getVisibleIntruder() != null) {
+            if (!getVisibleIntruder().isCaught()) {
+                chasing();
+                catching();
+            }
         } else {
             super.explore();
         }
@@ -46,5 +53,18 @@ public class Guard extends Agent {
 
         return null;
     }
+
+    public void catching() {
+        Intruder intruder = getVisibleIntruder();
+        if (intruder == null) {
+            return;
+        }
+
+        if (this.getPosition().distance(intruder.getPosition()) <= catchDistance) {
+            intruder.setCaught(true);
+        }
+    }
+
+
 
 }

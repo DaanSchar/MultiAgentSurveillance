@@ -15,15 +15,19 @@ public class Intruder extends Agent {
 
     private @Getter
     @Setter
-    boolean alive;
+    boolean isCaught;
 
     public Intruder() {
         super();
-        this.alive = true;
+        this.isCaught = false;
     }
 
     @Override
     public void update() {
+        if (this.isCaught) {
+            return;
+        }
+
         if (seesGuard()) {
             avoidGuards();
         } else if (seesTarget()) {
