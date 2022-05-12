@@ -53,26 +53,24 @@ public class Intruder extends Agent {
         List<Guard> visibleGuards = getVisibleGuards();
         Position toGuard = getPathFinderModule().getShortestPath(getPosition(),
                 visibleGuards.get(0).getPosition()).get(0);
-        Position avoid = new Position(0, 0);
-
+        
         if (toGuard.getX() != getPosition().getX()) {
             if (toGuard.getX() < getPosition().getX()) {
-                avoid.setX(getPosition().getX() + 1);
-                avoid.setY(getPosition().getY());
+                Position avoid = new Position(getPosition().getX() + 1, getPosition().getY());
+                moveToLocation(avoid);
             } else {
-                avoid.setX(getPosition().getX() - 1);
-                avoid.setY(getPosition().getY());
+                Position avoid = new Position(getPosition().getX() - 1, getPosition().getY());
+                moveToLocation(avoid);
             }
         } else {
             if (toGuard.getY() < getPosition().getY()) {
-                avoid.setY(getPosition().getY() + 1);
-                avoid.setX(getPosition().getX());
+                Position avoid = new Position(getPosition().getX(), getPosition().getY() + 1);
+                moveToLocation(avoid);
             } else {
-                avoid.setY(getPosition().getY() - 1);
-                avoid.setX(getPosition().getX());
+                Position avoid = new Position(getPosition().getX(), getPosition().getY() - 1);
+                moveToLocation(avoid);
             }
         }
-        moveToLocation(avoid);
     }
 
     private boolean seesGuard() {
