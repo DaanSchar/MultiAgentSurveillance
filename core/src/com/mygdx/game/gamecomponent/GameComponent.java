@@ -3,7 +3,7 @@ package com.mygdx.game.gamecomponent;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.GameGUI;
-import com.mygdx.game.views.BrickAndMortarView;
+import com.mygdx.game.views.brickandmortar.BrickAndMortarView;
 import com.mygdx.game.views.environment.EnvironmentView;
 import com.mygdx.game.views.communication.CommunicationView;
 import com.mygdx.game.views.fleet.FleetView;

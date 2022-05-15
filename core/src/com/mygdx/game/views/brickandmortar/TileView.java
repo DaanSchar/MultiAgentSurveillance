@@ -1,4 +1,4 @@
-package com.mygdx.game.views;
+package com.mygdx.game.views.brickandmortar;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.util.TextureRepository;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.MemoryTile;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 public class TileView extends Actor {

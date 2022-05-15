@@ -1,4 +1,4 @@
-package com.mygdx.game.views;
+package com.mygdx.game.views.brickandmortar;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -13,7 +13,6 @@ public class BrickAndMortarView extends Group {
 
     private @Getter @Setter boolean show;
 
-    private final Agent agent;
     private final Environment environment;
 
     public BrickAndMortarView(Agent agent, boolean show) {
@@ -22,7 +21,6 @@ public class BrickAndMortarView extends Group {
     }
 
     public BrickAndMortarView(Agent agent) {
-        this.agent = agent;
         this.environment = agent.getMemoryModule().getMap();
     }
 
@@ -45,7 +43,7 @@ public class BrickAndMortarView extends Group {
     }
 
     private void addTile(Tile tile) {
-        if (isVisible(tile)){
+        if (isVisible(tile)) {
             this.addActor(new TileView((MemoryTile) tile));
         }
     }
@@ -54,6 +52,5 @@ public class BrickAndMortarView extends Group {
         MemoryTile memoryTile = (MemoryTile) tile;
         return memoryTile.isVisited() && memoryTile.isExplored();
     }
-
 
 }
