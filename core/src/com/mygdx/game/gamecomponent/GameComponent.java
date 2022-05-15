@@ -23,6 +23,7 @@ public class GameComponent extends MovableStage {
 
     private boolean showMemory;
     private boolean showPath;
+    private boolean showSound;
 
     private final Game game;
 
@@ -36,7 +37,7 @@ public class GameComponent extends MovableStage {
         this.environmentView = new EnvironmentView(scenario, showMemory);
         this.pathFinderFleetView = new PathFinderFleetView(scenario, showPath);
         this.fleetView = new FleetView(scenario);
-        this.soundView = new SoundView(scenario);
+        this.soundView = new SoundView(scenario, showSound);
         this.smellView = new SmellView(scenario);
         this.communicationView = new CommunicationView(scenario);
         this.clear();
@@ -74,6 +75,7 @@ public class GameComponent extends MovableStage {
             case Input.Keys.EQUALS -> GameGUI.decrementTimeInterval();
             case Input.Keys.P -> pauseGame();
             case Input.Keys.D -> togglePathFindView();
+            case Input.Keys.S -> toggleSoundView();
             default -> super.keyDown(keyCode);
         }
 
@@ -83,6 +85,11 @@ public class GameComponent extends MovableStage {
     private void resetGame() {
         game.reset();
         reset(game.getScenario());
+    }
+
+    private void toggleSoundView() {
+        this.showSound = !this.showSound;
+        soundView.setShowSound(showSound);
     }
 
     private void toggleMemoryView() {
