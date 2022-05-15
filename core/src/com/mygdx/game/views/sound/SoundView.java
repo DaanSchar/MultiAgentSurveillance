@@ -33,10 +33,7 @@ public class SoundView extends Group {
     }
 
     public void draw(ShapeRenderer shapeRenderer, float parentAlpha) {
-        System.out.println(showSound);
-
         if (showSound) {
-            System.out.println("drawing sound");
             List<Sound> sounds = scenario.getSoundMap();
 
             sounds.forEach(sound -> {
