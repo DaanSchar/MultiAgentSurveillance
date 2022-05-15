@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.mygdx.game.util.TextureRepository;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,15 +20,10 @@ import java.util.Queue;
 public class PathFinderAgentView extends Actor {
 
     private final Agent agent;
-    private Color pathColor;
-    private Color targetColor;
+    private final Color pathColor;
+    private final Color targetColor;
 
     private @Getter @Setter boolean showPath;
-
-    public PathFinderAgentView(Agent agent, boolean showPath) {
-        this(agent);
-        this.showPath = showPath;
-    }
 
     public PathFinderAgentView(Agent agent) {
         this.agent = agent;
@@ -40,17 +34,12 @@ public class PathFinderAgentView extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-
-//        if (showPath) {
-            drawPathFills(batch);
-//        }
+        drawPathFills(batch);
     }
 
     public void draw(ShapeRenderer shapeRenderer, float parentAlpha) {
-//        if (showPath) {
-            drawPathLines(shapeRenderer);
-            drawTargetLines(shapeRenderer);
-//        }
+        drawPathLines(shapeRenderer);
+        drawTargetLines(shapeRenderer);
     }
 
     private Queue<Position> getPath() {

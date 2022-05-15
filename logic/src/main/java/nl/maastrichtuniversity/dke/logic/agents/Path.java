@@ -21,7 +21,8 @@ public class Path {
 
     private final @Getter Queue<Position> path;
 
-    public Path(Position currentPosition, Position finalDestination, PathFinderModule pathFinderModule, IMovementModule movementModule) {
+    public Path(Position currentPosition, Position finalDestination,
+                PathFinderModule pathFinderModule, IMovementModule movementModule) {
         this.finalDestination = finalDestination;
         this.pathFinderModule = pathFinderModule;
         this.movementModule = movementModule;
@@ -30,7 +31,8 @@ public class Path {
 
     /**
      * Determines the next move action based on the current position and the next position in the path.
-     * @param currentPosition position of the agent
+     *
+     * @param currentPosition  position of the agent
      * @param currentDirection direction of the agent
      * @return next move action
      */
@@ -64,7 +66,8 @@ public class Path {
         return nextMove;
     }
 
-    private MoveAction determineMoveAction(Position currentPosition, Position nextPosition, Direction currentDirection) {
+    private MoveAction determineMoveAction(Position currentPosition, Position nextPosition,
+                                           Direction currentDirection) {
         Position facingPosition = getPositionInDirection(currentPosition, currentDirection);
         Position leftFacingPosition = getPositionInDirection(currentPosition, currentDirection.leftOf());
         Position rightFacingPosition = getPositionInDirection(currentPosition, currentDirection.rightOf());
@@ -74,7 +77,7 @@ public class Path {
             return MoveAction.MOVE_FORWARD;
         } else if (nextPosition.equals(leftFacingPosition)) {
             return MoveAction.ROTATE_LEFT;
-        } else if (nextPosition.equals(rightFacingPosition)){
+        } else if (nextPosition.equals(rightFacingPosition)) {
             return MoveAction.ROTATE_RIGHT;
         } else if (nextPosition.equals(backPosition)) {
             return MoveAction.ROTATE_RIGHT;
@@ -91,6 +94,5 @@ public class Path {
         List<Position> path = pathFinderModule.getShortestPath(currentPosition, finalDestination);
         return new LinkedList<>(path);
     }
-
 
 }

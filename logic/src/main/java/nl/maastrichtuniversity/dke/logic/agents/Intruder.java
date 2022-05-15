@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class Intruder extends Agent {
 
     private @Getter @Setter boolean isCaught;
-    boolean alive;
+    private @Getter @Setter boolean alive;
     private boolean navigatedToBlueMark; // whether the agent has navigated to the mark that another agent dropped
     private boolean droppedBlueMark; // did it drop the mark already
 
@@ -32,9 +32,9 @@ public class Intruder extends Agent {
     public void move() {
         if (hasTarget()) {
             if (hasReachedTarget()) {
-                target = null;
+                setTarget(null);
             } else {
-                moveToPosition(target);
+                moveToPosition(getTarget());
             }
         } else {
             super.explore();
@@ -45,7 +45,7 @@ public class Intruder extends Agent {
     @Override
     public void updateInternals() {
         if (seesTargetArea()) {
-            target = getTargetTile().getPosition();
+            setTarget(getTargetTile().getPosition());
         }
         super.updateInternals();
     }
@@ -61,7 +61,10 @@ public class Intruder extends Agent {
         /* run away from the seen guard */
 //        List<Guard> visibleGuards = getVisibleGuards();
 //        Position avoid;
-//        Position toGuard = getPathFinderModule().getShortestPath(getPosition(), visibleGuards.get(0).getPosition()).get(0);
+//        Position toGuard = getPathFinderModule().getShortestPath(
+//              getPosition(),
+//              visibleGuards.get(0).getPosition()
+//        ).get(0);
 //
 //        if (toGuard.getX() != getPosition().getX()) {
 //            if (toGuard.getX() < getPosition().getX()) {

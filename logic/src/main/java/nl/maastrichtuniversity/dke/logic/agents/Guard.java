@@ -21,17 +21,16 @@ public class Guard extends Agent {
     @Override
     public void spawn() {
         super.spawn();
-        this.target = ((MemoryModule)getMemoryModule()).getRandomPosition();
-//        target = new Position(1, 1);
+        setTarget(((MemoryModule) getMemoryModule()).getRandomPosition());
     }
 
     @Override
     public void move() {
         if (hasTarget()) {
             if (hasReachedTarget()) {
-                target = null;
+                setTarget(null);
             } else {
-                moveToPosition(target);
+                moveToPosition(getTarget());
             }
         } else {
             super.explore();
@@ -50,18 +49,18 @@ public class Guard extends Agent {
         if (seesIntruder()) {
             chaseIntruder();
             catchIntruder();
-        }  else if (hearSound()) {
+        }  else if (hearsSound()) {
             moveToSoundSource();
         }
     }
 
     private void moveToSoundSource() {
-        if (hearSound()) {
+        if (hearsSound()) {
             List<Sound> sounds = super.getSoundsAtCurrentPosition();
 
             if (sounds.size() > 0) {
                 Sound sound = sounds.get(0);
-                this.target = getListeningModule().guessPositionOfSource(sound);
+                setTarget(getListeningModule().guessPositionOfSource(sound));
             }
         }
     }
@@ -75,7 +74,7 @@ public class Guard extends Agent {
 
         if (intruder != null) {
             getNoiseModule().makeSound(getPosition(), SoundType.YELL);
-            this.target = intruder.getPosition();
+            setTarget(intruder.getPosition());
         }
     }
 
@@ -102,7 +101,5 @@ public class Guard extends Agent {
             intruder.setCaught(true);
         }
     }
-
-
 
 }

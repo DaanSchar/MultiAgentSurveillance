@@ -24,7 +24,6 @@ import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
-import nl.maastrichtuniversity.dke.util.Distribution;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -33,14 +32,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Accessors(chain = true)
 public class Agent {
-
-    private static int agentCount;
-    private final int id;
-
-    private @Setter Position position;
-    private @Setter Direction direction;
-
-    protected Position target;
 
     private @Setter ISpawnModule spawnModule;
     private @Setter IMovementModule movement;
@@ -54,8 +45,14 @@ public class Agent {
     private @Setter InteractionModule interactionModule;
     private @Setter PathFinderModule pathFinderModule;
 
-    private Path path;
+    private static int agentCount;
+    private final int id;
 
+    private @Setter Position position;
+    private @Setter Direction direction;
+
+    private Path path;
+    private @Setter Position target;
 
     public Agent() {
         this.id = agentCount++;
@@ -194,27 +191,8 @@ public class Agent {
         }).collect(Collectors.toList());
     }
 
-    protected boolean hearSound() {
+    protected boolean hearsSound() {
         return getSoundsAtCurrentPosition().size() > 0;
-    }
-
-    protected Position guessPositionOfSource(Sound sound) {
-        Position sourceOfSound = sound.getSource();
-
-        if (sourceOfSound == null) {
-            return null;
-        }
-
-        return sourceOfSound.add(getGuessOffset());
-    }
-
-    private Position getGuessOffset() {
-        double mean = 0;
-        double stdDev = 5.0;
-        int guessX = (int) Distribution.normal(mean, stdDev);
-        int guessY = (int) Distribution.normal(mean, stdDev);
-
-        return new Position(guessX, guessY);
     }
 
     protected Tile getFacingTile() {

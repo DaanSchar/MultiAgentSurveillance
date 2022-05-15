@@ -7,12 +7,9 @@ import nl.maastrichtuniversity.dke.logic.agents.Fleet;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
-import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.SoundType;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
-import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Getter

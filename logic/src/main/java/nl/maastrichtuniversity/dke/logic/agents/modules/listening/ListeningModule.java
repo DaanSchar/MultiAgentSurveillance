@@ -118,10 +118,6 @@ public class ListeningModule extends AgentModule implements IListeningModule {
         return soundSource;
     }
 
-    /**
-     * Given the source sound and the actual position of the agent,
-     * compute the direction of the source relative to the agent
-     ***/
     public Direction computeDirection(Position position, Position source) {
         int x1 = position.getX();
         int y1 = position.getY();
@@ -144,7 +140,9 @@ public class ListeningModule extends AgentModule implements IListeningModule {
             return Direction.WEST;
         } else if (x1 < x2 && y1 == y2) {
             return Direction.EAST;
-        } else return null;
+        } else {
+            return null;
+        }
     }
 
 }

@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.MemoryTile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.ArrayList;
@@ -92,7 +91,8 @@ public class Dijkstra implements PathFinderModule {
     }
 
     private boolean isWalkable(Tile tile) {
-        return isPassable(tile);// && tile.getType() != TileType.TELEPORT;
+        return isPassable(tile);
+        // && tile.getType() != TileType.TELEPORT;
     }
 
     private boolean isPassable(Tile tile) {
