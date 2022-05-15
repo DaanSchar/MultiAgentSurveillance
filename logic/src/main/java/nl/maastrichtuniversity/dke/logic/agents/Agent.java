@@ -39,8 +39,8 @@ public class Agent {
 
     private @Setter Position position;
     private @Setter Direction direction;
-    private @Setter Position goalPosition;
-    protected @Setter List<Position> navigationQueue;
+
+    protected Position target;
 
     private @Setter ISpawnModule spawnModule;
     private @Setter IMovementModule movement;
@@ -54,10 +54,11 @@ public class Agent {
     private @Setter InteractionModule interactionModule;
     private @Setter PathFinderModule pathFinderModule;
 
+    private Path path;
+
 
     public Agent() {
         this.id = agentCount++;
-        this.navigationQueue = new ArrayList<>();
     }
 
     public void spawn() {
@@ -79,6 +80,7 @@ public class Agent {
     public void updateInternals() {
         view();
         updateMemory();
+        updatePathToTarget();
     }
 
     public void explore() {
@@ -97,16 +99,9 @@ public class Agent {
         }
     }
 
-    public void moveToLocation(Position target) {
-        if (navigationQueue.isEmpty()) {
-            List<Position> pathToTarget = pathFinderModule.getShortestPath(getPosition(), target);
-
-            if (pathToTarget.size() > 1 || getPosition().distance(target) >= 1) {
-                navigationQueue.addAll(pathToTarget);
-            }
-        }
-
-        moveToNextPosInQueue();
+    public void moveToPosition(Position target) {
+        calculatePathTo(target);
+        move(path.getNextMove(getPosition(), getDirection()));
     }
 
     public void toggleDoor() {
@@ -142,6 +137,26 @@ public class Agent {
         return false;
     }
 
+    protected void calculatePathTo(Position target) {
+        if (this.path == null || this.path.getFinalDestination() != target) {
+            this.path = new Path(getPosition(), target, pathFinderModule, movement);
+        }
+    }
+
+    protected boolean hasTarget() {
+        return this.target != null;
+    }
+
+    protected boolean hasReachedTarget() {
+        return getPosition().equals(this.target);
+    }
+
+    private void updatePathToTarget() {
+        if (hasTarget()) {
+            calculatePathTo(this.target);
+        }
+    }
+
     private void view() {
         visionModule.useVision(position, direction);
     }
@@ -166,28 +181,6 @@ public class Agent {
 
     protected List<Agent> getVisibleAgents() {
         return this.getVisionModule().getVisibleAgents();
-    }
-
-    protected void moveToNextPosInQueue() {
-        if (!navigationQueue.isEmpty()) {
-            if (getPosition().equals(navigationQueue.get(0))) {
-                navigationQueue.remove(0);
-            } else {
-                moveToTile(navigationQueue.get(0));
-            }
-        }
-    }
-
-    protected void moveToTile(Position position) {
-        Position facingPosition = getFacingTile().getPosition();
-
-        if (position.equals(facingPosition)) {
-            moveForward();
-        } else if (position.equals(movement.getForwardPosition(getPosition(), getDirection().leftOf()))) {
-            rotate(MoveAction.ROTATE_LEFT);
-        } else {
-            rotate(MoveAction.ROTATE_RIGHT);
-        }
     }
 
     protected List<Sound> getSoundsAtCurrentPosition() {

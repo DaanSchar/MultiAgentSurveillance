@@ -17,6 +17,18 @@ public interface IListeningModule {
     List<Sound> getSounds(Position position);
 
     /**
+     * approximates the sound source of the sound given.
+     *
+     * @param sound the sound that is heard (by an agent)
+     * @return an approximation of the position of the sound source.
+     */
+    Position guessPositionOfSource(Sound sound);
+
+
+
+
+
+    /**
      * @param position the position in which the agent is right now
      * @return a boolean representing whether there is a sound in that position
      */
@@ -30,8 +42,5 @@ public interface IListeningModule {
      */
     @Deprecated
     List<Direction> getDirection(Position position);
-
-    @Deprecated
-    Position guessPositionOfSource(Position currentPosition); // Generates a guess for where the sound came from
 
 }

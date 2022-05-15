@@ -53,7 +53,7 @@ public class MemoryTile extends Tile {
     }
     private boolean isPassableIfWindow() {
         if (getType() == TileType.WINDOW) {
-            return !isBroken();
+            return isBroken();
         }
 
         return true;

@@ -2,6 +2,8 @@ package nl.maastrichtuniversity.dke.logic.agents.modules.memory;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
@@ -22,6 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
+@Slf4j
 public class MemoryModule extends AgentModule implements IMemoryModule {
 
     private final Environment map;
@@ -113,6 +116,14 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
                 }
             }
         }
+    }
+
+    public Position getRandomPosition() {
+        Environment environment = scenario.getEnvironment();
+        List<Tile> possibleTiles = environment.filter(Tile::isPassable);
+        Tile randomTile = possibleTiles.get((int) (Math.random() * possibleTiles.size()));
+        log.info("random tile: " + randomTile);
+        return randomTile.getPosition();
     }
 
 }

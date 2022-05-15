@@ -55,6 +55,7 @@ public class Game {
 
     public void update() {
         scenario.incrementTimeStep();
+        scenario.getSoundMap().clear();
         moveAgents();
         updateAgentInternals();
     }

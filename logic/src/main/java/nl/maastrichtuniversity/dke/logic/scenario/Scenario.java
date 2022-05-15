@@ -48,10 +48,6 @@ public class Scenario {
 
     public void incrementTimeStep() {
         currentTimeStep++;
-
-        if (currentTimeStep % 4 == 0) {
-            soundMap.clear();
-        }
     }
 
     public double getCurrentTime() {

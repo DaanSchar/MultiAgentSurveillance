@@ -11,6 +11,7 @@ import nl.maastrichtuniversity.dke.util.Distribution;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class ListeningModule extends AgentModule implements IListeningModule {
@@ -23,6 +24,76 @@ public class ListeningModule extends AgentModule implements IListeningModule {
     }
 
     @Override
+    public List<Sound> getSounds(Position currentPosition) {
+        List<Sound> soundMap = scenario.getSoundMap();
+
+        return soundMap.stream().filter(
+                sound -> sound.getPosition().equals(currentPosition)
+        ).collect(Collectors.toList());
+    }
+
+    @Override
+    public Position guessPositionOfSource(Sound sound) {
+        Position sourceOfSound = sound.getSource();
+        return getValidGuess(sourceOfSound);
+    }
+
+    private Position getValidGuess(Position sourceOfSound) {
+        Position guessedPosition = makeGuess(sourceOfSound);
+
+        while (!isValid(guessedPosition)) {
+            guessedPosition = makeGuess(sourceOfSound);
+        }
+
+        return guessedPosition;
+    }
+
+    private Position makeGuess(Position sourceOfSound) {
+        return sourceOfSound.add(getGuessOffset());
+    }
+
+    private Position getGuessOffset() {
+        double mean = 0;
+        double stdDev = 2.0;
+        int guessX = (int) Distribution.normal(mean, stdDev);
+        int guessY = (int) Distribution.normal(mean, stdDev);
+
+        return new Position(guessX, guessY);
+    }
+
+    private boolean isValid(Position guessedPosition) {
+        return isInMap(guessedPosition) && isPassable(guessedPosition);
+    }
+
+    private boolean isInMap(Position position) {
+        return position.getX() >= 0 && position.getX() < environment.getWidth()
+                && position.getY() >= 0 && position.getY() < environment.getHeight();
+    }
+
+    private boolean isPassable(Position position) {
+        return environment.getAt(position).isPassable();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @Override
     public boolean getSound(Position position) {
         List<Sound> soundMap = scenario.getSoundMap();
         for (Sound sound : soundMap) {
@@ -33,24 +104,11 @@ public class ListeningModule extends AgentModule implements IListeningModule {
         return false;
     }
 
-    public List<Sound> getSounds(Position currentPosition) {
-        List<Sound> soundMap = scenario.getSoundMap();
-
-        List<Sound> sounds = new ArrayList<>();
-
-        for (Sound sound : soundMap) {
-            if (sound.getPosition().equals(currentPosition)) {
-                sounds.add(sound);
-            }
-        }
-
-        return sounds;
-    }
-
     @Override
     public List<Direction> getDirection(Position position) {
         List<Sound> soundMap = scenario.getSoundMap();
         List<Direction> soundSource = new ArrayList<>();
+
         for (Sound sound : soundMap) {
             if (sound.getPosition().equals(position)) {
                 Position source = sound.getSource();
@@ -58,25 +116,6 @@ public class ListeningModule extends AgentModule implements IListeningModule {
             }
         }
         return soundSource;
-    }
-
-    public Position guessPositionOfSource(Position currentPosition) {
-        Position sourceOfSound = getSource(currentPosition);
-
-        if (sourceOfSound == null) {
-            return null;
-        }
-
-        return sourceOfSound.add(getGuessOffset());
-    }
-
-    private Position getGuessOffset() {
-        double mean = 0;
-        double stdDev = 5.0;
-        int guessX = (int) Distribution.normal(mean, stdDev);
-        int guessY = (int) Distribution.normal(mean, stdDev);
-
-        return new Position(guessX, guessY);
     }
 
     /**
@@ -108,13 +147,4 @@ public class ListeningModule extends AgentModule implements IListeningModule {
         } else return null;
     }
 
-    private Position getSource(Position position) {
-        List<Sound> soundMap = scenario.getSoundMap();
-        for (Sound sound : soundMap) {
-            if (sound.getPosition().equals(position)) {
-                return sound.getSource();
-            }
-        }
-        return null;
-    }
 }
