@@ -21,21 +21,20 @@ public class Guard extends Agent {
     @Override
     public void spawn() {
         super.spawn();
-        setTarget(((MemoryModule) getMemoryModule()).getRandomPosition());
+//        setTarget(((MemoryModule) getMemoryModule()).getRandomPosition());
     }
 
     @Override
     public void move() {
-//        if (hasTarget()) {
-//            if (hasReachedTarget()) {
-//                setTarget(null);
-//            } else {
-//                moveToPosition(getTarget());
-//            }
-//        } else {
-//            super.explore();
-//        }
-        super.explore();
+        if (hasTarget()) {
+            if (hasReachedTarget()) {
+                setTarget(null);
+            } else {
+                moveToPosition(getTarget());
+            }
+        } else {
+            super.explore();
+        }
         super.move();
     }
 

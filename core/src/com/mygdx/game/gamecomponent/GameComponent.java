@@ -10,6 +10,7 @@ import com.mygdx.game.views.fleet.FleetView;
 import com.mygdx.game.views.pathfind.PathFinderFleetView;
 import com.mygdx.game.views.smell.SmellView;
 import com.mygdx.game.views.sound.SoundView;
+import com.mygdx.game.views.vision.VisionView;
 import nl.maastrichtuniversity.dke.logic.Game;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
@@ -23,11 +24,13 @@ public class GameComponent extends MovableStage {
     private SoundView soundView;
     private SmellView smellView;
     private BrickAndMortarView brickAndMortarView;
+    private VisionView visionView;
 
     private boolean showMemory;
     private boolean showPath;
     private boolean showSound;
     private boolean showBrickAndMortar;
+    private boolean showVision;
 
     private final Game game;
 
@@ -46,13 +49,15 @@ public class GameComponent extends MovableStage {
         this.communicationView = new CommunicationView(scenario);
         Agent agent = scenario.getGuards().get(0);
         this.brickAndMortarView = new BrickAndMortarView(agent, showBrickAndMortar);
+        this.visionView = new VisionView(scenario, showVision);
         this.clear();
         this.addActor(environmentView);
         this.addActor(soundView);
-        this.addActor(fleetView);
         this.addActor(communicationView);
         this.addActor(pathFinderFleetView);
         this.addActor(brickAndMortarView);
+        this.addActor(visionView);
+        this.addActor(fleetView);
     }
 
     @Override
@@ -70,6 +75,7 @@ public class GameComponent extends MovableStage {
         getShapeRenderer().begin(ShapeRenderer.ShapeType.Point);
         soundView.draw(getShapeRenderer(), 1f);
         smellView.draw(getShapeRenderer(), 1f);
+        visionView.draw(getShapeRenderer(), 1f);
         pathFinderFleetView.draw(getShapeRenderer(), 1f);
         getShapeRenderer().end();
     }
@@ -85,6 +91,7 @@ public class GameComponent extends MovableStage {
             case Input.Keys.D -> togglePathFindView();
             case Input.Keys.S -> toggleSoundView();
             case Input.Keys.B -> toggleBrickAndMortarView();
+            case Input.Keys.V -> toggleVisionView();
             default -> super.keyDown(keyCode);
         }
 
@@ -94,6 +101,11 @@ public class GameComponent extends MovableStage {
     private void resetGame() {
         game.reset();
         reset(game.getScenario());
+    }
+
+    private void toggleVisionView() {
+        showVision = !showVision;
+        visionView.setShow(showVision);
     }
 
     private void toggleBrickAndMortarView() {
