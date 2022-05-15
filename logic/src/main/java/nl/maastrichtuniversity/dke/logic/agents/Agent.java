@@ -196,7 +196,7 @@ public class Agent {
     }
 
     protected Tile getFacingTile() {
-        Position facingPosition = movement.getForwardPosition(getPosition(), getDirection());
+        Position facingPosition = getPosition().getPosInDirection(getDirection());
         return memoryModule.getMap().getAt(facingPosition);
     }
 

@@ -120,7 +120,6 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         Environment environment = scenario.getEnvironment();
         List<Tile> possibleTiles = environment.filter(Tile::isPassable);
         Tile randomTile = possibleTiles.get((int) (Math.random() * possibleTiles.size()));
-        log.info("random tile: " + randomTile);
         return randomTile.getPosition();
     }
 

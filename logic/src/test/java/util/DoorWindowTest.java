@@ -95,14 +95,14 @@ public class DoorWindowTest {
         Assertions.assertTrue(windowTile.isBroken());
     }
 
-    void assertDoorIsOpened() {
-        DoorTile doorTile = (DoorTile) tileMap[2][2];
-        Assertions.assertTrue(doorTile.isOpened());
-    }
-
     void assertGuardAtDoorPosition(Guard guard) {
         assertDoorIsOpened();
         assertGuardAtPosition(guard, doorPosition);
+    }
+
+    void assertDoorIsOpened() {
+        DoorTile doorTile = (DoorTile) tileMap[2][2];
+        Assertions.assertTrue(doorTile.isOpened());
     }
 
     void assertGuardCantWalkThroughClosedDoor(Guard guard) {
