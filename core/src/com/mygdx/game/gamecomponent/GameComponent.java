@@ -3,6 +3,7 @@ package com.mygdx.game.gamecomponent;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.GameGUI;
+import com.mygdx.game.views.BrickAndMortarView;
 import com.mygdx.game.views.environment.EnvironmentView;
 import com.mygdx.game.views.communication.CommunicationView;
 import com.mygdx.game.views.fleet.FleetView;
@@ -10,6 +11,7 @@ import com.mygdx.game.views.pathfind.PathFinderFleetView;
 import com.mygdx.game.views.smell.SmellView;
 import com.mygdx.game.views.sound.SoundView;
 import nl.maastrichtuniversity.dke.logic.Game;
+import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 
 public class GameComponent extends MovableStage {
@@ -20,10 +22,12 @@ public class GameComponent extends MovableStage {
     private CommunicationView communicationView;
     private SoundView soundView;
     private SmellView smellView;
+    private BrickAndMortarView brickAndMortarView;
 
     private boolean showMemory;
     private boolean showPath;
     private boolean showSound;
+    private boolean showBrickAndMortar;
 
     private final Game game;
 
@@ -40,12 +44,15 @@ public class GameComponent extends MovableStage {
         this.soundView = new SoundView(scenario, showSound);
         this.smellView = new SmellView(scenario);
         this.communicationView = new CommunicationView(scenario);
+        Agent agent = scenario.getGuards().get(0);
+        this.brickAndMortarView = new BrickAndMortarView(agent, showBrickAndMortar);
         this.clear();
         this.addActor(environmentView);
         this.addActor(soundView);
         this.addActor(fleetView);
         this.addActor(communicationView);
         this.addActor(pathFinderFleetView);
+        this.addActor(brickAndMortarView);
     }
 
     @Override
@@ -56,6 +63,7 @@ public class GameComponent extends MovableStage {
 
     public void update() {
         environmentView.update();
+        brickAndMortarView.update();
     }
 
     private void drawLines() {
@@ -76,6 +84,7 @@ public class GameComponent extends MovableStage {
             case Input.Keys.P -> pauseGame();
             case Input.Keys.D -> togglePathFindView();
             case Input.Keys.S -> toggleSoundView();
+            case Input.Keys.B -> toggleBrickAndMortarView();
             default -> super.keyDown(keyCode);
         }
 
@@ -85,6 +94,11 @@ public class GameComponent extends MovableStage {
     private void resetGame() {
         game.reset();
         reset(game.getScenario());
+    }
+
+    private void toggleBrickAndMortarView() {
+        showBrickAndMortar = !showBrickAndMortar;
+        brickAndMortarView.setShow(showBrickAndMortar);
     }
 
     private void toggleSoundView() {
