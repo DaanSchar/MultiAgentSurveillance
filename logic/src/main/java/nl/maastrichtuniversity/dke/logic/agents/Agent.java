@@ -12,6 +12,7 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.exploration.IExploration
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.memory.IMemoryModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovementModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.SoundType;
 import nl.maastrichtuniversity.dke.logic.agents.modules.pathfind.PathFinderModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.INoiseModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.smell.ISmellModule;
@@ -19,52 +20,39 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.spawn.ISpawnModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
+import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Slf4j
 @Accessors(chain = true)
 public class Agent {
 
+    private @Setter ISpawnModule spawnModule;
+    private @Setter IMovementModule movement;
+    private @Setter IVisionModule visionModule;
+    private @Setter ICommunicationModule communicationModule;
+    private @Setter INoiseModule noiseModule;
+    private @Setter IListeningModule listeningModule;
+    private @Setter IMemoryModule memoryModule;
+    private @Setter ISmellModule smellModule;
+    private @Setter IExplorationModule explorationModule;
+    private @Setter InteractionModule interactionModule;
+    private @Setter PathFinderModule pathFinderModule;
+
     private static int agentCount;
     private final int id;
 
-    private @Setter
-    Position position;
-    private @Setter
-    Direction direction;
-    private @Setter
-    Position goalPosition;
-    private @Setter
-    List<Position> queue = new ArrayList<>();
+    private @Setter Position position;
+    private @Setter Direction direction;
 
-    private @Setter
-    ISpawnModule spawnModule;
-    private @Setter
-    IMovementModule movement;
-    private @Setter
-    IVisionModule visionModule;
-    private @Setter
-    ICommunicationModule communicationModule;
-    private @Setter
-    INoiseModule noiseModule;
-    private @Setter
-    IListeningModule listeningModule;
-    private @Setter
-    IMemoryModule memoryModule;
-    private @Setter
-    ISmellModule smellModule;
-    private @Setter
-    IExplorationModule explorationModule;
-    private @Setter
-    InteractionModule interactionModule;
-    private @Setter
-    PathFinderModule pathFinderModule;
-
+    private Path path;
+    private @Setter Position target;
 
     public Agent() {
         this.id = agentCount++;
@@ -77,20 +65,19 @@ public class Agent {
         updateMemory();
     }
 
-    public void update() {
+    public void move() {
         Tile facingTile = getFacingTile();
 
         if (!facingTile.isOpened()) {
             toggleDoor();
             breakWindow();
         }
-        updateInternals();
     }
 
     public void updateInternals() {
-        listen();
         view();
         updateMemory();
+        updatePathToTarget();
     }
 
     public void explore() {
@@ -109,16 +96,9 @@ public class Agent {
         }
     }
 
-    public void moveToLocation(Position target) {
-        if (queue.isEmpty()) {
-            List<Position> pathToTarget = pathFinderModule.getShortestPath(getPosition(), target);
-
-            if (pathToTarget.size() > 1) {
-                queue.add(pathToTarget.get(1));
-            }
-        }
-        moveToNextDestination();
-
+    public void moveToPosition(Position target) {
+        calculatePathTo(target);
+        move(path.getNextMove(getPosition(), getDirection()));
     }
 
     public void toggleDoor() {
@@ -126,7 +106,7 @@ public class Agent {
 
         if (facingTile.getType() == TileType.DOOR) {
             interactionModule.toggleDoor(facingTile.getPosition());
-            noiseModule.makeInteractionNoise(facingTile.getPosition());
+            noiseModule.makeSound(facingTile.getPosition(), SoundType.TOGGLE_DOOR);
         }
     }
 
@@ -137,7 +117,7 @@ public class Agent {
             boolean brokeWindow = interactionModule.breakWindow(facingTile.getPosition());
 
             if (brokeWindow) {
-                noiseModule.makeInteractionNoise(facingTile.getPosition());
+                noiseModule.makeSound(facingTile.getPosition(), SoundType.BREAK_WINDOW);
             }
         }
 
@@ -154,16 +134,32 @@ public class Agent {
         return false;
     }
 
+    protected void calculatePathTo(Position target) {
+        if (this.path == null || this.path.getFinalDestination() != target) {
+            this.path = new Path(getPosition(), target, pathFinderModule, movement);
+        }
+    }
+
+    protected boolean hasTarget() {
+        return this.target != null;
+    }
+
+    protected boolean hasReachedTarget() {
+        return getPosition().equals(this.target);
+    }
+
+    private void updatePathToTarget() {
+        if (hasTarget()) {
+            calculatePathTo(this.target);
+        }
+    }
+
     private void view() {
         visionModule.useVision(position, direction);
     }
 
-    private void listen() {
-        listeningModule.getDirection(this.position);
-    }
-
     private void updateMemory() {
-        memoryModule.update(visionModule, listeningModule, smellModule, getPosition());
+        memoryModule.update(visionModule, smellModule, getPosition());
     }
 
     private void rotate(MoveAction rotation) {
@@ -172,55 +168,34 @@ public class Agent {
 
     private void moveForward() {
         position = movement.goForward(position, direction);
-        noiseModule.makeWalkingSound(position);
-
+        noiseModule.makeSound(position, SoundType.WALK);
     }
 
     private void sprintForward() {
         position = movement.sprint(position, direction);
-        noiseModule.makeSprintingSound(position);
-    }
-
-    protected List<Direction> getDirectionsOfSounds() {
-        return this.getListeningModule().getDirection(getPosition());
+        noiseModule.makeSound(position, SoundType.SPRINT);
     }
 
     protected List<Agent> getVisibleAgents() {
         return this.getVisionModule().getVisibleAgents();
     }
 
-    protected void moveToNextDestination() {
-        if (!queue.isEmpty()) {
-            if (getPosition().equals(queue.get(0))) {
-                queue.remove(0);
-            } else {
-                moveToTile(queue.get(0));
-            }
-        }
+    protected List<Sound> getSoundsAtCurrentPosition() {
+        List<Sound> sounds = listeningModule.getSounds(getPosition());
 
+//        log.info("Sounds at current position: " + sounds);
+
+        return sounds.stream().filter(sound -> {
+            Position source = sound.getSource();
+            return !source.equals(getPosition());
+        }).collect(Collectors.toList());
     }
 
-    protected void moveToTile(Position position) {
-        Position facingPosition = getFacingTile().getPosition();
-
-        if (position.equals(facingPosition)) {
-            moveForward();
-        } else if (position.equals(movement.getForwardPosition(getPosition(), getDirection().leftOf()))) {
-            rotate(MoveAction.ROTATE_LEFT);
-        } else {
-            rotate(MoveAction.ROTATE_RIGHT);
-        }
+    protected boolean hearsSound() {
+        return getSoundsAtCurrentPosition().size() > 0;
     }
 
-    protected Position estimatePositionOfSource() {
-        return listeningModule.guessPositionOfSource(position);
-    }
-
-    public boolean hearSoundAtCurrentPosition() {
-        return listeningModule.getSound(getPosition());
-    }
-
-    private Tile getFacingTile() {
+    protected Tile getFacingTile() {
         Position facingPosition = getPosition().getPosInDirection(getDirection());
         return memoryModule.getMap().getAt(facingPosition);
     }

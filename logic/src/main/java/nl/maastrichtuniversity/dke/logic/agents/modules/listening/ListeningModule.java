@@ -11,20 +11,88 @@ import nl.maastrichtuniversity.dke.util.Distribution;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class ListeningModule extends AgentModule implements IListeningModule {
+
     private final Environment environment;
 
     public ListeningModule(Scenario scenario) {
         super(scenario);
-        environment = scenario.getEnvironment();
+        this.environment = scenario.getEnvironment();
     }
 
-    /**
-     * @param position the position in which the agent is right now
-     * @return a boolean representing whether there is a sound in that position
-     */
+    @Override
+    public List<Sound> getSounds(Position currentPosition) {
+        List<Sound> soundMap = scenario.getSoundMap();
+
+        return soundMap.stream().filter(
+                sound -> sound.getPosition().equals(currentPosition)
+        ).collect(Collectors.toList());
+    }
+
+    @Override
+    public Position guessPositionOfSource(Sound sound) {
+        Position sourceOfSound = sound.getSource();
+        return getValidGuess(sourceOfSound);
+    }
+
+    private Position getValidGuess(Position sourceOfSound) {
+        Position guessedPosition = makeGuess(sourceOfSound);
+
+        while (!isValid(guessedPosition)) {
+            guessedPosition = makeGuess(sourceOfSound);
+        }
+
+        return guessedPosition;
+    }
+
+    private Position makeGuess(Position sourceOfSound) {
+        return sourceOfSound.add(getGuessOffset());
+    }
+
+    private Position getGuessOffset() {
+        double mean = 0;
+        double stdDev = 2.0;
+        int guessX = (int) Distribution.normal(mean, stdDev);
+        int guessY = (int) Distribution.normal(mean, stdDev);
+
+        return new Position(guessX, guessY);
+    }
+
+    private boolean isValid(Position guessedPosition) {
+        return isInMap(guessedPosition) && isPassable(guessedPosition);
+    }
+
+    private boolean isInMap(Position position) {
+        return position.getX() >= 0 && position.getX() < environment.getWidth()
+                && position.getY() >= 0 && position.getY() < environment.getHeight();
+    }
+
+    private boolean isPassable(Position position) {
+        return environment.getAt(position).isPassable();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @Override
     public boolean getSound(Position position) {
         List<Sound> soundMap = scenario.getSoundMap();
@@ -36,15 +104,11 @@ public class ListeningModule extends AgentModule implements IListeningModule {
         return false;
     }
 
-    /**
-     * @param position the position in which the agent is right now
-     * @return a list of directions, the direction is where the sound is coming from (the sound source),
-     * there can be more than one sound in the agents position
-     */
     @Override
     public List<Direction> getDirection(Position position) {
         List<Sound> soundMap = scenario.getSoundMap();
         List<Direction> soundSource = new ArrayList<>();
+
         for (Sound sound : soundMap) {
             if (sound.getPosition().equals(position)) {
                 Position source = sound.getSource();
@@ -54,32 +118,6 @@ public class ListeningModule extends AgentModule implements IListeningModule {
         return soundSource;
     }
 
-    public Position guessPositionOfSource(Position currentPosition) {
-        Position sourceOfSound = getSource(currentPosition);
-
-        if (sourceOfSound == null) {
-            return null;
-        }
-
-        Position guess = sourceOfSound.add(getGuessOffset());
-        log.info("Guessed position of source: " + guess);
-        log.info("Actual position of source: " + sourceOfSound);
-        return guess;
-    }
-
-    private Position getGuessOffset() {
-        double mean = 0;
-        double stdDev = 5.0;
-        int guessX = (int) Distribution.normal(mean, stdDev);
-        int guessY = (int) Distribution.normal(mean, stdDev);
-
-        return new Position(guessX, guessY);
-    }
-
-    /**
-     * Given the source sound and the actual position of the agent,
-     * compute the direction of the source relative to the agent
-     ***/
     public Direction computeDirection(Position position, Position source) {
         int x1 = position.getX();
         int y1 = position.getY();
@@ -102,16 +140,9 @@ public class ListeningModule extends AgentModule implements IListeningModule {
             return Direction.WEST;
         } else if (x1 < x2 && y1 == y2) {
             return Direction.EAST;
-        } else return null;
+        } else {
+            return null;
+        }
     }
 
-    private Position getSource(Position position) {
-        List<Sound> soundMap = scenario.getSoundMap();
-        for (Sound sound : soundMap) {
-            if (sound.getPosition().equals(position)) {
-                return sound.getSource();
-            }
-        }
-        return null;
-    }
 }

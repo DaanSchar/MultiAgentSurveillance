@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.MemoryTile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 import java.util.ArrayList;
@@ -37,10 +36,6 @@ public class Dijkstra implements PathFinderModule {
     public List<Position> getShortestPath(Position start, Position goal) {
         clear(start);
 
-        // This will determine if we calculate distances for all tiles, slowing down the algorithm considerably.
-        // For now, it is set to true for visualizing the algorithm in the UI.
-        boolean calculateFullMap = true;
-
         Tile currentTile;
         while (!unvisited.isEmpty()) {
             currentTile = getTileWithShortestDistanceToStart();
@@ -48,10 +43,8 @@ public class Dijkstra implements PathFinderModule {
             visited.add(currentTile);
             unvisited.remove(currentTile);
 
-            if (!calculateFullMap) {
-                if (currentTile.getPosition().equals(goal)) {
-                    break;
-                }
+            if (currentTile.getPosition().equals(goal)) {
+                break;
             }
         }
 
@@ -98,7 +91,12 @@ public class Dijkstra implements PathFinderModule {
     }
 
     private boolean isWalkable(Tile tile) {
-        return tile.getType() != TileType.UNKNOWN && ((MemoryTile) tile).isPassable(true);
+        return isPassable(tile);
+        // && tile.getType() != TileType.TELEPORT;
+    }
+
+    private boolean isPassable(Tile tile) {
+        return ((MemoryTile) tile).isPassable(true);
     }
 
     private Tile getTileWithShortestDistanceToStart() {

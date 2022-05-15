@@ -2,12 +2,13 @@ package nl.maastrichtuniversity.dke.logic.agents.modules.memory;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.Agent;
 import nl.maastrichtuniversity.dke.logic.agents.modules.AgentModule;
-import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.smell.ISmellModule;
 import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
 import nl.maastrichtuniversity.dke.logic.agents.modules.vision.IVisionModule;
+import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.MemoryTile;
@@ -21,12 +22,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
+@Slf4j
 public class MemoryModule extends AgentModule implements IMemoryModule {
 
     private final Environment map;
     private final List<Tile> discoveredTiles;
     private final List<Agent> agents;
-    private final List<Position> sounds;
+    private final List<List<Sound>> sounds;
     private final List<Direction> soundDirection;
     private final List<Position> smells;
     private @Setter Position position;
@@ -68,20 +70,19 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
                 .collect(Collectors.toList());
     }
 
-    public void update(IVisionModule visionModule, IListeningModule listeningModule,
-                       ISmellModule smellModule, Position position) {
+    public void update(IVisionModule visionModule, ISmellModule smellModule, Position position) {
         setPreviousPosition(this.position);
         setPosition(position);
         updateVision(visionModule);
-        updateSound(listeningModule);
         updateSmell(smellModule);
     }
 
-    private void updateSound(IListeningModule listeningModule) {
-        if (listeningModule.getSound(position)) {
-            sounds.add(position);
-            soundDirection.addAll(listeningModule.getDirection(position));
+    public List<Sound> getCurrentSounds() {
+        if (sounds.size() < 1) {
+            return new ArrayList<>();
         }
+
+        return sounds.get(sounds.size() - 1);
     }
 
     private void updateSmell(ISmellModule smellModule) {
@@ -115,9 +116,11 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         }
     }
 
-    public List<Tile> getVisitedNodes() {
-        return getMap().stream().filter(x -> ((MemoryTile) x).isVisited()).collect(Collectors.toList());
+    public Position getRandomPosition() {
+        Environment environment = scenario.getEnvironment();
+        List<Tile> possibleTiles = environment.filter(Tile::isPassable);
+        Tile randomTile = possibleTiles.get((int) (Math.random() * possibleTiles.size()));
+        return randomTile.getPosition();
     }
-
 
 }
