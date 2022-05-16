@@ -30,15 +30,17 @@ public class Intruder extends Agent {
 
     @Override
     public void move() {
-        if (hasTarget()) {
-            if (hasReachedTarget()) {
-                setTarget(null);
-            } else {
-                moveToPosition(getTarget());
-            }
-        } else {
-            super.explore();
-        }
+//        if (hasTarget()) {
+//            if (hasReachedTarget()) {
+//                setTarget(null);
+//            } else {
+//                moveToPosition(getTarget());
+//            }
+//        } else {
+//            super.explore();
+//        }
+//        moveRandomly();
+        explore();
         super.move();
     }
 

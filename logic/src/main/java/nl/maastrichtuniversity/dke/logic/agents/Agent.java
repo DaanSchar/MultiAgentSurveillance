@@ -134,6 +134,12 @@ public class Agent {
         return false;
     }
 
+    public void moveRandomly() {
+        MoveAction[] moves = {MoveAction.ROTATE_LEFT, MoveAction.ROTATE_RIGHT, MoveAction.MOVE_FORWARD};
+        MoveAction randomMove = moves[new Random().nextInt(moves.length)];
+        move(randomMove);
+    }
+
     protected void calculatePathTo(Position target) {
         if (this.path == null || this.path.getFinalDestination() != target) {
             this.path = new Path(getPosition(), target, pathFinderModule, movement);
