@@ -109,6 +109,7 @@ public class Agent {
         if (doorTiles.size() > 0) {
             Position door = doorTiles.get(0).getPosition();
             interactionModule.toggleDoor(door);
+            memoryModule.toggledDoor(door);
             noiseModule.makeSound(door, SoundType.TOGGLE_DOOR);
         }
     }
@@ -120,6 +121,7 @@ public class Agent {
         if (windowTiles.size() > 0) {
             Position window = windowTiles.get(0).getPosition();
             interactionModule.breakWindow(window);
+            memoryModule.brokeWindow(window);
             noiseModule.makeSound(window, SoundType.BREAK_WINDOW);
         }
     }
