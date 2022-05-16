@@ -39,32 +39,26 @@ public final class GameGUI extends ApplicationAdapter {
     @Override
     public void render() {
         totalTimePassed += Gdx.graphics.getDeltaTime();
+        if (!game.checkVictory()) {
+            if (totalTimePassed > timeInterval) {
+                totalTimePassed = 0;
 
-        if (totalTimePassed > timeInterval) {
-            totalTimePassed = 0;
-
-            if (!isPaused) {
-                update();
+                if (!isPaused) {
+                    update();
+                }
             }
+
+        } else {
+            game.victoryMessage();
+            dispose();
         }
 
         draw();
     }
 
     private void update() {
-        if (game.getVictory().checkIntruderVictory()) {
-            // gameComponent.endGameMessage();
-            // game.getVictory().checkGuardVictory() ||
-            if (game.getVictory().checkGuardVictory()) {
-                //System.out.println("END GAME: GUARD WINS");
-            } else {
-                System.out.println("END GAME: INTRUDER WINS");
-            }
-
-        } else {
-            game.update();
-            gameComponent.update();
-        }
+        game.update();
+        gameComponent.update();
     }
 
     private void draw() {

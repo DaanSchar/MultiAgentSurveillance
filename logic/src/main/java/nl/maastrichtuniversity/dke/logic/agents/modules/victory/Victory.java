@@ -20,18 +20,10 @@ public class Victory implements IVictory {
         return checkTargetArea(scenario.getIntruders());
     }
 
-    // Guards win whenever every intruder is caugth
+    // Guards win whenever every intruder is caught
     public boolean checkGuardVictory() {
-        boolean victory = false;
-        for (Intruder intruder : scenario.getIntruders()) {
-            if (!intruder.isAlive()) {
-                victory = true;
-            } else {
-                victory = false;
-                break;
-            }
-        }
-        return victory;
+        for (Intruder intruder : scenario.getIntruders()) if (!intruder.isCaught()) return false;
+        return true;
     }
 
     public boolean checkTargetArea(List<Intruder> agents) {
