@@ -3,6 +3,7 @@ package com.mygdx.game.gamecomponent;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.GameGUI;
+import com.mygdx.game.util.FleetType;
 import com.mygdx.game.views.brickandmortar.BrickAndMortarView;
 import com.mygdx.game.views.environment.EnvironmentView;
 import com.mygdx.game.views.communication.CommunicationView;
@@ -13,6 +14,9 @@ import com.mygdx.game.views.sound.SoundView;
 import com.mygdx.game.views.vision.VisionView;
 import nl.maastrichtuniversity.dke.Game;
 import nl.maastrichtuniversity.dke.agents.Agent;
+import nl.maastrichtuniversity.dke.agents.Fleet;
+import nl.maastrichtuniversity.dke.agents.Guard;
+import nl.maastrichtuniversity.dke.agents.Intruder;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
 
 public class GameComponent extends MovableStage {
@@ -26,6 +30,9 @@ public class GameComponent extends MovableStage {
     private BrickAndMortarView brickAndMortarView;
     private VisionView visionView;
 
+    private int currentAgentIndex;
+    private FleetType currentFleet;
+
     private boolean showMemory;
     private boolean showPath;
     private boolean showSound;
@@ -37,6 +44,8 @@ public class GameComponent extends MovableStage {
     public GameComponent(Game game) {
         super(game.getScenario().getEnvironment().getWidth(), game.getScenario().getEnvironment().getHeight());
         this.game = game;
+        this.currentFleet = FleetType.GUARD;
+        this.currentAgentIndex = 0;
         reset(game.getScenario());
     }
 
@@ -57,16 +66,14 @@ public class GameComponent extends MovableStage {
     }
 
     private void createNewViews(Scenario scenario) {
-        this.environmentView = new EnvironmentView(scenario, showMemory);
+        this.environmentView = new EnvironmentView(scenario, showMemory, currentFleet);
         this.pathFinderView = new PathFinderView(scenario, showPath);
         this.fleetView = new FleetView(scenario);
         this.soundView = new SoundView(scenario, showSound);
         this.smellView = new SmellView(scenario);
         this.communicationView = new CommunicationView(scenario);
         this.visionView = new VisionView(scenario, showVision);
-
-        Agent agent = scenario.getGuards().get(0);
-        this.brickAndMortarView = new BrickAndMortarView(agent, showBrickAndMortar);
+        this.brickAndMortarView = new BrickAndMortarView(getCurrentAgent(), showBrickAndMortar);
     }
 
     private void addViewsToStage() {
@@ -102,6 +109,12 @@ public class GameComponent extends MovableStage {
             case Input.Keys.R -> resetGame();
             case Input.Keys.MINUS -> GameGUI.incrementTimeInterval();
             case Input.Keys.EQUALS -> GameGUI.decrementTimeInterval();
+            case Input.Keys.Q -> toggleCurrentFleet();
+            case Input.Keys.NUM_1 -> setCurrentAgentIndex(0);
+            case Input.Keys.NUM_2 -> setCurrentAgentIndex(1);
+            case Input.Keys.NUM_3 -> setCurrentAgentIndex(2);
+            case Input.Keys.NUM_4 -> setCurrentAgentIndex(3);
+            case Input.Keys.NUM_5 -> setCurrentAgentIndex(4);
             default -> super.keyDown(keyCode);
         }
 
@@ -141,6 +154,51 @@ public class GameComponent extends MovableStage {
 
     private void pauseGame() {
         GameGUI.togglePause();
+    }
+
+    private void toggleCurrentFleet() {
+        if (currentFleet == FleetType.GUARD) {
+            currentFleet = FleetType.INTRUDER;
+        } else {
+            currentFleet = FleetType.GUARD;
+        }
+        updateViewsUsingAgents();
+    }
+
+    private void setCurrentAgentIndex(int index) {
+        if (currentFleet == FleetType.GUARD) {
+            if (getGuards().size() > index) {
+                currentAgentIndex = index;
+            }
+        }
+
+        if (currentFleet == FleetType.INTRUDER) {
+            if (getIntruders().size() > index) {
+                currentAgentIndex = index;
+            }
+        }
+        updateViewsUsingAgents();
+    }
+
+    private Agent getCurrentAgent() {
+        if (currentFleet == FleetType.GUARD) {
+            return getGuards().get(currentAgentIndex);
+        } else {
+            return getIntruders().get(currentAgentIndex);
+        }
+    }
+
+    private Fleet<Guard> getGuards() {
+        return game.getScenario().getGuards();
+    }
+
+    private Fleet<Intruder> getIntruders() {
+        return game.getScenario().getIntruders();
+    }
+
+    private void updateViewsUsingAgents() {
+        environmentView.setFleetType(currentFleet);
+        brickAndMortarView.setAgent(getCurrentAgent());
     }
 
 }

@@ -14,7 +14,7 @@ import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 public class BrickAndMortarView extends Group {
 
-    private final Environment environment;
+    private Environment environment;
 
     private final Color exploredColor;
     private final Color visitedColor;
@@ -107,4 +107,7 @@ public class BrickAndMortarView extends Group {
     }
 
 
+    public void setAgent(Agent currentAgent) {
+        this.environment = currentAgent.getMemoryModule().getMap();
+    }
 }

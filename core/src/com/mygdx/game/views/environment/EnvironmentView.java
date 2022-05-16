@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.mygdx.game.util.FleetType;
 import com.mygdx.game.util.PerlinNoiseGenerator;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,10 +19,12 @@ public class EnvironmentView extends Group {
     private final Scenario scenario;
     private final double[][] heightMap;
     private @Getter @Setter boolean showMemoryMap;
+    private FleetType fleetType;
 
-    public EnvironmentView(Scenario scenario, boolean showMemoryMap) {
+    public EnvironmentView(Scenario scenario, boolean showMemoryMap, FleetType fleetType) {
         this(scenario);
         this.showMemoryMap = showMemoryMap;
+        this.fleetType = fleetType;
     }
 
     public EnvironmentView(Scenario scenario) {
@@ -60,11 +63,24 @@ public class EnvironmentView extends Group {
 
     private Environment getTileMap() {
         if (showMemoryMap) {
-            if (scenario.getGuards().size() != 0) {
+            return getMemoryMap();
+        }
+        return scenario.getEnvironment();
+    }
+
+    private Environment getMemoryMap() {
+        if (fleetType == FleetType.GUARD) {
+            if (scenario.getGuards().size() > 0) {
                 return scenario.getGuards().getMemoryMap();
             }
         }
-        return scenario.getEnvironment();
+        if (fleetType == FleetType.INTRUDER) {
+            if (scenario.getIntruders().size() > 0) {
+                return scenario.getIntruders().getMemoryMap();
+            }
+        }
+
+        return environment;
     }
 
     private void addTileView(Tile tile) {
@@ -81,4 +97,7 @@ public class EnvironmentView extends Group {
         );
     }
 
+    public void setFleetType(FleetType fleetType) {
+        this.fleetType = fleetType;
+    }
 }
