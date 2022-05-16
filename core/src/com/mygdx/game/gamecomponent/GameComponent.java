@@ -7,7 +7,7 @@ import com.mygdx.game.views.brickandmortar.BrickAndMortarView;
 import com.mygdx.game.views.environment.EnvironmentView;
 import com.mygdx.game.views.communication.CommunicationView;
 import com.mygdx.game.views.fleet.FleetView;
-import com.mygdx.game.views.pathfind.PathFinderFleetView;
+import com.mygdx.game.views.pathfind.PathFinderView;
 import com.mygdx.game.views.smell.SmellView;
 import com.mygdx.game.views.sound.SoundView;
 import com.mygdx.game.views.vision.VisionView;
@@ -19,7 +19,7 @@ public class GameComponent extends MovableStage {
 
     private EnvironmentView environmentView;
     private FleetView fleetView;
-    private PathFinderFleetView pathFinderFleetView;
+    private PathFinderView pathFinderView;
     private CommunicationView communicationView;
     private SoundView soundView;
     private SmellView smellView;
@@ -41,57 +41,66 @@ public class GameComponent extends MovableStage {
     }
 
     public void reset(Scenario scenario) {
-        this.environmentView = new EnvironmentView(scenario, showMemory);
-        this.pathFinderFleetView = new PathFinderFleetView(scenario, showPath);
-        this.fleetView = new FleetView(scenario);
-        this.soundView = new SoundView(scenario, showSound);
-        this.smellView = new SmellView(scenario);
-        this.communicationView = new CommunicationView(scenario);
-        Agent agent = scenario.getGuards().get(0);
-        this.brickAndMortarView = new BrickAndMortarView(agent, showBrickAndMortar);
-        this.visionView = new VisionView(scenario, showVision);
+        createNewViews(scenario);
         this.clear();
-        this.addActor(environmentView);
-        this.addActor(soundView);
-        this.addActor(communicationView);
-        this.addActor(pathFinderFleetView);
-        this.addActor(brickAndMortarView);
-        this.addActor(visionView);
-        this.addActor(fleetView);
+        addViewsToStage();
     }
 
     @Override
     public void draw() {
         super.draw();
-        drawLines();
+        drawOutlines();
     }
 
     public void update() {
         environmentView.update();
     }
 
-    private void drawLines() {
+    private void createNewViews(Scenario scenario) {
+        this.environmentView = new EnvironmentView(scenario, showMemory);
+        this.pathFinderView = new PathFinderView(scenario, showPath);
+        this.fleetView = new FleetView(scenario);
+        this.soundView = new SoundView(scenario, showSound);
+        this.smellView = new SmellView(scenario);
+        this.communicationView = new CommunicationView(scenario);
+        this.visionView = new VisionView(scenario, showVision);
+
+        Agent agent = scenario.getGuards().get(0);
+        this.brickAndMortarView = new BrickAndMortarView(agent, showBrickAndMortar);
+    }
+
+    private void addViewsToStage() {
+        this.addActor(environmentView);
+        this.addActor(soundView);
+        this.addActor(communicationView);
+        this.addActor(pathFinderView);
+        this.addActor(brickAndMortarView);
+        this.addActor(visionView);
+        this.addActor(fleetView);
+    }
+
+    private void drawOutlines() {
         getShapeRenderer().begin(ShapeRenderer.ShapeType.Point);
         smellView.draw(getShapeRenderer(), 1f);
         soundView.draw(getShapeRenderer(), 1f);
         brickAndMortarView.draw(getShapeRenderer(), 1f);
         visionView.draw(getShapeRenderer(), 1f);
-        pathFinderFleetView.draw(getShapeRenderer(), 1f);
+        pathFinderView.draw(getShapeRenderer(), 1f);
         getShapeRenderer().end();
     }
 
     @Override
     public boolean keyDown(int keyCode) {
         switch (keyCode) {
-            case Input.Keys.R -> resetGame();
             case Input.Keys.G -> toggleMemoryView();
-            case Input.Keys.MINUS -> GameGUI.incrementTimeInterval();
-            case Input.Keys.EQUALS -> GameGUI.decrementTimeInterval();
-            case Input.Keys.P -> pauseGame();
             case Input.Keys.D -> togglePathFindView();
             case Input.Keys.S -> toggleSoundView();
             case Input.Keys.B -> toggleBrickAndMortarView();
             case Input.Keys.V -> toggleVisionView();
+            case Input.Keys.P -> pauseGame();
+            case Input.Keys.R -> resetGame();
+            case Input.Keys.MINUS -> GameGUI.incrementTimeInterval();
+            case Input.Keys.EQUALS -> GameGUI.decrementTimeInterval();
             default -> super.keyDown(keyCode);
         }
 
@@ -106,17 +115,17 @@ public class GameComponent extends MovableStage {
 
     private void toggleVisionView() {
         showVision = !showVision;
-        visionView.setShow(showVision);
+        visionView.setVisible(showVision);
     }
 
     private void toggleBrickAndMortarView() {
         showBrickAndMortar = !showBrickAndMortar;
-        brickAndMortarView.setShow(showBrickAndMortar);
+        brickAndMortarView.setVisible(showBrickAndMortar);
     }
 
     private void toggleSoundView() {
         this.showSound = !this.showSound;
-        soundView.setShowSound(showSound);
+        soundView.setVisible(showSound);
     }
 
     private void toggleMemoryView() {
@@ -126,7 +135,7 @@ public class GameComponent extends MovableStage {
 
     private void togglePathFindView() {
         this.showPath = !this.showPath;
-        pathFinderFleetView.setShowPath(showPath);
+        pathFinderView.setVisible(showPath);
     }
 
     private void pauseGame() {

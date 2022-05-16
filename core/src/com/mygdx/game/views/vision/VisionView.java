@@ -17,16 +17,14 @@ import java.util.List;
 
 public class VisionView extends Actor {
 
-    private @Getter @Setter boolean show;
-
     private final List<Agent> agents;
     private final Color color;
 
     private final TextureRepository textureRepository;
 
-    public VisionView(Scenario scenario, boolean show) {
+    public VisionView(Scenario scenario, boolean visible) {
         this(scenario);
-        this.show = show;
+        setVisible(visible);
     }
 
     public VisionView(Scenario scenario) {
@@ -37,14 +35,12 @@ public class VisionView extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        if (show) {
-            super.draw(batch, parentAlpha);
-            drawTiles(batch);
-        }
+        super.draw(batch, parentAlpha);
+        drawTiles(batch);
     }
 
     public void draw(ShapeRenderer shapeRenderer, float parentAlpha) {
-        if (show) {
+        if (isVisible()) {
             drawTileOutlines(shapeRenderer);
         }
     }

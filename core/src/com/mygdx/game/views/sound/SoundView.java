@@ -18,16 +18,14 @@ import java.util.List;
 @Slf4j
 public class SoundView extends Actor {
 
-    private @Getter @Setter boolean showSound;
-
     private final Color color;
     private final Scenario scenario;
 
     private final TextureRepository textureRepository;
 
-    public SoundView(Scenario scenario, boolean showSound) {
+    public SoundView(Scenario scenario, boolean visible) {
         this(scenario);
-        this.showSound = showSound;
+        setVisible(visible);
     }
 
     public SoundView(Scenario scenario) {
@@ -36,23 +34,20 @@ public class SoundView extends Actor {
         this.textureRepository = TextureRepository.getInstance();
     }
 
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        List<Sound> sounds = scenario.getSoundMap();
+        sounds.forEach(sound -> drawTile(batch, sound));
+    }
+
     public void draw(ShapeRenderer shapeRenderer, float parentAlpha) {
-        if (showSound) {
+        if (isVisible()) {
             List<Sound> sounds = scenario.getSoundMap();
 
             sounds.forEach(sound -> {
                 Position position = sound.getPosition();
                 drawSoundOutline(shapeRenderer, position);
             });
-        }
-    }
-
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        if (showSound) {
-            List<Sound> sounds = scenario.getSoundMap();
-
-            sounds.forEach(sound -> drawTile(batch, sound));
         }
     }
 

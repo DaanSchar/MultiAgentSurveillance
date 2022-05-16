@@ -16,8 +16,6 @@ import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
 public class BrickAndMortarView extends Group {
 
-    private @Getter @Setter boolean show;
-
     private final Environment environment;
 
     private final Color exploredColor;
@@ -25,9 +23,9 @@ public class BrickAndMortarView extends Group {
 
     private final TextureRepository textureRepository;
 
-    public BrickAndMortarView(Agent agent, boolean show) {
+    public BrickAndMortarView(Agent agent, boolean visible) {
         this(agent);
-        this.show = show;
+        setVisible(visible);
     }
 
     public BrickAndMortarView(Agent agent) {
@@ -39,17 +37,15 @@ public class BrickAndMortarView extends Group {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        if (show) {
-            super.draw(batch, parentAlpha);
+        super.draw(batch, parentAlpha);
 
-            for (Tile tile : environment) {
-                drawTile(batch, tile);
-            }
+        for (Tile tile : environment) {
+            drawTile(batch, tile);
         }
     }
 
     public void draw(ShapeRenderer shapeRenderer, float parentAlpha) {
-        if (show) {
+        if (isVisible()) {
             for (Tile tile : environment) {
                 drawTileOutline(shapeRenderer, tile);
             }
