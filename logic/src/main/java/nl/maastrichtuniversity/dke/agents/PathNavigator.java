@@ -18,25 +18,20 @@ import java.util.List;
 import java.util.Queue;
 
 @Slf4j
-public class Path {
+public class PathNavigator {
 
     private final @Getter Position finalDestination;
     private final PathFinderModule pathFinderModule;
-    private final IMovementModule movementModule;
-    private final IMemoryModule memoryModule;
     private final @Getter Queue<Position> path;
 
-    public Path(Position currentPosition, Position finalDestination,
-                PathFinderModule pathFinderModule, IMovementModule movementModule, IMemoryModule memoryModule) {
+    public PathNavigator(Position currentPosition, Position finalDestination, PathFinderModule pathFinderModule) {
         this.finalDestination = finalDestination;
         this.pathFinderModule = pathFinderModule;
-        this.movementModule = movementModule;
-        this.memoryModule = memoryModule;
         this.path = calculatePath(currentPosition, finalDestination);
     }
 
     /**
-     * Determines the next move action based on the current position and the next position in the path.
+     * Determines the next MoveAction based on the current position and the next position in the path.
      *
      * @param currentPosition  position of the agent
      * @param currentDirection direction of the agent
@@ -73,14 +68,13 @@ public class Path {
         return nextMove;
     }
 
-    private MoveAction determineMoveAction(Position currentPosition, Position nextPosition,
-                                           Direction currentDirection) {
-        Position facingPosition = getPositionInDirection(currentPosition, currentDirection);
-        Position leftFacingPosition = getPositionInDirection(currentPosition, currentDirection.leftOf());
-        Position rightFacingPosition = getPositionInDirection(currentPosition, currentDirection.rightOf());
-        Position backPosition = getPositionInDirection(currentPosition, currentDirection.opposite());
+    private MoveAction determineMoveAction(Position position, Position nextPosition, Direction direction) {
+        Position frontFacingPosition = getPositionInDirection(position, direction);
+        Position leftFacingPosition = getPositionInDirection(position, direction.leftOf());
+        Position rightFacingPosition = getPositionInDirection(position, direction.rightOf());
+        Position backPosition = getPositionInDirection(position, direction.opposite());
 
-        if (nextPosition.equals(facingPosition)) {
+        if (nextPosition.equals(frontFacingPosition)) {
             path.poll();
             return MoveAction.MOVE_FORWARD;
         } else if (nextPosition.equals(leftFacingPosition)) {
@@ -90,24 +84,12 @@ public class Path {
         } else if (nextPosition.equals(backPosition)) {
             return MoveAction.ROTATE_RIGHT;
         } else {
-
-            if (tileAt(nextPosition).getType() == TileType.DOOR) {
-                return MoveAction.TOGGLE_DOOR;
-            }
-            if (tileAt(nextPosition).getType() == TileType.WINDOW) {
-                return MoveAction.BREAK_WINDOW;
-            }
-
             return null;
         }
     }
 
     private Position getPositionInDirection(Position currentPosition, Direction direction) {
-        return movementModule.getForwardPosition(currentPosition, direction);
-    }
-
-    private Tile tileAt(Position position) {
-        return memoryModule.getMap().getAt(position);
+        return currentPosition.getPosInDirection(direction);
     }
 
     private Queue<Position> calculatePath(Position currentPosition, Position finalDestination) {

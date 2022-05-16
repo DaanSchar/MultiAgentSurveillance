@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.agents.modules.interaction.InteractionModule;
-import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationMark;
+import nl.maastrichtuniversity.dke.agents.modules.communication.Mark;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.agents.modules.communication.ICommunicationModule;
 import nl.maastrichtuniversity.dke.agents.modules.exploration.IExplorationModule;
@@ -51,7 +51,7 @@ public class Agent {
     private @Setter Position position;
     private @Setter Direction direction;
 
-    private Path path;
+    private PathNavigator pathNavigator;
     private @Setter Position target;
 
     public Agent() {
@@ -99,7 +99,7 @@ public class Agent {
 
     public void moveToPosition(Position target) {
         calculatePathTo(target);
-        move(path.getNextMove(getPosition(), getDirection()));
+        move(pathNavigator.getNextMove(getPosition(), getDirection()));
     }
 
     public void toggleDoor() {
@@ -127,7 +127,7 @@ public class Agent {
     }
 
     public boolean dropMark(CommunicationType type) {
-        CommunicationMark mark = new CommunicationMark(getPosition(), type, this);
+        Mark mark = new Mark(getPosition(), type, this);
 
         if (communicationModule.hasMark(type)) {
             communicationModule.dropMark(mark);
@@ -137,15 +137,9 @@ public class Agent {
         return false;
     }
 
-    public void moveRandomly() {
-        MoveAction[] moves = {MoveAction.ROTATE_LEFT, MoveAction.ROTATE_RIGHT, MoveAction.MOVE_FORWARD};
-        MoveAction randomMove = moves[new Random().nextInt(moves.length)];
-        move(randomMove);
-    }
-
     protected void calculatePathTo(Position target) {
-        if (this.path == null || this.path.getFinalDestination() != target) {
-            this.path = new Path(getPosition(), target, pathFinderModule, movement, memoryModule);
+        if (this.pathNavigator == null || this.pathNavigator.getFinalDestination() != target) {
+            this.pathNavigator = new PathNavigator(getPosition(), target, pathFinderModule);
         }
     }
 
@@ -176,6 +170,14 @@ public class Agent {
     }
 
     private void moveForward() {
+        Tile facingTile = getFacingTile();
+
+        if (facingTile.getType() == TileType.WINDOW) {
+            breakWindow();
+        } else if (facingTile.getType() == TileType.DOOR) {
+            toggleDoor();
+        }
+
         position = movement.goForward(position, direction);
         noiseModule.makeSound(position, SoundType.WALK);
     }
