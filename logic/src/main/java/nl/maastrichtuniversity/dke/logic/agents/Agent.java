@@ -11,7 +11,6 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.communication.ICommunica
 import nl.maastrichtuniversity.dke.logic.agents.modules.exploration.IExplorationModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.memory.IMemoryModule;
-import nl.maastrichtuniversity.dke.logic.agents.modules.memory.MemoryModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovementModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.SoundType;
 import nl.maastrichtuniversity.dke.logic.agents.modules.pathfind.PathFinderModule;
