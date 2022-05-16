@@ -29,7 +29,7 @@ public class UniformSpawnModule extends AgentModule implements ISpawnModule {
         if (agent instanceof Guard) {
             areas = scenario.getEnvironment().get(TileType.SPAWN_GUARDS);
         } else if (agent instanceof Intruder) {
-            areas = scenario.getEnvironment().get(TileType.SPAWN_GUARDS);
+            areas = scenario.getEnvironment().get(TileType.SPAWN_INTRUDERS);
         } else {
             areas = null;
         }
