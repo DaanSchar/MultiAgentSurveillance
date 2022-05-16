@@ -2,8 +2,8 @@ package com.mygdx.game.views.communication;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
-import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationMark;
+import nl.maastrichtuniversity.dke.scenario.Scenario;
 
 import java.util.List;
 

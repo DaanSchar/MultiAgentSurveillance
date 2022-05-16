@@ -1,6 +1,6 @@
 package util;
 
-import nl.maastrichtuniversity.dke.logic.scenario.util.MapParser;
+import nl.maastrichtuniversity.dke.scenario.util.MapParser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

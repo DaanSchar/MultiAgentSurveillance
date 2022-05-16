@@ -6,9 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.util.TextureRepository;
-import nl.maastrichtuniversity.dke.logic.agents.Agent;
-import nl.maastrichtuniversity.dke.logic.agents.Path;
-import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.agents.Agent;
+import nl.maastrichtuniversity.dke.agents.Path;
+import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 import java.util.LinkedList;
 import java.util.Queue;

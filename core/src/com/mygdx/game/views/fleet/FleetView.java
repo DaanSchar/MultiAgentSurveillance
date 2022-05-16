@@ -2,10 +2,10 @@ package com.mygdx.game.views.fleet;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import nl.maastrichtuniversity.dke.logic.agents.Fleet;
-import nl.maastrichtuniversity.dke.logic.agents.Guard;
-import nl.maastrichtuniversity.dke.logic.agents.Intruder;
-import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.agents.Fleet;
+import nl.maastrichtuniversity.dke.agents.Guard;
+import nl.maastrichtuniversity.dke.agents.Intruder;
+import nl.maastrichtuniversity.dke.scenario.Scenario;
 
 public class FleetView extends Group {
 
