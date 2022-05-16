@@ -19,9 +19,9 @@ public class VisionView extends Group {
     private @Getter @Setter boolean show;
 
     private final Scenario scenario;
-    private final Agent agent;
 
     private final Color color;
+    private final Texture texture;
 
     public VisionView(Scenario scenario, boolean show) {
         this(scenario);
@@ -30,53 +30,73 @@ public class VisionView extends Group {
 
     public VisionView(Scenario scenario) {
         this.scenario = scenario;
-        this.agent = scenario.getGuards().get(0);
-        this.color = new Color(0.9f, 0.95f, 0f, 0.7f);
+        this.color = new Color(0.9f, 0.95f, 0f, 0.3f);
+        this.texture = getPixmapTexture(color);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-        drawVisionTilesFill(batch);
-    }
-
-    public void draw(ShapeRenderer shapeRenderer, float parentAlpha) {
-        drawVisionTilesOutline(shapeRenderer);
-    }
-
-    private void drawVisionTilesOutline(ShapeRenderer shapeRenderer) {
         if (show) {
-            for (Tile tile : agent.getVisionModule().getVisibleTiles()) {
-                drawRectangleOutline(shapeRenderer, tile.getPosition());
-            }
+            super.draw(batch, parentAlpha);
+            drawTileFills(batch);
         }
     }
 
-    private void drawRectangleOutline(ShapeRenderer shapeRenderer, Position position) {
+    public void draw(ShapeRenderer shapeRenderer, float parentAlpha) {
+        if (show) {
+            drawTileOutlines(shapeRenderer);
+        }
+    }
+
+    private void drawTileFills(Batch batch) {
+        for (Agent agent : scenario.getGuards()) {
+            drawAgentTileFills(batch, agent);
+        }
+
+        for (Agent agent : scenario.getIntruders()) {
+            drawAgentTileFills(batch, agent);
+        }
+    }
+
+    private void drawAgentTileFills(Batch batch, Agent agent) {
+        for (Tile tile : agent.getVisionModule().getVisibleTiles()) {
+            drawTileFill(batch, tile.getPosition());
+        }
+    }
+
+    private void drawTileFill(Batch batch, Position position) {
+        batch.draw(
+                texture,
+                position.getX() * TextureRepository.TILE_WIDTH,
+                position.getY() * TextureRepository.TILE_HEIGHT,
+                TextureRepository.TILE_WIDTH,
+                TextureRepository.TILE_HEIGHT
+        );
+    }
+
+    private void drawTileOutlines(ShapeRenderer shapeRenderer) {
+        for (Agent agent : scenario.getGuards()) {
+            drawAgentTileOutlines(shapeRenderer, agent);
+        }
+
+        for (Agent agent : scenario.getIntruders()) {
+            drawAgentTileOutlines(shapeRenderer, agent);
+        }
+    }
+
+    private void drawAgentTileOutlines(ShapeRenderer shapeRenderer, Agent agent) {
+        for (Tile tile : agent.getVisionModule().getVisibleTiles()) {
+            drawTileOutline(shapeRenderer, tile.getPosition());
+        }
+    }
+
+    private void drawTileOutline(ShapeRenderer shapeRenderer, Position position) {
         shapeRenderer.rect(
                 position.getX() * TextureRepository.TILE_WIDTH,
                 position.getY() * TextureRepository.TILE_HEIGHT,
                 TextureRepository.TILE_WIDTH,
                 TextureRepository.TILE_HEIGHT,
                 color, color, color, color
-        );
-    }
-
-    private void drawVisionTilesFill(Batch batch) {
-        if (show) {
-            for (Tile tile : agent.getVisionModule().getVisibleTiles()) {
-                drawRectangle(batch, tile.getPosition(), color);
-            }
-        }
-    }
-
-    private void drawRectangle(Batch batch, Position position, Color color) {
-        batch.draw(
-                getPixmapTexture(color),
-                position.getX() * TextureRepository.TILE_WIDTH,
-                position.getY() * TextureRepository.TILE_HEIGHT,
-                TextureRepository.TILE_WIDTH,
-                TextureRepository.TILE_HEIGHT
         );
     }
 

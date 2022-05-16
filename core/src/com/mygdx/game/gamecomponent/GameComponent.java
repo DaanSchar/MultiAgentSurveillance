@@ -68,13 +68,13 @@ public class GameComponent extends MovableStage {
 
     public void update() {
         environmentView.update();
-        brickAndMortarView.update();
     }
 
     private void drawLines() {
         getShapeRenderer().begin(ShapeRenderer.ShapeType.Point);
-        soundView.draw(getShapeRenderer(), 1f);
         smellView.draw(getShapeRenderer(), 1f);
+        soundView.draw(getShapeRenderer(), 1f);
+        brickAndMortarView.draw(getShapeRenderer(), 1f);
         visionView.draw(getShapeRenderer(), 1f);
         pathFinderFleetView.draw(getShapeRenderer(), 1f);
         getShapeRenderer().end();
@@ -95,6 +95,7 @@ public class GameComponent extends MovableStage {
             default -> super.keyDown(keyCode);
         }
 
+        update();
         return super.keyDown(keyCode);
     }
 
