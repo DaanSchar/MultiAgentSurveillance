@@ -2,8 +2,10 @@ package nl.maastrichtuniversity.dke.agents;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.agents.modules.memory.MemoryModule;
 import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.SoundType;
 import nl.maastrichtuniversity.dke.scenario.Sound;
+import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 import java.util.List;
 
@@ -20,7 +22,8 @@ public class Guard extends Agent {
     @Override
     public void spawn() {
         super.spawn();
-//        setTarget(((MemoryModule) getMemoryModule()).getRandomPosition());
+        setTarget(((MemoryModule) getMemoryModule()).getRandomPosition());
+        setTarget(new Position(43, 18));
     }
 
     @Override
@@ -39,7 +42,7 @@ public class Guard extends Agent {
 
     @Override
     public void updateInternals() {
-        determineTarget();
+//        determineTarget();
         super.updateInternals();
     }
 

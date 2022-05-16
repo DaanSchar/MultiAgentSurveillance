@@ -2,10 +2,15 @@ package nl.maastrichtuniversity.dke.agents;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
+import nl.maastrichtuniversity.dke.agents.modules.memory.IMemoryModule;
+import nl.maastrichtuniversity.dke.agents.modules.memory.MemoryModule;
 import nl.maastrichtuniversity.dke.agents.modules.movement.IMovementModule;
 import nl.maastrichtuniversity.dke.agents.modules.pathfind.PathFinderModule;
 import nl.maastrichtuniversity.dke.agents.util.Direction;
 import nl.maastrichtuniversity.dke.agents.util.MoveAction;
+import nl.maastrichtuniversity.dke.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 import java.util.LinkedList;
@@ -18,14 +23,15 @@ public class Path {
     private final @Getter Position finalDestination;
     private final PathFinderModule pathFinderModule;
     private final IMovementModule movementModule;
-
+    private final IMemoryModule memoryModule;
     private final @Getter Queue<Position> path;
 
     public Path(Position currentPosition, Position finalDestination,
-                PathFinderModule pathFinderModule, IMovementModule movementModule) {
+                PathFinderModule pathFinderModule, IMovementModule movementModule, IMemoryModule memoryModule) {
         this.finalDestination = finalDestination;
         this.pathFinderModule = pathFinderModule;
         this.movementModule = movementModule;
+        this.memoryModule = memoryModule;
         this.path = calculatePath(currentPosition, finalDestination);
     }
 
@@ -45,10 +51,11 @@ public class Path {
     }
 
     private MoveAction moveToNextPositionInRoute(Position currentPosition, Direction currentDirection) {
-        Position nextPosition = path.poll();
+        Position nextPosition = path.peek();
 
         if (nextPosition.equals(currentPosition)) {
-            nextPosition = path.poll();
+            path.poll();
+            nextPosition = path.peek();
         }
 
         if (nextPosition == null) {
@@ -74,6 +81,7 @@ public class Path {
         Position backPosition = getPositionInDirection(currentPosition, currentDirection.opposite());
 
         if (nextPosition.equals(facingPosition)) {
+            path.poll();
             return MoveAction.MOVE_FORWARD;
         } else if (nextPosition.equals(leftFacingPosition)) {
             return MoveAction.ROTATE_LEFT;
@@ -82,12 +90,24 @@ public class Path {
         } else if (nextPosition.equals(backPosition)) {
             return MoveAction.ROTATE_RIGHT;
         } else {
+
+            if (tileAt(nextPosition).getType() == TileType.DOOR) {
+                return MoveAction.TOGGLE_DOOR;
+            }
+            if (tileAt(nextPosition).getType() == TileType.WINDOW) {
+                return MoveAction.BREAK_WINDOW;
+            }
+
             return null;
         }
     }
 
     private Position getPositionInDirection(Position currentPosition, Direction direction) {
         return movementModule.getForwardPosition(currentPosition, direction);
+    }
+
+    private Tile tileAt(Position position) {
+        return memoryModule.getMap().getAt(position);
     }
 
     private Queue<Position> calculatePath(Position currentPosition, Position finalDestination) {

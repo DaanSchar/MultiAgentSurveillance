@@ -66,12 +66,7 @@ public class Agent {
     }
 
     public void move() {
-        Tile facingTile = getFacingTile();
-
-        if (!facingTile.isOpened()) {
-            toggleDoor();
-            breakWindow();
-        }
+        /* empty for now */
     }
 
     public void updateInternals() {
@@ -96,6 +91,8 @@ public class Agent {
             case ROTATE_LEFT -> rotate(MoveAction.ROTATE_LEFT);
             case ROTATE_RIGHT -> rotate(MoveAction.ROTATE_RIGHT);
             case STAND_STILL -> { /* do nothing */ }
+            case BREAK_WINDOW -> breakWindow();
+            case TOGGLE_DOOR -> toggleDoor();
             default -> log.info("not performing MoveAction: {}", action);
         }
     }
@@ -106,25 +103,25 @@ public class Agent {
     }
 
     public void toggleDoor() {
-        Tile facingTile = getFacingTile();
+        Tile currentTile = memoryModule.getMap().getAt(getPosition());
+        List<Tile> doorTiles = memoryModule.getMap().getNeighborsAndFilter(currentTile, neighbor -> neighbor.getType() == TileType.DOOR);
 
-        if (facingTile.getType() == TileType.DOOR) {
-            interactionModule.toggleDoor(facingTile.getPosition());
-            noiseModule.makeSound(facingTile.getPosition(), SoundType.TOGGLE_DOOR);
+        if (doorTiles.size() > 0) {
+            Position door = doorTiles.get(0).getPosition();
+            interactionModule.toggleDoor(door);
+            noiseModule.makeSound(door, SoundType.TOGGLE_DOOR);
         }
     }
 
     public void breakWindow() {
-        Tile facingTile = getFacingTile();
+        Tile currentTile = memoryModule.getMap().getAt(getPosition());
+        List<Tile> windowTiles = memoryModule.getMap().getNeighborsAndFilter(currentTile, neighbor -> neighbor.getType() == TileType.WINDOW);
 
-        if (facingTile.getType() == TileType.WINDOW) {
-            boolean brokeWindow = interactionModule.breakWindow(facingTile.getPosition());
-
-            if (brokeWindow) {
-                noiseModule.makeSound(facingTile.getPosition(), SoundType.BREAK_WINDOW);
-            }
+        if (windowTiles.size() > 0) {
+            Position window = windowTiles.get(0).getPosition();
+            interactionModule.breakWindow(window);
+            noiseModule.makeSound(window, SoundType.BREAK_WINDOW);
         }
-
     }
 
     public boolean dropMark(CommunicationType type) {
@@ -146,7 +143,7 @@ public class Agent {
 
     protected void calculatePathTo(Position target) {
         if (this.path == null || this.path.getFinalDestination() != target) {
-            this.path = new Path(getPosition(), target, pathFinderModule, movement);
+            this.path = new Path(getPosition(), target, pathFinderModule, movement, memoryModule);
         }
     }
 
