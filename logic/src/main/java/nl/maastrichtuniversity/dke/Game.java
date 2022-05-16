@@ -41,7 +41,7 @@ public class Game {
 
 
     private @Getter Scenario scenario;
-    private @Getter final Victory victory;
+    private @Getter Victory victory;
 
     public void reset() {
         scenario = new MapParser(mapFile).createScenario();
@@ -51,6 +51,7 @@ public class Game {
     public void init() {
         scenario.getGuards().forEach(Guard::spawn);
         scenario.getIntruders().forEach(Intruder::spawn);
+        victory = new Victory(this.scenario);
     }
 
     public void update() {
@@ -99,7 +100,6 @@ public class Game {
 
     protected Game() {
         this.scenario = new MapParser(mapFile).createScenario();
-        this.victory = new Victory(this.scenario);
         init();
     }
 
