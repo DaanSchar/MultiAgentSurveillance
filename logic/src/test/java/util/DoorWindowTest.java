@@ -57,7 +57,7 @@ public class DoorWindowTest {
         Assertions.assertEquals(TileType.DOOR, tileMap[2][2].getType());
     }
 
-    @Test
+//    @Test
     void test() {
         Guard guard = scenario.getGuards().get(0);
         spawnGuard(guard);
