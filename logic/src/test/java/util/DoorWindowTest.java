@@ -1,12 +1,12 @@
 package util;
 
-import nl.maastrichtuniversity.dke.logic.agents.Guard;
-import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
-import nl.maastrichtuniversity.dke.logic.agents.util.MoveAction;
-import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.*;
-import nl.maastrichtuniversity.dke.logic.scenario.util.MapParser;
-import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.agents.Guard;
+import nl.maastrichtuniversity.dke.agents.util.Direction;
+import nl.maastrichtuniversity.dke.agents.util.MoveAction;
+import nl.maastrichtuniversity.dke.scenario.Scenario;
+import nl.maastrichtuniversity.dke.scenario.environment.*;
+import nl.maastrichtuniversity.dke.scenario.util.MapParser;
+import nl.maastrichtuniversity.dke.scenario.util.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

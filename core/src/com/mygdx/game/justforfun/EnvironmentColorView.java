@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.util.PerlinNoiseGenerator;
 import lombok.Getter;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
+import nl.maastrichtuniversity.dke.scenario.environment.Environment;
+import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 
 import java.util.HashMap;
 

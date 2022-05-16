@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.util.TextureRepository;
-import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
-import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
-import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationMark;
+import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationType;
+import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 public class MarkerView extends Actor {
     private final CommunicationMark mark;

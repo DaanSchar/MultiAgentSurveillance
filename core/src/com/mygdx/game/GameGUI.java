@@ -7,7 +7,7 @@ import com.mygdx.game.gamecomponent.GameComponent;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import nl.maastrichtuniversity.dke.logic.Game;
+import nl.maastrichtuniversity.dke.Game;
 
 import java.io.File;
 import java.util.Objects;

@@ -11,9 +11,9 @@ import com.mygdx.game.views.pathfind.PathFinderView;
 import com.mygdx.game.views.smell.SmellView;
 import com.mygdx.game.views.sound.SoundView;
 import com.mygdx.game.views.vision.VisionView;
-import nl.maastrichtuniversity.dke.logic.Game;
-import nl.maastrichtuniversity.dke.logic.agents.Agent;
-import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.Game;
+import nl.maastrichtuniversity.dke.agents.Agent;
+import nl.maastrichtuniversity.dke.scenario.Scenario;
 
 public class GameComponent extends MovableStage {
 
