@@ -2,15 +2,9 @@ package nl.maastrichtuniversity.dke.agents;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
-import nl.maastrichtuniversity.dke.agents.modules.memory.IMemoryModule;
-import nl.maastrichtuniversity.dke.agents.modules.memory.MemoryModule;
-import nl.maastrichtuniversity.dke.agents.modules.movement.IMovementModule;
 import nl.maastrichtuniversity.dke.agents.modules.pathfind.PathFinderModule;
 import nl.maastrichtuniversity.dke.agents.util.Direction;
 import nl.maastrichtuniversity.dke.agents.util.MoveAction;
-import nl.maastrichtuniversity.dke.scenario.environment.Tile;
-import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 import java.util.LinkedList;

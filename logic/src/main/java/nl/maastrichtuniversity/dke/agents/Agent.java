@@ -104,7 +104,8 @@ public class Agent {
 
     public void toggleDoor() {
         Tile currentTile = memoryModule.getMap().getAt(getPosition());
-        List<Tile> doorTiles = memoryModule.getMap().getNeighborsAndFilter(currentTile, neighbor -> neighbor.getType() == TileType.DOOR);
+        List<Tile> doorTiles = memoryModule.getMap()
+                .getNeighborsAndFilter(currentTile, neighbor -> neighbor.getType() == TileType.DOOR);
 
         if (doorTiles.size() > 0) {
             Position door = doorTiles.get(0).getPosition();
@@ -116,7 +117,8 @@ public class Agent {
 
     public void breakWindow() {
         Tile currentTile = memoryModule.getMap().getAt(getPosition());
-        List<Tile> windowTiles = memoryModule.getMap().getNeighborsAndFilter(currentTile, neighbor -> neighbor.getType() == TileType.WINDOW);
+        List<Tile> windowTiles = memoryModule.getMap()
+                .getNeighborsAndFilter(currentTile, neighbor -> neighbor.getType() == TileType.WINDOW);
 
         if (windowTiles.size() > 0) {
             Position window = windowTiles.get(0).getPosition();
