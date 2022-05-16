@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.util.TextureRepository;
 import nl.maastrichtuniversity.dke.agents.Agent;
-import nl.maastrichtuniversity.dke.agents.Path;
+import nl.maastrichtuniversity.dke.agents.PathNavigator;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 import java.util.LinkedList;
@@ -93,13 +93,13 @@ public class PathFinderAgentView extends Actor {
     }
 
     private Queue<Position> getPath() {
-        Path path = agent.getPath();
+        PathNavigator pathNavigator = agent.getPathNavigator();
 
-        if (path == null) {
+        if (pathNavigator == null) {
             return new LinkedList<>();
         }
 
-        return path.getPath();
+        return pathNavigator.getPath();
     }
 
 }

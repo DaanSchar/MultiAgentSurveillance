@@ -6,6 +6,8 @@ import nl.maastrichtuniversity.dke.agents.util.Direction;
 import nl.maastrichtuniversity.dke.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
 import nl.maastrichtuniversity.dke.scenario.Sound;
+import nl.maastrichtuniversity.dke.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 import nl.maastrichtuniversity.dke.util.Distribution;
 
@@ -62,7 +64,7 @@ public class ListeningModule extends AgentModule implements IListeningModule {
     }
 
     private boolean isValid(Position guessedPosition) {
-        return isInMap(guessedPosition) && isPassable(guessedPosition);
+        return isInMap(guessedPosition) && isPassable(guessedPosition) && !isTeleport(guessedPosition);
     }
 
     private boolean isInMap(Position position) {
@@ -72,6 +74,11 @@ public class ListeningModule extends AgentModule implements IListeningModule {
 
     private boolean isPassable(Position position) {
         return environment.getAt(position).isPassable();
+    }
+
+    private boolean isTeleport(Position position) {
+        Tile tile = scenario.getEnvironment().getAt(position);
+        return tile.getType() == TileType.TELEPORT;
     }
 
 
