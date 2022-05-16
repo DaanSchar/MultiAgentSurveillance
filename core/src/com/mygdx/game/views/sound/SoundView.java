@@ -1,11 +1,10 @@
 package com.mygdx.game.views.sound;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.util.TextureRepository;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,17 +13,17 @@ import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
-public class SoundView extends Group {
+public class SoundView extends Actor {
 
     private @Getter @Setter boolean showSound;
 
     private final Color color;
     private final Scenario scenario;
-    private final HashMap<Integer, Texture> textures;
+
+    private final TextureRepository textureRepository;
 
     public SoundView(Scenario scenario, boolean showSound) {
         this(scenario);
@@ -34,8 +33,7 @@ public class SoundView extends Group {
     public SoundView(Scenario scenario) {
         this.scenario = scenario;
         this.color = new Color(0.2f, 0.44f, 0.7f, 0.3f);
-        this.textures = new HashMap<>();
-        makeTextures();
+        this.textureRepository = TextureRepository.getInstance();
     }
 
     public void draw(ShapeRenderer shapeRenderer, float parentAlpha) {
@@ -54,13 +52,13 @@ public class SoundView extends Group {
         if (showSound) {
             List<Sound> sounds = scenario.getSoundMap();
 
-            sounds.forEach(sound -> drawFill(batch, sound));
+            sounds.forEach(sound -> drawTile(batch, sound));
         }
     }
 
-    private void drawFill(Batch batch, Sound sound) {
+    private void drawTile(Batch batch, Sound sound) {
         batch.draw(
-                getTexture(sound),
+                getTileTexture(sound),
                 sound.getPosition().getX(),
                 sound.getPosition().getY(),
                 TextureRepository.TILE_WIDTH,
@@ -68,16 +66,10 @@ public class SoundView extends Group {
         );
     }
 
-    private void makeTextures() {
-        for (int i = 0; i < 30; i++) {
-            textures.put(i, getPixmapTexture(makeColor(i)));
-        }
-    }
-
-    private Texture getTexture(Sound sound) {
+    private Texture getTileTexture(Sound sound) {
         Position source = sound.getSource();
-        int distance = (int) sound.getPosition().distance(source);
-        return textures.get(distance);
+        float distance = (float) sound.getPosition().distance(source);
+        return textureRepository.getTile(makeColor(distance));
     }
 
     private void drawSoundOutline(ShapeRenderer shapeRenderer, Position position) {
@@ -90,19 +82,8 @@ public class SoundView extends Group {
         );
     }
 
-    private Color makeColor(int distance) {
+    private Color makeColor(float distance) {
         return new Color(0.2f + (distance / 20f), 0.44f, 0.7f, 0.2f);
-    }
-
-    private Texture getPixmapTexture(Color color) {
-        return new Texture(getPixmapRectangle(color));
-    }
-
-    private static Pixmap getPixmapRectangle(Color color) {
-        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        pixmap.setColor(color);
-        pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
-        return pixmap;
     }
 
 }

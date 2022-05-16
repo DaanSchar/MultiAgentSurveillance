@@ -1,5 +1,7 @@
 package com.mygdx.game.util;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.HashMap;
@@ -20,14 +22,50 @@ public final class TextureRepository {
     }
 
     private final HashMap<String, Texture> textures;
+    private final HashMap<Color, Texture> coloredTiles;
 
     private TextureRepository() {
         textures = new HashMap<>();
+        coloredTiles = new HashMap<>();
         addTextures();
     }
 
+    /**
+     * Returns a texture with the given name.
+     *
+     * @param key The name of the texture.
+     * @return The texture with the given name.
+     */
     public Texture get(String key) {
         return textures.get(key);
+    }
+
+    /**
+     * Returns a simple square texture with the given color.
+     *
+     * @param color The color of the texture.
+     * @return A texture with size TileSize x TileSize and the given color.
+     */
+    public Texture getTile(Color color) {
+        Texture texture = coloredTiles.get(color);
+
+        if (texture == null) {
+            texture = getPixmapTexture(color);
+            coloredTiles.put(color, texture);
+        }
+
+        return texture;
+    }
+
+    private Texture getPixmapTexture(Color color) {
+        return new Texture(getPixmapRectangle(color));
+    }
+
+    private static Pixmap getPixmapRectangle(Color color) {
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(color);
+        pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
+        return pixmap;
     }
 
     private void addTextures() {
@@ -94,6 +132,7 @@ public final class TextureRepository {
         textures.put("guardright1", new Texture("guard/guardright1.png"));
         textures.put("guardright2", new Texture("guard/guardright2.png"));
         textures.put("guardright3", new Texture("guard/guardright3.png"));
+
         //intruders
         textures.put("intruder1", new Texture("intruders/intruder1.png"));
         textures.put("intruder2", new Texture("intruders/intruder2.png"));
@@ -116,8 +155,6 @@ public final class TextureRepository {
         textures.put("openeddoor", new Texture("texture/openddoor.png"));
         textures.put("window", new Texture("texture/window.png"));
         textures.put("brokenwindow", new Texture("texture/brokenwindow.png"));
-
-
     }
 
 }
