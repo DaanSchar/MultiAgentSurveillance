@@ -81,6 +81,10 @@ public class Agent {
     }
 
     public void explore() {
+        if (explorationModule.isDoneExploring()) {
+            explorationModule.reset();
+        }
+
         MoveAction nextMove = explorationModule.explore(getPosition(), getDirection());
         move(nextMove);
     }
@@ -188,8 +192,6 @@ public class Agent {
 
     protected List<Sound> getSoundsAtCurrentPosition() {
         List<Sound> sounds = listeningModule.getSounds(getPosition());
-
-//        log.info("Sounds at current position: " + sounds);
 
         return sounds.stream().filter(sound -> {
             Position source = sound.getSource();

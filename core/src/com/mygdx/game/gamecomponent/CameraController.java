@@ -16,7 +16,7 @@ public final class CameraController implements InputProcessor {
     private final float worldWidth;
     private final float worldHeight;
 
-    private static final float MAX_ZOOM = 1.5f;
+    private static final float MAX_ZOOM = 1.8f;
     private static final float MIN_ZOOM = 0.1f;
     private static final float ZOOM_STEP = 0.05f;
 
