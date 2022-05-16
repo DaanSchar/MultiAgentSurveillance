@@ -10,4 +10,6 @@ public interface IExplorationModule {
 
     boolean isDoneExploring();
 
+    void reset();
+
 }

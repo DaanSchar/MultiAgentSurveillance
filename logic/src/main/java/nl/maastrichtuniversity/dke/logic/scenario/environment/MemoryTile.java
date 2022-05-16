@@ -37,7 +37,8 @@ public class MemoryTile extends Tile {
 
     @Override
     public boolean isPassable() {
-        return super.isPassable() && !isVisited() && isPassableIfDoor() && isPassableIfWindow();
+        return super.isPassable() && !isVisited() && isPassableIfDoor() && isPassableIfWindow()
+                && getType() != TileType.UNKNOWN;
     }
 
     public boolean isPassable(boolean ignoreVisited) {

@@ -26,17 +26,15 @@ public class Guard extends Agent {
 
     @Override
     public void move() {
-//        if (hasTarget()) {
-//            if (hasReachedTarget()) {
-//                setTarget(null);
-//            } else {
-//                moveToPosition(getTarget());
-//            }
-//        } else {
-//            super.explore();
-//        }
-//        moveRandomly();
-        explore();
+        if (hasTarget()) {
+            if (hasReachedTarget()) {
+                setTarget(null);
+            } else {
+                moveToPosition(getTarget());
+            }
+        } else {
+            super.explore();
+        }
         super.move();
     }
 

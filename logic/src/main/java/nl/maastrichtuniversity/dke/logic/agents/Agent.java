@@ -11,6 +11,7 @@ import nl.maastrichtuniversity.dke.logic.agents.modules.communication.ICommunica
 import nl.maastrichtuniversity.dke.logic.agents.modules.exploration.IExplorationModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.listening.IListeningModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.memory.IMemoryModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.memory.MemoryModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.movement.IMovementModule;
 import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.SoundType;
 import nl.maastrichtuniversity.dke.logic.agents.modules.pathfind.PathFinderModule;
@@ -81,6 +82,10 @@ public class Agent {
     }
 
     public void explore() {
+        if (explorationModule.isDoneExploring()) {
+            explorationModule.reset();
+        }
+
         MoveAction nextMove = explorationModule.explore(getPosition(), getDirection());
         move(nextMove);
     }
@@ -188,8 +193,6 @@ public class Agent {
 
     protected List<Sound> getSoundsAtCurrentPosition() {
         List<Sound> sounds = listeningModule.getSounds(getPosition());
-
-//        log.info("Sounds at current position: " + sounds);
 
         return sounds.stream().filter(sound -> {
             Position source = sound.getSource();

@@ -41,6 +41,16 @@ public class BrickAndMortar implements IExplorationModule {
         shufflePriorityOfDirections();
     }
 
+    public void reset() {
+        isDoneExploring = false;
+
+        for (Tile tile : environment) {
+            MemoryTile memoryTile = (MemoryTile) tile;
+            memoryTile.setVisited(false);
+            memoryTile.setExplored(false);
+        }
+    }
+
     @Override
     public MoveAction explore(Position currentPosition, Direction currentDirection) {
         this.currentPosition = currentPosition;
