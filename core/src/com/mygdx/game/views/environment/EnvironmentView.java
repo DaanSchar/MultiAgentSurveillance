@@ -1,6 +1,8 @@
 package com.mygdx.game.views.environment;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.mygdx.game.util.PerlinNoiseGenerator;
 import lombok.Getter;
@@ -41,6 +43,13 @@ public class EnvironmentView extends Group {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+    }
+
+    public void draw(ShapeRenderer shapeRenderer, float parentAlpha) {
+        for (Actor actor : getChildren()) {
+            TileView tileView = (TileView) actor;
+            tileView.draw(shapeRenderer, parentAlpha);
+        }
     }
 
     private void addTileViews() {

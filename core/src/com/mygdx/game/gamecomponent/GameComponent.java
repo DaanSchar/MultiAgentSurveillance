@@ -81,6 +81,7 @@ public class GameComponent extends MovableStage {
 
     private void drawOutlines() {
         getShapeRenderer().begin(ShapeRenderer.ShapeType.Point);
+        environmentView.draw(getShapeRenderer(), 1f);
         smellView.draw(getShapeRenderer(), 1f);
         soundView.draw(getShapeRenderer(), 1f);
         brickAndMortarView.draw(getShapeRenderer(), 1f);
