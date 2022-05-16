@@ -61,16 +61,24 @@ public class Game {
     }
 
     public boolean checkVictory() {
-        if (victory.checkGuardVictory()) return true;
-        if (victory.checkIntruderVictory()) return true;
+        if (victory.checkGuardVictory()) {
+            return true;
+        }
+        if (victory.checkIntruderVictory()) {
+            return true;
+        }
 
         return false;
     }
 
     // TODO: display victory message on screen
     public void victoryMessage() {
-        if (victory.checkGuardVictory()) log.info("Guards win");
-        if (victory.checkIntruderVictory()) log.info("Intruders win");
+        if (victory.checkGuardVictory()) {
+            log.info("Guards win");
+        }
+        if (victory.checkIntruderVictory()) {
+            log.info("Intruders win");
+        }
     }
 
     private void moveAgents() {

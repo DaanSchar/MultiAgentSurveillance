@@ -22,7 +22,11 @@ public class Victory implements IVictory {
 
     // Guards win whenever every intruder is caught
     public boolean checkGuardVictory() {
-        for (Intruder intruder : scenario.getIntruders()) if (!intruder.isCaught()) return false;
+        for (Intruder intruder : scenario.getIntruders()) {
+            if (!intruder.isCaught()) {
+                return false;
+            }
+        }
         return true;
     }
 
