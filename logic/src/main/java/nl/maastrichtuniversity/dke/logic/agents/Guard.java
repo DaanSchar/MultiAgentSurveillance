@@ -2,6 +2,9 @@ package nl.maastrichtuniversity.dke.logic.agents;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.logic.agents.modules.memory.MemoryModule;
+import nl.maastrichtuniversity.dke.logic.agents.modules.noiseGeneration.SoundType;
+import nl.maastrichtuniversity.dke.logic.scenario.Sound;
 
 import java.util.List;
 
@@ -9,36 +12,68 @@ import java.util.List;
 @Slf4j
 public class Guard extends Agent {
 
-    @Getter
-    private final int catchDistance = 1;
+    private final @Getter int catchDistance = 1;
 
     public Guard() {
         super();
     }
 
     @Override
-    public void update() {
-        if (getVisibleIntruder() != null) {
-            if (!getVisibleIntruder().isCaught()) {
-                chasing();
-                catching();
+    public void spawn() {
+        super.spawn();
+//        setTarget(((MemoryModule) getMemoryModule()).getRandomPosition());
+    }
+
+    @Override
+    public void move() {
+        if (hasTarget()) {
+            if (hasReachedTarget()) {
+                setTarget(null);
+            } else {
+                moveToPosition(getTarget());
             }
         } else {
             super.explore();
         }
-        super.update();
+        super.move();
     }
 
-    public boolean seesIntruder() {
+    @Override
+    public void updateInternals() {
+        determineTarget();
+        super.updateInternals();
+    }
+
+    private void determineTarget() {
+        if (seesIntruder()) {
+            chaseIntruder();
+            catchIntruder();
+        }  else if (hearsSound()) {
+            moveToSoundSource();
+        }
+    }
+
+    private void moveToSoundSource() {
+        if (hearsSound()) {
+            List<Sound> sounds = super.getSoundsAtCurrentPosition();
+
+            if (sounds.size() > 0) {
+                Sound sound = sounds.get(0);
+                setTarget(getListeningModule().guessPositionOfSource(sound));
+            }
+        }
+    }
+
+    private boolean seesIntruder() {
         return getVisibleIntruder() != null;
     }
 
-    public void chasing() {
+    public void chaseIntruder() {
         Intruder intruder = getVisibleIntruder();
 
         if (intruder != null) {
-            getNoiseModule().yell(getPosition());
-            moveToLocation(intruder.getPosition());
+            getNoiseModule().makeSound(getPosition(), SoundType.YELL);
+            setTarget(intruder.getPosition());
         }
     }
 
@@ -54,8 +89,9 @@ public class Guard extends Agent {
         return null;
     }
 
-    public void catching() {
+    public void catchIntruder() {
         Intruder intruder = getVisibleIntruder();
+
         if (intruder == null) {
             return;
         }
@@ -64,7 +100,5 @@ public class Guard extends Agent {
             intruder.setCaught(true);
         }
     }
-
-
 
 }

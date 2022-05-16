@@ -2,6 +2,7 @@ package nl.maastrichtuniversity.dke.logic.scenario;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.logic.agents.Fleet;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@Slf4j
 public class Scenario {
 
     private String name;
@@ -34,11 +36,11 @@ public class Scenario {
         this.gameMode = gameMode;
         this.timeStep = timeStep;
         this.scaling = scaling;
-        this.soundMap = new ArrayList<>();
         this.smellMap = new ArrayList<>();
         this.communicationMarks = new ArrayList<>();
         this.environment = environment;
         this.currentTimeStep = 0;
+        this.soundMap = new ArrayList<>();
     }
 
     public void incrementTimeStep() {
@@ -47,6 +49,14 @@ public class Scenario {
 
     public double getCurrentTime() {
         return currentTimeStep * timeStep;
+    }
+
+    public List<Sound> getSoundMap() {
+        return soundMap;
+    }
+
+    public void addSounds(List<Sound> sound) {
+        soundMap.addAll(sound);
     }
 
 }

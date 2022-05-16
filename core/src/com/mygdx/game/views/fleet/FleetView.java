@@ -1,22 +1,27 @@
 package com.mygdx.game.views.fleet;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import nl.maastrichtuniversity.dke.logic.agents.Fleet;
 import nl.maastrichtuniversity.dke.logic.agents.Guard;
 import nl.maastrichtuniversity.dke.logic.agents.Intruder;
 import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
 
-import java.util.List;
-
 public class FleetView extends Group {
 
-    private final List<Guard> guards;
-    private final List<Intruder> intruders;
+    private final Fleet<Guard> guards;
+    private final Fleet<Intruder> intruders;
 
     public FleetView(Scenario scenario) {
         this.guards = scenario.getGuards();
         this.intruders = scenario.getIntruders();
 
         addAgents();
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
     }
 
     private void addAgents() {

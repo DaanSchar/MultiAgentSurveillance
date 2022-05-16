@@ -20,11 +20,11 @@ public final class GameGUI extends ApplicationAdapter {
     private GameComponent gameComponent;
 
     private float totalTimePassed;
-    private static float timeInterval = 0.00f;
+    private static float timeInterval = 0.24f;
 
-    private static final float MAX_TIME_INTERVAL = 0.1f;
+    private static final float MAX_TIME_INTERVAL = 0.5f;
     private static final float MIN_TIME_INTERVAL = 0f;
-    private static final float TIME_INTERVAL_INCREMENT = 0.01f;
+    private static final float TIME_INTERVAL_INCREMENT = 0.02f;
 
     private static boolean isPaused;
 

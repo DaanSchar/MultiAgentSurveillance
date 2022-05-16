@@ -3,23 +3,19 @@ package nl.maastrichtuniversity.dke.logic.agents;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
 import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
 public class Intruder extends Agent {
 
-    private @Getter
-    @Setter
-    boolean isCaught;
-    boolean alive;
+    private @Getter @Setter boolean isCaught;
+    private @Getter @Setter boolean alive;
     private boolean navigatedToBlueMark; // whether the agent has navigated to the mark that another agent dropped
     private boolean droppedBlueMark; // did it drop the mark already
 
@@ -33,65 +29,60 @@ public class Intruder extends Agent {
     }
 
     @Override
-    public void update() {
-        if (this.isCaught) {
-            return;
-        }
-
-        if (seesGuard()) {
-            avoidGuards();
-        } else if (seesTarget()) {
-            if (!droppedBlueMark) {
-                super.dropMark(CommunicationType.VISION_BLUE);
-                this.droppedBlueMark = true;
+    public void move() {
+        if (hasTarget()) {
+            if (hasReachedTarget()) {
+                setTarget(null);
+            } else {
+                moveToPosition(getTarget());
             }
-            navigateToTarget();
-        } else if (seesBlueMark() && !navigatedToBlueMark) {
-            this.navigatedToBlueMark = true;
-            navigateToBlueMark();
         } else {
             super.explore();
         }
-
-
-        super.update();
+        super.move();
     }
 
-    private void navigateToTarget() {
-        Tile target = getTarget();
-        Position targetPosition = target.getPosition();
-        moveToLocation(targetPosition);
+    @Override
+    public void updateInternals() {
+        if (seesTargetArea()) {
+            setTarget(getTargetTile().getPosition());
+        }
+        super.updateInternals();
     }
 
-    private boolean seesTarget() {
+    private boolean seesTargetArea() {
         List<Tile> obstacles = super.getVisionModule().getVisibleTiles();
 
         return containsTarget(obstacles);
     }
 
+    // TODO: this method is buggy and needs to be fixed.
     private void avoidGuards() {
         /* run away from the seen guard */
-        List<Guard> visibleGuards = getVisibleGuards();
-        Position toGuard = getPathFinderModule().getShortestPath(getPosition(),
-                visibleGuards.get(0).getPosition()).get(0);
-        Position avoid;
-        if (toGuard.getX() != getPosition().getX()) {
-            if (toGuard.getX() < getPosition().getX()) {
-               avoid  = new Position(getPosition().getX() + 1, getPosition().getY());
-            } else {
-                avoid = new Position(getPosition().getX() - 1, getPosition().getY());
-            }
-        } else {
-            if (toGuard.getY() < getPosition().getY()) {
-                avoid = new Position(getPosition().getX(), getPosition().getY() + 1);
-            } else {
-                avoid = new Position(getPosition().getX(), getPosition().getY() - 1);
-            }
-        }
-        List<Position> q = new ArrayList<>();
-        q.add(avoid);
-        setQueue(q);
-        moveToLocation(avoid);
+//        List<Guard> visibleGuards = getVisibleGuards();
+//        Position avoid;
+//        Position toGuard = getPathFinderModule().getShortestPath(
+//              getPosition(),
+//              visibleGuards.get(0).getPosition()
+//        ).get(0);
+//
+//        if (toGuard.getX() != getPosition().getX()) {
+//            if (toGuard.getX() < getPosition().getX()) {
+//               avoid  = new Position(getPosition().getX() + 1, getPosition().getY());
+//            } else {
+//                avoid = new Position(getPosition().getX() - 1, getPosition().getY());
+//            }
+//        } else {
+//            if (toGuard.getY() < getPosition().getY()) {
+//                avoid = new Position(getPosition().getX(), getPosition().getY() + 1);
+//            } else {
+//                avoid = new Position(getPosition().getX(), getPosition().getY() - 1);
+//            }
+//        }
+//        List<Position> q = new ArrayList<>();
+//        q.add(avoid);
+//        setNavigationQueue(q);
+//        moveToPosition(avoid);
 
     }
 
@@ -131,7 +122,7 @@ public class Intruder extends Agent {
         return tile.getType().equals(TileType.TARGET);
     }
 
-    private Tile getTarget() {
+    private Tile getTargetTile() {
         List<Tile> obstacles = super.getVisionModule().getVisibleTiles();
         return obstacles.stream().filter(tile -> tile.getType().equals(TileType.TARGET)).findFirst().get();
     }
@@ -164,7 +155,7 @@ public class Intruder extends Agent {
 
     private void navigateToBlueMark() {
         Position target = getBlueMark();
-        moveToLocation(target);
+        moveToPosition(target);
     }
 
 }
