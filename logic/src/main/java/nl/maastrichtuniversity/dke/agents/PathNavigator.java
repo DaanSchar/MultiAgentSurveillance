@@ -2,7 +2,6 @@ package nl.maastrichtuniversity.dke.agents;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import nl.maastrichtuniversity.dke.agents.modules.movement.IMovementModule;
 import nl.maastrichtuniversity.dke.agents.modules.pathfind.PathFinderModule;
 import nl.maastrichtuniversity.dke.agents.util.Direction;
 import nl.maastrichtuniversity.dke.agents.util.MoveAction;
@@ -13,24 +12,20 @@ import java.util.List;
 import java.util.Queue;
 
 @Slf4j
-public class Path {
+public class PathNavigator {
 
     private final @Getter Position finalDestination;
     private final PathFinderModule pathFinderModule;
-    private final IMovementModule movementModule;
-
     private final @Getter Queue<Position> path;
 
-    public Path(Position currentPosition, Position finalDestination,
-                PathFinderModule pathFinderModule, IMovementModule movementModule) {
+    public PathNavigator(Position currentPosition, Position finalDestination, PathFinderModule pathFinderModule) {
         this.finalDestination = finalDestination;
         this.pathFinderModule = pathFinderModule;
-        this.movementModule = movementModule;
         this.path = calculatePath(currentPosition, finalDestination);
     }
 
     /**
-     * Determines the next move action based on the current position and the next position in the path.
+     * Determines the next MoveAction based on the current position and the next position in the path.
      *
      * @param currentPosition  position of the agent
      * @param currentDirection direction of the agent
@@ -45,10 +40,11 @@ public class Path {
     }
 
     private MoveAction moveToNextPositionInRoute(Position currentPosition, Direction currentDirection) {
-        Position nextPosition = path.poll();
+        Position nextPosition = path.peek();
 
         if (nextPosition.equals(currentPosition)) {
-            nextPosition = path.poll();
+            path.poll();
+            nextPosition = path.peek();
         }
 
         if (nextPosition == null) {
@@ -66,14 +62,14 @@ public class Path {
         return nextMove;
     }
 
-    private MoveAction determineMoveAction(Position currentPosition, Position nextPosition,
-                                           Direction currentDirection) {
-        Position facingPosition = getPositionInDirection(currentPosition, currentDirection);
-        Position leftFacingPosition = getPositionInDirection(currentPosition, currentDirection.leftOf());
-        Position rightFacingPosition = getPositionInDirection(currentPosition, currentDirection.rightOf());
-        Position backPosition = getPositionInDirection(currentPosition, currentDirection.opposite());
+    private MoveAction determineMoveAction(Position position, Position nextPosition, Direction direction) {
+        Position frontFacingPosition = getPositionInDirection(position, direction);
+        Position leftFacingPosition = getPositionInDirection(position, direction.leftOf());
+        Position rightFacingPosition = getPositionInDirection(position, direction.rightOf());
+        Position backPosition = getPositionInDirection(position, direction.opposite());
 
-        if (nextPosition.equals(facingPosition)) {
+        if (nextPosition.equals(frontFacingPosition)) {
+            path.poll();
             return MoveAction.MOVE_FORWARD;
         } else if (nextPosition.equals(leftFacingPosition)) {
             return MoveAction.ROTATE_LEFT;
@@ -87,7 +83,7 @@ public class Path {
     }
 
     private Position getPositionInDirection(Position currentPosition, Direction direction) {
-        return movementModule.getForwardPosition(currentPosition, direction);
+        return currentPosition.getPosInDirection(direction);
     }
 
     private Queue<Position> calculatePath(Position currentPosition, Position finalDestination) {

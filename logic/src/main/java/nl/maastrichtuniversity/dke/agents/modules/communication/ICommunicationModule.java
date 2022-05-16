@@ -10,7 +10,7 @@ public interface ICommunicationModule {
 
     void findMarker(CommunicationType marker);
 
-    void dropMark(CommunicationMark device);
+    void dropMark(Mark device);
 
     boolean tileHasMark(Position position, CommunicationType type);
 

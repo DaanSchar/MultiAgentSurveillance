@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.agents.Fleet;
 import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
-import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationMark;
+import nl.maastrichtuniversity.dke.agents.modules.communication.Mark;
 import nl.maastrichtuniversity.dke.scenario.environment.Environment;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class Scenario {
     private Fleet<Intruder> intruders;
     private List<Smell> smellMap;
     private List<Sound> soundMap;
-    private List<CommunicationMark> communicationMarks;
+    private List<Mark> marks;
 
     private int currentTimeStep;
 
@@ -37,7 +37,7 @@ public class Scenario {
         this.timeStep = timeStep;
         this.scaling = scaling;
         this.smellMap = new ArrayList<>();
-        this.communicationMarks = new ArrayList<>();
+        this.marks = new ArrayList<>();
         this.environment = environment;
         this.currentTimeStep = 0;
         this.soundMap = new ArrayList<>();

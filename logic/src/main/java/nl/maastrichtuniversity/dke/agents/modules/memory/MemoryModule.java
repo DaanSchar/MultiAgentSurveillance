@@ -85,6 +85,24 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         return sounds.get(sounds.size() - 1);
     }
 
+    @Override
+    public void toggledDoor(Position position) {
+        MemoryTile door = (MemoryTile) map.getAt(position);
+
+        if (door.getType() == TileType.DOOR) {
+            door.setOpened(!door.isOpened());
+        }
+    }
+
+    @Override
+    public void brokeWindow(Position position) {
+        MemoryTile window = (MemoryTile) map.getAt(position);
+
+        if (window.getType() == TileType.WINDOW) {
+            window.setBroken(true);
+        }
+    }
+
     private void updateSmell(ISmellModule smellModule) {
         if (smellModule.getSmell(position)) {
             smells.add(position);

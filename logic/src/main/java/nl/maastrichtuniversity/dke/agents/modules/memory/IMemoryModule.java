@@ -23,4 +23,7 @@ public interface IMemoryModule {
 
     List<Sound> getCurrentSounds();
 
+    void toggledDoor(Position position);
+
+    void brokeWindow(Position position);
 }
