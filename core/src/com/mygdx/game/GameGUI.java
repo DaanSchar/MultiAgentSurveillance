@@ -39,13 +39,17 @@ public final class GameGUI extends ApplicationAdapter {
     @Override
     public void render() {
         totalTimePassed += Gdx.graphics.getDeltaTime();
+        if (!game.checkVictory()) {
+            if (totalTimePassed > timeInterval) {
+                totalTimePassed = 0;
 
-        if (totalTimePassed > timeInterval) {
-            totalTimePassed = 0;
-
-            if (!isPaused) {
-                update();
+                if (!isPaused) {
+                    update();
+                }
             }
+
+        } else {
+            game.victoryMessage();
         }
 
         draw();

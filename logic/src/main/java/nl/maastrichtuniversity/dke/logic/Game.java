@@ -60,6 +60,27 @@ public class Game {
         updateAgentInternals();
     }
 
+    public boolean checkVictory() {
+        if (victory.checkGuardVictory()) {
+            return true;
+        }
+        if (victory.checkIntruderVictory()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    // TODO: display victory message on screen
+    public void victoryMessage() {
+        if (victory.checkGuardVictory()) {
+            log.info("Guards win");
+        }
+        if (victory.checkIntruderVictory()) {
+            log.info("Intruders win");
+        }
+    }
+
     private void moveAgents() {
         Fleet<Guard> guards = scenario.getGuards();
         Fleet<Intruder> intruders = scenario.getIntruders();
