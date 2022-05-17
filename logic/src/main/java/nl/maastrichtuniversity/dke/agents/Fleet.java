@@ -75,8 +75,6 @@ public class Fleet<T extends Agent> extends ArrayList<T> {
     public T get(int index) {
         T agent = super.get(index);
 
-        log.info("{}", agent);
-
         if (agent instanceof Intruder) {
             return checkIfIsCaughtAndGet(agent);
         }

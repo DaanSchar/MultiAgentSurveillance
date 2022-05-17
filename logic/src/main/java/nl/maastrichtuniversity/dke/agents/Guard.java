@@ -42,7 +42,7 @@ public class Guard extends Agent {
 
     @Override
     public void updateInternals() {
-//        determineTarget();
+        determineTarget();
         super.updateInternals();
     }
 
