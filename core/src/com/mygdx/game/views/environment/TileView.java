@@ -11,6 +11,8 @@ import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 public class TileView extends Actor {
 
+    private static float MAX_COLOR_VALUE = 255f;
+
     private final Tile tile;
     private final Texture tileTexture;
     private final Texture stateTexture;
@@ -64,7 +66,7 @@ public class TileView extends Actor {
         return switch (tile.getType()) {
             case EMPTY, UNKNOWN -> null;
             case DESTINATION_TELEPORT -> textureRepository.get("teleportDestination");
-            case WALL -> textureRepository.getTile(new Color(height/4f, height/4f, height/4f, 1f));
+            case WALL -> textureRepository.getTile(new Color(height / 4f, height / 4f, height / 4f, 1f));
             case SPAWN_GUARDS -> textureRepository.get("sand1");
             case SPAWN_INTRUDERS -> textureRepository.get("sand2");
             case TARGET -> textureRepository.get("target");
@@ -80,8 +82,18 @@ public class TileView extends Actor {
     private Color getOutlineColor() {
         return switch (tile.getType()) {
             case WALL -> new Color(0.2f, 0.2f, 0.2f, 1f);
-            case SPAWN_GUARDS, SPAWN_INTRUDERS -> new Color(199f/255f, 187f/255f, 153f/255f, 1f);
-            case SHADED -> new Color(52f/255f, 107f/255f, 62f/255f, 1f);
+            case SPAWN_GUARDS, SPAWN_INTRUDERS -> new Color(
+                    199f / MAX_COLOR_VALUE,
+                    187f / MAX_COLOR_VALUE,
+                    153f / MAX_COLOR_VALUE,
+                    1f
+            );
+            case SHADED -> new Color(
+                    52f / MAX_COLOR_VALUE,
+                    107f / MAX_COLOR_VALUE,
+                    62f / MAX_COLOR_VALUE,
+                    1f
+            );
             case UNKNOWN -> Color.BLACK;
             default -> new Color(0.8f, 0.8f, 0.8f, 1f);
         };
@@ -96,7 +108,7 @@ public class TileView extends Actor {
     }
 
     private Texture getEmptyTileTexture() {
-        float value = 1 - height/5f;
+        float value = 1 - height / 5f;
         Color emptyTileColor = new Color(value, value, value, 1f);
         return textureRepository.getTile(emptyTileColor);
     }
