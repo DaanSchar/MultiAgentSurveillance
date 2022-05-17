@@ -15,17 +15,20 @@ import java.util.stream.Collectors;
 public class Intruder extends Agent {
 
     private @Getter @Setter boolean isCaught;
-    private @Getter @Setter boolean alive;
     private boolean navigatedToBlueMark; // whether the agent has navigated to the mark that another agent dropped
     private boolean droppedBlueMark; // did it drop the mark already
 
     public Intruder() {
         super();
         this.isCaught = false;
-        this.alive = true;
         this.navigatedToBlueMark = false;
         this.droppedBlueMark = false;
+    }
 
+    @Override
+    public void spawn() {
+        super.spawn();
+        this.isCaught = false;
     }
 
     @Override

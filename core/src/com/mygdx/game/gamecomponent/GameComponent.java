@@ -12,6 +12,7 @@ import com.mygdx.game.views.pathfind.PathFinderView;
 import com.mygdx.game.views.smell.SmellView;
 import com.mygdx.game.views.sound.SoundView;
 import com.mygdx.game.views.vision.VisionView;
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.Game;
 import nl.maastrichtuniversity.dke.agents.Agent;
 import nl.maastrichtuniversity.dke.agents.Fleet;
@@ -19,6 +20,7 @@ import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
 
+@Slf4j
 public class GameComponent extends MovableStage {
 
     private EnvironmentView environmentView;
@@ -182,8 +184,16 @@ public class GameComponent extends MovableStage {
 
     private Agent getCurrentAgent() {
         if (currentFleet == FleetType.GUARD) {
+            if (getGuards().size() - 1 < currentAgentIndex) {
+                currentAgentIndex = getGuards().size() - 1;
+            }
+
             return getGuards().get(currentAgentIndex);
         } else {
+            if (getIntruders().size() - 1 < currentAgentIndex) {
+                currentAgentIndex = getIntruders().size() - 1;
+            }
+
             return getIntruders().get(currentAgentIndex);
         }
     }
@@ -198,6 +208,7 @@ public class GameComponent extends MovableStage {
 
     private void updateViewsUsingAgents() {
         environmentView.setFleetType(currentFleet);
+        log.info("{}", currentAgentIndex);
         brickAndMortarView.setAgent(getCurrentAgent());
     }
 

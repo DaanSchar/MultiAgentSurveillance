@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.util.TextureRepository;
 import nl.maastrichtuniversity.dke.agents.Agent;
-import nl.maastrichtuniversity.dke.agents.PathNavigator;
+import nl.maastrichtuniversity.dke.agents.modules.pathfind.PathNavigator;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 import java.util.LinkedList;

@@ -98,8 +98,10 @@ public class Guard extends Agent {
             return;
         }
 
-        if (this.getPosition().distance(intruder.getPosition()) <= catchDistance) {
-            intruder.setCaught(true);
+        Position intruderPosition = intruder.getPosition();
+
+        if (this.getPosition().distance(intruderPosition) <= catchDistance) {
+            getInteractionModule().catchIntruder(intruderPosition);
         }
     }
 

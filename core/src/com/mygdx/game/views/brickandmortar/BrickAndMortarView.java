@@ -6,12 +6,14 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.mygdx.game.util.TextureRepository;
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.agents.Agent;
 import nl.maastrichtuniversity.dke.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.scenario.environment.MemoryTile;
 import nl.maastrichtuniversity.dke.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 
+@Slf4j
 public class BrickAndMortarView extends Group {
 
     private Environment environment;

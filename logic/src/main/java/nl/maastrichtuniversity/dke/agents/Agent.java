@@ -15,6 +15,7 @@ import nl.maastrichtuniversity.dke.agents.modules.movement.IMovementModule;
 import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.SoundType;
 import nl.maastrichtuniversity.dke.agents.modules.pathfind.PathFinderModule;
 import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.INoiseModule;
+import nl.maastrichtuniversity.dke.agents.modules.pathfind.PathNavigator;
 import nl.maastrichtuniversity.dke.agents.modules.smell.ISmellModule;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.ISpawnModule;
 import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
