@@ -46,7 +46,7 @@ public class Fleet<T extends Agent> extends ArrayList<T> {
         for (int i = 0; i < memories.get(0).getHeight(); i++) {
             for (int j = 0; j < memories.get(0).getWidth(); j++) {
                 for (Environment environment : memories) {
-                    Boolean isUnknown = environment.getTileMap()[j][i].getType().equals(TileType.UNKNOWN);
+                    boolean isUnknown = environment.getTileMap()[j][i].getType().equals(TileType.UNKNOWN);
                     if (!isUnknown) {
                         tileMap[j][i] = environment.getTileMap()[j][i];
                         break;
@@ -55,8 +55,24 @@ public class Fleet<T extends Agent> extends ArrayList<T> {
                 }
             }
         }
-        Environment env = new Environment(tileMap.length, tileMap[0].length, tileMap);
-        return env;
+
+        return new Environment(tileMap.length, tileMap[0].length, tileMap);
     }
 
+    @Override
+    public T get(int index) {
+        T agent = super.get(index);
+
+        if (agent instanceof Intruder) {
+            Intruder intruder = (Intruder) agent;
+
+            if (intruder.isCaught()) {
+                return (T) intruder;
+            }
+
+            return null;
+        }
+
+        return agent;
+    }
 }
