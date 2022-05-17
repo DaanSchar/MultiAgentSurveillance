@@ -42,7 +42,7 @@ public class Guard extends Agent {
 
     @Override
     public void updateInternals() {
-        determineTarget();
+//        determineTarget();
         super.updateInternals();
     }
 
@@ -98,10 +98,10 @@ public class Guard extends Agent {
             return;
         }
 
-        //TODO: This doesnt work. when getting visible agents, a copy of the agent is returned, not the
-        // reference to the original agent. FIX THIS.
-        if (this.getPosition().distance(intruder.getPosition()) <= catchDistance) {
-            intruder.setCaught(true);
+        Position intruderPosition = intruder.getPosition();
+
+        if (this.getPosition().distance(intruderPosition) <= catchDistance) {
+            getInteractionModule().catchIntruder(intruderPosition);
         }
     }
 

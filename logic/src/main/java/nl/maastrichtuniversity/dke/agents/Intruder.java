@@ -47,9 +47,9 @@ public class Intruder extends Agent {
 
     @Override
     public void updateInternals() {
-        if (seesTargetArea()) {
-            setTarget(getTargetTile().getPosition());
-        }
+//        if (seesTargetArea()) {
+//            setTarget(getTargetTile().getPosition());
+//        }
         super.updateInternals();
     }
 

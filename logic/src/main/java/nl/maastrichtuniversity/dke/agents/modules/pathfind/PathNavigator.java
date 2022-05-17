@@ -1,8 +1,7 @@
-package nl.maastrichtuniversity.dke.agents;
+package nl.maastrichtuniversity.dke.agents.modules.pathfind;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import nl.maastrichtuniversity.dke.agents.modules.pathfind.PathFinderModule;
 import nl.maastrichtuniversity.dke.agents.util.Direction;
 import nl.maastrichtuniversity.dke.agents.util.MoveAction;
 import nl.maastrichtuniversity.dke.scenario.util.Position;

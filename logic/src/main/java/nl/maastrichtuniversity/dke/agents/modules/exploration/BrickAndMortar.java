@@ -152,9 +152,9 @@ public class BrickAndMortar implements IExplorationModule {
 
         // we shuffle the tiles, otherwise it will always return the tile from
         // the same direction if all/most tiles are considered equally good
-        if (Math.random() < randomness) {
+//        if (Math.random() < randomness) {
             Collections.shuffle(unexploredTiles);
-        }
+//        }
 
         unexploredTiles.sort((t1, t2) -> getNonPassableNeighbors(t2).size() - getNonPassableNeighbors(t1).size());
 

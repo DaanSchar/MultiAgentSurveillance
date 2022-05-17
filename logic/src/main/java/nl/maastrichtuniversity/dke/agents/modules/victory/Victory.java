@@ -31,15 +31,15 @@ public class Victory implements IVictory {
     }
 
     public boolean checkTargetArea(List<Intruder> agents) {
-        List<Tile> tiles = scenario.getEnvironment().get(TileType.TARGET);
-        for (Tile tile : tiles) {
-            for (Agent agent : agents) {
-                if (agent.getPosition().getX() == tile.getPosition().getX()
-                        && agent.getPosition().getY() == tile.getPosition().getY()) {
-                    return true;
-                }
-            }
-        }
+//        List<Tile> tiles = scenario.getEnvironment().get(TileType.TARGET);
+//        for (Tile tile : tiles) {
+//            for (Agent agent : agents) {
+//                if (agent.getPosition().getX() == tile.getPosition().getX()
+//                        && agent.getPosition().getY() == tile.getPosition().getY()) {
+//                    return true;
+//                }
+//            }
+//        }
         return false;
     }
 }

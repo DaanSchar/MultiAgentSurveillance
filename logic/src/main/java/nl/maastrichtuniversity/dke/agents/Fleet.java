@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.agents;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.scenario.environment.TileType;
@@ -14,6 +15,7 @@ import java.util.List;
  *
  * @param <T> type of agent
  */
+@Slf4j
 public class Fleet<T extends Agent> extends ArrayList<T> {
 
     public Fleet() {
@@ -59,20 +61,36 @@ public class Fleet<T extends Agent> extends ArrayList<T> {
         return new Environment(tileMap.length, tileMap[0].length, tileMap);
     }
 
+    public T getAt(Position position) {
+        for (T agent : this) {
+            if (agent.getPosition().equals(position)) {
+                return agent;
+            }
+        }
+
+        return null;
+    }
+
     @Override
     public T get(int index) {
         T agent = super.get(index);
 
+        log.info("{}", agent);
+
         if (agent instanceof Intruder) {
-            Intruder intruder = (Intruder) agent;
-
-            if (intruder.isCaught()) {
-                return (T) intruder;
-            }
-
-            return null;
+            return checkIfIsCaughtAndGet(agent);
         }
 
         return agent;
+    }
+
+    private T checkIfIsCaughtAndGet(T agent) {
+        Intruder intruder = (Intruder) agent;
+
+        if (intruder.isCaught()) {
+            return null;
+        }
+
+        return (T) intruder;
     }
 }
