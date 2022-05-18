@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationType;
+import nl.maastrichtuniversity.dke.agents.modules.runningAway.IRunningAway;
+import nl.maastrichtuniversity.dke.agents.modules.runningAway.runningAway;
+import nl.maastrichtuniversity.dke.scenario.Sound;
 import nl.maastrichtuniversity.dke.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
@@ -15,6 +18,7 @@ import java.util.stream.Collectors;
 public class Intruder extends Agent {
 
     private @Getter @Setter boolean isCaught;
+    private @Setter IRunningAway runningAway;
     private boolean navigatedToBlueMark; // whether the agent has navigated to the mark that another agent dropped
     private boolean droppedBlueMark; // did it drop the mark already
 
@@ -50,7 +54,22 @@ public class Intruder extends Agent {
         if (seesTargetArea()) {
             setTarget(getTargetTile().getPosition());
         }
+        else if(seesGuard()){
+            setTarget(runningAway.avoidGuard(getVisibleGuards().get(0).getPosition(), this.getPosition()));
+        }else if (hearsSound() && !seesIntruder()){
+            avoidSoundSource();
+        }
         super.updateInternals();
+    }
+    private void avoidSoundSource() {
+        if (hearsSound()) {
+            List<Sound> sounds = super.getSoundsAtCurrentPosition();
+
+            if (sounds.size() > 0) {
+                Sound sound = sounds.get(0);
+                setTarget(runningAway.avoidGuard(sound.getPosition(), this.getPosition()));
+            }
+        }
     }
 
     private boolean seesTargetArea() {
@@ -59,38 +78,11 @@ public class Intruder extends Agent {
         return containsTarget(obstacles);
     }
 
-    // TODO: this method is buggy and needs to be fixed.
-    private void avoidGuards() {
-        /* run away from the seen guard */
-//        List<Guard> visibleGuards = getVisibleGuards();
-//        Position avoid;
-//        Position toGuard = getPathFinderModule().getShortestPath(
-//              getPosition(),
-//              visibleGuards.get(0).getPosition()
-//        ).get(0);
-//
-//        if (toGuard.getX() != getPosition().getX()) {
-//            if (toGuard.getX() < getPosition().getX()) {
-//               avoid  = new Position(getPosition().getX() + 1, getPosition().getY());
-//            } else {
-//                avoid = new Position(getPosition().getX() - 1, getPosition().getY());
-//            }
-//        } else {
-//            if (toGuard.getY() < getPosition().getY()) {
-//                avoid = new Position(getPosition().getX(), getPosition().getY() + 1);
-//            } else {
-//                avoid = new Position(getPosition().getX(), getPosition().getY() - 1);
-//            }
-//        }
-//        List<Position> q = new ArrayList<>();
-//        q.add(avoid);
-//        setNavigationQueue(q);
-//        moveToPosition(avoid);
-
-    }
-
     private boolean seesGuard() {
         return getVisibleGuards().size() > 0;
+    }
+    private boolean seesIntruder() {
+        return getVisibleIntruder() != null;
     }
 
     private List<Guard> getVisibleGuards() {
@@ -98,6 +90,17 @@ public class Intruder extends Agent {
         List<Agent> visibleGuards = filterGuards(visibleAgents);
 
         return castAgentsToGuards(visibleGuards);
+    }
+
+    private Intruder getVisibleIntruder() {
+        List<Agent> visibleAgents = super.getVisibleAgents();
+        for (Agent agent : visibleAgents) {
+            if (agent instanceof Intruder) {
+                return (Intruder) agent;
+            }
+        }
+
+        return null;
     }
 
     private List<Agent> filterGuards(List<Agent> agents) {
