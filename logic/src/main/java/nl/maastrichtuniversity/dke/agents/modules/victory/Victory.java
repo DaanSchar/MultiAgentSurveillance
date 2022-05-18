@@ -8,7 +8,6 @@ import nl.maastrichtuniversity.dke.scenario.Scenario;
 import nl.maastrichtuniversity.dke.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -16,7 +15,6 @@ import java.util.List;
 public class Victory implements IVictory {
     private Scenario scenario;
     private String winner = "";
-    private ArrayList<Victory> victories = new ArrayList<>();
 
     public Victory(Scenario scenario) {
         this.scenario = scenario;

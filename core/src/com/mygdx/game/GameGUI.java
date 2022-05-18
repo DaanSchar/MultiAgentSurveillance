@@ -2,9 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.gamecomponent.GameComponent;
@@ -13,6 +11,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.Game;
+import nl.maastrichtuniversity.dke.experiments.VictoryExperiment;
 
 import java.io.File;
 import java.util.Objects;
@@ -22,8 +21,8 @@ import java.util.Objects;
 public final class GameGUI extends ApplicationAdapter {
 
     private Game game;
-    private int gameNumber = 0;
     private GameComponent gameComponent;
+    private VictoryExperiment victoryExperiment;
     private HUD hud;
 
     private float totalTimePassed;
@@ -35,15 +34,16 @@ public final class GameGUI extends ApplicationAdapter {
 
     private static boolean isPaused;
 
-    Batch spBatch;
+    private Batch spBatch;
 
     @SneakyThrows
     @Override
     public void create() {
         setupGame();
         gameComponent = new GameComponent(game);
+        victoryExperiment = new VictoryExperiment(game, 2, true);
         Gdx.input.setInputProcessor(gameComponent);
-        spBatch= new SpriteBatch();
+        spBatch = new SpriteBatch();
         hud = new HUD();
     }
 
@@ -60,9 +60,9 @@ public final class GameGUI extends ApplicationAdapter {
             }
 
         } else {
-            gameNumber++;
-            game.victoryMessage(gameNumber);
-            gameComponent.resetGame();
+            game.victoryMessage();
+            victoryExperiment.getVictories().add(game.getVictory());
+            doExp();
         }
 
         draw();
@@ -116,4 +116,18 @@ public final class GameGUI extends ApplicationAdapter {
         }
     }
 
+    public void doExp() {
+        if (!victoryExperiment.isExp()) {
+            gameComponent.resetGame();
+
+        } else {
+            if (!victoryExperiment.isDone()) {
+                gameComponent.resetGame();
+            } else {
+                Gdx.app.exit();
+                log.info("Guards won " + victoryExperiment.countWinner("G") + " times");
+                log.info("Intruders won " + victoryExperiment.countWinner("I") + " times");
+            }
+        }
+    }
 }
