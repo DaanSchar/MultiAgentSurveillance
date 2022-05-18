@@ -52,6 +52,10 @@ public final class GameGUI extends ApplicationAdapter {
         } else {
             gameNumber++;
             game.victoryMessage(gameNumber);
+            gameComponent.getVictories().add(game.getVictory());
+            gameComponent.printVictories();
+            log.info("Guards won " + gameComponent.countWinner("G") + " times");
+            log.info("Intruders won " + gameComponent.countWinner("I") + " times");
             gameComponent.resetGame();
         }
 

@@ -12,15 +12,20 @@ import com.mygdx.game.views.pathfind.PathFinderView;
 import com.mygdx.game.views.smell.SmellView;
 import com.mygdx.game.views.sound.SoundView;
 import com.mygdx.game.views.vision.VisionView;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.Game;
 import nl.maastrichtuniversity.dke.agents.Agent;
 import nl.maastrichtuniversity.dke.agents.Fleet;
 import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
+import nl.maastrichtuniversity.dke.agents.modules.victory.Victory;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
 
+import java.util.ArrayList;
+
 @Slf4j
+@Getter
 public class GameComponent extends MovableStage {
 
     private EnvironmentView environmentView;
@@ -42,6 +47,8 @@ public class GameComponent extends MovableStage {
     private boolean showVision;
 
     private final Game game;
+
+    private ArrayList<Victory> victories = new ArrayList<>();
 
     public GameComponent(Game game) {
         super(game.getScenario().getEnvironment().getWidth(), game.getScenario().getEnvironment().getHeight());
@@ -127,6 +134,22 @@ public class GameComponent extends MovableStage {
     public void resetGame() {
         game.reset();
         reset(game.getScenario());
+    }
+
+    public void printVictories() {
+        for (Victory victory : victories) {
+            System.out.print(victory.getWinner() + " ");
+        }
+    }
+
+    public int countWinner(String winner) {
+        int count = 0;
+        for (Victory victory : victories) {
+            if (victory.getWinner().equals(winner)) {
+                count++;
+            }
+        }
+        return count;
     }
 
     private void toggleVisionView() {

@@ -76,12 +76,10 @@ public class Game {
     public void victoryMessage(int gameNumber) {
         if (victory.checkGuardVictory()) {
             victory.setWinner("G");
-            victory.getVictories().add(this.victory);
             log.info("Game " + gameNumber + ": Guards win");
         }
         if (victory.checkIntruderVictory()) {
             victory.setWinner("I");
-            victory.getVictories().add(this.victory);
             log.info("Game " + gameNumber + ":Intruders win");
         }
     }

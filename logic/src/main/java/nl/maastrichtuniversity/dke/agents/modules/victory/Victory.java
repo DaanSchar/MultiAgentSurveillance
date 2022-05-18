@@ -16,7 +16,6 @@ import java.util.List;
 public class Victory implements IVictory {
     private Scenario scenario;
     private String winner = "";
-    private ArrayList<Victory> victories = new ArrayList<>();
 
     public Victory(Scenario scenario) {
         this.scenario = scenario;
