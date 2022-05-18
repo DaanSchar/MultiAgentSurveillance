@@ -2,14 +2,14 @@ package util;
 
 
 
-import nl.maastrichtuniversity.dke.logic.agents.Fleet;
-import nl.maastrichtuniversity.dke.logic.agents.modules.vision.VisionModule;
-import nl.maastrichtuniversity.dke.logic.agents.util.Direction;
-import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.Environment;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.Tile;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.TileType;
-import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.agents.Fleet;
+import nl.maastrichtuniversity.dke.agents.modules.vision.VisionModule;
+import nl.maastrichtuniversity.dke.agents.util.Direction;
+import nl.maastrichtuniversity.dke.scenario.Scenario;
+import nl.maastrichtuniversity.dke.scenario.environment.Environment;
+import nl.maastrichtuniversity.dke.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.scenario.environment.TileType;
+import nl.maastrichtuniversity.dke.scenario.util.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -4,16 +4,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.util.TextureRepository;
-import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
-import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationType;
-import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.agents.modules.communication.Mark;
+import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationType;
+import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 public class MarkerView extends Actor {
-    private final CommunicationMark mark;
+    private final Mark mark;
 
     private final TextureRepository textureRepository;
 
-    public MarkerView(CommunicationMark mark) {
+    public MarkerView(Mark mark) {
         this.mark = mark;
         this.textureRepository = TextureRepository.getInstance();
     }
@@ -24,7 +24,7 @@ public class MarkerView extends Actor {
         drawMarker(batch, mark);
     }
 
-    private void drawMarker(Batch batch, CommunicationMark mark) {
+    private void drawMarker(Batch batch, Mark mark) {
         Position position = mark.getPosition();
         Texture texture;
         if (mark.getType().equals(CommunicationType.VISION_BLUE)) {

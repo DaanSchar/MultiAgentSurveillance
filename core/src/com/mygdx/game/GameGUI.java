@@ -7,7 +7,7 @@ import com.mygdx.game.gamecomponent.GameComponent;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import nl.maastrichtuniversity.dke.logic.Game;
+import nl.maastrichtuniversity.dke.Game;
 
 import java.io.File;
 import java.util.Objects;
@@ -20,11 +20,11 @@ public final class GameGUI extends ApplicationAdapter {
     private GameComponent gameComponent;
 
     private float totalTimePassed;
-    private static float timeInterval = 0.00f;
+    private static float timeInterval = 0.24f;
 
-    private static final float MAX_TIME_INTERVAL = 0.1f;
+    private static final float MAX_TIME_INTERVAL = 0.5f;
     private static final float MIN_TIME_INTERVAL = 0f;
-    private static final float TIME_INTERVAL_INCREMENT = 0.01f;
+    private static final float TIME_INTERVAL_INCREMENT = 0.02f;
 
     private static boolean isPaused;
 
@@ -39,13 +39,17 @@ public final class GameGUI extends ApplicationAdapter {
     @Override
     public void render() {
         totalTimePassed += Gdx.graphics.getDeltaTime();
+        if (!game.checkVictory()) {
+            if (totalTimePassed > timeInterval) {
+                totalTimePassed = 0;
 
-        if (totalTimePassed > timeInterval) {
-            totalTimePassed = 0;
-
-            if (!isPaused) {
-                update();
+                if (!isPaused) {
+                    update();
+                }
             }
+
+        } else {
+            game.victoryMessage();
         }
 
         draw();

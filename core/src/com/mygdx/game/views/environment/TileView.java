@@ -1,38 +1,57 @@
 package com.mygdx.game.views.environment;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.util.TextureRepository;
-import nl.maastrichtuniversity.dke.logic.scenario.environment.*;
-import nl.maastrichtuniversity.dke.logic.scenario.util.Position;
+import nl.maastrichtuniversity.dke.scenario.environment.*;
+import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 public class TileView extends Actor {
+
+    private static float MAX_COLOR_VALUE = 255f;
 
     private final Tile tile;
     private final Texture tileTexture;
     private final Texture stateTexture;
-    private final double height;
+    private final float height;
+
+    private final Color outlineColor;
 
     private final TextureRepository textureRepository;
 
     public TileView(Tile tile, double height) {
         this.tile = tile;
-        this.height = height;
+        this.height = (float) height;
         this.textureRepository = TextureRepository.getInstance();
         this.tileTexture = getTileTexture();
-        this.stateTexture = determineTextureByTileState();
+        this.outlineColor = getOutlineColor();
+        this.stateTexture = getStateTexture();
     }
 
+    @Override
     public void draw(Batch batch, float parentAlpha) {
         drawTile(tileTexture, batch);
         drawTile(stateTexture, batch);
+    }
+
+    public void draw(ShapeRenderer renderer, float parentAlpha) {
+        renderer.rect(
+                tile.getPosition().getX(),
+                tile.getPosition().getY(),
+                TextureRepository.TILE_WIDTH,
+                TextureRepository.TILE_HEIGHT,
+                outlineColor, outlineColor, outlineColor, outlineColor
+        );
     }
 
     private void drawTile(Texture texture, Batch batch) {
         if (texture == null) {
             return;
         }
+
         Position position = tile.getPosition();
         batch.draw(
                 texture,
@@ -43,74 +62,60 @@ public class TileView extends Actor {
         );
     }
 
-    private Texture determineTextureByTileState() {
-        switch (tile.getType()) {
-            case EMPTY -> {
-                return getEmptyTexture();
-            }
-            case DESTINATION_TELEPORT -> {
-                return textureRepository.get("teleportDestination");
-            }
-            case WALL -> {
-                return textureRepository.get("wall");
-            }
-            case SPAWN_GUARDS -> {
-                return textureRepository.get("sand1");
-            }
-            case SPAWN_INTRUDERS -> {
-                return textureRepository.get("sand2");
-            }
-            case TARGET -> {
-                return textureRepository.get("target");
-            }
-            case SHADED -> {
-                return textureRepository.get("shadedTile4");
-            }
-            case TELEPORT -> {
-                return textureRepository.get("teleport");
-            }
-            case SENTRY -> {
-                return textureRepository.get("sentry");
-            }
-            case UNKNOWN -> {
-                return null;
-            }
-            case DOOR -> {
-                return getDoorTexture(tile);
-            }
-            case WINDOW -> {
-                return getWindowTexture(tile);
-            }
+    private Texture getStateTexture() {
+        return switch (tile.getType()) {
+            case EMPTY, UNKNOWN -> null;
+            case DESTINATION_TELEPORT -> textureRepository.get("teleportDestination");
+            case WALL -> textureRepository.getTile(new Color(height / 4f, height / 4f, height / 4f, 1f));
+            case SPAWN_GUARDS -> textureRepository.get("sand1");
+            case SPAWN_INTRUDERS -> textureRepository.get("sand2");
+            case TARGET -> textureRepository.get("target");
+            case SHADED -> textureRepository.get("shadedTile4");
+            case TELEPORT -> textureRepository.get("teleport");
+            case SENTRY -> textureRepository.get("sentry");
+            case DOOR -> getDoorTexture();
+            case WINDOW -> getWindowTexture();
+            default -> textureRepository.get("emptyTile4");
+        };
+    }
 
-            default -> {
-                return textureRepository.get("emptyTile4");
-            }
-        }
+    private Color getOutlineColor() {
+        return switch (tile.getType()) {
+            case WALL -> new Color(0.2f, 0.2f, 0.2f, 1f);
+            case SPAWN_GUARDS, SPAWN_INTRUDERS -> new Color(
+                    199f / MAX_COLOR_VALUE,
+                    187f / MAX_COLOR_VALUE,
+                    153f / MAX_COLOR_VALUE,
+                    1f
+            );
+            case SHADED -> new Color(
+                    52f / MAX_COLOR_VALUE,
+                    107f / MAX_COLOR_VALUE,
+                    62f / MAX_COLOR_VALUE,
+                    1f
+            );
+            case UNKNOWN -> Color.BLACK;
+            default -> new Color(0.8f, 0.8f, 0.8f, 1f);
+        };
     }
 
     private Texture getTileTexture() {
-        final float third = 1 / 3f;
-
         if (tile.getType() == TileType.UNKNOWN) {
-            return null;
+            return textureRepository.getTile(Color.BLACK);
         }
 
-        if (height > 2 * third) {
-            return textureRepository.get("stone1");
-        } else if (height > 1 * third) {
-            return textureRepository.get("grass1");
-        } else {
-            return textureRepository.get("dirt1");
-        }
+        return getEmptyTileTexture();
     }
 
-    private Texture getEmptyTexture() {
-        return null;
+    private Texture getEmptyTileTexture() {
+        float value = 1 - height / 5f;
+        Color emptyTileColor = new Color(value, value, value, 1f);
+        return textureRepository.getTile(emptyTileColor);
     }
 
-    private Texture getDoorTexture(Tile tile) {
+    private Texture getDoorTexture() {
         if (tile instanceof MemoryTile) {
-            if (((MemoryTile) tile).isOpened()) {
+            if (tile.isOpened()) {
                 return textureRepository.get("openeddoor");
             }
             return textureRepository.get("door");
@@ -125,7 +130,7 @@ public class TileView extends Actor {
         return textureRepository.get("door");
     }
 
-    private Texture getWindowTexture(Tile tile) {
+    private Texture getWindowTexture() {
         if (tile instanceof MemoryTile) {
             if (((MemoryTile) tile).isBroken()) {
                 return textureRepository.get("brokenwindow");
@@ -140,5 +145,4 @@ public class TileView extends Actor {
         }
         return textureRepository.get("window");
     }
-
 }

@@ -2,16 +2,16 @@ package com.mygdx.game.views.communication;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import nl.maastrichtuniversity.dke.logic.agents.modules.communication.CommunicationMark;
-import nl.maastrichtuniversity.dke.logic.scenario.Scenario;
+import nl.maastrichtuniversity.dke.agents.modules.communication.Mark;
+import nl.maastrichtuniversity.dke.scenario.Scenario;
 
 import java.util.List;
 
 public class CommunicationView extends Group {
-    private final List<CommunicationMark> markers;
+    private final List<Mark> markers;
 
     public CommunicationView(Scenario scenario) {
-        this.markers = scenario.getCommunicationMarks();
+        this.markers = scenario.getMarks();
     }
 
     public void update() {
@@ -26,7 +26,7 @@ public class CommunicationView extends Group {
     }
 
     private void addMarkers() {
-        for (CommunicationMark mark : markers) {
+        for (Mark mark : markers) {
             addActor(new MarkerView(mark));
         }
     }
