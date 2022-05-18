@@ -2,13 +2,12 @@ package nl.maastrichtuniversity.dke.agents.modules.runningAway;
 
 import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
-import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 
-public class runningAway extends AgentModule implements IRunningAway {
+public class RunningAway extends AgentModule implements IRunningAway {
 
 
-    public runningAway(Scenario scenario) {
+    public RunningAway(Scenario scenario) {
         super(scenario);
     }
 
