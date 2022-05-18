@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.mygdx.game.GameGUI;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,8 @@ public class HUD extends Stage {
         super.draw();
         getBatch().begin();
         ArrayList<String> list = getKeys();
+        String timeIntervalString = String.format("%.2f",GameGUI.getTimeInterval()*10);
+        font.draw(getBatch(), "PLAY BACK SPEED "+ timeIntervalString, 50, 100);
         for (int i = 0; i < list.size(); i++) {
             font.setColor(Color.GRAY);
             if (booleanList.get(i)) {
@@ -45,7 +48,6 @@ public class HUD extends Stage {
         list.add("Press B for Brick&Mortar");
         list.add("Press Q to Switch agent type");
         list.add("Press P to PAUSE");
-
         return list;
     }
 
@@ -65,6 +67,7 @@ public class HUD extends Stage {
             booleanList.add(false);
         }
     }
+
 
 
 }
