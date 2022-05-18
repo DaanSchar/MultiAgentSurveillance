@@ -124,7 +124,7 @@ public class GameComponent extends MovableStage {
         return super.keyDown(keyCode);
     }
 
-    private void resetGame() {
+    public void resetGame() {
         game.reset();
         reset(game.getScenario());
     }

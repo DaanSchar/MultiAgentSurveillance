@@ -50,6 +50,7 @@ public final class GameGUI extends ApplicationAdapter {
 
         } else {
             game.victoryMessage();
+            gameComponent.resetGame();
         }
 
         draw();
