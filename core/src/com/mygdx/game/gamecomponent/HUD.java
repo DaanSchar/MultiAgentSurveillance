@@ -2,7 +2,6 @@ package com.mygdx.game.gamecomponent;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.GameGUI;
@@ -26,7 +25,10 @@ public class HUD extends Stage {
     public void draw() {
         super.draw();
         getBatch().begin();
-        getBatch().draw(TextureRepository.getInstance().getTile(new Color(0.00f, 0.0071f, 0.090f, 0.7f)), 40, 525, 250, 193);
+        getBatch().draw(TextureRepository.getInstance().getTile(
+                new Color(0.00f, 0.0071f, 0.090f, 0.7f)),
+                40, 525, 250, 193
+        );
         drawPlaySpeed();
         drawKeyTexts();
         getBatch().end();
@@ -39,7 +41,7 @@ public class HUD extends Stage {
             font.setColor(new Color(1 - 0.00f, 1 - 0.0071f, 1 - 0.090f, 0.8f));
 
             if (booleanList.get(i)) {
-                font.setColor(new Color(219/255f, 77/255f, 79/255f, 0.8f));
+                font.setColor(new Color(219 / 255f, 77 / 255f, 79 / 255f, 0.8f));
             }
 
             String text = list.get(i);

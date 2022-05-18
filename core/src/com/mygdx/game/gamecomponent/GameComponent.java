@@ -45,10 +45,10 @@ public class GameComponent extends MovableStage {
     private boolean showSound;
     private boolean showBrickAndMortar;
     private boolean showVision;
-    public ArrayList<Boolean> arrayKeys;
+    private final ArrayList<Boolean> arrayKeys;
 
     private final Game game;
-    private HUD hud;
+    private final HUD hud;
     private ArrayList<Victory> victories = new ArrayList<>();
 
     public GameComponent(Game game, HUD hud) {
@@ -56,8 +56,8 @@ public class GameComponent extends MovableStage {
         this.game = game;
         this.currentFleet = FleetType.GUARD;
         this.currentAgentIndex = 0;
-        arrayKeys = new ArrayList<>();
-        this.hud=hud;
+        this.arrayKeys = new ArrayList<>();
+        this.hud = hud;
         reset(game.getScenario());
     }
 
@@ -164,7 +164,7 @@ public class GameComponent extends MovableStage {
     }
 
 
-    public ArrayList<Boolean> keysBoolean(){
+    public ArrayList<Boolean> keysBoolean() {
         return arrayKeys;
     }
 

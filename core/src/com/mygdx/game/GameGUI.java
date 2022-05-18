@@ -2,8 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.gamecomponent.GameComponent;
 import com.mygdx.game.gamecomponent.HUD;
@@ -112,7 +110,7 @@ public final class GameGUI extends ApplicationAdapter {
             timeInterval = MIN_TIME_INTERVAL;
         }
     }
-    public static float getTimeInterval(){
+    public static float getTimeInterval() {
         return timeInterval;
     }
 
