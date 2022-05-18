@@ -1,4 +1,4 @@
-package nl.maastrichtuniversity.dke.agents.modules.noiseGeneration;
+package nl.maastrichtuniversity.dke.agents.modules.sound;
 
 public enum SoundType {
     YELL,
