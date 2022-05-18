@@ -1,5 +1,7 @@
 package nl.maastrichtuniversity.dke.agents.modules.victory;
 
+import lombok.Getter;
+import lombok.Setter;
 import nl.maastrichtuniversity.dke.agents.Agent;
 import nl.maastrichtuniversity.dke.agents.Intruder;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
@@ -8,8 +10,11 @@ import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 
 import java.util.List;
 
+@Setter
+@Getter
 public class Victory implements IVictory {
     private Scenario scenario;
+    private String winner = "";
 
     public Victory(Scenario scenario) {
         this.scenario = scenario;
