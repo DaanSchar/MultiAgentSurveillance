@@ -2,9 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.gamecomponent.GameComponent;
@@ -45,7 +43,7 @@ public final class GameGUI extends ApplicationAdapter {
         gameComponent = new GameComponent(game);
         victoryExperiment = new VictoryExperiment(game, 2, true);
         Gdx.input.setInputProcessor(gameComponent);
-        spBatch= new SpriteBatch();
+        spBatch = new SpriteBatch();
         hud = new HUD();
     }
 

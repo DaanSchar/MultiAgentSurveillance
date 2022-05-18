@@ -8,7 +8,6 @@ import nl.maastrichtuniversity.dke.scenario.Scenario;
 import nl.maastrichtuniversity.dke.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Setter

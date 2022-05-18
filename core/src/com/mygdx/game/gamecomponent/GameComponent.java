@@ -1,7 +1,6 @@
 package com.mygdx.game.gamecomponent;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.GameGUI;
 import com.mygdx.game.util.FleetType;

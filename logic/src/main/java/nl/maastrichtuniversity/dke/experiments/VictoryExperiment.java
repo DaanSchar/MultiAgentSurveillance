@@ -11,9 +11,9 @@ import java.util.ArrayList;
 @Setter
 public class VictoryExperiment {
 
-    Game game;
-    int numOfGames;
-    boolean exp;
+    private Game game;
+    private int numOfGames;
+    private boolean exp;
 
     private ArrayList<Victory> victories = new ArrayList<>();
 
