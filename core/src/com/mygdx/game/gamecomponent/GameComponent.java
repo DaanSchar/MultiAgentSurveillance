@@ -21,6 +21,8 @@ import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
 
+import java.util.ArrayList;
+
 @Slf4j
 public class GameComponent extends MovableStage {
 
@@ -41,14 +43,18 @@ public class GameComponent extends MovableStage {
     private boolean showSound;
     private boolean showBrickAndMortar;
     private boolean showVision;
+    public ArrayList<Boolean> arrayKeys;
 
     private final Game game;
+    private HUD hud;
 
-    public GameComponent(Game game) {
+    public GameComponent(Game game, HUD hud) {
         super(game.getScenario().getEnvironment().getWidth(), game.getScenario().getEnvironment().getHeight());
         this.game = game;
         this.currentFleet = FleetType.GUARD;
         this.currentAgentIndex = 0;
+        arrayKeys = new ArrayList<>();
+        this.hud=hud;
         reset(game.getScenario());
     }
 
@@ -105,16 +111,45 @@ public class GameComponent extends MovableStage {
     @Override
     public boolean keyDown(int keyCode) {
         switch (keyCode) {
-            case Input.Keys.M -> toggleMemoryView();
-            case Input.Keys.D -> togglePathFindView();
-            case Input.Keys.S -> toggleSoundView();
-            case Input.Keys.B -> toggleBrickAndMortarView();
-            case Input.Keys.V -> toggleVisionView();
-            case Input.Keys.P -> pauseGame();
-            case Input.Keys.R -> resetGame();
-            case Input.Keys.MINUS -> GameGUI.incrementTimeInterval();
-            case Input.Keys.EQUALS -> GameGUI.decrementTimeInterval();
-            case Input.Keys.Q -> toggleCurrentFleet();
+            case Input.Keys.M -> {
+                hud.setKey(5);
+                toggleMemoryView();
+            }
+            case Input.Keys.D -> {
+                hud.setKey(4);
+                togglePathFindView();
+            }
+            case Input.Keys.S -> {
+                hud.setKey(1);
+                toggleSoundView();
+            }
+            case Input.Keys.B -> {
+                hud.setKey(6);
+                toggleBrickAndMortarView();
+            }
+            case Input.Keys.V -> {
+                hud.setKey(2);
+                toggleVisionView();
+            }
+            case Input.Keys.P -> {
+                hud.setKey(8);
+                pauseGame();
+            }
+            case Input.Keys.R -> {
+                resetGame();
+            }
+            case Input.Keys.MINUS -> {
+                hud.setKey(3);
+                GameGUI.incrementTimeInterval();
+            }
+            case Input.Keys.EQUALS -> {
+                hud.setKey(3);
+                GameGUI.decrementTimeInterval();
+            }
+            case Input.Keys.Q -> {
+                hud.setKey(7);
+                toggleCurrentFleet();
+            }
             case Input.Keys.NUM_1 -> setCurrentAgentIndex(0);
             case Input.Keys.NUM_2 -> setCurrentAgentIndex(1);
             case Input.Keys.NUM_3 -> setCurrentAgentIndex(2);
@@ -122,9 +157,13 @@ public class GameComponent extends MovableStage {
             case Input.Keys.NUM_5 -> setCurrentAgentIndex(4);
             default -> super.keyDown(keyCode);
         }
-
         update();
         return super.keyDown(keyCode);
+    }
+
+
+    public ArrayList<Boolean> keysBoolean(){
+        return arrayKeys;
     }
 
     private void resetGame() {

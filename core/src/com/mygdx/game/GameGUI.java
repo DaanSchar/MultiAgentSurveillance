@@ -40,10 +40,10 @@ public final class GameGUI extends ApplicationAdapter {
     @Override
     public void create() {
         setupGame();
-        gameComponent = new GameComponent(game);
-        Gdx.input.setInputProcessor(gameComponent);
-        spBatch= new SpriteBatch();
         hud = new HUD();
+        gameComponent = new GameComponent(game, hud);
+        Gdx.input.setInputProcessor(gameComponent);
+        spBatch = new SpriteBatch();
     }
 
     @Override
@@ -93,7 +93,7 @@ public final class GameGUI extends ApplicationAdapter {
     }
 
     private File getMapFile() {
-        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("hardMap3.txt")).getFile());
+        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("hardMap1.txt")).getFile());
     }
 
     public static boolean togglePause() {
@@ -111,6 +111,9 @@ public final class GameGUI extends ApplicationAdapter {
         if (timeInterval > MIN_TIME_INTERVAL) {
             timeInterval -= TIME_INTERVAL_INCREMENT;
         }
+    }
+    public static float getTimeInterval(){
+        return timeInterval;
     }
 
 }
