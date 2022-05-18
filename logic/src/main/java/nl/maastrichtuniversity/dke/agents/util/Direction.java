@@ -1,3 +1,4 @@
+
 package nl.maastrichtuniversity.dke.agents.util;
 
 import lombok.Getter;

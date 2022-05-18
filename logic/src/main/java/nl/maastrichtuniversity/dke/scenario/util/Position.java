@@ -26,6 +26,16 @@ public class Position {
         );
     }
 
+    public Position getPosInDirection(Direction direction, int distance) {
+        int new_x = this.x;
+        int new_y = this.y;
+        for (int i =0;i<distance;i++) {
+            new_x = new_x + direction.getMoveX();
+            new_y = new_y +direction.getMoveY();
+        }
+        return new Position(new_x,new_y);
+    }
+
     public Position add(Position other) {
         return new Position(
                 this.x + other.getX(),

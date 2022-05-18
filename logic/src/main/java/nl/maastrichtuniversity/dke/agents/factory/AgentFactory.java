@@ -17,6 +17,7 @@ import nl.maastrichtuniversity.dke.agents.modules.movement.MovementModule;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationModule;
 import nl.maastrichtuniversity.dke.agents.modules.smell.SmellModule;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.UniformSpawnModule;
+import nl.maastrichtuniversity.dke.agents.modules.vision.RayCast;
 import nl.maastrichtuniversity.dke.agents.modules.vision.VisionModule;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationType;
@@ -94,7 +95,7 @@ public class AgentFactory {
                         scenario,
                         agent instanceof Guard ? baseSpeedGuards : baseSpeedIntruders,
                         agent instanceof Guard ? 0 : sprintSpeedIntruders))
-                .setVisionModule(new VisionModule(scenario, viewingDistance))
+                .setVisionModule(new RayCast(scenario, viewingDistance))
                 .setCommunicationModule(new CommunicationModule(scenario, getMarkers()))
                 .setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting,
                         hearingDistanceInteraction))
