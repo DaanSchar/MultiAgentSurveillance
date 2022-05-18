@@ -17,8 +17,11 @@ import java.util.stream.Collectors;
 @Slf4j
 public class Intruder extends Agent {
 
-    private @Getter @Setter boolean isCaught;
-    private @Setter IRunningAway runningAway;
+    private @Getter
+    @Setter
+    boolean isCaught;
+    private @Setter
+    IRunningAway runningAway;
     private boolean navigatedToBlueMark; // whether the agent has navigated to the mark that another agent dropped
     private boolean droppedBlueMark; // did it drop the mark already
 
@@ -53,14 +56,14 @@ public class Intruder extends Agent {
     public void updateInternals() {
         if (seesTargetArea()) {
             setTarget(getTargetTile().getPosition());
-        }
-        else if(seesGuard()){
+        } else if (seesGuard()) {
             setTarget(runningAway.avoidGuard(getVisibleGuards().get(0).getPosition(), this.getPosition()));
-        }else if (hearsSound() && !seesIntruder()){
+        } else if (hearsSound() && !seesIntruder()) {
             avoidSoundSource();
         }
         super.updateInternals();
     }
+
     private void avoidSoundSource() {
         if (hearsSound()) {
             List<Sound> sounds = super.getSoundsAtCurrentPosition();
@@ -81,6 +84,7 @@ public class Intruder extends Agent {
     private boolean seesGuard() {
         return getVisibleGuards().size() > 0;
     }
+
     private boolean seesIntruder() {
         return getVisibleIntruder() != null;
     }
