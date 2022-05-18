@@ -72,7 +72,6 @@ public class Game {
         return false;
     }
 
-    // TODO: display victory message on screen
     public void victoryMessage(int gameNumber) {
         if (victory.checkGuardVictory()) {
             victory.setWinner("G");

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.Game;
+import nl.maastrichtuniversity.dke.experiments.VictoryExperiment;
 
 import java.io.File;
 import java.util.Objects;
@@ -19,6 +20,7 @@ public final class GameGUI extends ApplicationAdapter {
     private Game game;
     private int gameNumber = 0;
     private GameComponent gameComponent;
+    private VictoryExperiment victoryExperiment;
 
     private float totalTimePassed;
     private static float timeInterval = 0.24f;
@@ -34,6 +36,7 @@ public final class GameGUI extends ApplicationAdapter {
     public void create() {
         setupGame();
         gameComponent = new GameComponent(game);
+        victoryExperiment = new VictoryExperiment(2, true);
         Gdx.input.setInputProcessor(gameComponent);
     }
 
@@ -52,11 +55,22 @@ public final class GameGUI extends ApplicationAdapter {
         } else {
             gameNumber++;
             game.victoryMessage(gameNumber);
-            gameComponent.getVictories().add(game.getVictory());
-            gameComponent.printVictories();
-            log.info("Guards won " + gameComponent.countWinner("G") + " times");
-            log.info("Intruders won " + gameComponent.countWinner("I") + " times");
-            gameComponent.resetGame();
+
+            victoryExperiment.getVictories().add(game.getVictory());
+            victoryExperiment.printVictories();
+            log.info("Guards won " + victoryExperiment.countWinner("G") + " times");
+            log.info("Intruders won " + victoryExperiment.countWinner("I") + " times");
+
+            if (!victoryExperiment.isExp()) {
+                gameComponent.resetGame();
+
+            } else {
+                if (gameNumber < victoryExperiment.getNumOfGames()) {
+                    gameComponent.resetGame();
+                } else {
+                    Gdx.app.exit();
+                }
+            }
         }
 
         draw();
