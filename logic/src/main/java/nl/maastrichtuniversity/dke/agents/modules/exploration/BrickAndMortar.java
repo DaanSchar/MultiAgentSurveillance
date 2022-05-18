@@ -24,7 +24,7 @@ public class BrickAndMortar implements IExplorationModule {
 
     private final Environment environment;
 
-    private List<Direction> directionPriority;
+    private final List<Direction> directionPriority;
 
     private @Getter boolean isDoneExploring;
 
@@ -37,8 +37,8 @@ public class BrickAndMortar implements IExplorationModule {
         this.environment = environment;
         this.movementModule = movementModule;
         this.isDoneExploring = false;
-
-        shufflePriorityOfDirections();
+        this.directionPriority = Direction.getAllDirections();
+        Collections.shuffle(directionPriority);
     }
 
     public void reset() {
@@ -64,12 +64,11 @@ public class BrickAndMortar implements IExplorationModule {
         return navigationStep();
     }
 
-    private void shufflePriorityOfDirections() {
-        this.directionPriority = Direction.getAllDirections();
-        Collections.shuffle(directionPriority);
-    }
-
     private void markingStep() {
+        if (Math.random() < randomness) {
+            Collections.shuffle(directionPriority);
+        }
+
         if (!currentCellBlocksPath()) {
             getCurrentTile().setVisited(true);
         }
@@ -130,11 +129,20 @@ public class BrickAndMortar implements IExplorationModule {
         Tile targetTile = getBestExploredTile();
         Position nextPosition = getNextPosition();
 
-        if (nextPosition.equals(targetTile.getPosition())) {
+        boolean targetTileAhead = nextPosition.equals(targetTile.getPosition());
+
+        if (targetTileAhead) {
             return MoveAction.MOVE_FORWARD;
         }
 
-        return MoveAction.ROTATE_LEFT;
+        Position leftOf = currentPosition.getPosInDirection(currentDirection.leftOf());
+        boolean targetTileLeftOf = leftOf.equals(targetTile.getPosition());
+
+        if (targetTileLeftOf) {
+            return MoveAction.ROTATE_LEFT;
+        }
+
+        return MoveAction.ROTATE_RIGHT;
     }
 
     private Position getNextPosition() {

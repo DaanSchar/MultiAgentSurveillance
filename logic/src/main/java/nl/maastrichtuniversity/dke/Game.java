@@ -12,10 +12,12 @@ import nl.maastrichtuniversity.dke.scenario.util.MapParser;
 import java.io.File;
 
 @Slf4j
+@Getter
 public class Game {
 
     private static File mapFile;
     private static Game game;
+    private int gameNumber = 0;
 
     private static final File DEFAULT_MAP = new File("src/main/resources/maps/veryHard.txt");
 
@@ -52,6 +54,7 @@ public class Game {
         scenario.getGuards().forEach(Guard::spawn);
         scenario.getIntruders().forEach(Intruder::spawn);
         victory = new Victory(this.scenario);
+        this.gameNumber++;
     }
 
     public void update() {
@@ -61,25 +64,22 @@ public class Game {
         updateAgentInternals();
     }
 
-    public boolean checkVictory() {
-        if (victory.checkGuardVictory()) {
-            return true;
-        }
-        if (victory.checkIntruderVictory()) {
-            return true;
-        }
-
-        return false;
+    public boolean isDone() {
+        return victory.guardsHaveWon() || victory.intrudersHaveWon();
     }
 
-    // TODO: display victory message on screen
-    public void victoryMessage() {
-        if (victory.checkGuardVictory()) {
-            log.info("Guards win");
+    public void updateVictory() {
+        if (victory.guardsHaveWon()) {
+            victory.setWinner("G");
         }
-        if (victory.checkIntruderVictory()) {
-            log.info("Intruders win");
+
+        if (victory.intrudersHaveWon()) {
+            victory.setWinner("I");
         }
+    }
+
+    public String getVictoryMessage() {
+        return "Game " + gameNumber + ": " + victory.getWinner() + " win";
     }
 
     private void moveAgents() {

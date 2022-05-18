@@ -1,7 +1,6 @@
 package com.mygdx.game.gamecomponent;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.GameGUI;
 import com.mygdx.game.util.FleetType;
@@ -13,17 +12,20 @@ import com.mygdx.game.views.pathfind.PathFinderView;
 import com.mygdx.game.views.smell.SmellView;
 import com.mygdx.game.views.sound.SoundView;
 import com.mygdx.game.views.vision.VisionView;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.Game;
 import nl.maastrichtuniversity.dke.agents.Agent;
 import nl.maastrichtuniversity.dke.agents.Fleet;
 import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
+import nl.maastrichtuniversity.dke.agents.modules.victory.Victory;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
 
 import java.util.ArrayList;
 
 @Slf4j
+@Getter
 public class GameComponent extends MovableStage {
 
     private EnvironmentView environmentView;
@@ -47,6 +49,7 @@ public class GameComponent extends MovableStage {
 
     private final Game game;
     private HUD hud;
+    private ArrayList<Victory> victories = new ArrayList<>();
 
     public GameComponent(Game game, HUD hud) {
         super(game.getScenario().getEnvironment().getWidth(), game.getScenario().getEnvironment().getHeight());
@@ -135,9 +138,7 @@ public class GameComponent extends MovableStage {
                 hud.setKey(8);
                 pauseGame();
             }
-            case Input.Keys.R -> {
-                resetGame();
-            }
+            case Input.Keys.R -> resetGame();
             case Input.Keys.MINUS -> {
                 hud.setKey(3);
                 GameGUI.incrementTimeInterval();
@@ -157,6 +158,7 @@ public class GameComponent extends MovableStage {
             case Input.Keys.NUM_5 -> setCurrentAgentIndex(4);
             default -> super.keyDown(keyCode);
         }
+
         update();
         return super.keyDown(keyCode);
     }
@@ -166,7 +168,7 @@ public class GameComponent extends MovableStage {
         return arrayKeys;
     }
 
-    private void resetGame() {
+    public void resetGame() {
         game.reset();
         reset(game.getScenario());
     }
@@ -250,7 +252,6 @@ public class GameComponent extends MovableStage {
 
     private void updateViewsUsingAgents() {
         environmentView.setFleetType(currentFleet);
-        log.info("{}", currentAgentIndex);
         brickAndMortarView.setAgent(getCurrentAgent());
     }
 

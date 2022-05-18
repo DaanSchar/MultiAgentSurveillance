@@ -1,7 +1,7 @@
 package util;
 
-import nl.maastrichtuniversity.dke.agents.modules.listening.ListeningModule;
-import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.NoiseModule;
+import nl.maastrichtuniversity.dke.agents.modules.sound.ListeningModule;
+import nl.maastrichtuniversity.dke.agents.modules.sound.NoiseModule;
 import nl.maastrichtuniversity.dke.agents.util.Direction;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
 import nl.maastrichtuniversity.dke.scenario.Sound;
