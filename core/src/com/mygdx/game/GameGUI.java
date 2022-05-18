@@ -17,6 +17,7 @@ import java.util.Objects;
 public final class GameGUI extends ApplicationAdapter {
 
     private Game game;
+    private int gameNumber = 0;
     private GameComponent gameComponent;
 
     private float totalTimePassed;
@@ -49,7 +50,8 @@ public final class GameGUI extends ApplicationAdapter {
             }
 
         } else {
-            game.victoryMessage();
+            gameNumber++;
+            game.victoryMessage(gameNumber);
             gameComponent.resetGame();
         }
 

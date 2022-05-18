@@ -73,12 +73,12 @@ public class Game {
     }
 
     // TODO: display victory message on screen
-    public void victoryMessage() {
+    public void victoryMessage(int gameNumber) {
         if (victory.checkGuardVictory()) {
-            log.info("Guards win");
+            log.info("Game " + gameNumber + ": Guards win");
         }
         if (victory.checkIntruderVictory()) {
-            log.info("Intruders win");
+            log.info("Game " + gameNumber + ":Intruders win");
         }
     }
 
