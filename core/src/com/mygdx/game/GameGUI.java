@@ -2,8 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.gamecomponent.GameComponent;
 import com.mygdx.game.gamecomponent.HUD;
@@ -34,35 +32,31 @@ public final class GameGUI extends ApplicationAdapter {
 
     private static boolean isPaused;
 
-    private Batch spBatch;
-
     @SneakyThrows
     @Override
     public void create() {
         setupGame();
-        gameComponent = new GameComponent(game);
-        victoryExperiment = new VictoryExperiment(game, 2, true);
+        this.hud = new HUD();
+        this.victoryExperiment = new VictoryExperiment(game, 2, true);
+        this.gameComponent = new GameComponent(game, hud);
         Gdx.input.setInputProcessor(gameComponent);
-        spBatch = new SpriteBatch();
-        hud = new HUD();
     }
 
     @Override
     public void render() {
         totalTimePassed += Gdx.graphics.getDeltaTime();
-        if (!game.checkVictory()) {
-            if (totalTimePassed > timeInterval) {
-                totalTimePassed = 0;
 
-                if (!isPaused) {
-                    update();
-                }
+        if (game.isDone()) {
+            handleVictory();
+            return;
+        }
+
+        if (totalTimePassed > timeInterval) {
+            totalTimePassed = 0;
+
+            if (!isPaused) {
+                update();
             }
-
-        } else {
-            game.victoryMessage();
-            victoryExperiment.getVictories().add(game.getVictory());
-            doExp();
         }
 
         draw();
@@ -92,11 +86,10 @@ public final class GameGUI extends ApplicationAdapter {
     private void setupGame() {
         Game.setMapFile(getMapFile());
         game = Game.getInstance();
-        game.init();
     }
 
     private File getMapFile() {
-        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("hardMap3.txt")).getFile());
+        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("hardMap1.txt")).getFile());
     }
 
     public static boolean togglePause() {
@@ -111,23 +104,40 @@ public final class GameGUI extends ApplicationAdapter {
     }
 
     public static void decrementTimeInterval() {
-        if (timeInterval > MIN_TIME_INTERVAL) {
+        if (timeInterval - TIME_INTERVAL_INCREMENT > MIN_TIME_INTERVAL) {
             timeInterval -= TIME_INTERVAL_INCREMENT;
+        } else {
+            timeInterval = MIN_TIME_INTERVAL;
+        }
+    }
+    public static float getTimeInterval() {
+        return timeInterval;
+    }
+
+    private void handleVictory() {
+        game.updateVictory();
+        victoryExperiment.getVictories().add(game.getVictory());
+        log.info(game.getVictoryMessage());
+
+        if (victoryExperiment.isExp()) {
+            handleExperiment();
+        } else {
+            gameComponent.resetGame();
+        }
+
+    }
+
+    private void handleExperiment() {
+        if (victoryExperiment.isDone()) {
+            exit();
+        } else {
+            gameComponent.resetGame();
         }
     }
 
-    public void doExp() {
-        if (!victoryExperiment.isExp()) {
-            gameComponent.resetGame();
-
-        } else {
-            if (!victoryExperiment.isDone()) {
-                gameComponent.resetGame();
-            } else {
-                Gdx.app.exit();
-                log.info("Guards won " + victoryExperiment.countWinner("G") + " times");
-                log.info("Intruders won " + victoryExperiment.countWinner("I") + " times");
-            }
-        }
+    private void exit() {
+        Gdx.app.exit();
+        log.info("Guards won " + victoryExperiment.countWinner("G") + " times");
+        log.info("Intruders won " + victoryExperiment.countWinner("I") + " times");
     }
 }

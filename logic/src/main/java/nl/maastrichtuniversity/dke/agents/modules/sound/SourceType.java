@@ -4,5 +4,5 @@ public enum SourceType {
     GUARD,
     INTRUDER,
     DOOR,
-    WINDOW;
+    WINDOW
 }

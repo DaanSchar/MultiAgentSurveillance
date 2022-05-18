@@ -2,7 +2,6 @@ package nl.maastrichtuniversity.dke.agents.modules.victory;
 
 import lombok.Getter;
 import lombok.Setter;
-import nl.maastrichtuniversity.dke.agents.Agent;
 import nl.maastrichtuniversity.dke.agents.Intruder;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
 import nl.maastrichtuniversity.dke.scenario.environment.Tile;
@@ -20,13 +19,17 @@ public class Victory implements IVictory {
         this.scenario = scenario;
     }
 
-    //Intruders win when at least one intruder goes into the target area
-    public boolean checkIntruderVictory() {
-        return checkTargetArea(scenario.getIntruders());
+    public boolean intrudersHaveWon() {
+        for (Intruder intruder : scenario.getIntruders()) {
+            if (intruderIsOnTargetTile(intruder)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    // Guards win whenever every intruder is caught
-    public boolean checkGuardVictory() {
+    public boolean guardsHaveWon() {
         for (Intruder intruder : scenario.getIntruders()) {
             if (!intruder.isCaught()) {
                 return false;
@@ -35,16 +38,17 @@ public class Victory implements IVictory {
         return true;
     }
 
-    public boolean checkTargetArea(List<Intruder> agents) {
+    private boolean intruderIsOnTargetTile(Intruder intruder) {
         List<Tile> tiles = scenario.getEnvironment().get(TileType.TARGET);
+
         for (Tile tile : tiles) {
-            for (Agent agent : agents) {
-                if (agent.getPosition().getX() == tile.getPosition().getX()
-                        && agent.getPosition().getY() == tile.getPosition().getY()) {
-                    return true;
-                }
+            if (intruder.getPosition().equals(tile.getPosition())) {
+                return true;
             }
         }
+
         return false;
     }
+
+
 }
