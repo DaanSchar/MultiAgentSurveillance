@@ -85,7 +85,7 @@ public final class GameGUI extends ApplicationAdapter {
     }
 
     private File getMapFile() {
-        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("testmap.txt")).getFile());
+        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("veryHard.txt")).getFile());
     }
 
     public static boolean togglePause() {
