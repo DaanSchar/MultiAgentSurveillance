@@ -1,6 +1,7 @@
 package com.mygdx.game.gamecomponent;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.GameGUI;
 import com.mygdx.game.util.FleetType;
@@ -61,6 +62,7 @@ public class GameComponent extends MovableStage {
     public void draw() {
         super.draw();
         drawOutlines();
+
     }
 
     public void update() {
@@ -96,6 +98,7 @@ public class GameComponent extends MovableStage {
         brickAndMortarView.draw(getShapeRenderer(), 1f);
         visionView.draw(getShapeRenderer(), 1f);
         pathFinderView.draw(getShapeRenderer(), 1f);
+
         getShapeRenderer().end();
     }
 
