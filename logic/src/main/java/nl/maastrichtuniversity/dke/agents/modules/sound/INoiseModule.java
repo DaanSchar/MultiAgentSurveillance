@@ -1,4 +1,4 @@
-package nl.maastrichtuniversity.dke.agents.modules.noiseGeneration;
+package nl.maastrichtuniversity.dke.agents.modules.sound;
 
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 
@@ -17,6 +17,6 @@ public interface INoiseModule {
      * @param position The position of the source of the noise.
      * @param soundType The type of sound to generate.
      **/
-    void makeSound(Position position, SoundType soundType);
+    void makeSound(Position position, SoundType soundType, SourceType sourceType);
 
 }
