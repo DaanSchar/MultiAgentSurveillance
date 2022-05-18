@@ -102,7 +102,7 @@ public class GameComponent extends MovableStage {
     @Override
     public boolean keyDown(int keyCode) {
         switch (keyCode) {
-            case Input.Keys.G -> toggleMemoryView();
+            case Input.Keys.M -> toggleMemoryView();
             case Input.Keys.D -> togglePathFindView();
             case Input.Keys.S -> toggleSoundView();
             case Input.Keys.B -> toggleBrickAndMortarView();
