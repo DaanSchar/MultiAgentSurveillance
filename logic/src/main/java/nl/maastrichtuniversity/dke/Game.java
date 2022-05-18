@@ -12,10 +12,12 @@ import nl.maastrichtuniversity.dke.scenario.util.MapParser;
 import java.io.File;
 
 @Slf4j
+@Getter
 public class Game {
 
     private static File mapFile;
     private static Game game;
+    private int gameNumber = 0;
 
     private static final File DEFAULT_MAP = new File("src/main/resources/maps/testmap.txt");
 
@@ -72,14 +74,16 @@ public class Game {
         return false;
     }
 
-    public void victoryMessage(int gameNumber) {
+    public void victoryMessage() {
+        this.gameNumber++;
+
         if (victory.checkGuardVictory()) {
             victory.setWinner("G");
             log.info("Game " + gameNumber + ": Guards win");
         }
         if (victory.checkIntruderVictory()) {
             victory.setWinner("I");
-            log.info("Game " + gameNumber + ":Intruders win");
+            log.info("Game " + gameNumber + ": Intruders win");
         }
     }
 

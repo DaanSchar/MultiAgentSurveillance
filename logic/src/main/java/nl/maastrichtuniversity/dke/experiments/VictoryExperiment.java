@@ -2,8 +2,8 @@ package nl.maastrichtuniversity.dke.experiments;
 
 import lombok.Getter;
 import lombok.Setter;
+import nl.maastrichtuniversity.dke.Game;
 import nl.maastrichtuniversity.dke.agents.modules.victory.Victory;
-import nl.maastrichtuniversity.dke.scenario.Scenario;
 
 import java.util.ArrayList;
 
@@ -11,19 +11,16 @@ import java.util.ArrayList;
 @Setter
 public class VictoryExperiment {
 
-    Scenario scenario;
+    Game game;
     int numOfGames;
-//    int numOfIntruders;
-//    int numOfGuards;
     boolean exp;
 
     private ArrayList<Victory> victories = new ArrayList<>();
 
-    public VictoryExperiment(int numOfGames, boolean exp) {
+    public VictoryExperiment(Game game, int numOfGames, boolean exp) {
         this.numOfGames = numOfGames;
-//        this.numOfIntruders = numOfIntruders;
-//        this.numOfGuards = numOfGuards;
         this.exp = exp;
+        this.game = game;
     }
 
     public void printVictories() {
@@ -40,5 +37,9 @@ public class VictoryExperiment {
             }
         }
         return count;
+    }
+
+    public boolean isDone() {
+        return game.getGameNumber() >= getNumOfGames();
     }
 }

@@ -18,7 +18,6 @@ import java.util.Objects;
 public final class GameGUI extends ApplicationAdapter {
 
     private Game game;
-    private int gameNumber = 0;
     private GameComponent gameComponent;
     private VictoryExperiment victoryExperiment;
 
@@ -36,7 +35,7 @@ public final class GameGUI extends ApplicationAdapter {
     public void create() {
         setupGame();
         gameComponent = new GameComponent(game);
-        victoryExperiment = new VictoryExperiment(2, true);
+        victoryExperiment = new VictoryExperiment(game, 2, true);
         Gdx.input.setInputProcessor(gameComponent);
     }
 
@@ -53,24 +52,9 @@ public final class GameGUI extends ApplicationAdapter {
             }
 
         } else {
-            gameNumber++;
-            game.victoryMessage(gameNumber);
-
+            game.victoryMessage();
             victoryExperiment.getVictories().add(game.getVictory());
-            victoryExperiment.printVictories();
-            log.info("Guards won " + victoryExperiment.countWinner("G") + " times");
-            log.info("Intruders won " + victoryExperiment.countWinner("I") + " times");
-
-            if (!victoryExperiment.isExp()) {
-                gameComponent.resetGame();
-
-            } else {
-                if (gameNumber < victoryExperiment.getNumOfGames()) {
-                    gameComponent.resetGame();
-                } else {
-                    Gdx.app.exit();
-                }
-            }
+            doExp();
         }
 
         draw();
@@ -123,4 +107,18 @@ public final class GameGUI extends ApplicationAdapter {
         }
     }
 
+    public void doExp() {
+        if (!victoryExperiment.isExp()) {
+            gameComponent.resetGame();
+
+        } else {
+            if (!victoryExperiment.isDone()) {
+                gameComponent.resetGame();
+            } else {
+                Gdx.app.exit();
+                log.info("Guards won " + victoryExperiment.countWinner("G") + " times");
+                log.info("Intruders won " + victoryExperiment.countWinner("I") + " times");
+            }
+        }
+    }
 }
