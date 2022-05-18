@@ -34,7 +34,7 @@ public final class GameGUI extends ApplicationAdapter {
 
     private static boolean isPaused;
 
-    Batch spBatch;
+    private Batch spBatch;
 
     @SneakyThrows
     @Override
