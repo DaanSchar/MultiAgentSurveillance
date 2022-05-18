@@ -2,8 +2,13 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.gamecomponent.GameComponent;
+import com.mygdx.game.gamecomponent.HUD;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +25,7 @@ public final class GameGUI extends ApplicationAdapter {
     private Game game;
     private GameComponent gameComponent;
     private VictoryExperiment victoryExperiment;
+    private HUD hud;
 
     private float totalTimePassed;
     private static float timeInterval = 0.24f;
@@ -30,6 +36,8 @@ public final class GameGUI extends ApplicationAdapter {
 
     private static boolean isPaused;
 
+    Batch spBatch;
+
     @SneakyThrows
     @Override
     public void create() {
@@ -37,6 +45,8 @@ public final class GameGUI extends ApplicationAdapter {
         gameComponent = new GameComponent(game);
         victoryExperiment = new VictoryExperiment(game, 2, true);
         Gdx.input.setInputProcessor(gameComponent);
+        spBatch= new SpriteBatch();
+        hud = new HUD();
     }
 
     @Override
@@ -68,6 +78,7 @@ public final class GameGUI extends ApplicationAdapter {
     private void draw() {
         ScreenUtils.clear(0, 0, 0, 1);
         gameComponent.draw();
+        hud.draw();
     }
 
     @Override
@@ -87,7 +98,7 @@ public final class GameGUI extends ApplicationAdapter {
     }
 
     private File getMapFile() {
-        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("testmap.txt")).getFile());
+        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("hardMap3.txt")).getFile());
     }
 
     public static boolean togglePause() {

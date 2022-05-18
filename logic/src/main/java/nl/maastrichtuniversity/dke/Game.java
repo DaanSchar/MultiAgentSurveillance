@@ -19,7 +19,7 @@ public class Game {
     private static Game game;
     private int gameNumber = 0;
 
-    private static final File DEFAULT_MAP = new File("src/main/resources/maps/testmap.txt");
+    private static final File DEFAULT_MAP = new File("src/main/resources/maps/veryHard.txt");
 
     public static Game getInstance() {
         if (game == null) {
