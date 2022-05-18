@@ -1,4 +1,4 @@
-package nl.maastrichtuniversity.dke.agents.modules.listening;
+package nl.maastrichtuniversity.dke.agents.modules.sound;
 
 import nl.maastrichtuniversity.dke.agents.util.Direction;
 import nl.maastrichtuniversity.dke.scenario.Sound;
