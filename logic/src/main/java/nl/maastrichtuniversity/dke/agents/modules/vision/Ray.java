@@ -1,7 +1,6 @@
 package nl.maastrichtuniversity.dke.agents.modules.vision;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.maastrichtuniversity.dke.agents.util.Direction;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
 import nl.maastrichtuniversity.dke.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.scenario.environment.TileType;
@@ -27,6 +26,13 @@ public class Ray {
     private Vector ray;
     private double rayLength;
 
+    /**
+     * Casts the ray, determining which tiles are visible.
+     *
+     * @param position The starting position of the ray.
+     * @param radAngle The angle of the ray.
+     * @return List of positions which are visible.
+     */
     public List<Position> cast(Position position, double radAngle) {
         initRay(position, radAngle);
         List<Position> tiles = new ArrayList<>();
