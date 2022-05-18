@@ -1,9 +1,12 @@
 package com.mygdx.game.gamecomponent;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.GameGUI;
 import com.mygdx.game.util.FleetType;
+import com.mygdx.game.util.TextureRepository;
 import com.mygdx.game.views.brickandmortar.BrickAndMortarView;
 import com.mygdx.game.views.environment.EnvironmentView;
 import com.mygdx.game.views.communication.CommunicationView;
@@ -18,7 +21,11 @@ import nl.maastrichtuniversity.dke.agents.Agent;
 import nl.maastrichtuniversity.dke.agents.Fleet;
 import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
+import nl.maastrichtuniversity.dke.agents.modules.vision.Ray;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
+import nl.maastrichtuniversity.dke.scenario.util.Position;
+
+import java.util.List;
 
 @Slf4j
 public class GameComponent extends MovableStage {
@@ -43,8 +50,13 @@ public class GameComponent extends MovableStage {
 
     private final Game game;
 
+    private final Ray rayCast;
+
+    private float currentFloat = 0f;
+
     public GameComponent(Game game) {
         super(game.getScenario().getEnvironment().getWidth(), game.getScenario().getEnvironment().getHeight());
+        this.rayCast = new Ray(6, game.getScenario());
         this.game = game;
         this.currentFleet = FleetType.GUARD;
         this.currentAgentIndex = 0;

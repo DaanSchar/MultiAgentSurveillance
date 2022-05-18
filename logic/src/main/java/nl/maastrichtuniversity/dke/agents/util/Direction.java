@@ -9,9 +9,9 @@ import java.util.List;
 @Getter
 public enum Direction {
 
-    NORTH(0, -1),
+    NORTH(0, 1),
     EAST(1, 0),
-    SOUTH(0, 1),
+    SOUTH(0, -1),
     WEST(-1, 0),
     NORTHEAST(1, -1),
     NORTHWEST(-1, -1),
@@ -64,6 +64,10 @@ public enum Direction {
             case WEST -> EAST;
             default -> throw new IllegalArgumentException("Direction not found");
         };
+    }
+
+    public double getAngle() {
+        return Math.atan2((this.getMoveY()), this.getMoveX());
     }
 
 }

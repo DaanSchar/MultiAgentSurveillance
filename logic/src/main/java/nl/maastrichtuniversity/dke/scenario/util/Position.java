@@ -19,6 +19,11 @@ public class Position {
         this.y = y;
     }
 
+    public Position(Position p) {
+        this.x = p.getX();
+        this.y = p.getY();
+    }
+
     public Position getPosInDirection(Direction direction) {
         return new Position(
                 this.x + direction.getMoveX(),
