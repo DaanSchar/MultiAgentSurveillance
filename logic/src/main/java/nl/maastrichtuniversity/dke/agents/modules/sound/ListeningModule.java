@@ -111,7 +111,7 @@ public class ListeningModule extends AgentModule implements IListeningModule {
     }
 
     public int computeSoundInputSize() {
-        double soundInputSize = scenario.getIntruders().getCurrentAgent().getPolicyModule().getInputSize() * 0.1667;
+        double soundInputSize = scenario.getIntruders().getCurrentAgent().getPolicyModule().getInputSize() * 0.0194;
         return (int) Math.round(soundInputSize / 8) * 8;
     }
 
@@ -152,7 +152,7 @@ public class ListeningModule extends AgentModule implements IListeningModule {
         List<Direction> soundSource = new ArrayList<>();
 
         for (Sound sound : soundMap) {
-            if (sound.getPosition().equals(position)) {
+            if (sound.getPosition().equals(position) && sound.getSourceType()==SourceType.GUARD) {
                 Position source = sound.getSource();
                 soundSource.add(computeDirection(position, source));
             }

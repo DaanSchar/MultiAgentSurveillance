@@ -18,20 +18,11 @@ public class PolicyModule implements IPolicyModule {
     public int inputSize;
 
 
-    public PolicyModule(String path, int inputSize)  {
-        File file = new File(path);
-
-        try {
-            FileResourcesUtils fileResourcesUtils = new FileResourcesUtils();
-            file = fileResourcesUtils.getFileFromResource("path");
-
-        } catch (URISyntaxException ex) {
-            ex.printStackTrace();
-        }
-
+    public PolicyModule(String path, int inputSize) {
+        path = "D:\\MultiAgentSurveillance\\logic\\src\\main\\resources\\RL_bins\\"+path;
         this.inputSize = inputSize;
         try {
-            policy = DQNPolicy.load(file.getAbsolutePath());
+            policy = DQNPolicy.load(path);
 
         } catch (IOException ex) {
             ex.printStackTrace();

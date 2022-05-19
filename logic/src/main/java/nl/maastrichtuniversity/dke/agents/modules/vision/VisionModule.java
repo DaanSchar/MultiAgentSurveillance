@@ -89,7 +89,7 @@ public class VisionModule extends AgentModule implements IVisionModule {
         return encodedTiles.subList(0,Math.min(computeVisionInputSize(),encodedTiles.size()));
     }
     private int computeVisionInputSize(){
-        double visionInputSize = scenario.getIntruders().getCurrentAgent().getPolicyModule().getInputSize()*0.81;
+        double visionInputSize = scenario.getIntruders().getCurrentAgent().getPolicyModule().getInputSize()*0.977;
         return (int) Math.round(visionInputSize/13)*13;
     }
 
