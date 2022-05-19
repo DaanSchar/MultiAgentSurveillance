@@ -21,8 +21,8 @@ public class RunningAway extends AgentModule implements IRunningAway {
         newPos.setY(newPos.getY() * 2);
         int height = scenario.getEnvironment().getHeight();
         int width = scenario.getEnvironment().getWidth();
-        Position[] corners = {new Position(0,0), new Position(0,height)
-        , new Position(width, 0), new Position(width, height) };
+        Position[] corners = {new Position(1,1), new Position(1,height-2)
+        , new Position(width-2, 1), new Position(width-2, height-2) };
 //        try {
 
 
@@ -39,10 +39,11 @@ public class RunningAway extends AgentModule implements IRunningAway {
                 newPos.setY(1);
             }
             if(newPos.equals(corners[0]) || newPos.equals(corners[2])){
-                newPos.setY(10);
+                newPos.setY(newPos.getY() + 10);
+                newPos.setY(newPos.getY() + 10);
             }
             if(newPos.equals(corners[1]) || newPos.equals(corners[3])){
-                newPos.setX(10);
+                newPos.setY(newPos.getY()-10);
             }
 
         return newPos;
