@@ -43,7 +43,7 @@ public class DQN {
                 .build();
 
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 50; i++) {
             File file = new File("D:\\MultiAgentSurveillance\\core\\assets\\hardMap1.txt");
             Game game;
             Game.setMapFile(file);

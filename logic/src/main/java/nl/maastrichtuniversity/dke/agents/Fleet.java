@@ -104,11 +104,13 @@ public class Fleet<T extends Agent> extends ArrayList<T> {
     public double getFleeReward() {
         double totalMoveReward = 0;
         for (Agent agent : this) {
-            totalMoveReward += agent.getRewardModule().updateFleeingReward(agent.getPosition(), agent.getDirection());
+            Intruder i = (Intruder) agent;
+            if (i.isFleeing()) {
+                totalMoveReward += agent.getRewardModule().updateFleeingReward(agent.getPosition(), agent.getDirection());
+            }
         }
         return totalMoveReward;
     }
-
 
 
     public Agent getCurrentAgent() {
