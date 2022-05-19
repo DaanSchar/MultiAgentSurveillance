@@ -10,7 +10,7 @@ import org.deeplearning4j.rl4j.space.ObservationSpace;
 public class IntruderMdp implements MDP<NeuralGameState, Integer, DiscreteSpace> {
 
     private final Game game;
-    private int intruder_idx;
+    private int intruderIndex;
     private final int[] actionList;
 
     private final ArrayObservationSpace<NeuralGameState> gameArrayObservationSpace;
@@ -21,11 +21,10 @@ public class IntruderMdp implements MDP<NeuralGameState, Integer, DiscreteSpace>
 
 
     public IntruderMdp(Game game) {
-
         this.game = game;
         gameArrayObservationSpace = new ArrayObservationSpace<>(new int[]{game.observationSize()});
         actionList = new int[game.getScenario().getIntruders().size()];
-        intruder_idx = 0;
+        intruderIndex = 0;
     }
 
     @Override
@@ -52,12 +51,12 @@ public class IntruderMdp implements MDP<NeuralGameState, Integer, DiscreteSpace>
     @Override
     public StepReply<NeuralGameState> step(Integer action) {
         double reward = 0;
-        actionList[intruder_idx] = action;
-        intruder_idx++;
+        actionList[intruderIndex] = action;
+        intruderIndex++;
 
-        if (intruder_idx == game.getScenario().getIntruders().size()) {
+        if (intruderIndex == game.getScenario().getIntruders().size()) {
 
-            intruder_idx =0;
+            intruderIndex =0;
             game.getScenario().getIntruders().executeActions(actionList);
             game.update();
             reward = game.getScenario().getIntruders().getReward();
