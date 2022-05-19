@@ -140,11 +140,9 @@ public class GameComponent extends MovableStage {
             }
             case Input.Keys.R -> resetGame();
             case Input.Keys.MINUS -> {
-                hud.setKey(3);
                 GameGUI.incrementTimeInterval();
             }
             case Input.Keys.EQUALS -> {
-                hud.setKey(3);
                 GameGUI.decrementTimeInterval();
             }
             case Input.Keys.Q -> {
