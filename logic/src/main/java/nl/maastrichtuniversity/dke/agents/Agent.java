@@ -4,11 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.agents.modules.exploration.NeuralGameState;
 import nl.maastrichtuniversity.dke.agents.modules.interaction.InteractionModule;
 import nl.maastrichtuniversity.dke.agents.modules.communication.Mark;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.agents.modules.communication.ICommunicationModule;
 import nl.maastrichtuniversity.dke.agents.modules.exploration.IExplorationModule;
+import nl.maastrichtuniversity.dke.agents.modules.policy.IPolicyModule;
+import nl.maastrichtuniversity.dke.agents.modules.reward.IRewardModule;
 import nl.maastrichtuniversity.dke.agents.modules.sound.IListeningModule;
 import nl.maastrichtuniversity.dke.agents.modules.memory.IMemoryModule;
 import nl.maastrichtuniversity.dke.agents.modules.movement.IMovementModule;
@@ -26,9 +29,11 @@ import nl.maastrichtuniversity.dke.scenario.Sound;
 import nl.maastrichtuniversity.dke.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
+import org.deeplearning4j.rl4j.policy.DQNPolicy;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Getter
 @Slf4j
@@ -46,6 +51,8 @@ public class Agent {
     private @Setter IExplorationModule explorationModule;
     private @Setter InteractionModule interactionModule;
     private @Setter PathFinderModule pathFinderModule;
+    private @Setter IPolicyModule policyModule;
+    private @Setter IRewardModule rewardModule;
 
     private static int agentCount;
     private final int id;
@@ -69,6 +76,11 @@ public class Agent {
 
     public void move() {
         /* empty for now */
+    }
+
+    public void rlMove() {
+        MoveAction nextMove = policyModule.nextMove(toArray());
+        move(nextMove);
     }
 
     public void updateInternals() {
@@ -223,12 +235,12 @@ public class Agent {
 
     public Agent newInstance() {
         return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule,
-                communicationModule, memoryModule, listeningModule, smellModule);
+                communicationModule, memoryModule, listeningModule, smellModule, rewardModule, policyModule);
     }
 
     private Agent(Direction direction, Position position, int id, ISpawnModule spawnModule, IMovementModule movement,
                   IVisionModule visionModule, INoiseModule noiseModule, ICommunicationModule communicationModule,
-                  IMemoryModule memoryModule, IListeningModule listeningModule, ISmellModule smellModule) {
+                  IMemoryModule memoryModule, IListeningModule listeningModule, ISmellModule smellModule, IRewardModule rewardModule, IPolicyModule policyModule) {
         this.spawnModule = spawnModule;
         this.visionModule = visionModule;
         this.movement = movement;
@@ -237,9 +249,54 @@ public class Agent {
         this.memoryModule = memoryModule;
         this.listeningModule = listeningModule;
         this.smellModule = smellModule;
+        this.rewardModule = rewardModule;
+        this.policyModule = policyModule;
         this.position = position;
         this.direction = direction;
         this.id = id;
+    }
+
+    //TODO
+    // implement toArray for all specified modules
+    public double[] toArray() {
+        double fleeing_obs = 0;
+        if(this instanceof Intruder){
+            if(((Intruder) this).seesGuard()){
+                fleeing_obs=1;
+            }
+        }
+
+        double[] fullObservations = new double[getPolicyModule().getInputSize()];
+
+        List<Double> observations = new ArrayList<>(getStateVector());
+        Stream.of(visionModule.toArray(), listeningModule.toArray()).forEach(observations::addAll);
+
+        double[] observationsArray = listToArray(observations);
+
+        System.arraycopy(observationsArray, 0, fullObservations, 0, observationsArray.length);
+
+        if (getRewardModule().isInTargetDirection(position, direction)) {
+            fullObservations[fullObservations.length - 1] = 1;
+        } else fullObservations[fullObservations.length - 1] = 0;
+
+        return fullObservations;
+    }
+
+    public List<Double> getStateVector() {
+        List<Double> observations = new ArrayList<>();
+        observations.add((double) position.getX());
+        observations.add((double) position.getY());
+        observations.add((double) direction.getMoveX());
+        observations.add((double) direction.getMoveY());
+        return observations;
+    }
+
+    private double[] listToArray(List<Double> list) {
+        double[] array = new double[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            array[i] = list.get(i);
+        }
+        return array;
     }
 
 }

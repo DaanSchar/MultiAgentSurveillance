@@ -19,11 +19,26 @@ public class Position {
         this.y = y;
     }
 
+    public Position(Position p) {
+        this.x = p.getX();
+        this.y = p.getY();
+    }
+
     public Position getPosInDirection(Direction direction) {
         return new Position(
                 this.x + direction.getMoveX(),
                 this.y + direction.getMoveY()
         );
+    }
+
+    public Position getPosInDirection(Direction direction, int distance) {
+        int newX = this.x;
+        int newY = this.y;
+        for (int i = 0; i < distance; i++) {
+            newX = newX + direction.getMoveX();
+            newY = newY + direction.getMoveY();
+        }
+        return new Position(newX, newY);
     }
 
     public Position add(Position other) {

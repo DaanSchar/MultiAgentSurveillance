@@ -9,6 +9,8 @@ import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
 import nl.maastrichtuniversity.dke.agents.modules.interaction.InteractionModule;
 import nl.maastrichtuniversity.dke.agents.modules.exploration.BrickAndMortar;
+import nl.maastrichtuniversity.dke.agents.modules.policy.PolicyModule;
+import nl.maastrichtuniversity.dke.agents.modules.reward.RewardModule;
 import nl.maastrichtuniversity.dke.agents.modules.sound.ListeningModule;
 import nl.maastrichtuniversity.dke.agents.modules.memory.MemoryModule;
 import nl.maastrichtuniversity.dke.agents.modules.pathfind.Dijkstra;
@@ -18,7 +20,7 @@ import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationMod
 import nl.maastrichtuniversity.dke.agents.modules.runningAway.RunningAway;
 import nl.maastrichtuniversity.dke.agents.modules.smell.SmellModule;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.UniformSpawnModule;
-import nl.maastrichtuniversity.dke.agents.modules.vision.VisionModule;
+import nl.maastrichtuniversity.dke.agents.modules.vision.RayCast2;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.util.DebugSettings;
@@ -96,7 +98,7 @@ public class AgentFactory {
                         scenario,
                         agent instanceof Guard ? baseSpeedGuards : baseSpeedIntruders,
                         agent instanceof Guard ? 0 : sprintSpeedIntruders))
-                .setVisionModule(new VisionModule(scenario, viewingDistance))
+                .setVisionModule(new RayCast2(scenario, viewingDistance))
                 .setCommunicationModule(new CommunicationModule(scenario, getMarkers()))
                 .setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting,
                         hearingDistanceInteraction))
@@ -105,7 +107,9 @@ public class AgentFactory {
                 .setSmellModule(new SmellModule(scenario, smellingDistance))
                 .setExplorationModule(new BrickAndMortar(agent.getMemoryModule().getMap(), agent.getMovement()))
                 .setInteractionModule(new InteractionModule(scenario))
-                .setPathFinderModule(new Dijkstra(agent.getMemoryModule().getMap()));
+                .setPathFinderModule(new Dijkstra(agent.getMemoryModule().getMap()))
+                .setRewardModule(new RewardModule(scenario))
+                .setPolicyModule(new PolicyModule("D:\\MultiAgentSurveillance\\logic\\src\\main\\resources\\RL_bins\\intruder-player-dqn100(4).bin",240));
     }
 
     private List<CommunicationType> getMarkers() {

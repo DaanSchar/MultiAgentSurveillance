@@ -49,7 +49,7 @@ public class GameComponent extends MovableStage {
 
     private final Game game;
     private final HUD hud;
-    private ArrayList<Victory> victories = new ArrayList<>();
+    private final ArrayList<Victory> victories = new ArrayList<>();
 
     public GameComponent(Game game, HUD hud) {
         super(game.getScenario().getEnvironment().getWidth(), game.getScenario().getEnvironment().getHeight());
@@ -140,11 +140,9 @@ public class GameComponent extends MovableStage {
             }
             case Input.Keys.R -> resetGame();
             case Input.Keys.MINUS -> {
-                hud.setKey(3);
                 GameGUI.incrementTimeInterval();
             }
             case Input.Keys.EQUALS -> {
-                hud.setKey(3);
                 GameGUI.decrementTimeInterval();
             }
             case Input.Keys.Q -> {

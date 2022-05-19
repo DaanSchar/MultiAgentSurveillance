@@ -12,6 +12,7 @@ import nl.maastrichtuniversity.dke.scenario.util.Position;
 import nl.maastrichtuniversity.dke.util.Distribution;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -98,7 +99,41 @@ public class ListeningModule extends AgentModule implements IListeningModule {
 
 
 
+    @Override
+    public List<Double> toArray() {
+        List<Double> obs = new ArrayList<>();
+        for (Direction dir :
+                getDirection(scenario.getIntruders().getCurrentAgent().getPosition())) {
+            obs.addAll(getListPerSound(dir));
+        }
 
+        return obs.subList(0, Math.min(computeSoundInputSize(), obs.size()));
+    }
+
+    public int computeSoundInputSize() {
+        double soundInputSize = scenario.getIntruders().getCurrentAgent().getPolicyModule().getInputSize() * 0.1667;
+        return (int) Math.round(soundInputSize / 8) * 8;
+    }
+
+    public List<Double> getListPerSound(Direction direction) {
+        if (direction == null) {
+            return new ArrayList<>();
+        }
+        List<Double> list = new ArrayList<>(Collections.nCopies(Direction.values().length, 0d));
+        switch (direction) {
+            case NORTH -> list.set(0, 1d);
+            case EAST -> list.set(1, 1d);
+            case SOUTH -> list.set(2, 1d);
+            case WEST -> list.set(3, 1d);
+            case NORTHEAST -> list.set(4, 1d);
+            case NORTHWEST -> list.set(5, 1d);
+            case SOUTHEAST -> list.set(6, 1d);
+            case SOUTHWEST -> list.set(7, 1d);
+
+        }
+        return list;
+
+    }
 
     @Override
     public boolean getSound(Position position) {

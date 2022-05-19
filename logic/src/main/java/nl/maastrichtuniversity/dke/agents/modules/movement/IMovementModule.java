@@ -12,4 +12,6 @@ public interface IMovementModule {
     Position getForwardPosition(Position position, Direction direction);
 
     Position sprint(Position position, Direction direction);
+
+    boolean agentCanMoveTo(Position position);
 }

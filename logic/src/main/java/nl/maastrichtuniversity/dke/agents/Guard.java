@@ -44,6 +44,7 @@ public class Guard extends Agent {
     @Override
     public void updateInternals() {
         determineTarget();
+        //super.rlMove();
         super.updateInternals();
     }
 

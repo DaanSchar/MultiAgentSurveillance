@@ -75,7 +75,7 @@ public class MovementModule extends AgentModule implements IMovementModule {
         return facingPosition;
     }
 
-    private boolean agentCanMoveTo(Position position) {
+    public boolean agentCanMoveTo(Position position) {
         if (!positionIsInMap(position)) {
             return false;
         }

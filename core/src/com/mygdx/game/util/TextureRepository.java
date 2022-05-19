@@ -117,13 +117,13 @@ public final class TextureRepository {
         textures.put("wall4", new Texture("wall/wall4.png"));
 
         //guards
-        textures.put("guard1", new Texture("guard/guard1.png"));
-        textures.put("guard2", new Texture("guard/guard2.png"));
-        textures.put("guard3", new Texture("guard/guard3.png"));
+        textures.put("guardback1", new Texture("guard/guard1.png"));
+        textures.put("guardback2", new Texture("guard/guard2.png"));
+        textures.put("guardback3", new Texture("guard/guard3.png"));
 
-        textures.put("guardback1", new Texture("guard/guardback1.png"));
-        textures.put("guardback2", new Texture("guard/guardback2.png"));
-        textures.put("guardback3", new Texture("guard/guardback3.png"));
+        textures.put("guard1", new Texture("guard/guardback1.png"));
+        textures.put("guard2", new Texture("guard/guardback2.png"));
+        textures.put("guard3", new Texture("guard/guardback3.png"));
 
         textures.put("guardleft1", new Texture("guard/guardleft.png"));
         textures.put("guardleft2", new Texture("guard/guardleft2.png"));
@@ -134,13 +134,13 @@ public final class TextureRepository {
         textures.put("guardright3", new Texture("guard/guardright3.png"));
 
         //intruders
-        textures.put("intruder1", new Texture("intruders/intruder1.png"));
-        textures.put("intruder2", new Texture("intruders/intruder2.png"));
-        textures.put("intruder3", new Texture("intruders/intruder3.png"));
+        textures.put("intruderback1", new Texture("intruders/intruder1.png"));
+        textures.put("intruderback2", new Texture("intruders/intruder2.png"));
+        textures.put("intruderback3", new Texture("intruders/intruder3.png"));
 
-        textures.put("intruderback1", new Texture("intruders/intruderback1.png"));
-        textures.put("intruderback2", new Texture("intruders/intruderback2.png"));
-        textures.put("intruderback3", new Texture("intruders/intruderback3.png"));
+        textures.put("intruder1", new Texture("intruders/intruderback1.png"));
+        textures.put("intruder2", new Texture("intruders/intruderback2.png"));
+        textures.put("intruder3", new Texture("intruders/intruderback3.png"));
 
         textures.put("intruderleft1", new Texture("intruders/intruderleft.png"));
         textures.put("intruderleft2", new Texture("intruders/intruderleft2.png"));
