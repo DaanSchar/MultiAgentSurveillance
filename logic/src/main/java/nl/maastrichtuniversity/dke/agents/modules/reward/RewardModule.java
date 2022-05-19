@@ -50,8 +50,6 @@ public class RewardModule extends AgentModule implements IRewardModule {
             moveReward-=distance*0.1; // or some other scalar
         }
 
-
-
         return moveReward;
     }
 
