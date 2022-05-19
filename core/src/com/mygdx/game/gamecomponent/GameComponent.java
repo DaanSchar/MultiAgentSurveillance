@@ -49,7 +49,7 @@ public class GameComponent extends MovableStage {
 
     private final Game game;
     private final HUD hud;
-    private ArrayList<Victory> victories = new ArrayList<>();
+    private final ArrayList<Victory> victories = new ArrayList<>();
 
     public GameComponent(Game game, HUD hud) {
         super(game.getScenario().getEnvironment().getWidth(), game.getScenario().getEnvironment().getHeight());
