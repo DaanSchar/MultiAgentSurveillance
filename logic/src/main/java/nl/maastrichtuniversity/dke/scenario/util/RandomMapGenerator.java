@@ -25,9 +25,8 @@ public class RandomMapGenerator {
         createBorder(); //WALL BORDER
         createrArea(EIGHTEEN, EIGHT, TileType.SPAWN_INTRUDERS); //SPAWN
         createrArea(EIGHTEEN, EIGHT, TileType.SPAWN_GUARDS); //SPAWN
-        createrArea(THREE, THREE, TileType.TARGET); //TARGET
-        createTeleport(THREE, THREE, 0); //TELEPORT
-        createTeleport(THREE, THREE, 0); //TELEPORT
+        createTeleport(ONE, ONE, 0); //TELEPORT
+        createTeleport(ONE, ONE, 0); //TELEPORT
         createrArea(TEN, TWEN, TileType.SHADED); //SHADED
         createrArea(ONE, ONE, TileType.SENTRY); //SENTRY
         createrArea(ONE, ONE, TileType.SENTRY); //SENTRY
@@ -42,6 +41,7 @@ public class RandomMapGenerator {
         createrArea(TEN, ONE, TileType.WALL); //r WALL
         createrArea(FIFTY, ONE, TileType.WALL); //r WALL
         createrArea(ONE, FIFTY, TileType.WALL); //r WALL
+        createrArea(ONE, ONE, TileType.TARGET); //TARGET
         fillInEmptyTiles();
         mapSaver.saveMap();
         return new Environment(this.width, this.height, this.tileMap);

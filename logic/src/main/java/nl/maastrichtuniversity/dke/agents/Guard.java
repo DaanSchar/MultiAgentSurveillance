@@ -2,8 +2,8 @@ package nl.maastrichtuniversity.dke.agents;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import nl.maastrichtuniversity.dke.agents.modules.memory.MemoryModule;
-import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.SoundType;
+import nl.maastrichtuniversity.dke.agents.modules.sound.SoundType;
+import nl.maastrichtuniversity.dke.agents.modules.sound.SourceType;
 import nl.maastrichtuniversity.dke.scenario.Sound;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 
@@ -24,6 +24,7 @@ public class Guard extends Agent {
         super.spawn();
 //        setTarget(((MemoryModule) getMemoryModule()).getRandomPosition());
 //        setTarget(new Position(43, 18));
+//        setTarget(new Position(16, 15));
     }
 
     @Override
@@ -50,9 +51,21 @@ public class Guard extends Agent {
         if (seesIntruder()) {
             chaseIntruder();
             catchIntruder();
-        }  else if (hearsSound()) {
+        }  else if (hearsSound() && !seesGuard()) {
             moveToSoundSource();
         }
+    }
+
+    @Override
+    protected boolean hearsSound() {
+        List<Sound> sounds = getSoundsAtCurrentPosition();
+
+        if (super.hearsSound()) {
+            Sound sound = sounds.get(0);
+            return sound.getSourceType() != SourceType.GUARD;
+        }
+
+        return false;
     }
 
     private void moveToSoundSource() {
@@ -74,7 +87,7 @@ public class Guard extends Agent {
         Intruder intruder = getVisibleIntruder();
 
         if (intruder != null) {
-            getNoiseModule().makeSound(getPosition(), SoundType.YELL);
+            getNoiseModule().makeSound(getPosition(), SoundType.YELL, SourceType.GUARD);
             setTarget(intruder.getPosition());
         }
     }
@@ -85,6 +98,22 @@ public class Guard extends Agent {
         for (Agent agent : visibleAgents) {
             if (agent instanceof Intruder) {
                 return (Intruder) agent;
+            }
+        }
+
+        return null;
+    }
+
+    private boolean seesGuard() {
+        return getVisibleGuards() != null;
+    }
+
+    private Guard getVisibleGuards() {
+        List<Agent> visibleAgents = getVisibleAgents();
+
+        for (Agent agent : visibleAgents) {
+            if (agent instanceof Guard && !agent.equals(this)) {
+                return (Guard) agent;
             }
         }
 

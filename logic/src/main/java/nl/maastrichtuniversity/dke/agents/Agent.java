@@ -9,14 +9,15 @@ import nl.maastrichtuniversity.dke.agents.modules.communication.Mark;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.agents.modules.communication.ICommunicationModule;
 import nl.maastrichtuniversity.dke.agents.modules.exploration.IExplorationModule;
-import nl.maastrichtuniversity.dke.agents.modules.listening.IListeningModule;
+import nl.maastrichtuniversity.dke.agents.modules.sound.IListeningModule;
 import nl.maastrichtuniversity.dke.agents.modules.memory.IMemoryModule;
 import nl.maastrichtuniversity.dke.agents.modules.movement.IMovementModule;
-import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.SoundType;
+import nl.maastrichtuniversity.dke.agents.modules.sound.SoundType;
 import nl.maastrichtuniversity.dke.agents.modules.pathfind.PathFinderModule;
-import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.INoiseModule;
+import nl.maastrichtuniversity.dke.agents.modules.sound.INoiseModule;
 import nl.maastrichtuniversity.dke.agents.modules.pathfind.PathNavigator;
 import nl.maastrichtuniversity.dke.agents.modules.smell.ISmellModule;
+import nl.maastrichtuniversity.dke.agents.modules.sound.SourceType;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.ISpawnModule;
 import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
 import nl.maastrichtuniversity.dke.agents.util.Direction;
@@ -112,7 +113,7 @@ public class Agent {
             Position door = doorTiles.get(0).getPosition();
             interactionModule.toggleDoor(door);
             memoryModule.toggledDoor(door);
-            noiseModule.makeSound(door, SoundType.TOGGLE_DOOR);
+            noiseModule.makeSound(door, SoundType.TOGGLE_DOOR, SourceType.DOOR);
         }
     }
 
@@ -125,7 +126,7 @@ public class Agent {
             Position window = windowTiles.get(0).getPosition();
             interactionModule.breakWindow(window);
             memoryModule.brokeWindow(window);
-            noiseModule.makeSound(window, SoundType.BREAK_WINDOW);
+            noiseModule.makeSound(window, SoundType.BREAK_WINDOW, SourceType.WINDOW);
         }
     }
 
@@ -182,12 +183,12 @@ public class Agent {
         }
 
         position = movement.goForward(position, direction);
-        noiseModule.makeSound(position, SoundType.WALK);
+        noiseModule.makeSound(position, SoundType.WALK, getAgentSourceType());
     }
 
     private void sprintForward() {
         position = movement.sprint(position, direction);
-        noiseModule.makeSound(position, SoundType.SPRINT);
+        noiseModule.makeSound(position, SoundType.SPRINT, getAgentSourceType());
     }
 
     protected List<Agent> getVisibleAgents() {
@@ -210,6 +211,14 @@ public class Agent {
     protected Tile getFacingTile() {
         Position facingPosition = getPosition().getPosInDirection(getDirection());
         return memoryModule.getMap().getAt(facingPosition);
+    }
+
+    private SourceType getAgentSourceType() {
+        if (this instanceof Guard) {
+            return SourceType.GUARD;
+        } else {
+            return SourceType.INTRUDER;
+        }
     }
 
     public Agent newInstance() {

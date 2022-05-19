@@ -1,4 +1,4 @@
-package nl.maastrichtuniversity.dke.agents.modules.listening;
+package nl.maastrichtuniversity.dke.agents.modules.sound;
 
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.agents.modules.AgentModule;

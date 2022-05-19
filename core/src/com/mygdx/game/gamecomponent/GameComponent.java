@@ -1,12 +1,9 @@
 package com.mygdx.game.gamecomponent;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.GameGUI;
 import com.mygdx.game.util.FleetType;
-import com.mygdx.game.util.TextureRepository;
 import com.mygdx.game.views.brickandmortar.BrickAndMortarView;
 import com.mygdx.game.views.environment.EnvironmentView;
 import com.mygdx.game.views.communication.CommunicationView;
@@ -15,19 +12,24 @@ import com.mygdx.game.views.pathfind.PathFinderView;
 import com.mygdx.game.views.smell.SmellView;
 import com.mygdx.game.views.sound.SoundView;
 import com.mygdx.game.views.vision.VisionView;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.Game;
 import nl.maastrichtuniversity.dke.agents.Agent;
 import nl.maastrichtuniversity.dke.agents.Fleet;
 import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
+import nl.maastrichtuniversity.dke.agents.modules.victory.Victory;
 import nl.maastrichtuniversity.dke.agents.modules.vision.Ray;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 import java.util.List;
 
+import java.util.ArrayList;
+
 @Slf4j
+@Getter
 public class GameComponent extends MovableStage {
 
     private EnvironmentView environmentView;
@@ -47,19 +49,19 @@ public class GameComponent extends MovableStage {
     private boolean showSound;
     private boolean showBrickAndMortar;
     private boolean showVision;
+    private final ArrayList<Boolean> arrayKeys;
 
     private final Game game;
+    private final HUD hud;
+    private ArrayList<Victory> victories = new ArrayList<>();
 
-    private final Ray rayCast;
-
-    private float currentFloat = 0f;
-
-    public GameComponent(Game game) {
+    public GameComponent(Game game, HUD hud) {
         super(game.getScenario().getEnvironment().getWidth(), game.getScenario().getEnvironment().getHeight());
-        this.rayCast = new Ray(6, game.getScenario());
         this.game = game;
         this.currentFleet = FleetType.GUARD;
         this.currentAgentIndex = 0;
+        this.arrayKeys = new ArrayList<>();
+        this.hud = hud;
         reset(game.getScenario());
     }
 
@@ -73,6 +75,7 @@ public class GameComponent extends MovableStage {
     public void draw() {
         super.draw();
         drawOutlines();
+
     }
 
     public void update() {
@@ -108,22 +111,50 @@ public class GameComponent extends MovableStage {
         brickAndMortarView.draw(getShapeRenderer(), 1f);
         visionView.draw(getShapeRenderer(), 1f);
         pathFinderView.draw(getShapeRenderer(), 1f);
+
         getShapeRenderer().end();
     }
 
     @Override
     public boolean keyDown(int keyCode) {
         switch (keyCode) {
-            case Input.Keys.M -> toggleMemoryView();
-            case Input.Keys.D -> togglePathFindView();
-            case Input.Keys.S -> toggleSoundView();
-            case Input.Keys.B -> toggleBrickAndMortarView();
-            case Input.Keys.V -> toggleVisionView();
-            case Input.Keys.P -> pauseGame();
+            case Input.Keys.M -> {
+                hud.setKey(5);
+                toggleMemoryView();
+            }
+            case Input.Keys.D -> {
+                hud.setKey(4);
+                togglePathFindView();
+            }
+            case Input.Keys.S -> {
+                hud.setKey(1);
+                toggleSoundView();
+            }
+            case Input.Keys.B -> {
+                hud.setKey(6);
+                toggleBrickAndMortarView();
+            }
+            case Input.Keys.V -> {
+                hud.setKey(2);
+                toggleVisionView();
+            }
+            case Input.Keys.P -> {
+                hud.setKey(8);
+                pauseGame();
+            }
             case Input.Keys.R -> resetGame();
-            case Input.Keys.MINUS -> GameGUI.incrementTimeInterval();
-            case Input.Keys.EQUALS -> GameGUI.decrementTimeInterval();
-            case Input.Keys.Q -> toggleCurrentFleet();
+            case Input.Keys.MINUS -> {
+                hud.setKey(3);
+                GameGUI.incrementTimeInterval();
+            }
+            case Input.Keys.EQUALS -> {
+                hud.setKey(3);
+                GameGUI.decrementTimeInterval();
+            }
+            case Input.Keys.Q -> {
+                hud.setKey(7);
+                toggleCurrentFleet();
+            }
             case Input.Keys.NUM_1 -> setCurrentAgentIndex(0);
             case Input.Keys.NUM_2 -> setCurrentAgentIndex(1);
             case Input.Keys.NUM_3 -> setCurrentAgentIndex(2);
@@ -134,6 +165,11 @@ public class GameComponent extends MovableStage {
 
         update();
         return super.keyDown(keyCode);
+    }
+
+
+    public ArrayList<Boolean> keysBoolean() {
+        return arrayKeys;
     }
 
     public void resetGame() {
@@ -220,7 +256,6 @@ public class GameComponent extends MovableStage {
 
     private void updateViewsUsingAgents() {
         environmentView.setFleetType(currentFleet);
-        log.info("{}", currentAgentIndex);
         brickAndMortarView.setAgent(getCurrentAgent());
     }
 

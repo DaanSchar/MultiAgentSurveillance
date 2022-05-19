@@ -9,12 +9,13 @@ import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
 import nl.maastrichtuniversity.dke.agents.modules.interaction.InteractionModule;
 import nl.maastrichtuniversity.dke.agents.modules.exploration.BrickAndMortar;
-import nl.maastrichtuniversity.dke.agents.modules.listening.ListeningModule;
+import nl.maastrichtuniversity.dke.agents.modules.sound.ListeningModule;
 import nl.maastrichtuniversity.dke.agents.modules.memory.MemoryModule;
 import nl.maastrichtuniversity.dke.agents.modules.pathfind.Dijkstra;
-import nl.maastrichtuniversity.dke.agents.modules.noiseGeneration.NoiseModule;
+import nl.maastrichtuniversity.dke.agents.modules.sound.NoiseModule;
 import nl.maastrichtuniversity.dke.agents.modules.movement.MovementModule;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationModule;
+import nl.maastrichtuniversity.dke.agents.modules.runningAway.RunningAway;
 import nl.maastrichtuniversity.dke.agents.modules.smell.SmellModule;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.UniformSpawnModule;
 import nl.maastrichtuniversity.dke.agents.modules.vision.RayCast;
@@ -86,6 +87,7 @@ public class AgentFactory {
     public Intruder buildIntruder() {
         Intruder intruder = new Intruder();
         insertModules(intruder);
+        intruder.setRunningAway(new RunningAway(scenario));
 
         return intruder;
     }
