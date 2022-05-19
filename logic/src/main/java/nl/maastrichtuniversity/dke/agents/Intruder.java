@@ -78,11 +78,10 @@ public class Intruder extends Agent {
     }
 
     private void avoidSoundSource() {
-        if (hearsSound()) {
-            List<Sound> sounds = super.getSoundsAtCurrentPosition();
-
-            if (sounds.size() > 0) {
-                Sound sound = sounds.get(0);
+        List<Sound> sounds = super.getSoundsAtCurrentPosition();
+        if (super.hearsSound()) {
+            Sound sound = sounds.get(0);
+            if(sound.getSourceType() != SourceType.INTRUDER){
                 setTarget(runningAway.avoidGuard(sound.getPosition(), this.getPosition()));
             }
         }
