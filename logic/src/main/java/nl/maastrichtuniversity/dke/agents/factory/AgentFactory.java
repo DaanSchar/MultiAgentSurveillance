@@ -9,6 +9,8 @@ import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
 import nl.maastrichtuniversity.dke.agents.modules.interaction.InteractionModule;
 import nl.maastrichtuniversity.dke.agents.modules.exploration.BrickAndMortar;
+import nl.maastrichtuniversity.dke.agents.modules.policy.PolicyModule;
+import nl.maastrichtuniversity.dke.agents.modules.reward.RewardModule;
 import nl.maastrichtuniversity.dke.agents.modules.sound.ListeningModule;
 import nl.maastrichtuniversity.dke.agents.modules.memory.MemoryModule;
 import nl.maastrichtuniversity.dke.agents.modules.pathfind.Dijkstra;
@@ -105,7 +107,9 @@ public class AgentFactory {
                 .setSmellModule(new SmellModule(scenario, smellingDistance))
                 .setExplorationModule(new BrickAndMortar(agent.getMemoryModule().getMap(), agent.getMovement()))
                 .setInteractionModule(new InteractionModule(scenario))
-                .setPathFinderModule(new Dijkstra(agent.getMemoryModule().getMap()));
+                .setPathFinderModule(new Dijkstra(agent.getMemoryModule().getMap()))
+                .setRewardModule(new RewardModule(scenario))
+                .setPolicyModule(new PolicyModule("D:\\MultiAgentSurveillance\\logic\\src\\main\\resources\\RL_bins\\intruder-player-dqn100(4).bin",240));
     }
 
     private List<CommunicationType> getMarkers() {

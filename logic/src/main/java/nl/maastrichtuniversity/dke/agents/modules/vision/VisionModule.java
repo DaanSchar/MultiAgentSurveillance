@@ -11,6 +11,7 @@ import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,10 +20,15 @@ import java.util.stream.Stream;
 @Slf4j
 public class VisionModule extends AgentModule implements IVisionModule {
 
-    private final int viewingDistance;
+    @Getter
+    public final int viewingDistance;
 
-    @Getter private final List<Agent> visibleAgents = new LinkedList<>();
-    @Getter private final List<Tile> visibleTiles = new LinkedList<>();
+    @Getter
+    private final List<Agent> visibleAgents = new LinkedList<>();
+    @Getter
+    private final List<Tile> visibleTiles = new LinkedList<>();
+
+    private final List<Tile> targetTiles;
 
     private Position currentPosition;
     private Direction currentDirection;
@@ -30,6 +36,7 @@ public class VisionModule extends AgentModule implements IVisionModule {
     public VisionModule(Scenario scenario, int viewingDistance) {
         super(scenario);
         this.viewingDistance = viewingDistance;
+        targetTiles = scenario.getEnvironment().get(TileType.TARGET);
     }
 
     @Override
@@ -39,6 +46,57 @@ public class VisionModule extends AgentModule implements IVisionModule {
 
         clear();
         processVision();
+    }
+
+    public List<Double> getVector() {
+        return visibleTiles.stream().map(Tile::getType)
+                .map(tileType -> (double) tileType.getValue())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     *
+     * @return number of target tiles seen
+     */
+    @Override
+    public int targetTilesSeen(){
+        int numberOfTiles = 0;
+        for (Tile targetTile : targetTiles) {
+            if (visibleTiles.contains(targetTile)) {
+                numberOfTiles++;
+            }
+        }
+        return numberOfTiles;
+    }
+
+
+    /**
+     * This will return a one-hot encoding of each tile that agent sees,e.g.
+     * 1 0 0 0 0 0 0 0 0 0 0 0 - Corresponds to the tile being unknown
+     * 0 1 0 0 0 0 0 0 0 0 0 0 - Corresponds to the tile being empty
+     *
+     * @return One-hot encoding of visible tiles
+     */
+    @Override
+    public List<Double> toArray() {
+        int oneHotEncodingSize = 13;
+        List<Double> encodedTiles = new ArrayList<>(visibleTiles.size()*13);
+
+        for (Tile tile : visibleTiles) {
+            encodedTiles.addAll(getEncodingPerTile(tile.getType().getValue(), oneHotEncodingSize));
+        }
+
+        return encodedTiles.subList(0,Math.min(computeVisionInputSize(),encodedTiles.size()));
+    }
+    private int computeVisionInputSize(){
+        double visionInputSize = scenario.getIntruders().getCurrentAgent().getPolicyModule().getInputSize()*0.81;
+        return (int) Math.round(visionInputSize/13)*13;
+    }
+
+    public List<Double> getEncodingPerTile(int idx, int oneHotEncodingSize) {
+        List<Double> list = new ArrayList<>(Collections.nCopies(oneHotEncodingSize, 0d));
+        list.set(idx, 1d);
+        return list;
     }
 
     private void clear() {
@@ -92,7 +150,7 @@ public class VisionModule extends AgentModule implements IVisionModule {
 
     private List<Position> getPositionsRowInRange(Position position, Direction direction) {
         List<Position> positionsRow = new ArrayList<>();
-        int range = getViewingDistance();
+        int range = getViewDistance();
         Position targetPosition = position;
 
         for (int i = 0; i < range; i++) {
@@ -124,7 +182,7 @@ public class VisionModule extends AgentModule implements IVisionModule {
         ).collect(Collectors.toList());
     }
 
-    private int getViewingDistance() {
+    private int getViewDistance() {
         Tile tile = getTileAt(currentPosition);
 
         if (tile.getType() == TileType.SENTRY) {

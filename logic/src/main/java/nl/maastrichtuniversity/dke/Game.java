@@ -82,6 +82,11 @@ public class Game {
         return "Game " + gameNumber + ": " + victory.getWinner() + " win";
     }
 
+    //TODO: return proper observation size once figured out size of our NN input
+    public  int observationSize(){
+        return scenario.getIntruders().getCurrentAgent().getPolicyModule().getInputSize();
+    }
+
     private void moveAgents() {
         Fleet<Guard> guards = scenario.getGuards();
         Fleet<Intruder> intruders = scenario.getIntruders();

@@ -42,6 +42,26 @@ public class RayCast2 extends AgentModule implements IVisionModule {
         }
     }
 
+    @Override
+    public int getViewingDistance() {
+        return (int) viewingDistance;
+    }
+
+    @Override
+    public List<Double> getVector() {
+        return null;
+    }
+
+    @Override
+    public List<Double> toArray() {
+        return null;
+    }
+
+    @Override
+    public int targetTilesSeen() {
+        return 0;
+    }
+
     private List<Position> getVisiblePositions(Position position, Direction direction) {
         double viewingAngle = Math.toRadians(this.viewingAngle);
         double currentAngle = direction.getAngle();

@@ -35,6 +35,8 @@ public interface IListeningModule {
     @Deprecated
     boolean getSound(Position position);
 
+    List<Double> toArray();
+
     /**
      * @param position the position in which the agent is right now
      * @return a list of directions, the direction is where the sound is coming from (the sound source),

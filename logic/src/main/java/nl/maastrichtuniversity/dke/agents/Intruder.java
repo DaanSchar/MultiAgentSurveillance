@@ -16,11 +16,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class Intruder extends Agent {
 
-    private @Getter
-    @Setter
-    boolean isCaught;
-    private @Setter
-    IRunningAway runningAway;
+    private @Getter @Setter boolean isCaught;
+    private @Setter IRunningAway runningAway;
     private boolean navigatedToBlueMark; // whether the agent has navigated to the mark that another agent dropped
     private boolean droppedBlueMark; // did it drop the mark already
 
@@ -81,7 +78,7 @@ public class Intruder extends Agent {
         return containsTarget(obstacles);
     }
 
-    private boolean seesGuard() {
+    public boolean seesGuard() {
         return getVisibleGuards().size() > 0;
     }
 
@@ -89,7 +86,7 @@ public class Intruder extends Agent {
         return getVisibleIntruder() != null;
     }
 
-    private List<Guard> getVisibleGuards() {
+    public List<Guard> getVisibleGuards() {
         List<Agent> visibleAgents = super.getVisibleAgents();
         List<Agent> visibleGuards = filterGuards(visibleAgents);
 

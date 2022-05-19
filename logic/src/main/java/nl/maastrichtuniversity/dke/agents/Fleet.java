@@ -1,6 +1,7 @@
 package nl.maastrichtuniversity.dke.agents;
 
 import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.agents.util.MoveAction;
 import nl.maastrichtuniversity.dke.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.scenario.environment.TileType;
@@ -18,20 +19,9 @@ import java.util.List;
 @Slf4j
 public class Fleet<T extends Agent> extends ArrayList<T> {
 
+    private int currentAgentIdx = 0;
+
     public Fleet() {
-    }
-
-    /**
-     * @return List of tiles covered/explored by the fleet.
-     */
-    public List<Tile> getCoveredTiles() {
-        HashSet<Tile> tiles = new HashSet<>();
-
-        for (Agent agent : this) {
-            tiles.addAll((agent.getMemoryModule()).getCoveredTiles());
-        }
-
-        return new ArrayList<>(tiles);
     }
 
     /**
@@ -90,5 +80,29 @@ public class Fleet<T extends Agent> extends ArrayList<T> {
         }
 
         return (T) intruder;
+    }
+
+    public void executeActions(int[] actionList) {
+        for (int i = 0; i < actionList.length; i++) {
+            this.get(i).move(MoveAction.values()[actionList[i]]);
+        }
+    }
+
+    public double getReward() {
+        double totalMoveReward = 0;
+        for (Agent agent : this) {
+            totalMoveReward += agent.getRewardModule().updateMoveReward(agent.getPosition(), agent.getDirection());
+        }
+        return totalMoveReward;
+    }
+
+    public Agent getCurrentAgent() {
+
+        if (currentAgentIdx == this.size()) {
+            currentAgentIdx = 0;
+        }
+        int idx = currentAgentIdx;
+        currentAgentIdx++;
+        return this.get(idx);
     }
 }
