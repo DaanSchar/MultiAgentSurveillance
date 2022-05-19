@@ -15,10 +15,10 @@ public class RunningAway extends AgentModule implements IRunningAway {
     @Override
     public Position avoidGuard(Position guardPosition, Position currentPosition) {
         Position newPos = currentPosition.add(currentPosition.sub(guardPosition));
-        if(guardPosition.getX() == currentPosition.getX()){
+        if (guardPosition.getX() == currentPosition.getX()) {
             newPos.setX(newPos.getY());
             newPos.setY(newPos.getX());
-        }else if(guardPosition.getY() == currentPosition.getY()){
+        } else if (guardPosition.getY() == currentPosition.getY()) {
             newPos.setX(newPos.getY());
             newPos.setY(newPos.getX());
         }
