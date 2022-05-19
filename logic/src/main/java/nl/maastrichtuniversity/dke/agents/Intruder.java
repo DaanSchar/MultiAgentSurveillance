@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.agents.modules.runningAway.IRunningAway;
+import nl.maastrichtuniversity.dke.agents.modules.sound.SourceType;
 import nl.maastrichtuniversity.dke.scenario.Sound;
 import nl.maastrichtuniversity.dke.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.scenario.environment.TileType;
@@ -20,6 +21,8 @@ public class Intruder extends Agent {
     private @Setter IRunningAway runningAway;
     private boolean navigatedToBlueMark; // whether the agent has navigated to the mark that another agent dropped
     private boolean droppedBlueMark; // did it drop the mark already
+
+    private @Getter boolean fleeing;
 
     public Intruder() {
         super();
@@ -50,15 +53,19 @@ public class Intruder extends Agent {
 
     @Override
     public void updateInternals() {
+        this.fleeing = false;
+
         if (seesTargetArea()) {
             setTarget(getTargetTile().getPosition());
-        } else if (seesGuard()) {
-            //TODO: function call disabled for now as it's not working properly
-//            setTarget(runningAway.avoidGuard(getVisibleGuards().get(0).getPosition(), this.getPosition()));
-        } else if (hearsSound() && !seesIntruder()) {
-            avoidSoundSource();
+        } else if (seesGuard() || hearsSound()) {
+            flee();
         }
+
         super.updateInternals();
+    }
+
+    private void flee() {
+        this.fleeing = true;
     }
 
     private void avoidSoundSource() {
@@ -70,6 +77,18 @@ public class Intruder extends Agent {
                 setTarget(runningAway.avoidGuard(sound.getPosition(), this.getPosition()));
             }
         }
+    }
+
+    @Override
+    protected boolean hearsSound() {
+        List<Sound> sounds = getSoundsAtCurrentPosition();
+
+        if (super.hearsSound()) {
+            Sound sound = sounds.get(0);
+            return sound.getSourceType() != SourceType.INTRUDER;
+        }
+
+        return false;
     }
 
     private boolean seesTargetArea() {
