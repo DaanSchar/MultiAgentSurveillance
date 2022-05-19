@@ -15,8 +15,10 @@ public class RunningAway extends AgentModule implements IRunningAway {
     @Override
     public Position avoidGuard(Position guardPosition, Position currentPosition) {
         Position newPos = currentPosition.add(currentPosition.sub(guardPosition));
-        newPos.setX(newPos.getX() * 4);
-        newPos.setY(newPos.getY() * 4);
+
+//        Position newPos = currentPosition.add(currentPosition.sub(guardPosition));
+        newPos.setX(newPos.getX() * 2);
+        newPos.setY(newPos.getY() * 2);
         int height = scenario.getEnvironment().getHeight();
         int width = scenario.getEnvironment().getWidth();
 //        try {
@@ -32,6 +34,7 @@ public class RunningAway extends AgentModule implements IRunningAway {
             else if(newPos.getY() < 1){
                 newPos.setY(1);
             }
+//            if(newPos.equals(new Position()))
 
 //            if (!scenario.getEnvironment().getAt(newPos).isPassable()) {
 //                newPos = new Position(newPos.getX(), newPos.getY());
