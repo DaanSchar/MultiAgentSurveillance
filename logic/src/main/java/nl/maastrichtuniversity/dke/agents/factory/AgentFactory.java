@@ -7,6 +7,7 @@ import nl.maastrichtuniversity.dke.agents.Agent;
 import nl.maastrichtuniversity.dke.agents.Fleet;
 import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
+import nl.maastrichtuniversity.dke.agents.modules.ActionTimer;
 import nl.maastrichtuniversity.dke.agents.modules.interaction.InteractionModule;
 import nl.maastrichtuniversity.dke.agents.modules.exploration.BrickAndMortar;
 import nl.maastrichtuniversity.dke.agents.modules.policy.PolicyModule;
@@ -94,8 +95,10 @@ public class AgentFactory {
 
     public void insertModules(Agent agent) {
         agent.setSpawnModule(new UniformSpawnModule(scenario))
+                .setActionTimer(new ActionTimer(scenario))
                 .setMovement(new MovementModule(
                         scenario,
+                        agent.getActionTimer(),
                         agent instanceof Guard ? baseSpeedGuards : baseSpeedIntruders,
                         agent instanceof Guard ? 0 : sprintSpeedIntruders))
                 .setVisionModule(new RayCast2(scenario, viewingDistance))

@@ -1,6 +1,7 @@
 package nl.maastrichtuniversity.dke.agents.modules.movement;
 
 import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.agents.modules.ActionTimer;
 import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.agents.util.Direction;
 import nl.maastrichtuniversity.dke.agents.util.MoveAction;
@@ -17,11 +18,13 @@ public class MovementModule extends AgentModule implements IMovementModule {
     private final double baseSpeed;
     private final double sprintSpeed;
     private double lastTimeMoved;
+    private ActionTimer actionTimer;
 
-    public MovementModule(Scenario scenario, double baseSpeed, double sprintSpeed) {
+    public MovementModule(Scenario scenario, ActionTimer actionTimer, double baseSpeed, double sprintSpeed) {
         super(scenario);
         this.baseSpeed = baseSpeed;
         this.sprintSpeed = sprintSpeed;
+        this.actionTimer = actionTimer;
         this.lastTimeMoved = -1;
     }
 
@@ -40,8 +43,12 @@ public class MovementModule extends AgentModule implements IMovementModule {
     public Position goForward(Position currentPosition, Direction direction) {
         Position nextPosition = getForwardPosition(currentPosition, direction);
 
-        if (enoughTimeHasElapsedSinceLastMove(baseSpeed)) {
-            lastTimeMoved = getCurrentTime();
+//        if (enoughTimeHasElapsedSinceLastMove(baseSpeed)) {
+//            lastTimeMoved = getCurrentTime();
+//            return nextPosition;
+//        }
+
+        if (actionTimer.performAction(baseSpeed)) {
             return nextPosition;
         }
 
@@ -52,8 +59,11 @@ public class MovementModule extends AgentModule implements IMovementModule {
     public Position sprint(Position currentPosition, Direction direction) {
         Position nextPosition = getForwardPosition(currentPosition, direction);
 
-        if (enoughTimeHasElapsedSinceLastMove(sprintSpeed)) {
-            lastTimeMoved = getCurrentTime();
+//        if (enoughTimeHasElapsedSinceLastMove(sprintSpeed)) {
+//            lastTimeMoved = getCurrentTime();
+//            return nextPosition;
+//        }
+        if (actionTimer.performAction(sprintSpeed)) {
             return nextPosition;
         }
 
