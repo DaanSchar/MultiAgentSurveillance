@@ -40,6 +40,6 @@ public class VictoryExperiment {
     }
 
     public boolean isDone() {
-        return game.getGameNumber() >= getNumOfGames();
+        return game.getGameNumber() > getNumOfGames();
     }
 }

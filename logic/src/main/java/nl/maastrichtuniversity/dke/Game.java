@@ -54,6 +54,7 @@ public class Game {
         scenario.getGuards().forEach(Guard::spawn);
         scenario.getIntruders().forEach(Intruder::spawn);
         victory = new Victory(this.scenario);
+        this.gameNumber++;
     }
 
     public void update() {
@@ -63,28 +64,22 @@ public class Game {
         updateAgentInternals();
     }
 
-    public boolean checkVictory() {
-        if (victory.checkGuardVictory()) {
-            return true;
-        }
-        if (victory.checkIntruderVictory()) {
-            return true;
-        }
-
-        return false;
+    public boolean isDone() {
+        return victory.guardsHaveWon() || victory.intrudersHaveWon();
     }
 
-    public void victoryMessage() {
-        this.gameNumber++;
-
-        if (victory.checkGuardVictory()) {
+    public void updateVictory() {
+        if (victory.guardsHaveWon()) {
             victory.setWinner("G");
-            log.info("Game " + gameNumber + ": Guards win");
         }
-        if (victory.checkIntruderVictory()) {
+
+        if (victory.intrudersHaveWon()) {
             victory.setWinner("I");
-            log.info("Game " + gameNumber + ": Intruders win");
         }
+    }
+
+    public String getVictoryMessage() {
+        return "Game " + gameNumber + ": " + victory.getWinner() + " win";
     }
 
     private void moveAgents() {

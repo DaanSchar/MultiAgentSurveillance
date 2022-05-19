@@ -14,8 +14,12 @@ public class RunningAway extends AgentModule implements IRunningAway {
     @Override
     public Position avoidGuard(Position guardPosition, Position currentPosition) {
         Position newPos = currentPosition.add(currentPosition.sub(guardPosition));
-        if (!scenario.getEnvironment().getAt(newPos).isPassable()) {
-            newPos = new Position(newPos.getY(), newPos.getX());
+        try {
+            if (!scenario.getEnvironment().getAt(newPos).isPassable()) {
+                newPos = new Position(newPos.getY(), newPos.getX());
+            }
+        } catch (Exception e) {
+            return currentPosition;
         }
         return newPos;
 
