@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.agents.modules.exploration.NeuralGameState;
 import nl.maastrichtuniversity.dke.agents.modules.interaction.InteractionModule;
 import nl.maastrichtuniversity.dke.agents.modules.communication.Mark;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationType;
@@ -28,6 +29,7 @@ import nl.maastrichtuniversity.dke.scenario.Sound;
 import nl.maastrichtuniversity.dke.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
+import org.deeplearning4j.rl4j.policy.DQNPolicy;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -74,6 +76,11 @@ public class Agent {
 
     public void move() {
         /* empty for now */
+    }
+
+    public void rlMove() {
+        MoveAction nextMove = policyModule.nextMove(toArray());
+        move(nextMove);
     }
 
     public void updateInternals() {
