@@ -38,13 +38,15 @@ public class RewardModule extends AgentModule implements IRewardModule {
 
 
     @Override
-    public double updateFleeingReward(Position p, Direction d, double[] inputs) {
+    public double updateFleeingReward(Position p, Direction d) {
         Intruder i = (Intruder) scenario.getIntruders().getCurrentAgent();
-        if (inputs[0] == 1 && !i.isCaught()) {
-            moveReward += 1;
+        if (i.isFleeing() && !i.isCaught()) {
+            moveReward += 2;
         } else moveReward = 0;
 
-
+        if (isStuck(p, d)) {
+            moveReward -= 1;
+        }
         for(Guard g : i.getVisibleGuards()){
             double distance = i.getPosition().distance(g.getPosition());
             moveReward-=distance*0.1; // or some other scalar

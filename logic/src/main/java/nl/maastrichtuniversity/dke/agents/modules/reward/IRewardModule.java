@@ -8,7 +8,7 @@ public interface IRewardModule {
 
     boolean isInTargetDirection(Position p, Direction d);
     double updateMoveReward(Position p, Direction d);
-    double updateFleeingReward(Position p,Direction d,double[] inputs);
+    double updateFleeingReward(Position p,Direction d);
     double getReward();
 
 

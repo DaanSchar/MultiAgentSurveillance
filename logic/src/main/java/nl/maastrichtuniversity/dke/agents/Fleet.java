@@ -101,6 +101,16 @@ public class Fleet<T extends Agent> extends ArrayList<T> {
         return totalMoveReward;
     }
 
+    public double getFleeReward() {
+        double totalMoveReward = 0;
+        for (Agent agent : this) {
+            totalMoveReward += agent.getRewardModule().updateFleeingReward(agent.getPosition(), agent.getDirection());
+        }
+        return totalMoveReward;
+    }
+
+
+
     public Agent getCurrentAgent() {
 
         if (currentAgentIdx == this.size()) {
@@ -108,6 +118,8 @@ public class Fleet<T extends Agent> extends ArrayList<T> {
         }
         int idx = currentAgentIdx;
         currentAgentIdx++;
+
+
         return this.get(idx);
     }
 }

@@ -51,18 +51,20 @@ public class IntruderMdp implements MDP<NeuralGameState, Integer, DiscreteSpace>
     @Override
     public StepReply<NeuralGameState> step(Integer action) {
         double reward = 0;
+        NeuralGameState observation = new NeuralGameState(new double[game.getScenario().getGuards().get(0).getPolicyModule().getInputSize()]);
         actionList[intruderIndex] = action;
         intruderIndex++;
 
         if (intruderIndex == game.getScenario().getIntruders().size()) {
 
-            intruderIndex =0;
+            intruderIndex = 0;
             game.getScenario().getIntruders().executeActions(actionList);
             game.update();
-            reward = game.getScenario().getIntruders().getReward();
+            reward = game.getScenario().getIntruders().getFleeReward(); // changed to Flee Reward
         }
-
-        NeuralGameState observation = new NeuralGameState(game.getScenario().getIntruders().getCurrentAgent().toArray());
+        if (game.getScenario().getIntruders().size() > 0) {
+            observation = new NeuralGameState(game.getScenario().getIntruders().getCurrentAgent().toArray());
+        }
         return new StepReply<>(observation, reward, isDone(), null);
     }
 

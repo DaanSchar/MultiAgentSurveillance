@@ -259,28 +259,26 @@ public class Agent {
     //TODO
     // implement toArray for all specified modules
     public double[] toArray() {
-        double fleeing_obs = 0;
-        if(this instanceof Intruder){
-            if(((Intruder) this).seesGuard()){
-                fleeing_obs=1;
+
+        double[] fullObservations = new double[getPolicyModule().getInputSize()];
+        double isFleeing = 0;
+        if (this instanceof Intruder) {
+            if (((Intruder) this).isFleeing()) {
+                isFleeing = 1;
             }
         }
 
-        double[] fullObservations = new double[getPolicyModule().getInputSize()];
+            List<Double> observations = new ArrayList<>();
+            observations.add(isFleeing);
+            observations.addAll(getStateVector());
+            Stream.of(visionModule.toArray(), listeningModule.toArray()).forEach(observations::addAll);
 
-        List<Double> observations = new ArrayList<>(getStateVector());
-        Stream.of(visionModule.toArray(), listeningModule.toArray()).forEach(observations::addAll);
+            double[] observationsArray = listToArray(observations);
+            System.arraycopy(observationsArray, 0, fullObservations, 0, observationsArray.length);
 
-        double[] observationsArray = listToArray(observations);
+            return fullObservations;
+        }
 
-        System.arraycopy(observationsArray, 0, fullObservations, 0, observationsArray.length);
-
-        if (getRewardModule().isInTargetDirection(position, direction)) {
-            fullObservations[fullObservations.length - 1] = 1;
-        } else fullObservations[fullObservations.length - 1] = 0;
-
-        return fullObservations;
-    }
 
     public List<Double> getStateVector() {
         List<Double> observations = new ArrayList<>();

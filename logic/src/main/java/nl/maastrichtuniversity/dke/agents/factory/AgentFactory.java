@@ -109,7 +109,7 @@ public class AgentFactory {
                 .setInteractionModule(new InteractionModule(scenario))
                 .setPathFinderModule(new Dijkstra(agent.getMemoryModule().getMap()))
                 .setRewardModule(new RewardModule(scenario))
-                .setPolicyModule(new PolicyModule("intruder-player-dqn100(4).bin",240));
+                .setPolicyModule(new PolicyModule("intruder-player-dqn100(4).bin",1649));
     }
 
     private List<CommunicationType> getMarkers() {

@@ -43,45 +43,30 @@ public class DQN {
                 .build();
 
 
-
-        for(int i = 0;i < 100;i++) {
-
-            FileResourcesUtils app = new FileResourcesUtils();
-            File file = new File("D:\\MultiAgentSurveillance\\core\\assets\\testmap.txt");
+        for (int i = 0; i < 100; i++) {
+            File file = new File("D:\\MultiAgentSurveillance\\core\\assets\\hardMap1.txt");
             Game game;
             Game.setMapFile(file);
             game = Game.getInstance();
             game.init();
 
+            final QLearningDiscreteDense<NeuralGameState> dqn;
             MDP<NeuralGameState, Integer, DiscreteSpace> mdp = new IntruderMdp(game);
-            DQNPolicy<NeuralGameState> policy = DQNPolicy.load("logic\\src\\main\\resources\\RL_bins\\intruder-player-dqn100(4).bin");
 
-
-            final QLearningDiscreteDense<NeuralGameState> dqn = new QLearningDiscreteDense<>(mdp, policy.getNeuralNet(), DQN);
+            if (i == 0) {
+                dqn = new QLearningDiscreteDense<>(mdp, conf, DQN);
+            } else {
+                DQNPolicy<NeuralGameState> policy = DQNPolicy.load("D:\\MultiAgentSurveillance\\logic\\src\\main\\resources\\RL_bins\\intruder-fleeing-starter.bin");
+                dqn = new QLearningDiscreteDense<>(mdp, policy.getNeuralNet(), DQN);
+            }
             //start the training
             dqn.train();
 
             //useless on toy but good practice!
             mdp.close();
 
-            dqn.getPolicy().save("logic\\src\\main\\resources\\RL_bins\\intruder-player-dqn100(4).bin");
-
-
+            dqn.getPolicy().save("D:\\MultiAgentSurveillance\\logic\\src\\main\\resources\\RL_bins\\intruder-fleeing-starter.bin");
         }
-        //for (int i = 0; i < game.getScenario().getIntruders().size(); i++) {
-        //    IntruderGame intruderGame = new IntruderGame(i);
-        //    // create a IntruderGame Object with only ONE agent(possibly), and feed it to intruder mdp
-        //    MDP<IntruderGame, Integer, DiscreteSpace> mdp = new IntruderMdp(intruderGame);
-        //    final QLearningDiscreteDense<IntruderGame> dqn = new QLearningDiscreteDense<>(mdp, conf, DQN);
-
-        //    //start the training
-        //    dqn.train();
-
-        //    //useless on toy but good practice!
-        //    mdp.close();
-
-        //    dqn.getPolicy().save("intruder-player-dqn" + i + ".zip");
-        //}
     }
 
 }
