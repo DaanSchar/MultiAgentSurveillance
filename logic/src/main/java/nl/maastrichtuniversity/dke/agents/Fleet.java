@@ -84,7 +84,12 @@ public class Fleet<T extends Agent> extends ArrayList<T> {
 
     public void executeActions(int[] actionList) {
         for (int i = 0; i < actionList.length; i++) {
-            this.get(i).move(MoveAction.values()[actionList[i]]);
+            Intruder intruder = (Intruder) this.get(i);
+
+            if (intruder.isFleeing()) {
+                MoveAction nextAction = MoveAction.values()[actionList[i]];
+                intruder.move(nextAction);
+            }
         }
     }
 
