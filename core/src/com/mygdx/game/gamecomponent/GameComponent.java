@@ -20,11 +20,7 @@ import nl.maastrichtuniversity.dke.agents.Fleet;
 import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
 import nl.maastrichtuniversity.dke.agents.modules.victory.Victory;
-import nl.maastrichtuniversity.dke.agents.modules.vision.Ray;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
-import nl.maastrichtuniversity.dke.scenario.util.Position;
-
-import java.util.List;
 
 import java.util.ArrayList;
 
@@ -53,7 +49,7 @@ public class GameComponent extends MovableStage {
 
     private final Game game;
     private final HUD hud;
-    private ArrayList<Victory> victories = new ArrayList<>();
+    private final ArrayList<Victory> victories = new ArrayList<>();
 
     public GameComponent(Game game, HUD hud) {
         super(game.getScenario().getEnvironment().getWidth(), game.getScenario().getEnvironment().getHeight());

@@ -17,7 +17,7 @@ import java.util.List;
 public class RayCast2 extends AgentModule implements IVisionModule {
 
     private final double viewingDistance;
-    private final double VIEWING_ANGLE = 100;
+    private final double viewingAngle = 100;
 
     private final @Getter List<Tile> visibleTiles;
     private final @Getter List<Agent> visibleAgents;
@@ -43,7 +43,7 @@ public class RayCast2 extends AgentModule implements IVisionModule {
     }
 
     private List<Position> getVisiblePositions(Position position, Direction direction) {
-        double viewingAngle = Math.toRadians(VIEWING_ANGLE);
+        double viewingAngle = Math.toRadians(this.viewingAngle);
         double currentAngle = direction.getAngle();
         double halfAngle = viewingAngle / 2.0;
         double minAngle = currentAngle - halfAngle;

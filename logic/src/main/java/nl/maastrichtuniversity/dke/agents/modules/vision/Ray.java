@@ -153,8 +153,8 @@ public class Ray {
 
     static class Vector {
 
-        double x;
-        double y;
+        private double x;
+        private double y;
 
         Vector(double x, double y) {
             this.x = x;

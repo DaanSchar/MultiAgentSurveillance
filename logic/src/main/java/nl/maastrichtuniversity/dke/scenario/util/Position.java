@@ -32,13 +32,13 @@ public class Position {
     }
 
     public Position getPosInDirection(Direction direction, int distance) {
-        int new_x = this.x;
-        int new_y = this.y;
-        for (int i =0;i<distance;i++) {
-            new_x = new_x + direction.getMoveX();
-            new_y = new_y +direction.getMoveY();
+        int newX = this.x;
+        int newY = this.y;
+        for (int i = 0; i < distance; i++) {
+            newX = newX + direction.getMoveX();
+            newY = newY + direction.getMoveY();
         }
-        return new Position(new_x,new_y);
+        return new Position(newX, newY);
     }
 
     public Position add(Position other) {

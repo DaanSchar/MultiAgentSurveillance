@@ -18,9 +18,7 @@ import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationMod
 import nl.maastrichtuniversity.dke.agents.modules.runningAway.RunningAway;
 import nl.maastrichtuniversity.dke.agents.modules.smell.SmellModule;
 import nl.maastrichtuniversity.dke.agents.modules.spawn.UniformSpawnModule;
-import nl.maastrichtuniversity.dke.agents.modules.vision.RayCast;
 import nl.maastrichtuniversity.dke.agents.modules.vision.RayCast2;
-import nl.maastrichtuniversity.dke.agents.modules.vision.VisionModule;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.util.DebugSettings;
