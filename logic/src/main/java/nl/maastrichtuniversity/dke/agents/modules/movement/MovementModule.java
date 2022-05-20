@@ -7,6 +7,7 @@ import nl.maastrichtuniversity.dke.agents.util.Direction;
 import nl.maastrichtuniversity.dke.agents.util.MoveAction;
 import nl.maastrichtuniversity.dke.agents.util.exceptions.ActionIsNotRotationException;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
+import nl.maastrichtuniversity.dke.scenario.environment.DoorTile;
 import nl.maastrichtuniversity.dke.scenario.environment.TeleportTile;
 import nl.maastrichtuniversity.dke.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.scenario.environment.TileType;
@@ -76,6 +77,8 @@ public class MovementModule extends AgentModule implements IMovementModule {
         if (!positionIsInMap(position)) {
             return false;
         }
+
+
         Tile tile = getTileAt(position);
 
         return tile.isPassable();

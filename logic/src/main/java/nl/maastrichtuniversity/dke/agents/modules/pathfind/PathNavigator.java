@@ -2,8 +2,13 @@ package nl.maastrichtuniversity.dke.agents.modules.pathfind;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.agents.modules.ActionTimer;
 import nl.maastrichtuniversity.dke.agents.util.Direction;
 import nl.maastrichtuniversity.dke.agents.util.MoveAction;
+import nl.maastrichtuniversity.dke.scenario.Scenario;
+import nl.maastrichtuniversity.dke.scenario.environment.Environment;
+import nl.maastrichtuniversity.dke.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 import java.util.LinkedList;
@@ -16,11 +21,15 @@ public class PathNavigator {
     private final @Getter Position finalDestination;
     private final PathFinderModule pathFinderModule;
     private final @Getter Queue<Position> path;
+    private final Environment environment;
+    private final ActionTimer actionTimer;
 
-    public PathNavigator(Position currentPosition, Position finalDestination, PathFinderModule pathFinderModule) {
+    public PathNavigator(Position currentPosition, Position finalDestination, PathFinderModule pathFinderModule, ActionTimer actionTimer) {
         this.finalDestination = finalDestination;
         this.pathFinderModule = pathFinderModule;
+        this.actionTimer = actionTimer;
         this.path = calculatePath(currentPosition, finalDestination);
+        this.environment = pathFinderModule.getEnvironment();
     }
 
     /**
@@ -68,11 +77,21 @@ public class PathNavigator {
         Position backPosition = getPositionInDirection(position, direction.opposite());
 
         if (nextPosition.equals(frontFacingPosition)) {
-            path.poll();
 
-            // if next thing is a window/ door, dont path.poll!!
+            if (closedDoorAt(frontFacingPosition)) {
+                return MoveAction.TOGGLE_DOOR;
+            }
 
-            return MoveAction.MOVE_FORWARD;
+            if (closedWindowAt(frontFacingPosition)) {
+                return MoveAction.BREAK_WINDOW;
+            }
+
+            if (actionTimer.canPerformAction(14)) {
+                path.poll();
+                return MoveAction.MOVE_FORWARD;
+            } else {
+                return MoveAction.SPRINT_FORWARD;
+            }
         } else if (nextPosition.equals(leftFacingPosition)) {
             return MoveAction.ROTATE_LEFT;
         } else if (nextPosition.equals(rightFacingPosition)) {
@@ -82,6 +101,26 @@ public class PathNavigator {
         } else {
             return null;
         }
+    }
+
+    private boolean closedDoorAt(Position position) {
+        Tile tile = environment.getAt(position);
+
+        if (tile.getType() == TileType.DOOR) {
+            return !tile.isPassable();
+        }
+
+        return false;
+    }
+
+    private boolean closedWindowAt(Position position) {
+        Tile tile = environment.getAt(position);
+
+        if (tile.getType() == TileType.WINDOW) {
+            return !tile.isPassable();
+        }
+
+        return false;
     }
 
     private Position getPositionInDirection(Position currentPosition, Direction direction) {

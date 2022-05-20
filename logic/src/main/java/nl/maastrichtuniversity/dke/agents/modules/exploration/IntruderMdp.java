@@ -21,7 +21,6 @@ public class IntruderMdp implements MDP<NeuralGameState, Integer, DiscreteSpace>
 
 
     public IntruderMdp(Game game) {
-
         this.game = game;
         gameArrayObservationSpace = new ArrayObservationSpace<>(new int[]{game.observationSize()});
         actionList = new int[game.getScenario().getIntruders().size()];

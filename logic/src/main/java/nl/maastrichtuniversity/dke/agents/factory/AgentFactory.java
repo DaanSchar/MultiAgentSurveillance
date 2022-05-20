@@ -100,7 +100,7 @@ public class AgentFactory {
                         scenario,
                         agent.getActionTimer(),
                         agent instanceof Guard ? baseSpeedGuards : baseSpeedIntruders,
-                        agent instanceof Guard ? 0 : sprintSpeedIntruders))
+                        agent instanceof Guard ? sprintSpeedIntruders : sprintSpeedIntruders))
                 .setVisionModule(new RayCast2(scenario, viewingDistance))
                 .setCommunicationModule(new CommunicationModule(scenario, getMarkers()))
                 .setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting,

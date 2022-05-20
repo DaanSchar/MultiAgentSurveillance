@@ -34,7 +34,6 @@ public class Intruder extends Agent {
         super.spawn();
         this.isCaught = false;
         setTarget(new Position(50, 27));
-
     }
 
     @Override
