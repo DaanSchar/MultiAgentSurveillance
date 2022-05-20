@@ -90,6 +90,15 @@ public class Agent {
         updatePathToTarget();
     }
 
+    public void navigateToTarget() {
+        if (hasReachedTarget()) {
+            getPathNavigator().clear();
+            setTarget(null);
+        } else {
+            moveToPosition(getTarget());
+        }
+    }
+
     public void explore() {
         if (explorationModule.isDoneExploring()) {
             explorationModule.reset();
@@ -162,7 +171,7 @@ public class Agent {
 
     protected void calculatePathTo(Position target) {
         // problem: this clause is not true when walking against a wall, so a new path is not calculated even though we need to
-        if (this.pathNavigator == null || this.pathNavigator.getFinalDestination() != target ) {
+        if (this.pathNavigator == null || this.pathNavigator.getFinalDestination() != target || memoryModule.discoveredNewTiles()) {
             this.pathNavigator = new PathNavigator(getPosition(), target, pathFinderModule, actionTimer);
         }
     }

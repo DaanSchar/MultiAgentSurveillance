@@ -39,11 +39,7 @@ public class Intruder extends Agent {
     @Override
     public void move() {
         if (hasTarget()) {
-            if (hasReachedTarget()) {
-                setTarget(null);
-            } else {
-                moveToPosition(getTarget());
-            }
+            navigateToTarget();
         } else {
             super.explore();
         }
@@ -52,14 +48,6 @@ public class Intruder extends Agent {
 
     @Override
     public void updateInternals() {
-//        if (seesTargetArea()) {
-//            setTarget(getTargetTile().getPosition());
-//        } else if (seesGuard()) {
-//            //TODO: function call disabled for now as it's not working properly
-//            setTarget(runningAway.avoidGuard(getVisibleGuards().get(0).getPosition(), this.getPosition()));
-//        } else if (hearsSound() && !seesIntruder()) {
-//            avoidSoundSource();
-//        }
         super.updateInternals();
     }
 
@@ -73,6 +61,17 @@ public class Intruder extends Agent {
         }
 
         return false;
+    }
+
+    private void determineTarget() {
+        if (seesTargetArea()) {
+            setTarget(getTargetTile().getPosition());
+        } else if (seesGuard()) {
+            //TODO: function call disabled for now as it's not working properly
+//            setTarget(runningAway.avoidGuard(getVisibleGuards().get(0).getPosition(), this.getPosition()));
+        } else if (hearsSound() && !seesIntruder()) {
+            avoidSoundSource();
+        }
     }
 
     private void avoidSoundSource() {
@@ -166,7 +165,6 @@ public class Intruder extends Agent {
         Position position = tile.getPosition();
 
         return super.getCommunicationModule().tileHasMark(position, CommunicationType.VISION_BLUE);
-
     }
 
     private Position getBlueMark() {

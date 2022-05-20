@@ -30,11 +30,7 @@ public class Guard extends Agent {
     @Override
     public void move() {
         if (hasTarget()) {
-            if (hasReachedTarget()) {
-                setTarget(null);
-            } else {
-                moveToPosition(getTarget());
-            }
+            navigateToTarget();
         } else {
             super.explore();
         }
