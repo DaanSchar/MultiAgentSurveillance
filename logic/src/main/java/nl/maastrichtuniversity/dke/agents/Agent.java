@@ -147,6 +147,10 @@ public class Agent {
         return false;
     }
 
+    public int getTotalActions() {
+        return actionTimer.getTotalActions();
+    }
+
     protected void calculatePathTo(Position target) {
         if (this.pathNavigator == null || this.pathNavigator.getFinalDestination() != target
                         || memoryModule.discoveredNewTiles()) {

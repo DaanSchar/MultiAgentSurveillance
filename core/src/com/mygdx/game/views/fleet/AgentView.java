@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.util.TextureRepository;
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.Game;
 import nl.maastrichtuniversity.dke.agents.Agent;
 import nl.maastrichtuniversity.dke.agents.Guard;
@@ -11,14 +12,13 @@ import nl.maastrichtuniversity.dke.agents.Intruder;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 
+@Slf4j
 public class AgentView extends Actor {
 
     private final Agent agent;
 
     private final TextureRepository textureRepository;
 
-    private int textureIndex = 0;
-    private int previousTimeStep = 0;
 
     public AgentView(Agent agent) {
         this.agent = agent;
@@ -57,28 +57,19 @@ public class AgentView extends Actor {
                 TextureRepository.TILE_WIDTH,
                 TextureRepository.TILE_HEIGHT
         );
-        updateAgentTextureIndex();
-    }
-
-    private void updateAgentTextureIndex() {
-        int currentTimeStep = Game.getInstance().getScenario().getCurrentTimeStep();
-
-        if (currentTimeStep != this.previousTimeStep) {
-            this.previousTimeStep = currentTimeStep;
-            updateIndex();
-        }
-    }
-
-    private void updateIndex() {
-        if (textureIndex < 2) {
-            textureIndex++;
-        } else {
-            textureIndex = 0;
-        }
     }
 
     private Texture getFramedAgentTexture(String name) {
-        name += Integer.toString(textureIndex + 1);
+        int totalActions = agent.getTotalActions();
+
+        if (totalActions % 3 == 0) {
+            name += Integer.toString(3);
+        } else if (totalActions % 2 == 0) {
+            name += Integer.toString(2);
+        } else {
+            name += Integer.toString(1);
+        }
+
         return textureRepository.get(name);
     }
 
