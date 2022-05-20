@@ -189,10 +189,12 @@ public class Agent {
     private void moveForward() {
         Tile facingTile = getFacingTile();
 
-        if (facingTile.getType() == TileType.WINDOW) {
-            breakWindow();
-        } else if (facingTile.getType() == TileType.DOOR) {
-            toggleDoor();
+        if (actionTimer.canPerformAction(14)) {
+            if (facingTile.getType() == TileType.WINDOW) {
+                breakWindow();
+            } else if (facingTile.getType() == TileType.DOOR) {
+                toggleDoor();
+            }
         }
 
         position = movement.goForward(position, direction);

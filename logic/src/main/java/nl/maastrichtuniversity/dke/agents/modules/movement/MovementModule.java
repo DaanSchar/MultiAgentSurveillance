@@ -17,36 +17,27 @@ public class MovementModule extends AgentModule implements IMovementModule {
 
     private final double baseSpeed;
     private final double sprintSpeed;
-    private double lastTimeMoved;
-    private ActionTimer actionTimer;
+    private final ActionTimer actionTimer;
 
     public MovementModule(Scenario scenario, ActionTimer actionTimer, double baseSpeed, double sprintSpeed) {
         super(scenario);
         this.baseSpeed = baseSpeed;
         this.sprintSpeed = sprintSpeed;
         this.actionTimer = actionTimer;
-        this.lastTimeMoved = -1;
     }
 
     @Override
     public Direction rotate(Direction currentDirection, MoveAction action) {
-        try {
-            checkIfActionIsRotation(action);
+        if (checkIfActionIsRotation(action) && actionTimer.performAction(baseSpeed)) {
             return getNewRotatedDirection(currentDirection, action);
-        } catch (ActionIsNotRotationException e) {
-            log.error(e.getMessage());
-            return currentDirection;
         }
+
+        return currentDirection;
     }
 
     @Override
     public Position goForward(Position currentPosition, Direction direction) {
         Position nextPosition = getForwardPosition(currentPosition, direction);
-
-//        if (enoughTimeHasElapsedSinceLastMove(baseSpeed)) {
-//            lastTimeMoved = getCurrentTime();
-//            return nextPosition;
-//        }
 
         if (actionTimer.performAction(baseSpeed)) {
             return nextPosition;
@@ -59,10 +50,6 @@ public class MovementModule extends AgentModule implements IMovementModule {
     public Position sprint(Position currentPosition, Direction direction) {
         Position nextPosition = getForwardPosition(currentPosition, direction);
 
-//        if (enoughTimeHasElapsedSinceLastMove(sprintSpeed)) {
-//            lastTimeMoved = getCurrentTime();
-//            return nextPosition;
-//        }
         if (actionTimer.performAction(sprintSpeed)) {
             return nextPosition;
         }
@@ -120,10 +107,8 @@ public class MovementModule extends AgentModule implements IMovementModule {
         return scenario.getEnvironment().getTileMap()[position.getX()][position.getY()];
     }
 
-    private void checkIfActionIsRotation(MoveAction action) throws ActionIsNotRotationException {
-        if (action != MoveAction.ROTATE_LEFT && action != MoveAction.ROTATE_RIGHT) {
-            throw new ActionIsNotRotationException();
-        }
+    private boolean checkIfActionIsRotation(MoveAction action) {
+        return action == MoveAction.ROTATE_LEFT || action == MoveAction.ROTATE_RIGHT;
     }
 
     private Direction getNewRotatedDirection(Direction currentDirection, MoveAction action) {
@@ -146,19 +131,4 @@ public class MovementModule extends AgentModule implements IMovementModule {
         }
     }
 
-    private boolean enoughTimeHasElapsedSinceLastMove(double speed) {
-        return getElapsedTimeSinceLastMove() >= (1.0 / speed);
-    }
-
-    private double getCurrentTime() {
-        return scenario.getCurrentTime();
-    }
-
-    private double getElapsedTimeSinceLastMove() {
-        return getCurrentTime() - lastTimeMoved;
-    }
-
 }
-
-
-

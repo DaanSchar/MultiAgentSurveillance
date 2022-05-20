@@ -69,6 +69,9 @@ public class PathNavigator {
 
         if (nextPosition.equals(frontFacingPosition)) {
             path.poll();
+
+            // if next thing is a window/ door, dont path.poll!!
+
             return MoveAction.MOVE_FORWARD;
         } else if (nextPosition.equals(leftFacingPosition)) {
             return MoveAction.ROTATE_LEFT;

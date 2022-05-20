@@ -20,6 +20,10 @@ public class ActionTimer extends AgentModule{
         return false;
     }
 
+    public boolean canPerformAction(double actionSpeed) {
+        return enoughTimeHasElapsedSinceLastAction(actionSpeed);
+    }
+
     private boolean enoughTimeHasElapsedSinceLastAction(double speed) {
         return getElapsedTimeSinceLastMove() >= (1.0 / speed);
     }
