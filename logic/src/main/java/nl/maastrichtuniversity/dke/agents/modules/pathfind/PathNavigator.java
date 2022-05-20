@@ -86,12 +86,8 @@ public class PathNavigator {
                 return MoveAction.BREAK_WINDOW;
             }
 
-            if (actionTimer.canPerformAction(14)) {
-                path.poll();
-                return MoveAction.MOVE_FORWARD;
-            } else {
-                return MoveAction.SPRINT_FORWARD;
-            }
+            // path.poll();
+            return MoveAction.MOVE_FORWARD;
         } else if (nextPosition.equals(leftFacingPosition)) {
             return MoveAction.ROTATE_LEFT;
         } else if (nextPosition.equals(rightFacingPosition)) {

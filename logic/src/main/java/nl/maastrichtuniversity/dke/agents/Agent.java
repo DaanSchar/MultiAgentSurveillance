@@ -161,7 +161,7 @@ public class Agent {
     }
 
     protected void calculatePathTo(Position target) {
-        if (this.pathNavigator == null || this.pathNavigator.getFinalDestination() != target) {
+        if (this.pathNavigator == null || this.pathNavigator.getFinalDestination() != target ) { // or can't move through wall ->
             this.pathNavigator = new PathNavigator(getPosition(), target, pathFinderModule, actionTimer);
         }
     }
