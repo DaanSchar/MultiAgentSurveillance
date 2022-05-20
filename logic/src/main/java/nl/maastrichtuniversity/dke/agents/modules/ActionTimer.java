@@ -2,7 +2,7 @@ package nl.maastrichtuniversity.dke.agents.modules;
 
 import nl.maastrichtuniversity.dke.scenario.Scenario;
 
-public class ActionTimer extends AgentModule{
+public class ActionTimer extends AgentModule {
 
     private double initialTime = -1;
     private double timeOfLastAction;

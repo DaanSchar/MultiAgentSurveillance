@@ -21,12 +21,10 @@ public class PathNavigator {
     private final PathFinderModule pathFinderModule;
     private final @Getter Queue<Position> path;
     private final Environment environment;
-    private final ActionTimer actionTimer;
 
-    public PathNavigator(Position currentPosition, Position finalDestination, PathFinderModule pathFinderModule, ActionTimer actionTimer) {
+    public PathNavigator(Position currentPosition, Position finalDestination, PathFinderModule pathFinderModule) {
         this.finalDestination = finalDestination;
         this.pathFinderModule = pathFinderModule;
-        this.actionTimer = actionTimer;
         this.path = calculatePath(currentPosition, finalDestination);
         this.environment = pathFinderModule.getEnvironment();
     }

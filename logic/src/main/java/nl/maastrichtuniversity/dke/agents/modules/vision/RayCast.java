@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 
 @Slf4j
-public class RayCast2 extends AgentModule implements IVisionModule {
+public class RayCast extends AgentModule implements IVisionModule {
 
     private final double viewingDistance;
     private final double viewingAngle = 100;
@@ -25,7 +25,7 @@ public class RayCast2 extends AgentModule implements IVisionModule {
     private final @Getter List<Tile> visibleTiles;
     private final @Getter List<Agent> visibleAgents;
 
-    public RayCast2(Scenario scenario, double viewingDistance) {
+    public RayCast(Scenario scenario, double viewingDistance) {
         super(scenario);
         this.viewingDistance = (float) viewingDistance;
         this.visibleTiles = new ArrayList<>();

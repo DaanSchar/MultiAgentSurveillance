@@ -84,7 +84,7 @@ public class Game {
     }
 
     //TODO: return proper observation size once figured out size of our NN input
-    public  int observationSize(){
+    public  int observationSize() {
         return scenario.getIntruders().getCurrentAgent().getPolicyModule().getInputSize();
     }
 

@@ -150,7 +150,7 @@ public class Agent {
     protected void calculatePathTo(Position target) {
         if (this.pathNavigator == null || this.pathNavigator.getFinalDestination() != target
                         || memoryModule.discoveredNewTiles()) {
-            this.pathNavigator = new PathNavigator(getPosition(), target, pathFinderModule, actionTimer);
+            this.pathNavigator = new PathNavigator(getPosition(), target, pathFinderModule);
         }
     }
 
@@ -219,10 +219,10 @@ public class Agent {
     //TODO
     // implement toArray for all specified modules
     public double[] toArray() {
-        double fleeing_obs = 0;
-        if(this instanceof Intruder){
-            if(((Intruder) this).seesGuard()){
-                fleeing_obs=1;
+        double fleeingObs = 0;
+        if (this instanceof Intruder) {
+            if (((Intruder) this).seesGuard()) {
+                fleeingObs = 1;
             }
         }
 
@@ -275,8 +275,8 @@ public class Agent {
     private @Setter ActionTimer actionTimer;
 
     public Agent newInstance() {
-        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule,
-                communicationModule, memoryModule, listeningModule, smellModule, rewardModule, policyModule, actionTimer);
+        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule, communicationModule,
+                memoryModule, listeningModule, smellModule, rewardModule, policyModule, actionTimer);
     }
 
     private Agent(Direction direction, Position position, int id, ISpawnModule spawnModule, IMovementModule movement,
