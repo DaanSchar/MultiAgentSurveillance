@@ -78,6 +78,8 @@ public class PathNavigator {
 
         if (nextPosition.equals(frontFacingPosition)) {
 
+//            if ()
+
             if (closedDoorAt(frontFacingPosition)) {
                 return MoveAction.TOGGLE_DOOR;
             }
@@ -86,7 +88,6 @@ public class PathNavigator {
                 return MoveAction.BREAK_WINDOW;
             }
 
-            // path.poll();
             return MoveAction.MOVE_FORWARD;
         } else if (nextPosition.equals(leftFacingPosition)) {
             return MoveAction.ROTATE_LEFT;

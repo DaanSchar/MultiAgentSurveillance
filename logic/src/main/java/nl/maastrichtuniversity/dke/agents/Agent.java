@@ -161,7 +161,8 @@ public class Agent {
     }
 
     protected void calculatePathTo(Position target) {
-        if (this.pathNavigator == null || this.pathNavigator.getFinalDestination() != target ) { // or can't move through wall ->
+        // problem: this clause is not true when walking against a wall, so a new path is not calculated even though we need to
+        if (this.pathNavigator == null || this.pathNavigator.getFinalDestination() != target ) {
             this.pathNavigator = new PathNavigator(getPosition(), target, pathFinderModule, actionTimer);
         }
     }

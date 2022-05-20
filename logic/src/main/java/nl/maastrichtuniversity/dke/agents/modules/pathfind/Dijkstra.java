@@ -92,6 +92,7 @@ public class Dijkstra implements PathFinderModule {
     }
 
     private boolean isWalkable(Tile tile) {
+        boolean walkable = isPassable(tile) && tile.getType() != TileType.TELEPORT;
         return isPassable(tile) && tile.getType() != TileType.TELEPORT;
     }
 
