@@ -23,18 +23,14 @@ public class Guard extends Agent {
     public void spawn() {
         super.spawn();
 //        setTarget(((MemoryModule) getMemoryModule()).getRandomPosition());
-//        setTarget(new Position(43, 18));
+//        setTarget(new Position(50, 29));
 //        setTarget(new Position(16, 15));
     }
 
     @Override
     public void move() {
         if (hasTarget()) {
-            if (hasReachedTarget()) {
-                setTarget(null);
-            } else {
-                moveToPosition(getTarget());
-            }
+            navigateToTarget();
         } else {
             super.explore();
         }
@@ -44,7 +40,7 @@ public class Guard extends Agent {
     @Override
     public void updateInternals() {
         determineTarget();
-        //super.rlMove();
+//        super.rlMove();
         super.updateInternals();
     }
 

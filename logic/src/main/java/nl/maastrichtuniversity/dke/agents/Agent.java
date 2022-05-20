@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
-import nl.maastrichtuniversity.dke.agents.modules.exploration.NeuralGameState;
+import nl.maastrichtuniversity.dke.agents.modules.ActionTimer;
 import nl.maastrichtuniversity.dke.agents.modules.interaction.InteractionModule;
 import nl.maastrichtuniversity.dke.agents.modules.communication.Mark;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationType;
@@ -29,7 +29,6 @@ import nl.maastrichtuniversity.dke.scenario.Sound;
 import nl.maastrichtuniversity.dke.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
-import org.deeplearning4j.rl4j.policy.DQNPolicy;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,20 +38,6 @@ import java.util.stream.Stream;
 @Slf4j
 @Accessors(chain = true)
 public class Agent {
-
-    private @Setter ISpawnModule spawnModule;
-    private @Setter IMovementModule movement;
-    private @Setter IVisionModule visionModule;
-    private @Setter ICommunicationModule communicationModule;
-    private @Setter INoiseModule noiseModule;
-    private @Setter IListeningModule listeningModule;
-    private @Setter IMemoryModule memoryModule;
-    private @Setter ISmellModule smellModule;
-    private @Setter IExplorationModule explorationModule;
-    private @Setter InteractionModule interactionModule;
-    private @Setter PathFinderModule pathFinderModule;
-    private @Setter IPolicyModule policyModule;
-    private @Setter IRewardModule rewardModule;
 
     private static int agentCount;
     private final int id;
@@ -87,6 +72,15 @@ public class Agent {
         view();
         updateMemory();
         updatePathToTarget();
+    }
+
+    public void navigateToTarget() {
+        if (hasReachedTarget()) {
+            getPathNavigator().clear();
+            setTarget(null);
+        } else {
+            moveToPosition(getTarget());
+        }
     }
 
     public void explore() {
@@ -154,7 +148,8 @@ public class Agent {
     }
 
     protected void calculatePathTo(Position target) {
-        if (this.pathNavigator == null || this.pathNavigator.getFinalDestination() != target) {
+        if (this.pathNavigator == null || this.pathNavigator.getFinalDestination() != target
+                        || memoryModule.discoveredNewTiles()) {
             this.pathNavigator = new PathNavigator(getPosition(), target, pathFinderModule);
         }
     }
@@ -186,14 +181,6 @@ public class Agent {
     }
 
     private void moveForward() {
-        Tile facingTile = getFacingTile();
-
-        if (facingTile.getType() == TileType.WINDOW) {
-            breakWindow();
-        } else if (facingTile.getType() == TileType.DOOR) {
-            toggleDoor();
-        }
-
         position = movement.goForward(position, direction);
         noiseModule.makeSound(position, SoundType.WALK, getAgentSourceType());
     }
@@ -220,11 +207,6 @@ public class Agent {
         return getSoundsAtCurrentPosition().size() > 0;
     }
 
-    protected Tile getFacingTile() {
-        Position facingPosition = getPosition().getPosInDirection(getDirection());
-        return memoryModule.getMap().getAt(facingPosition);
-    }
-
     private SourceType getAgentSourceType() {
         if (this instanceof Guard) {
             return SourceType.GUARD;
@@ -233,36 +215,14 @@ public class Agent {
         }
     }
 
-    public Agent newInstance() {
-        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule,
-                communicationModule, memoryModule, listeningModule, smellModule, rewardModule, policyModule);
-    }
-
-    private Agent(Direction direction, Position position, int id, ISpawnModule spawnModule, IMovementModule movement,
-                  IVisionModule visionModule, INoiseModule noiseModule, ICommunicationModule communicationModule,
-                  IMemoryModule memoryModule, IListeningModule listeningModule, ISmellModule smellModule, IRewardModule rewardModule, IPolicyModule policyModule) {
-        this.spawnModule = spawnModule;
-        this.visionModule = visionModule;
-        this.movement = movement;
-        this.noiseModule = noiseModule;
-        this.communicationModule = communicationModule;
-        this.memoryModule = memoryModule;
-        this.listeningModule = listeningModule;
-        this.smellModule = smellModule;
-        this.rewardModule = rewardModule;
-        this.policyModule = policyModule;
-        this.position = position;
-        this.direction = direction;
-        this.id = id;
-    }
 
     //TODO
     // implement toArray for all specified modules
     public double[] toArray() {
-        double fleeing_obs = 0;
-        if(this instanceof Intruder){
-            if(((Intruder) this).seesGuard()){
-                fleeing_obs=1;
+        double fleeingObs = 0;
+        if (this instanceof Intruder) {
+            if (((Intruder) this).seesGuard()) {
+                fleeingObs = 1;
             }
         }
 
@@ -297,6 +257,46 @@ public class Agent {
             array[i] = list.get(i);
         }
         return array;
+    }
+
+    private @Setter ISpawnModule spawnModule;
+    private @Setter IMovementModule movement;
+    private @Setter IVisionModule visionModule;
+    private @Setter ICommunicationModule communicationModule;
+    private @Setter INoiseModule noiseModule;
+    private @Setter IListeningModule listeningModule;
+    private @Setter IMemoryModule memoryModule;
+    private @Setter ISmellModule smellModule;
+    private @Setter IExplorationModule explorationModule;
+    private @Setter InteractionModule interactionModule;
+    private @Setter PathFinderModule pathFinderModule;
+    private @Setter IPolicyModule policyModule;
+    private @Setter IRewardModule rewardModule;
+    private @Setter ActionTimer actionTimer;
+
+    public Agent newInstance() {
+        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule, communicationModule,
+                memoryModule, listeningModule, smellModule, rewardModule, policyModule, actionTimer);
+    }
+
+    private Agent(Direction direction, Position position, int id, ISpawnModule spawnModule, IMovementModule movement,
+                  IVisionModule visionModule, INoiseModule noiseModule, ICommunicationModule communicationModule,
+                  IMemoryModule memoryModule, IListeningModule listeningModule, ISmellModule smellModule,
+                  IRewardModule rewardModule, IPolicyModule policyModule, ActionTimer actionTimer) {
+        this.spawnModule = spawnModule;
+        this.visionModule = visionModule;
+        this.movement = movement;
+        this.noiseModule = noiseModule;
+        this.communicationModule = communicationModule;
+        this.memoryModule = memoryModule;
+        this.listeningModule = listeningModule;
+        this.smellModule = smellModule;
+        this.rewardModule = rewardModule;
+        this.policyModule = policyModule;
+        this.actionTimer = actionTimer;
+        this.position = position;
+        this.direction = direction;
+        this.id = id;
     }
 
 }

@@ -26,4 +26,6 @@ public interface IMemoryModule {
     void toggledDoor(Position position);
 
     void brokeWindow(Position position);
+
+    boolean discoveredNewTiles();
 }

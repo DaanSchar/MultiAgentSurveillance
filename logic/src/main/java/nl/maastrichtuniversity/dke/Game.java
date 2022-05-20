@@ -65,7 +65,8 @@ public class Game {
     }
 
     public boolean isDone() {
-        return victory.guardsHaveWon() || victory.intrudersHaveWon();
+//        return victory.guardsHaveWon() || victory.intrudersHaveWon();
+        return false;
     }
 
     public void updateVictory() {
@@ -83,7 +84,7 @@ public class Game {
     }
 
     //TODO: return proper observation size once figured out size of our NN input
-    public  int observationSize(){
+    public  int observationSize() {
         return scenario.getIntruders().getCurrentAgent().getPolicyModule().getInputSize();
     }
 
