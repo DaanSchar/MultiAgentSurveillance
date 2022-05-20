@@ -4,11 +4,12 @@ import nl.maastrichtuniversity.dke.scenario.Scenario;
 
 public class ActionTimer extends AgentModule{
 
+    private double initialTime = -1;
     private double timeOfLastAction;
 
     public ActionTimer(Scenario scenario) {
         super(scenario);
-        this.timeOfLastAction = -1;
+        this.timeOfLastAction = initialTime;
     }
 
     public boolean performAction(double actionSpeed) {
@@ -18,10 +19,6 @@ public class ActionTimer extends AgentModule{
         }
 
         return false;
-    }
-
-    public boolean canPerformAction(double actionSpeed) {
-        return enoughTimeHasElapsedSinceLastAction(actionSpeed);
     }
 
     private boolean enoughTimeHasElapsedSinceLastAction(double speed) {

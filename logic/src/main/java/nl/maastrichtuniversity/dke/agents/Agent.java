@@ -39,21 +39,6 @@ import java.util.stream.Stream;
 @Accessors(chain = true)
 public class Agent {
 
-    private @Setter ISpawnModule spawnModule;
-    private @Setter IMovementModule movement;
-    private @Setter IVisionModule visionModule;
-    private @Setter ICommunicationModule communicationModule;
-    private @Setter INoiseModule noiseModule;
-    private @Setter IListeningModule listeningModule;
-    private @Setter IMemoryModule memoryModule;
-    private @Setter ISmellModule smellModule;
-    private @Setter IExplorationModule explorationModule;
-    private @Setter InteractionModule interactionModule;
-    private @Setter PathFinderModule pathFinderModule;
-    private @Setter IPolicyModule policyModule;
-    private @Setter IRewardModule rewardModule;
-    private @Setter ActionTimer actionTimer;
-
     private static int agentCount;
     private final int id;
 
@@ -163,8 +148,8 @@ public class Agent {
     }
 
     protected void calculatePathTo(Position target) {
-        // problem: this clause is not true when walking against a wall, so a new path is not calculated even though we need to
-        if (this.pathNavigator == null || this.pathNavigator.getFinalDestination() != target || memoryModule.discoveredNewTiles()) {
+        if (this.pathNavigator == null || this.pathNavigator.getFinalDestination() != target
+                        || memoryModule.discoveredNewTiles()) {
             this.pathNavigator = new PathNavigator(getPosition(), target, pathFinderModule, actionTimer);
         }
     }
@@ -222,40 +207,12 @@ public class Agent {
         return getSoundsAtCurrentPosition().size() > 0;
     }
 
-    protected Tile getFacingTile() {
-        Position facingPosition = getPosition().getPosInDirection(getDirection());
-        return memoryModule.getMap().getAt(facingPosition);
-    }
-
     private SourceType getAgentSourceType() {
         if (this instanceof Guard) {
             return SourceType.GUARD;
         } else {
             return SourceType.INTRUDER;
         }
-    }
-
-    public Agent newInstance() {
-        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule,
-                communicationModule, memoryModule, listeningModule, smellModule, rewardModule, policyModule);
-    }
-
-    private Agent(Direction direction, Position position, int id, ISpawnModule spawnModule, IMovementModule movement,
-                  IVisionModule visionModule, INoiseModule noiseModule, ICommunicationModule communicationModule,
-                  IMemoryModule memoryModule, IListeningModule listeningModule, ISmellModule smellModule, IRewardModule rewardModule, IPolicyModule policyModule) {
-        this.spawnModule = spawnModule;
-        this.visionModule = visionModule;
-        this.movement = movement;
-        this.noiseModule = noiseModule;
-        this.communicationModule = communicationModule;
-        this.memoryModule = memoryModule;
-        this.listeningModule = listeningModule;
-        this.smellModule = smellModule;
-        this.rewardModule = rewardModule;
-        this.policyModule = policyModule;
-        this.position = position;
-        this.direction = direction;
-        this.id = id;
     }
 
 
@@ -300,6 +257,46 @@ public class Agent {
             array[i] = list.get(i);
         }
         return array;
+    }
+
+    private @Setter ISpawnModule spawnModule;
+    private @Setter IMovementModule movement;
+    private @Setter IVisionModule visionModule;
+    private @Setter ICommunicationModule communicationModule;
+    private @Setter INoiseModule noiseModule;
+    private @Setter IListeningModule listeningModule;
+    private @Setter IMemoryModule memoryModule;
+    private @Setter ISmellModule smellModule;
+    private @Setter IExplorationModule explorationModule;
+    private @Setter InteractionModule interactionModule;
+    private @Setter PathFinderModule pathFinderModule;
+    private @Setter IPolicyModule policyModule;
+    private @Setter IRewardModule rewardModule;
+    private @Setter ActionTimer actionTimer;
+
+    public Agent newInstance() {
+        return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule,
+                communicationModule, memoryModule, listeningModule, smellModule, rewardModule, policyModule, actionTimer);
+    }
+
+    private Agent(Direction direction, Position position, int id, ISpawnModule spawnModule, IMovementModule movement,
+                  IVisionModule visionModule, INoiseModule noiseModule, ICommunicationModule communicationModule,
+                  IMemoryModule memoryModule, IListeningModule listeningModule, ISmellModule smellModule,
+                  IRewardModule rewardModule, IPolicyModule policyModule, ActionTimer actionTimer) {
+        this.spawnModule = spawnModule;
+        this.visionModule = visionModule;
+        this.movement = movement;
+        this.noiseModule = noiseModule;
+        this.communicationModule = communicationModule;
+        this.memoryModule = memoryModule;
+        this.listeningModule = listeningModule;
+        this.smellModule = smellModule;
+        this.rewardModule = rewardModule;
+        this.policyModule = policyModule;
+        this.actionTimer = actionTimer;
+        this.position = position;
+        this.direction = direction;
+        this.id = id;
     }
 
 }
