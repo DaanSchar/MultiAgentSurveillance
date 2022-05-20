@@ -17,12 +17,16 @@ import java.util.stream.Collectors;
 @Slf4j
 public class Intruder extends Agent {
 
-    private @Getter @Setter boolean isCaught;
-    private @Setter IRunningAway runningAway;
+    private @Getter
+    @Setter
+    boolean isCaught;
+    private @Setter
+    IRunningAway runningAway;
     private boolean navigatedToBlueMark; // whether the agent has navigated to the mark that another agent dropped
     private boolean droppedBlueMark; // did it drop the mark already
 
-    private @Getter boolean fleeing;
+    private @Getter
+    boolean fleeing;
 
     public Intruder() {
         super();
@@ -46,7 +50,10 @@ public class Intruder extends Agent {
                 moveToPosition(getTarget());
             }
         } else {
-            super.explore();
+            if (isFleeing()) {
+                super.rlMove();
+            } else
+                super.explore();
         }
         super.move();
     }
