@@ -65,8 +65,7 @@ public class Game {
     }
 
     public boolean isDone() {
-//        return victory.guardsHaveWon() || victory.intrudersHaveWon();
-        return false;
+        return victory.guardsHaveWon() || victory.intrudersHaveWon();
     }
 
     public void updateVictory() {

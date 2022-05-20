@@ -71,7 +71,7 @@ public class Intruder extends Agent {
             //TODO: function call disabled for now as it's not working properly
 //            setTarget(runningAway.avoidGuard(getVisibleGuards().get(0).getPosition(), this.getPosition()));
         } else if (hearsSound() && !seesIntruder()) {
-            avoidSoundSource();
+//            avoidSoundSource();
         }
     }
 
