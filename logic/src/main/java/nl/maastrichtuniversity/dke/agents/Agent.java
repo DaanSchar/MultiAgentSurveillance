@@ -52,8 +52,7 @@ public class Agent {
     private @Setter PathFinderModule pathFinderModule;
     private @Setter IPolicyModule policyModule;
     private @Setter IRewardModule rewardModule;
-    private @Setter
-    ActionTimer actionTimer;
+    private @Setter ActionTimer actionTimer;
 
     private static int agentCount;
     private final int id;
@@ -111,13 +110,7 @@ public class Agent {
     public void move(MoveAction action) {
         switch (action) {
             case MOVE_FORWARD -> moveForward();
-            case SPRINT_FORWARD -> {
-                if (this instanceof Guard) {
-                    moveForward();
-                } else {
-                    sprintForward();
-                }
-            }
+            case SPRINT_FORWARD -> sprintForward();
             case ROTATE_LEFT -> rotate(MoveAction.ROTATE_LEFT);
             case ROTATE_RIGHT -> rotate(MoveAction.ROTATE_RIGHT);
             case STAND_STILL -> { /* do nothing */ }
