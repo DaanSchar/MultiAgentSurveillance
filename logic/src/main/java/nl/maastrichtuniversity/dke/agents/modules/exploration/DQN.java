@@ -71,7 +71,8 @@ public class DQN {
             mdp.close();
 
             long currentTime = System.currentTimeMillis();
-            dqn.getPolicy().save(PATH_TO_BINS + generateFileName(i) + ".bin");
+            //dqn.getPolicy().save(PATH_TO_BINS + generateFileName(i) + ".bin");
+            dqn.getPolicy().save(PATH_TO_BINS + "/intruder-fleeing-starter.bin");
         }
     }
 

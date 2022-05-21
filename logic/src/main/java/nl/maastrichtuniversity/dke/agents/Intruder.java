@@ -51,7 +51,7 @@ public class Intruder extends Agent {
             }
         } else {
             if (isFleeing()) {
-                super.rlMove();
+               // super.rlMove();
             } else
                 super.explore();
         }
