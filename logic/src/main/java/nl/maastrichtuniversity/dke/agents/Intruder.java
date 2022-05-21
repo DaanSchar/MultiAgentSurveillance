@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationType;
+import nl.maastrichtuniversity.dke.agents.modules.exploration.DQN;
 import nl.maastrichtuniversity.dke.agents.modules.runningAway.IRunningAway;
 import nl.maastrichtuniversity.dke.agents.modules.sound.SourceType;
 import nl.maastrichtuniversity.dke.scenario.Sound;
@@ -39,21 +40,22 @@ public class Intruder extends Agent {
 
     @Override
     public void move() {
-        if (!isFleeing()) {
-            if (hasTarget()) {
-                if (hasReachedTarget()) {
-                    setTarget(null);
-                } else {
-                    moveToPosition(getTarget());
-                }
-            } else {
-                if (isFleeing()) {
-                    // super.rlMove();
-                } else
-                    super.explore();
-            }
+        if (isFleeing()) {
+            super.rlMove();
+        } else if (hasTarget()) {
+            moveToTarget();
+        } else {
+            super.explore();
         }
         super.move();
+    }
+
+    private void moveToTarget() {
+        if (hasReachedTarget()) {
+            setTarget(null);
+        } else {
+            moveToPosition(getTarget());
+        }
     }
 
     @Override

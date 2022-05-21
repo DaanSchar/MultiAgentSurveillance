@@ -17,12 +17,8 @@ import java.util.List;
 @Slf4j
 public class RewardModule extends AgentModule implements IRewardModule {
 
-    @Setter
-    @Getter
-    public double moveReward;
-    @Setter
-    @Getter
-    Direction targetDirection;
+    @Setter @Getter private double moveReward;
+    @Setter @Getter private Direction targetDirection;
 
     private List<Position> previousPositions;
 
@@ -35,7 +31,6 @@ public class RewardModule extends AgentModule implements IRewardModule {
     public double getReward() {
         return moveReward;
     }
-
 
     @Override
     public double updateFleeingReward(Position p, Direction d) {

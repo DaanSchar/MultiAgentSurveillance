@@ -89,7 +89,7 @@ public final class GameGUI extends ApplicationAdapter {
     }
 
     private File getMapFile() {
-        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("hardMap1.txt")).getFile());
+        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("maps/hardMap1.txt")).getFile());
     }
 
     public static boolean togglePause() {

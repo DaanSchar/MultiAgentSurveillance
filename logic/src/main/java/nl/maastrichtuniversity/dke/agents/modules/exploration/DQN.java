@@ -19,11 +19,14 @@ import java.util.Objects;
 
 public class DQN {
 
-    public static final String PATH_TO_BINS = "logic/src/main/resources/bins/";
+    private static String pathWhenTraining = "logic/src/main/resources/bins/";
+    private static String pathWhenPlaying = "policies/bins/";
+    private static boolean training = false;
 
     public static void main(String[] args) throws IOException {
         int stepsPerEpoch = 1000;
         int maxGames = 10;// change to 10, for each map
+        training = true;
 
         final QLearningConfiguration DQN = QLearningConfiguration.builder()
                 .seed(1L)
@@ -61,7 +64,7 @@ public class DQN {
             if (i == 0) {
                 dqn = new QLearningDiscreteDense<>(mdp, conf, DQN);
             } else {
-                DQNPolicy<NeuralGameState> policy = DQNPolicy.load(PATH_TO_BINS + "/intruder-fleeing-starter.bin");
+                DQNPolicy<NeuralGameState> policy = DQNPolicy.load(getPathToBins() + "/intruder-fleeing-starter.bin");
                 dqn = new QLearningDiscreteDense<>(mdp, policy.getNeuralNet(), DQN);
             }
             //start the training
@@ -70,10 +73,20 @@ public class DQN {
             //useless on toy but good practice!
             mdp.close();
 
-            dqn.getPolicy().save(PATH_TO_BINS + "/intruder-fleeing-starter.bin");
-            long currentTime = System.currentTimeMillis();
             //dqn.getPolicy().save(PATH_TO_BINS + generateFileName(i) + ".bin");
-            dqn.getPolicy().save(PATH_TO_BINS + "/intruder-fleeing-starter.bin");
+            dqn.getPolicy().save(getPathToBins() + "/intruder-fleeing-starter.bin");
+        }
+    }
+
+    public static boolean isTraining() {
+        return training;
+    }
+
+    public static String getPathToBins() {
+        if (training) {
+            return pathWhenTraining;
+        } else {
+            return pathWhenPlaying;
         }
     }
 
