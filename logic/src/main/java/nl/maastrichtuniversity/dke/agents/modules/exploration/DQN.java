@@ -1,8 +1,6 @@
 package nl.maastrichtuniversity.dke.agents.modules.exploration;
 
-import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.Game;
-import nl.maastrichtuniversity.dke.util.FileResourcesUtils;
 import org.deeplearning4j.rl4j.learning.configuration.QLearningConfiguration;
 import org.deeplearning4j.rl4j.learning.sync.qlearning.discrete.QLearningDiscreteDense;
 import org.deeplearning4j.rl4j.mdp.MDP;
@@ -14,7 +12,6 @@ import org.nd4j.linalg.learning.config.Nadam;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Objects;
 
 public class DQN {
@@ -25,7 +22,7 @@ public class DQN {
 
     public static void main(String[] args) throws IOException {
         int stepsPerEpoch = 1000;
-        int maxGames = 10;// change to 10, for each map
+        int maxGames = 10; // change to 10, for each map
         training = true;
 
         final QLearningConfiguration DQN = QLearningConfiguration.builder()
@@ -51,7 +48,9 @@ public class DQN {
 
 
         for (int i = 0; i < 50; i++) {
-            File file = new File(Objects.requireNonNull(DQN.getClass().getClassLoader().getResource("maps/hardMap1.txt")).getFile());
+            File file = new File(Objects.requireNonNull(
+                    DQN.getClass().getClassLoader().getResource("maps/hardMap1.txt")
+            ).getFile());
 
             Game game;
             Game.setMapFile(file);
@@ -88,6 +87,9 @@ public class DQN {
         } else {
             return pathWhenPlaying;
         }
+    }
+
+    private DQN() {
     }
 
 }

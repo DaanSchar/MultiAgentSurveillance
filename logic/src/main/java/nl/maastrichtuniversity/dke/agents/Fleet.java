@@ -8,7 +8,6 @@ import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -106,7 +105,10 @@ public class Fleet<T extends Agent> extends ArrayList<T> {
         for (Agent agent : this) {
             Intruder i = (Intruder) agent;
             if (i.isFleeing()) {
-                totalMoveReward += agent.getRewardModule().updateFleeingReward(agent.getPosition(), agent.getDirection());
+                totalMoveReward += agent.getRewardModule().updateFleeingReward(
+                        agent.getPosition(),
+                        agent.getDirection()
+                );
             }
         }
         return totalMoveReward;

@@ -26,7 +26,6 @@ public class RewardModule extends AgentModule implements IRewardModule {
         super(scenario);
     }
 
-
     @Override
     public double getReward() {
         return moveReward;
@@ -48,7 +47,7 @@ public class RewardModule extends AgentModule implements IRewardModule {
 
         double distanceRewardScalar = -0.1;
 
-        for(Guard guard : intruder.getVisibleGuards()){
+        for (Guard guard : intruder.getVisibleGuards()) {
             double distance = intruder.getPosition().distance(guard.getPosition());
             moveReward += distance * distanceRewardScalar;
         }
@@ -90,7 +89,7 @@ public class RewardModule extends AgentModule implements IRewardModule {
             moveReward += 3;
             moveReward += scenario.getIntruders().getCurrentAgent().getVisionModule().targetTilesSeen() * 10;
         }
-        if (IsOnTarget(p)) {
+        if (isOnTarget(p)) {
             log.info("Found Treasure");
             moveReward += 800;
         }
@@ -112,30 +111,32 @@ public class RewardModule extends AgentModule implements IRewardModule {
     }
 
     private boolean isStuck(Position p, Direction d) {
-        return !scenario.getIntruders().getCurrentAgent().getMovement().agentCanMoveTo(p.add(new Position(d.getMoveX(), d.getMoveY())));
+        return !scenario.getIntruders().getCurrentAgent().getMovement().agentCanMoveTo(p.add(
+                new Position(d.getMoveX(), d.getMoveY()))
+        );
     }
 
-    private boolean IsOnTarget(Position p) {
+    private boolean isOnTarget(Position p) {
         return scenario.getEnvironment().getTileMap()[p.getX()][p.getY()].getType() == TileType.TARGET;
     }
 
 
     /**
-     * @param target_tiles tiles where target contained
-     * @param a_position   position of the agent
-     * @param f_position   position of the agent if heads only in direction d
+     * @param targetTiles tiles where target contained
+     * @param aPosition   position of the agent
+     * @param fPosition   position of the agent if heads only in direction d
      * @return if target in direction of agent
      */
-    private boolean isTargetBetweenPositions(List<Tile> target_tiles, Position a_position, Position f_position) {
-        for (Tile tile : target_tiles) {
-            Position target_position = tile.getPosition();
-            if (isInBetween(target_position.getX(), a_position.getX(), f_position.getX())) {
+    private boolean isTargetBetweenPositions(List<Tile> targetTiles, Position aPosition, Position fPosition) {
+        for (Tile tile : targetTiles) {
+            Position targetPosition = tile.getPosition();
+            if (isInBetween(targetPosition.getX(), aPosition.getX(), fPosition.getX())) {
                 return true;
-            } else if (isInBetween(target_position.getX(), f_position.getX(), a_position.getX())) {
+            } else if (isInBetween(targetPosition.getX(), fPosition.getX(), aPosition.getX())) {
                 return true;
-            } else if (isInBetween(target_position.getY(), a_position.getY(), f_position.getY())) {
+            } else if (isInBetween(targetPosition.getY(), aPosition.getY(), fPosition.getY())) {
                 return true;
-            } else if (isInBetween(target_position.getY(), f_position.getY(), a_position.getY())) {
+            } else if (isInBetween(targetPosition.getY(), fPosition.getY(), aPosition.getY())) {
                 return true;
             }
         }
@@ -156,11 +157,10 @@ public class RewardModule extends AgentModule implements IRewardModule {
             case WEST -> moveX = -position.getX();
             case NORTH -> moveY = -position.getY();
             case SOUTH -> moveY = scenario.getEnvironment().getHeight() - position.getY();
-
+            default -> log.error("Direction not found");
         }
 
         return new Position(moveX, moveY);
     }
-
 
 }

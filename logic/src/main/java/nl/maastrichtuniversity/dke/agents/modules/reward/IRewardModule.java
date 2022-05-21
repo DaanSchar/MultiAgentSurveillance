@@ -5,11 +5,12 @@ import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 public interface IRewardModule {
 
-
     boolean isInTargetDirection(Position p, Direction d);
-    double updateMoveReward(Position p, Direction d);
-    double updateFleeingReward(Position p,Direction d);
-    double getReward();
 
+    double updateMoveReward(Position p, Direction d);
+
+    double updateFleeingReward(Position p, Direction d);
+
+    double getReward();
 
 }
