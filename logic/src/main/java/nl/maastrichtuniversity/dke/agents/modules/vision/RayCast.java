@@ -11,6 +11,7 @@ import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -62,10 +63,37 @@ public class RayCast extends AgentModule implements IVisionModule {
         return null;
     }
 
+
+    /**
+     * This will return a one-hot encoding of each tile that agent sees,e.g.
+     * 1 0 0 0 0 0 0 0 0 0 0 0 - Corresponds to the tile being unknown
+     * 0 1 0 0 0 0 0 0 0 0 0 0 - Corresponds to the tile being empty
+     *
+     * @return One-hot encoding of visible tiles
+     */
     @Override
     public List<Double> toArray() {
-        return null;
+        int oneHotEncodingSize = 13;
+        List<Double> encodedTiles = new ArrayList<>(visibleTiles.size() * 13);
+
+        for (Tile tile : visibleTiles) {
+            encodedTiles.addAll(getEncodingPerTile(tile.getType().getValue(), oneHotEncodingSize));
+        }
+
+        return encodedTiles.subList(0, Math.min(computeVisionInputSize(), encodedTiles.size()));
     }
+
+    private int computeVisionInputSize() {
+        double visionInputSize = scenario.getIntruders().getCurrentAgent().getPolicyModule().getInputSize() * 0.977;
+        return (int) Math.round(visionInputSize / 13) * 13;
+    }
+
+    public List<Double> getEncodingPerTile(int idx, int oneHotEncodingSize) {
+        List<Double> list = new ArrayList<>(Collections.nCopies(oneHotEncodingSize, 0d));
+        list.set(idx, 1d);
+        return list;
+    }
+
 
     @Override
     public int targetTilesSeen() {
