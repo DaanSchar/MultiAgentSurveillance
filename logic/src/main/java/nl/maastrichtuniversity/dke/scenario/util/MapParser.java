@@ -41,7 +41,7 @@ public class MapParser {
 
     public Scenario createScenario() {
         envBuilder = new EnvironmentFactory();
-        randomMapGenerator = new RandomMapGenerator();
+//        randomMapGenerator = new RandomMapGenerator();
 
         setDefaultValues();
 
@@ -49,7 +49,7 @@ public class MapParser {
             createFieldFromLine(scanner.nextLine());
         }
 
-        scenarioFactory.setEnvironment(randomMapGenerator.build());
+        scenarioFactory.setEnvironment(envBuilder.build());
         return scenarioFactory.build(agentFactory);
     }
 
