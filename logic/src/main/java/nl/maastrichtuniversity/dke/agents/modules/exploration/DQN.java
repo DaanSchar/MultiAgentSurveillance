@@ -70,8 +70,14 @@ public class DQN {
             //useless on toy but good practice!
             mdp.close();
 
-            dqn.getPolicy().save(PATH_TO_BINS + "/intruder" + i + ".bin");
+            long currentTime = System.currentTimeMillis();
+            dqn.getPolicy().save(PATH_TO_BINS + generateFileName(i) + ".bin");
         }
+    }
+
+    private static String generateFileName(int index) {
+        long currentTime = System.currentTimeMillis();
+        return "/intruder_" + index + "_" + currentTime;
     }
 
 }
