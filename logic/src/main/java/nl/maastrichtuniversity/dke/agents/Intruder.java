@@ -41,7 +41,9 @@ public class Intruder extends Agent {
     @Override
     public void move() {
         if (isFleeing()) {
-            if (DQN.isTraining()) super.rlMove();
+            if (!DQN.isTraining()) {
+                super.rlMove();
+            }
         } else if (hasTarget()) {
             moveToTarget();
         } else {
