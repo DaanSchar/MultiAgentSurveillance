@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.agents.modules.runningAway.IRunningAway;
+import nl.maastrichtuniversity.dke.agents.modules.sound.SourceType;
 import nl.maastrichtuniversity.dke.scenario.Sound;
 import nl.maastrichtuniversity.dke.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.scenario.environment.TileType;
@@ -32,16 +33,13 @@ public class Intruder extends Agent {
     public void spawn() {
         super.spawn();
         this.isCaught = false;
+//        setTarget(new Position(50, 27));
     }
 
     @Override
     public void move() {
         if (hasTarget()) {
-            if (hasReachedTarget()) {
-                setTarget(null);
-            } else {
-                moveToPosition(getTarget());
-            }
+            navigateToTarget();
         } else {
             super.explore();
         }
@@ -50,23 +48,38 @@ public class Intruder extends Agent {
 
     @Override
     public void updateInternals() {
+        determineTarget();
+        super.updateInternals();
+    }
+
+    @Override
+    protected boolean hearsSound() {
+        List<Sound> sounds = getSoundsAtCurrentPosition();
+
+        if (super.hearsSound()) {
+            Sound sound = sounds.get(0);
+            return sound.getSourceType() != SourceType.INTRUDER;
+        }
+
+        return false;
+    }
+
+    private void determineTarget() {
         if (seesTargetArea()) {
             setTarget(getTargetTile().getPosition());
         } else if (seesGuard()) {
             //TODO: function call disabled for now as it's not working properly
 //            setTarget(runningAway.avoidGuard(getVisibleGuards().get(0).getPosition(), this.getPosition()));
         } else if (hearsSound() && !seesIntruder()) {
-            avoidSoundSource();
+//            avoidSoundSource();
         }
-        super.updateInternals();
     }
 
     private void avoidSoundSource() {
-        if (hearsSound()) {
-            List<Sound> sounds = super.getSoundsAtCurrentPosition();
-
-            if (sounds.size() > 0) {
-                Sound sound = sounds.get(0);
+        List<Sound> sounds = super.getSoundsAtCurrentPosition();
+        if (super.hearsSound()) {
+            Sound sound = sounds.get(0);
+            if (sound.getSourceType() != SourceType.INTRUDER) {
                 setTarget(runningAway.avoidGuard(sound.getPosition(), this.getPosition()));
             }
         }
@@ -153,7 +166,6 @@ public class Intruder extends Agent {
         Position position = tile.getPosition();
 
         return super.getCommunicationModule().tileHasMark(position, CommunicationType.VISION_BLUE);
-
     }
 
     private Position getBlueMark() {

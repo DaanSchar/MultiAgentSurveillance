@@ -33,6 +33,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     private final List<Position> smells;
     private @Setter Position position;
     private @Getter @Setter Position previousPosition;
+    private @Getter boolean discoveredNewTiles;
 
     public MemoryModule(Scenario scenario) {
         super(scenario);
@@ -45,7 +46,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         this.sounds = new ArrayList<>();
         this.agents = new ArrayList<>();
         this.soundDirection = new ArrayList<>();
-
+        this.discoveredNewTiles = false;
         initEnvironment();
     }
 
@@ -53,7 +54,6 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         map.getTileMap()[position.getX()][position.getY()] = new MemoryTile(position, TileType.SPAWN_GUARDS);
         setPreviousPosition(position);
         setPosition(position);
-
     }
 
     private void initEnvironment() {
@@ -103,6 +103,10 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         }
     }
 
+    public boolean discoveredNewTiles() {
+        return discoveredNewTiles;
+    }
+
     private void updateSmell(ISmellModule smellModule) {
         if (smellModule.getSmell(position)) {
             smells.add(position);
@@ -111,7 +115,8 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     }
 
     private void updateVision(IVisionModule vision) {
-        discoveredTiles.clear();
+        this.discoveredTiles.clear();
+        this.discoveredNewTiles = false;
 
         for (Tile tile : vision.getVisibleTiles()) {
             int x = tile.getPosition().getX();
@@ -122,6 +127,11 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
                 map.getTileMap()[x][y] = new MemoryTile(tile);
             }
         }
+
+        if (discoveredTiles.size() > 0) {
+            discoveredNewTiles = true;
+        }
+
         for (Agent agentSee : vision.getVisibleAgents()) {
             if (agents.size() > 0) {
                 if (agents.get(agentSee.getId()) != null) {

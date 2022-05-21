@@ -115,10 +115,7 @@ public class MapParser {
         agentFactory.setSprintSpeedIntruders(10);
         agentFactory.setBaseSpeedGuards(5);
         scenarioFactory.setTimeStep(1.0);
-        agentFactory.setViewingDistance(Math.max(
-                agentFactory.getBaseSpeedGuards(),
-                agentFactory.getBaseSpeedIntruders()) * 2
-        );
+        agentFactory.setViewingDistance(7);
         agentFactory.setHearingDistanceWalking(6);
         agentFactory.setHearingDistanceSprinting(10);
         agentFactory.setHearingDistanceInteraction(8);
