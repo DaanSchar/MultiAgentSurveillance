@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.agents.modules.exploration;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.Game;
 import nl.maastrichtuniversity.dke.util.FileResourcesUtils;
 import org.deeplearning4j.rl4j.learning.configuration.QLearningConfiguration;
@@ -14,10 +15,13 @@ import org.nd4j.linalg.learning.config.Nadam;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Objects;
 
 public class DQN {
 
-    public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException {
+    public static final String PATH_TO_BINS = "logic/src/main/resources/bins/";
+
+    public static void main(String[] args) throws IOException {
         int stepsPerEpoch = 1000;
         int maxGames = 10;// change to 10, for each map
 
@@ -44,7 +48,8 @@ public class DQN {
 
 
         for (int i = 0; i < 50; i++) {
-            File file = new File("D:\\MultiAgentSurveillance\\core\\assets\\hardMap1.txt");
+            File file = new File(Objects.requireNonNull(DQN.getClass().getClassLoader().getResource("maps/hardMap1.txt")).getFile());
+
             Game game;
             Game.setMapFile(file);
             game = Game.getInstance();
@@ -56,7 +61,7 @@ public class DQN {
             if (i == 0) {
                 dqn = new QLearningDiscreteDense<>(mdp, conf, DQN);
             } else {
-                DQNPolicy<NeuralGameState> policy = DQNPolicy.load("D:\\MultiAgentSurveillance\\logic\\src\\main\\resources\\RL_bins\\intruder-fleeing-starter.bin");
+                DQNPolicy<NeuralGameState> policy = DQNPolicy.load(PATH_TO_BINS + "/intruder-fleeing-starter.bin");
                 dqn = new QLearningDiscreteDense<>(mdp, policy.getNeuralNet(), DQN);
             }
             //start the training
@@ -65,7 +70,7 @@ public class DQN {
             //useless on toy but good practice!
             mdp.close();
 
-            dqn.getPolicy().save("D:\\MultiAgentSurveillance\\logic\\src\\main\\resources\\RL_bins\\intruder-fleeing-starter.bin");
+            dqn.getPolicy().save(PATH_TO_BINS + "/intruder" + i + ".bin");
         }
     }
 
