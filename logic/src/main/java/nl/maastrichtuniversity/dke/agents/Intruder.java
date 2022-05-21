@@ -45,47 +45,17 @@ public class Intruder extends Agent {
                 super.rlMove();
             }
         } else if (hasTarget()) {
-            moveToTarget();
+            navigateToTarget();
         } else {
             super.explore();
         }
         super.move();
     }
 
-    private void moveToTarget() {
-        if (hasReachedTarget()) {
-            setTarget(null);
-        } else {
-            moveToPosition(getTarget());
-        }
-    }
-
     @Override
     public void updateInternals() {
-        this.fleeing = false;
-
-        if (seesTargetArea()) {
-            setTarget(getTargetTile().getPosition());
-        } else if (seesGuard() || hearsSound()) {
-            flee();
-        }
-
+        determineTarget();
         super.updateInternals();
-    }
-
-    private void flee() {
-        this.fleeing = true;
-    }
-
-    private void avoidSoundSource() {
-        if (hearsSound()) {
-            List<Sound> sounds = super.getSoundsAtCurrentPosition();
-
-            if (sounds.size() > 0) {
-                Sound sound = sounds.get(0);
-                setTarget(runningAway.avoidGuard(sound.getPosition(), this.getPosition()));
-            }
-        }
     }
 
     @Override
@@ -98,6 +68,30 @@ public class Intruder extends Agent {
         }
 
         return false;
+    }
+
+    private void determineTarget() {
+        this.fleeing = false;
+
+        if (seesTargetArea()) {
+            setTarget(getTargetTile().getPosition());
+        } else if (seesGuard() || hearsSound()) {
+            flee();
+        }
+    }
+
+    private void flee() {
+        this.fleeing = true;
+    }
+
+    private void avoidSoundSource() {
+        List<Sound> sounds = super.getSoundsAtCurrentPosition();
+        if (super.hearsSound()) {
+            Sound sound = sounds.get(0);
+            if (sound.getSourceType() != SourceType.INTRUDER) {
+                setTarget(runningAway.avoidGuard(sound.getPosition(), this.getPosition()));
+            }
+        }
     }
 
     private boolean seesTargetArea() {
@@ -181,7 +175,6 @@ public class Intruder extends Agent {
         Position position = tile.getPosition();
 
         return super.getCommunicationModule().tileHasMark(position, CommunicationType.VISION_BLUE);
-
     }
 
     private Position getBlueMark() {

@@ -7,6 +7,7 @@ import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.agents.util.Direction;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
 import nl.maastrichtuniversity.dke.scenario.environment.Tile;
+import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 import java.util.ArrayList;
@@ -15,17 +16,17 @@ import java.util.HashSet;
 import java.util.List;
 
 @Slf4j
-public class RayCast2 extends AgentModule implements IVisionModule {
+public class RayCast extends AgentModule implements IVisionModule {
 
     private final double viewingDistance;
     private final double viewingAngle = 100;
 
-    private final @Getter
-    List<Tile> visibleTiles;
-    private final @Getter
-    List<Agent> visibleAgents;
+    private Position currentPosition;
 
-    public RayCast2(Scenario scenario, double viewingDistance) {
+    private final @Getter List<Tile> visibleTiles;
+    private final @Getter List<Agent> visibleAgents;
+
+    public RayCast(Scenario scenario, double viewingDistance) {
         super(scenario);
         this.viewingDistance = (float) viewingDistance;
         this.visibleTiles = new ArrayList<>();
@@ -36,6 +37,7 @@ public class RayCast2 extends AgentModule implements IVisionModule {
     public void useVision(Position position, Direction direction) {
         visibleTiles.clear();
         visibleAgents.clear();
+        this.currentPosition = position;
 
         List<Position> visibleTilePositions = getVisiblePositions(position, direction);
 
@@ -47,6 +49,12 @@ public class RayCast2 extends AgentModule implements IVisionModule {
 
     @Override
     public int getViewingDistance() {
+        Tile tile = getTileAt(currentPosition);
+
+        if (tile.getType() == TileType.SENTRY) {
+            return 2 * (int) viewingDistance;
+        }
+
         return (int) viewingDistance;
     }
 
@@ -98,11 +106,12 @@ public class RayCast2 extends AgentModule implements IVisionModule {
         double halfAngle = viewingAngle / 2.0;
         double minAngle = currentAngle - halfAngle;
         double maxAngle = currentAngle + halfAngle;
+        double angleStep = 0.05;
 
         HashSet<Position> visibleTilePositions = new HashSet<>();
 
-        for (double i = minAngle; i < maxAngle; i += 0.1) {
-            Ray ray = new Ray(viewingDistance, scenario);
+        for (double i = minAngle; i < maxAngle; i += angleStep) {
+            Ray ray = new Ray(getViewingDistance(), scenario);
             visibleTilePositions.addAll(ray.cast(position, i));
         }
 
@@ -120,5 +129,9 @@ public class RayCast2 extends AgentModule implements IVisionModule {
         }
 
         return null;
+    }
+
+    private Tile getTileAt(Position position) {
+        return scenario.getEnvironment().getAt(position);
     }
 }

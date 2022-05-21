@@ -1,6 +1,9 @@
 package nl.maastrichtuniversity.dke.agents.modules.exploration;
 
 import nl.maastrichtuniversity.dke.Game;
+import nl.maastrichtuniversity.dke.agents.Agent;
+import nl.maastrichtuniversity.dke.agents.Fleet;
+import nl.maastrichtuniversity.dke.agents.Intruder;
 import org.deeplearning4j.gym.StepReply;
 import org.deeplearning4j.rl4j.mdp.MDP;
 import org.deeplearning4j.rl4j.space.ArrayObservationSpace;

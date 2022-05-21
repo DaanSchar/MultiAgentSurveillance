@@ -1,5 +1,6 @@
 package util;
 
+import nl.maastrichtuniversity.dke.agents.modules.ActionTimer;
 import nl.maastrichtuniversity.dke.agents.modules.movement.MovementModule;
 import nl.maastrichtuniversity.dke.agents.util.Direction;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
@@ -57,7 +58,7 @@ public class TeleportTest {
 
     @Test
     void testTeleport(){
-        MovementModule movementModule = new MovementModule(s,1,1);
+        MovementModule movementModule = new MovementModule(s,new ActionTimer(s),1,1);
         Position position = movementModule.goForward(new Position(1,2), Direction.EAST);
         assert (position.equals(new Position(4,4)));
     }

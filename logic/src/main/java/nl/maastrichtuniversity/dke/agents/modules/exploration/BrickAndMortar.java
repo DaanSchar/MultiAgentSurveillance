@@ -201,7 +201,9 @@ public class BrickAndMortar implements IExplorationModule {
     }
 
     private List<Tile> getPassableNeighbors(Tile tile) {
-        return environment.getNeighborsAndFilter(tile, Tile::isPassable);
+        return environment.getNeighborsAndFilter(tile,
+                t -> t.isPassable() || t.getType() == TileType.DOOR || t.getType() == TileType.WINDOW
+        );
     }
 
     private List<Tile> getUnexploredNeighboringTiles(Tile tile) {

@@ -1,10 +1,10 @@
 package nl.maastrichtuniversity.dke.agents.modules.movement;
 
 import lombok.extern.slf4j.Slf4j;
+import nl.maastrichtuniversity.dke.agents.modules.ActionTimer;
 import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.agents.util.Direction;
 import nl.maastrichtuniversity.dke.agents.util.MoveAction;
-import nl.maastrichtuniversity.dke.agents.util.exceptions.ActionIsNotRotationException;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
 import nl.maastrichtuniversity.dke.scenario.environment.TeleportTile;
 import nl.maastrichtuniversity.dke.scenario.environment.Tile;
@@ -16,32 +16,29 @@ public class MovementModule extends AgentModule implements IMovementModule {
 
     private final double baseSpeed;
     private final double sprintSpeed;
-    private double lastTimeMoved;
+    private final ActionTimer actionTimer;
 
-    public MovementModule(Scenario scenario, double baseSpeed, double sprintSpeed) {
+    public MovementModule(Scenario scenario, ActionTimer actionTimer, double baseSpeed, double sprintSpeed) {
         super(scenario);
         this.baseSpeed = baseSpeed;
         this.sprintSpeed = sprintSpeed;
-        this.lastTimeMoved = -1;
+        this.actionTimer = actionTimer;
     }
 
     @Override
     public Direction rotate(Direction currentDirection, MoveAction action) {
-        try {
-            checkIfActionIsRotation(action);
+        if (checkIfActionIsRotation(action) && actionTimer.performAction(baseSpeed)) {
             return getNewRotatedDirection(currentDirection, action);
-        } catch (ActionIsNotRotationException e) {
-            log.error(e.getMessage());
-            return currentDirection;
         }
+
+        return currentDirection;
     }
 
     @Override
     public Position goForward(Position currentPosition, Direction direction) {
         Position nextPosition = getForwardPosition(currentPosition, direction);
 
-        if (enoughTimeHasElapsedSinceLastMove(baseSpeed)) {
-            lastTimeMoved = getCurrentTime();
+        if (actionTimer.performAction(baseSpeed)) {
             return nextPosition;
         }
 
@@ -52,8 +49,7 @@ public class MovementModule extends AgentModule implements IMovementModule {
     public Position sprint(Position currentPosition, Direction direction) {
         Position nextPosition = getForwardPosition(currentPosition, direction);
 
-        if (enoughTimeHasElapsedSinceLastMove(sprintSpeed)) {
-            lastTimeMoved = getCurrentTime();
+        if (actionTimer.performAction(sprintSpeed)) {
             return nextPosition;
         }
 
@@ -79,6 +75,8 @@ public class MovementModule extends AgentModule implements IMovementModule {
         if (!positionIsInMap(position)) {
             return false;
         }
+
+
         Tile tile = getTileAt(position);
 
         return tile.isPassable();
@@ -110,10 +108,8 @@ public class MovementModule extends AgentModule implements IMovementModule {
         return scenario.getEnvironment().getTileMap()[position.getX()][position.getY()];
     }
 
-    private void checkIfActionIsRotation(MoveAction action) throws ActionIsNotRotationException {
-        if (action != MoveAction.ROTATE_LEFT && action != MoveAction.ROTATE_RIGHT) {
-            throw new ActionIsNotRotationException();
-        }
+    private boolean checkIfActionIsRotation(MoveAction action) {
+        return action == MoveAction.ROTATE_LEFT || action == MoveAction.ROTATE_RIGHT;
     }
 
     private Direction getNewRotatedDirection(Direction currentDirection, MoveAction action) {
@@ -136,19 +132,4 @@ public class MovementModule extends AgentModule implements IMovementModule {
         }
     }
 
-    private boolean enoughTimeHasElapsedSinceLastMove(double speed) {
-        return getElapsedTimeSinceLastMove() >= (1.0 / speed);
-    }
-
-    private double getCurrentTime() {
-        return scenario.getCurrentTime();
-    }
-
-    private double getElapsedTimeSinceLastMove() {
-        return getCurrentTime() - lastTimeMoved;
-    }
-
 }
-
-
-
