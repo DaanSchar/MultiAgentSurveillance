@@ -70,7 +70,6 @@ public class DQN {
             //useless on toy but good practice!
             mdp.close();
 
-            long currentTime = System.currentTimeMillis();
             dqn.getPolicy().save(PATH_TO_BINS + "/intruder-fleeing-starter.bin");
         }
     }
