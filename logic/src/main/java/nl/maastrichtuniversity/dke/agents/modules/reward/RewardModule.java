@@ -33,18 +33,24 @@ public class RewardModule extends AgentModule implements IRewardModule {
     }
 
     @Override
-    public double updateFleeingReward(Position p, Direction d) {
-        Intruder i = (Intruder) scenario.getIntruders().getCurrentAgent();
-        if (i.isFleeing() && !i.isCaught()) {
-            moveReward += 2;
-        } else moveReward = 0;
+    public double updateFleeingReward(Position position, Direction direction) {
+        Intruder intruder = (Intruder) scenario.getIntruders().getCurrentAgent();
 
-        if (isStuck(p, d)) {
+        if (intruder.isFleeing() && !intruder.isCaught()) {
+            moveReward += 2;
+        } else {
+            moveReward = 0;
+        }
+
+        if (isStuck(position, direction)) {
             moveReward -= 1;
         }
-        for(Guard g : i.getVisibleGuards()){
-            double distance = i.getPosition().distance(g.getPosition());
-            moveReward-=distance*0.1; // or some other scalar
+
+        double distanceRewardScalar = -0.1;
+
+        for(Guard guard : intruder.getVisibleGuards()){
+            double distance = intruder.getPosition().distance(guard.getPosition());
+            moveReward += distance * distanceRewardScalar;
         }
 
         return moveReward;
