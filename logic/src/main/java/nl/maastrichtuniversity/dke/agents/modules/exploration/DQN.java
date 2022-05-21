@@ -14,10 +14,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-public class DQN {
+public final class DQN {
 
-    private static String pathWhenTraining = "logic/src/main/resources/bins/";
-    private static String pathWhenPlaying = "policies/bins/";
+    private static final String pathWhenTraining = "logic/src/main/resources/bins/";
+    private static final String pathWhenPlaying = "policies/bins/";
     private static boolean training = false;
 
     public static void main(String[] args) throws IOException {
