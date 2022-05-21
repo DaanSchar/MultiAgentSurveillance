@@ -115,7 +115,7 @@ public class Fleet<T extends Agent> extends ArrayList<T> {
 
     public Agent getCurrentAgent() {
 
-        if (currentAgentIdx == this.size()) {
+        if (currentAgentIdx >= this.size()) {
             currentAgentIdx = 0;
         }
         int idx = currentAgentIdx;
