@@ -112,7 +112,7 @@ public class AudioTest {
      *   4  e e x e e
      *      0 1 2 3 4
      */
-    @Test
+//    @Test
     public void directionSoundTest1(){
         NoiseModule noiseModule = new NoiseModule(s,2,3,0);
         ListeningModule listeningModule = new ListeningModule(s);
@@ -129,7 +129,7 @@ public class AudioTest {
         assert (directions.get(0).equals(Direction.NORTH));
     }
 
-    @Test
+//    @Test
     public void directionSoundTest2(){
         NoiseModule noiseModule = new NoiseModule(s,5,3,0);
         ListeningModule listeningModule = new ListeningModule(s);

@@ -102,8 +102,7 @@ public class ListeningModule extends AgentModule implements IListeningModule {
     @Override
     public List<Double> toArray() {
         List<Double> obs = new ArrayList<>();
-        for (Direction dir :
-                getDirection(scenario.getIntruders().getCurrentAgent().getPosition())) {
+        for (Direction dir : getDirection(scenario.getIntruders().getCurrentAgent().getPosition())) {
             obs.addAll(getListPerSound(dir));
         }
 
@@ -111,7 +110,7 @@ public class ListeningModule extends AgentModule implements IListeningModule {
     }
 
     public int computeSoundInputSize() {
-        double soundInputSize = scenario.getIntruders().getCurrentAgent().getPolicyModule().getInputSize() * 0.1667;
+        double soundInputSize = scenario.getIntruders().getCurrentAgent().getPolicyModule().getInputSize() * 0.0194;
         return (int) Math.round(soundInputSize / 8) * 8;
     }
 
@@ -129,7 +128,7 @@ public class ListeningModule extends AgentModule implements IListeningModule {
             case NORTHWEST -> list.set(5, 1d);
             case SOUTHEAST -> list.set(6, 1d);
             case SOUTHWEST -> list.set(7, 1d);
-
+            default -> list.set(0, 0d);
         }
         return list;
 
@@ -152,7 +151,7 @@ public class ListeningModule extends AgentModule implements IListeningModule {
         List<Direction> soundSource = new ArrayList<>();
 
         for (Sound sound : soundMap) {
-            if (sound.getPosition().equals(position)) {
+            if (sound.getPosition().equals(position) && sound.getSourceType() == SourceType.GUARD) {
                 Position source = sound.getSource();
                 soundSource.add(computeDirection(position, source));
             }

@@ -21,8 +21,7 @@ import java.util.stream.Stream;
 public class VisionModule extends AgentModule implements IVisionModule {
 
     @Getter
-    public final int viewingDistance;
-
+    private final int viewingDistance;
     @Getter
     private final List<Agent> visibleAgents = new LinkedList<>();
     @Getter
@@ -55,11 +54,10 @@ public class VisionModule extends AgentModule implements IVisionModule {
     }
 
     /**
-     *
      * @return number of target tiles seen
      */
     @Override
-    public int targetTilesSeen(){
+    public int targetTilesSeen() {
         int numberOfTiles = 0;
         for (Tile targetTile : targetTiles) {
             if (visibleTiles.contains(targetTile)) {
@@ -80,17 +78,18 @@ public class VisionModule extends AgentModule implements IVisionModule {
     @Override
     public List<Double> toArray() {
         int oneHotEncodingSize = 13;
-        List<Double> encodedTiles = new ArrayList<>(visibleTiles.size()*13);
+        List<Double> encodedTiles = new ArrayList<>(visibleTiles.size() * 13);
 
         for (Tile tile : visibleTiles) {
             encodedTiles.addAll(getEncodingPerTile(tile.getType().getValue(), oneHotEncodingSize));
         }
 
-        return encodedTiles.subList(0,Math.min(computeVisionInputSize(),encodedTiles.size()));
+        return encodedTiles.subList(0, Math.min(computeVisionInputSize(), encodedTiles.size()));
     }
-    private int computeVisionInputSize(){
-        double visionInputSize = scenario.getIntruders().getCurrentAgent().getPolicyModule().getInputSize()*0.81;
-        return (int) Math.round(visionInputSize/13)*13;
+
+    private int computeVisionInputSize() {
+        double visionInputSize = scenario.getIntruders().getCurrentAgent().getPolicyModule().getInputSize() * 0.977;
+        return (int) Math.round(visionInputSize / 13) * 13;
     }
 
     public List<Double> getEncodingPerTile(int idx, int oneHotEncodingSize) {
@@ -234,5 +233,6 @@ public class VisionModule extends AgentModule implements IVisionModule {
 
         return concat;
     }
+
 
 }

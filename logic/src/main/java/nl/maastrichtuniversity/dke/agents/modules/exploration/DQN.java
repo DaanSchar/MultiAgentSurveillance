@@ -1,7 +1,6 @@
 package nl.maastrichtuniversity.dke.agents.modules.exploration;
 
 import nl.maastrichtuniversity.dke.Game;
-import nl.maastrichtuniversity.dke.util.FileResourcesUtils;
 import org.deeplearning4j.rl4j.learning.configuration.QLearningConfiguration;
 import org.deeplearning4j.rl4j.learning.sync.qlearning.discrete.QLearningDiscreteDense;
 import org.deeplearning4j.rl4j.mdp.MDP;
@@ -13,13 +12,18 @@ import org.nd4j.linalg.learning.config.Nadam;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.util.Objects;
 
-public class DQN {
+public final class DQN {
 
-    public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException {
+    private static final String pathWhenTraining = "logic/src/main/resources/bins/";
+    private static final String pathWhenPlaying = "policies/bins/";
+    private static boolean training = false;
+
+    public static void main(String[] args) throws IOException {
         int stepsPerEpoch = 1000;
-        int maxGames = 10;// change to 10, for each map
+        int maxGames = 10; // change to 10, for each map
+        training = true;
 
         final QLearningConfiguration DQN = QLearningConfiguration.builder()
                 .seed(1L)
@@ -43,45 +47,49 @@ public class DQN {
                 .build();
 
 
+        for (int i = 0; i < 50; i++) {
+            File file = new File(Objects.requireNonNull(
+                    DQN.getClass().getClassLoader().getResource("maps/hardMap1.txt")
+            ).getFile());
 
-        for(int i = 0;i < 100;i++) {
-
-            FileResourcesUtils app = new FileResourcesUtils();
-            File file = new File("D:\\MultiAgentSurveillance\\core\\assets\\testmap.txt");
             Game game;
             Game.setMapFile(file);
             game = Game.getInstance();
             game.init();
 
+            final QLearningDiscreteDense<NeuralGameState> dqn;
             MDP<NeuralGameState, Integer, DiscreteSpace> mdp = new IntruderMdp(game);
-            DQNPolicy<NeuralGameState> policy = DQNPolicy.load("logic\\src\\main\\resources\\RL_bins\\intruder-player-dqn100(4).bin");
 
-
-            final QLearningDiscreteDense<NeuralGameState> dqn = new QLearningDiscreteDense<>(mdp, policy.getNeuralNet(), DQN);
+            if (i == 0) {
+                dqn = new QLearningDiscreteDense<>(mdp, conf, DQN);
+            } else {
+                DQNPolicy<NeuralGameState> policy = DQNPolicy.load(getPathToBins() + "/intruder-fleeing-starter.bin");
+                dqn = new QLearningDiscreteDense<>(mdp, policy.getNeuralNet(), DQN);
+            }
             //start the training
             dqn.train();
 
             //useless on toy but good practice!
             mdp.close();
 
-            dqn.getPolicy().save("logic\\src\\main\\resources\\RL_bins\\intruder-player-dqn100(4).bin");
-
-
+            //dqn.getPolicy().save(PATH_TO_BINS + generateFileName(i) + ".bin");
+            dqn.getPolicy().save(getPathToBins() + "/intruder-fleeing-starter.bin");
         }
-        //for (int i = 0; i < game.getScenario().getIntruders().size(); i++) {
-        //    IntruderGame intruderGame = new IntruderGame(i);
-        //    // create a IntruderGame Object with only ONE agent(possibly), and feed it to intruder mdp
-        //    MDP<IntruderGame, Integer, DiscreteSpace> mdp = new IntruderMdp(intruderGame);
-        //    final QLearningDiscreteDense<IntruderGame> dqn = new QLearningDiscreteDense<>(mdp, conf, DQN);
+    }
 
-        //    //start the training
-        //    dqn.train();
+    public static boolean isTraining() {
+        return training;
+    }
 
-        //    //useless on toy but good practice!
-        //    mdp.close();
+    public static String getPathToBins() {
+        if (training) {
+            return pathWhenTraining;
+        } else {
+            return pathWhenPlaying;
+        }
+    }
 
-        //    dqn.getPolicy().save("intruder-player-dqn" + i + ".zip");
-        //}
+    private DQN() {
     }
 
 }

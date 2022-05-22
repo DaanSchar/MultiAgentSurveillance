@@ -8,7 +8,6 @@ import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -84,7 +83,12 @@ public class Fleet<T extends Agent> extends ArrayList<T> {
 
     public void executeActions(int[] actionList) {
         for (int i = 0; i < actionList.length; i++) {
-            this.get(i).move(MoveAction.values()[actionList[i]]);
+            Intruder intruder = (Intruder) this.get(i);
+
+            if (intruder.isFleeing()) {
+                MoveAction nextAction = MoveAction.values()[actionList[i]];
+                intruder.move(nextAction);
+            }
         }
     }
 
@@ -96,13 +100,30 @@ public class Fleet<T extends Agent> extends ArrayList<T> {
         return totalMoveReward;
     }
 
+    public double getFleeReward() {
+        double totalMoveReward = 0;
+        for (Agent agent : this) {
+            Intruder i = (Intruder) agent;
+            if (i.isFleeing()) {
+                totalMoveReward += agent.getRewardModule().updateFleeingReward(
+                        agent.getPosition(),
+                        agent.getDirection()
+                );
+            }
+        }
+        return totalMoveReward;
+    }
+
+
     public Agent getCurrentAgent() {
 
-        if (currentAgentIdx == this.size()) {
+        if (currentAgentIdx >= this.size()) {
             currentAgentIdx = 0;
         }
         int idx = currentAgentIdx;
         currentAgentIdx++;
+
+
         return this.get(idx);
     }
 }

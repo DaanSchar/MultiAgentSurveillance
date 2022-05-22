@@ -112,8 +112,7 @@ public class AgentFactory {
                 .setInteractionModule(new InteractionModule(scenario))
                 .setPathFinderModule(new Dijkstra(agent.getMemoryModule().getMap()))
                 .setRewardModule(new RewardModule(scenario))
-                .setPolicyModule(new PolicyModule("D:\\MultiAgentSurveillance\\logic\\src\\main\\" +
-                        "resources\\RL_bins\\intruder-player-dqn100(4).bin", 240));
+                .setPolicyModule(new PolicyModule("intruder-fleeing-starter.bin"));
     }
 
     private List<CommunicationType> getMarkers() {

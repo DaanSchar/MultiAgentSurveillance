@@ -41,7 +41,7 @@ public class MapParser {
 
     public Scenario createScenario() {
         envBuilder = new EnvironmentFactory();
-        //randomMapGenerator = new RandomMapGenerator();
+//        randomMapGenerator = new RandomMapGenerator();
 
         setDefaultValues();
 
