@@ -10,6 +10,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.Game;
 import nl.maastrichtuniversity.dke.experiments.VictoryExperiment;
+import nl.maastrichtuniversity.dke.scenario.util.CSVwriter;
 
 import java.io.File;
 import java.util.Objects;
@@ -22,13 +23,14 @@ public final class GameGUI extends ApplicationAdapter {
     private GameComponent gameComponent;
     private VictoryExperiment victoryExperiment;
     private HUD hud;
+    private CSVwriter csvWriter;
 
     private float totalTimePassed;
     private static float timeInterval = 0.24f;
 
     private static final float MAX_TIME_INTERVAL = 0.5f;
     private static final float MIN_TIME_INTERVAL = 0f;
-    private static final float TIME_INTERVAL_INCREMENT = 0.02f;
+    private static final float TIME_INTERVAL_INCREMENT = 0.1f;
 
     private static boolean isPaused;
 
@@ -37,8 +39,9 @@ public final class GameGUI extends ApplicationAdapter {
     public void create() {
         setupGame();
         this.hud = new HUD();
-        this.victoryExperiment = new VictoryExperiment(game, 2, true);
+        this.victoryExperiment = new VictoryExperiment(game, 1, true);
         this.gameComponent = new GameComponent(game, hud);
+        this.csvWriter = new CSVwriter();
         Gdx.input.setInputProcessor(gameComponent);
     }
 
@@ -139,5 +142,6 @@ public final class GameGUI extends ApplicationAdapter {
         Gdx.app.exit();
         log.info("Guards won " + victoryExperiment.countWinner("G") + " times");
         log.info("Intruders won " + victoryExperiment.countWinner("I") + " times");
+        csvWriter.exportData(victoryExperiment.getVictories());
     }
 }
