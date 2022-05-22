@@ -3,16 +3,18 @@ package nl.maastrichtuniversity.dke.scenario.util;
 import nl.maastrichtuniversity.dke.agents.modules.victory.Victory;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CSVwriter {
 
-    public void exportData(ArrayList<Victory> victories) {
+    public void exportData(ArrayList<Victory> victories, String fileName) {
 
         try{
-            BufferedWriter br = new BufferedWriter(new FileWriter("victoryData.csv"));
+            File file = new File(fileName);
+            BufferedWriter br = new BufferedWriter(new FileWriter(file));
             StringBuilder sb = new StringBuilder();
 
             sb.append("Games");

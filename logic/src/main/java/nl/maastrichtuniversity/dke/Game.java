@@ -24,7 +24,6 @@ public class Game {
     public static Game getInstance() {
         if (game == null) {
             setMapFile(DEFAULT_MAP);
-            System.out.println("MAP: " + DEFAULT_MAP);
         }
 
         return game;
@@ -53,7 +52,6 @@ public class Game {
 
     public void init() {
         scenario.getGuards().forEach(Guard::spawn);
-        System.out.println("AGENTS: " + scenario.getIntruders().size() + " " + scenario.getGuards().size());
         scenario.getIntruders().forEach(Intruder::spawn);
         victory = new Victory(this.scenario);
         this.gameNumber++;

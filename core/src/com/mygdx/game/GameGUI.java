@@ -26,11 +26,11 @@ public final class GameGUI extends ApplicationAdapter {
     private CSVwriter csvWriter;
 
     private float totalTimePassed;
-    private static float timeInterval = 0.24f;
+    private static float timeInterval = 0.00001f;
 
     private static final float MAX_TIME_INTERVAL = 0.5f;
     private static final float MIN_TIME_INTERVAL = 0f;
-    private static final float TIME_INTERVAL_INCREMENT = 0.1f;
+    private static final float TIME_INTERVAL_INCREMENT = 0.02f;
 
     private static boolean isPaused;
 
@@ -92,7 +92,7 @@ public final class GameGUI extends ApplicationAdapter {
     }
 
     private File getMapFile() {
-        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("maps/hardMap1.txt")).getFile());
+        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("maps/hardMap2.txt")).getFile());
     }
 
     public static boolean togglePause() {
@@ -142,6 +142,6 @@ public final class GameGUI extends ApplicationAdapter {
         Gdx.app.exit();
         log.info("Guards won " + victoryExperiment.countWinner("G") + " times");
         log.info("Intruders won " + victoryExperiment.countWinner("I") + " times");
-        csvWriter.exportData(victoryExperiment.getVictories());
+        csvWriter.exportData(victoryExperiment.getVictories(), "victoryData1vs1.csv");
     }
 }
