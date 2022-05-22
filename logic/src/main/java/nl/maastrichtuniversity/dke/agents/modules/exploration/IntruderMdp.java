@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.agents.modules.exploration;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.Game;
 import org.deeplearning4j.gym.StepReply;
 import org.deeplearning4j.rl4j.mdp.MDP;
@@ -7,6 +8,7 @@ import org.deeplearning4j.rl4j.space.ArrayObservationSpace;
 import org.deeplearning4j.rl4j.space.DiscreteSpace;
 import org.deeplearning4j.rl4j.space.ObservationSpace;
 
+@Slf4j
 public class IntruderMdp implements MDP<NeuralGameState, Integer, DiscreteSpace> {
 
     private final Game game;
@@ -54,22 +56,31 @@ public class IntruderMdp implements MDP<NeuralGameState, Integer, DiscreteSpace>
         NeuralGameState observation = new NeuralGameState(
                 new double[game.getScenario().getGuards().get(0).getPolicyModule().getInputSize()]
         );
+
         actionList[intruderIndex] = action;
         intruderIndex++;
 
         if (intruderIndex == game.getScenario().getIntruders().size()) {
-
             intruderIndex = 0;
             game.getScenario().getIntruders().executeActions(actionList);
             game.update();
             reward = game.getScenario().getIntruders().getFleeReward(); // changed to Flee Reward
         }
+
+        if (allIntrudersCaught()) {
+            reward -= 2000;
+        }
+
         if (game.getScenario().getIntruders().size() > 0) {
             observation = new NeuralGameState(game.getScenario().getIntruders().getCurrentAgent().toArray());
         }
+
         return new StepReply<>(observation, reward, isDone(), null);
     }
 
+    private boolean allIntrudersCaught() {
+        return game.getScenario().getIntruders().size() == 0;
+    }
 
     @Override
     public boolean isDone() {

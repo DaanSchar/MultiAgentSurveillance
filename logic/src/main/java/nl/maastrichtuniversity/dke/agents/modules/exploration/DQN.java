@@ -17,20 +17,20 @@ import java.io.IOException;
 @Slf4j
 public final class DQN {
 
-    private static final String pathWhenTraining = "logic/src/main/resources/bins/";
+    private static final String pathWhenTraining = "core/assets/policies/bins/";
     private static final String pathWhenPlaying = "policies/bins/";
     private static boolean training = false;
 
     public static void main(String[] args) {
-        DQN dqn = new DQN();
-        dqn.train(5);
+        DQN dqn = new DQN(1000, 600/3);
+        dqn.train(1);
     }
 
     private final QLearningConfiguration qlConf;
     private final DQNDenseNetworkConfiguration networkConf;
 
-    public DQN() {
-        this.qlConf = getQLConfiguration(1000, 100);
+    public DQN(int stepsPerEpoch, int totalGames) {
+        this.qlConf = getQLConfiguration(stepsPerEpoch, totalGames);
         this.networkConf = getNetwork();
     }
 
@@ -41,14 +41,16 @@ public final class DQN {
             log.info("Starting training iteration {}. training for {} games", i, (qlConf.getMaxStep() / qlConf.getMaxEpochStep()));
             final QLearningDiscreteDense<NeuralGameState> dqn;
 
-            if (i == 0) {
-                dqn = getNewDqn();
-            } else {
-                dqn = loadDqn("intruder-fleeing-starter2.bin");
-            }
+//            if (i == 0) {
+//                log.info("Creating new DQN");
+//                dqn = getNewDqn();
+//            } else {
+                log.info("Loading previous DQN");
+                dqn = loadDqn("intruder-flee.bin");
+//            }
 
             dqn.train();
-            save(dqn, getPathToBins() + "/intruder-fleeing-starter.bin2");
+            save(dqn, "intruder-flee.bin");
         }
     }
 
@@ -90,7 +92,7 @@ public final class DQN {
                 .maxStep(stepsPerEpoch * totalGames)
                 .updateStart(0)
                 .rewardFactor(1.0)
-                .gamma(0.5)
+                .gamma(0.99)
                 .errorClamp(1.0)
                 .batchSize(16)
                 .minEpsilon(0.5)
@@ -102,8 +104,8 @@ public final class DQN {
     private DQNDenseNetworkConfiguration getNetwork() {
         return DQNDenseNetworkConfiguration.builder()
                 .updater(new Nadam(Math.pow(10, -3.5)))
-                .numHiddenNodes(200)
-                .numLayers(2)
+                .numHiddenNodes(300)
+                .numLayers(4)
                 .build();
     }
 

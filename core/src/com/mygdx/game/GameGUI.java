@@ -37,7 +37,7 @@ public final class GameGUI extends ApplicationAdapter {
     public void create() {
         setupGame();
         this.hud = new HUD();
-        this.victoryExperiment = new VictoryExperiment(game, 2, true);
+        this.victoryExperiment = new VictoryExperiment(game, 100, true);
         this.gameComponent = new GameComponent(game, hud);
         Gdx.input.setInputProcessor(gameComponent);
     }

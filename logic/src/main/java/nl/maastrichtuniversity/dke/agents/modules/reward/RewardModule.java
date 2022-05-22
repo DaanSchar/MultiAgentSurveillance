@@ -35,22 +35,22 @@ public class RewardModule extends AgentModule implements IRewardModule {
     public double updateFleeingReward(Position position, Direction direction) {
         Intruder intruder = (Intruder) scenario.getIntruders().getCurrentAgent();
 
-        if (intruder.isFleeing() && !intruder.isCaught()) {
-            moveReward += 2;
+        if (intruder.isFleeing()) {
+            moveReward += -2;
         } else {
-            moveReward = 0;
+//            moveReward += 1;
         }
 
         if (isStuck(position, direction)) {
-            moveReward -= 1;
+            moveReward -= 0.5;
         }
 
-        double distanceRewardScalar = -0.1;
-
-        for (Guard guard : intruder.getVisibleGuards()) {
-            double distance = intruder.getPosition().distance(guard.getPosition());
-            moveReward += distance * distanceRewardScalar;
-        }
+//        double distanceRewardScalar = -0.1;
+//
+//        for (Guard guard : intruder.getVisibleGuards()) {
+//            double distance = intruder.getPosition().distance(guard.getPosition());
+//            moveReward += distance * distanceRewardScalar;
+//        }
 
         return moveReward;
     }
@@ -74,6 +74,7 @@ public class RewardModule extends AgentModule implements IRewardModule {
                 break;
             }
         }
+
         if (previousPositions != null) {
             if (previousPositions.contains(p)) {
                 checkPreviousPositions(p);

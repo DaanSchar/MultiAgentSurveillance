@@ -139,12 +139,8 @@ public class GameComponent extends MovableStage {
                 pauseGame();
             }
             case Input.Keys.R -> resetGame();
-            case Input.Keys.MINUS -> {
-                GameGUI.incrementTimeInterval();
-            }
-            case Input.Keys.EQUALS -> {
-                GameGUI.decrementTimeInterval();
-            }
+            case Input.Keys.MINUS -> GameGUI.incrementTimeInterval();
+            case Input.Keys.EQUALS -> GameGUI.decrementTimeInterval();
             case Input.Keys.Q -> {
                 hud.setKey(7);
                 toggleCurrentFleet();
@@ -226,13 +222,13 @@ public class GameComponent extends MovableStage {
 
     private Agent getCurrentAgent() {
         if (currentFleet == FleetType.GUARD) {
-            if (getGuards().size() - 1 < currentAgentIndex) {
+            if (getGuards().size() > 1 && getGuards().size() - 1 < currentAgentIndex) {
                 currentAgentIndex = getGuards().size() - 1;
             }
 
             return getGuards().get(currentAgentIndex);
         } else {
-            if (getIntruders().size() - 1 < currentAgentIndex) {
+            if (getIntruders().size() > 1 && getIntruders().size() - 1 < currentAgentIndex) {
                 currentAgentIndex = getIntruders().size() - 1;
             }
 

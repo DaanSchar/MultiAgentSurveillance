@@ -186,4 +186,23 @@ public class Intruder extends Agent {
         moveToPosition(target);
     }
 
+    @Override
+    public List<Double> getStateVector() {
+        List<Double> observations = super.getStateVector();
+
+        if (seesGuard()) {
+            Guard visibleGuard = getVisibleGuards().get(0);
+            observations.add((double) visibleGuard.getPosition().getX());
+            observations.add((double) visibleGuard.getPosition().getY());
+        } else if (hearsSound()) {
+            Sound sound = getSoundsAtCurrentPosition().get(0);
+            observations.add((double) sound.getPosition().getX());
+            observations.add((double) sound.getPosition().getY());
+        } else {
+            observations.add(0.0);
+            observations.add(0.0);
+        }
+
+        return observations;
+    }
 }
