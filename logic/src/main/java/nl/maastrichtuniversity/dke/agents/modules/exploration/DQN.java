@@ -3,6 +3,7 @@ package nl.maastrichtuniversity.dke.agents.modules.exploration;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.Game;
 import org.deeplearning4j.rl4j.learning.configuration.QLearningConfiguration;
+import org.deeplearning4j.rl4j.learning.sync.qlearning.discrete.QLearningDiscreteConv;
 import org.deeplearning4j.rl4j.learning.sync.qlearning.discrete.QLearningDiscreteDense;
 import org.deeplearning4j.rl4j.mdp.MDP;
 import org.deeplearning4j.rl4j.network.configuration.DQNDenseNetworkConfiguration;
