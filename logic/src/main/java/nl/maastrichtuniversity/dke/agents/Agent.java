@@ -72,7 +72,7 @@ public class Agent {
         MoveAction nextMove = policyModule.nextMove(toArray());
         move(nextMove);
     }
-
+//
     public void updateInternals() {
         view();
         updateMemory();
