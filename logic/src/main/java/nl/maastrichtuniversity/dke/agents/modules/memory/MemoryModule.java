@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.agents.Agent;
 import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
+import nl.maastrichtuniversity.dke.agents.modules.exploration.Train;
 import nl.maastrichtuniversity.dke.agents.modules.smell.ISmellModule;
 import nl.maastrichtuniversity.dke.agents.util.Direction;
 import nl.maastrichtuniversity.dke.agents.modules.vision.IVisionModule;
@@ -19,6 +20,7 @@ import nl.maastrichtuniversity.dke.scenario.util.Position;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.stream.Collectors;
 
 @Getter
@@ -34,7 +36,8 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     private @Setter Position position;
     private @Getter @Setter Position previousPosition;
     private @Getter boolean discoveredNewTiles;
-    private @Getter List<double[]> observationMemory;
+
+    private @Getter final LinkedList<double[]> observationMemory;
 
     public MemoryModule(Scenario scenario) {
         super(scenario);
@@ -48,7 +51,8 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         this.agents = new ArrayList<>();
         this.soundDirection = new ArrayList<>();
         this.discoveredNewTiles = false;
-        this.observationMemory = new ArrayList<>();
+        this.observationMemory = new LinkedList<>();
+        initObservationMemory(2);
         initEnvironment();
     }
 
@@ -72,12 +76,11 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
                 .collect(Collectors.toList());
     }
 
-    public void update(IVisionModule visionModule, ISmellModule smellModule, Position position, double[] observations) {
+    public void update(IVisionModule visionModule, ISmellModule smellModule, Position position) {
         setPreviousPosition(this.position);
         setPosition(position);
         updateVision(visionModule);
         updateSmell(smellModule);
-        observationMemory.add(observations);
     }
 
     public List<Sound> getCurrentSounds() {
@@ -108,6 +111,17 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
 
     public boolean discoveredNewTiles() {
         return discoveredNewTiles;
+    }
+
+    private void initObservationMemory(int maxSize) {
+        for (int i = 0; i < maxSize; i++) {
+            ((Queue<double[]>) observationMemory).add(new double[Train.OBSERVATION_SIZE]);
+        }
+    }
+
+    public void addObservations(double[] observations) {
+        ((Queue<double[]>) observationMemory).poll();
+        ((Queue<double[]>) observationMemory).add(observations);
     }
 
     private void updateSmell(ISmellModule smellModule) {

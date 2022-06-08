@@ -16,7 +16,7 @@ public class IntruderMDP implements MDP<NeuralGameState, Integer, DiscreteSpace>
     private final int[] actionList;
 
     private final ArrayObservationSpace<NeuralGameState> gameArrayObservationSpace;
-    private final int observationSize = 1649;
+    private final int observationSize = Train.OBSERVATION_SIZE;
 
     // action space for the 5 moves agent can do : MOVE_FORWARD,SPRINT_FORWARD,ROTATE_LEFT,ROTATE_RIGHT,STAND_STILL.
     // also added place marker, break glass and toggle door to move actions.

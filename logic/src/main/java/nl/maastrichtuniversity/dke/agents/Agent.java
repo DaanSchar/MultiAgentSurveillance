@@ -11,6 +11,7 @@ import nl.maastrichtuniversity.dke.agents.modules.communication.Mark;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.agents.modules.communication.ICommunicationModule;
 import nl.maastrichtuniversity.dke.agents.modules.exploration.IExplorationModule;
+import nl.maastrichtuniversity.dke.agents.modules.memory.MemoryModule;
 import nl.maastrichtuniversity.dke.agents.modules.policy.IPolicyModule;
 import nl.maastrichtuniversity.dke.agents.modules.reward.IRewardModule;
 import nl.maastrichtuniversity.dke.agents.modules.sound.IListeningModule;
@@ -221,7 +222,20 @@ public class Agent {
     }
 
     public double[][] toTimeArray() {
-        double[][] observations = new double[getPolicyModule().getInputSize()][5];
+        ((MemoryModule) memoryModule).addObservations(toArray());
+        List<double[]> observationMemory = ((MemoryModule)memoryModule).getObservationMemory();
+        int observationSize = observationMemory.get(0).length;
+        int time = observationMemory.size();
+        double[][] observations = new double[observationSize][time];
+
+        for (int i = 0; i < observationSize; i++) {
+            for (int j = 0; j < time; j++) {
+                observations[i][j] = observationMemory.get(j)[i];
+//                observations[i][j] = 0;
+            }
+        }
+
+        log.info("bruh");
 
         return observations;
     }

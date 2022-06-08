@@ -28,9 +28,10 @@ public class PolicyModule implements IPolicyModule {
     }
 
     public int getInputSize() {
-        MultiLayerNetwork network = (MultiLayerNetwork) this.policy.getNeuralNet().getNeuralNetworks()[0];
-        Layer inputLayer = network.getLayer(0);
-        return (int) inputLayer.getParam("W").shape()[0];
+//        MultiLayerNetwork network = (MultiLayerNetwork) this.policy.getNeuralNet().getNeuralNetworks()[0];
+//        Layer inputLayer = network.getLayer(0);
+//        return (int) inputLayer.getParam("W").shape()[0];
+        return Train.OBSERVATION_SIZE;
     }
 
     private DQNPolicy<NeuralGameState> getPolicy(String path) {

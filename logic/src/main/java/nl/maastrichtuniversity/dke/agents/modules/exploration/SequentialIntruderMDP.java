@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.agents.modules.exploration;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.Game;
 import org.deeplearning4j.gym.StepReply;
 import org.deeplearning4j.rl4j.mdp.MDP;
@@ -7,6 +8,7 @@ import org.deeplearning4j.rl4j.space.ArrayObservationSpace;
 import org.deeplearning4j.rl4j.space.DiscreteSpace;
 import org.deeplearning4j.rl4j.space.ObservationSpace;
 
+@Slf4j
 public class SequentialIntruderMDP implements MDP<SequentialGameState, Integer, DiscreteSpace>{
 
     private final Game game;
@@ -14,7 +16,7 @@ public class SequentialIntruderMDP implements MDP<SequentialGameState, Integer, 
     private final int[] actionList;
 
     private final ArrayObservationSpace<SequentialGameState> gameArrayObservationSpace;
-    private final int observationSize = 1649;
+    private final int observationSize = Train.OBSERVATION_SIZE;
     private final DiscreteSpace discreteSpace = new DiscreteSpace(5);
 
     public SequentialIntruderMDP(Game game) {
@@ -29,7 +31,7 @@ public class SequentialIntruderMDP implements MDP<SequentialGameState, Integer, 
         double reward = 0;
 
         SequentialGameState observation = new SequentialGameState(
-                new double[game.getScenario().getGuards().get(0).getPolicyModule().getInputSize()][5]
+                new double[game.getScenario().getGuards().get(0).getPolicyModule().getInputSize()][2]
         );
 
         actionList[intruderIndex] = action;
