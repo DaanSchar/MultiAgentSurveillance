@@ -28,7 +28,7 @@ public final class DQN {
     }
 
     private final QLearningConfiguration qlConf;
-    private final DQNDenseNetworkConfiguration networkConf;
+    private final DQNRecurrentNetworkConfiguration networkConf;
 
     public DQN(int stepsPerEpoch, int totalGames) {
         this.qlConf = getQLConfiguration(stepsPerEpoch, totalGames);
@@ -40,14 +40,14 @@ public final class DQN {
 
         for (int i = 0; i < repetitions; i++) {
             log.info("Starting training iteration {}. training for {} games", i, (qlConf.getMaxStep() / qlConf.getMaxEpochStep()));
-            final QLearningDiscreteDense<NeuralGameState> dqn;
+            final QLearningDiscreteRecurrent<NeuralGameState> dqn;
 
 //            if (i == 0) {
-//                log.info("Creating new DQN");
-//                dqn = getNewDqn();
+                log.info("Creating new DQN");
+                dqn = getNewDqn();
 //            } else {
-                log.info("Loading previous DQN");
-                dqn = loadDqn("intruder-flee.bin");
+//                log.info("Loading previous DQN");
+//                dqn = loadDqn("intruder-flee.bin");
 //            }
 
             dqn.train();
@@ -60,12 +60,12 @@ public final class DQN {
         return new IntruderMdp(Game.getInstance());
     }
 
-    private QLearningDiscreteDense<NeuralGameState> getNewDqn() {
+    private QLearningDiscreteRecurrent<NeuralGameState> getNewDqn() {
         MDP<NeuralGameState, Integer, DiscreteSpace> mdp = getMDP();
-        return new QLearningDiscreteDense<>(mdp, networkConf, qlConf);
+        return new QLearningDiscreteRecurrent<>(mdp, networkConf, qlConf);
     }
 
-    private QLearningDiscreteDense<NeuralGameState> loadDqn(String binName) {
+    private QLearningDiscreteRecurrent<NeuralGameState> loadDqn(String binName) {
         MDP<NeuralGameState, Integer, DiscreteSpace> mdp = getMDP();
         DQNPolicy<NeuralGameState> policy = null;
 
@@ -75,10 +75,10 @@ public final class DQN {
             e.printStackTrace();
         }
 
-        return new QLearningDiscreteDense<>(mdp, policy.getNeuralNet(), qlConf);
+        return new QLearningDiscreteRecurrent<>(mdp, policy.getNeuralNet(), qlConf);
     }
 
-    private void save(QLearningDiscreteDense<NeuralGameState> dqn, String binName) {
+    private void save(QLearningDiscreteRecurrent<NeuralGameState> dqn, String binName) {
         try {
             dqn.getPolicy().save(getPathToBins() + "/" + binName);
         } catch (IOException e) {
@@ -102,8 +102,8 @@ public final class DQN {
                 .build();
     }
 
-    private DQNDenseNetworkConfiguration getNetwork() {
-        return DQNDenseNetworkConfiguration.builder()
+    private DQNRecurrentNetworkConfiguration getNetwork() {
+        return DQNRecurrentNetworkConfiguration.builder()
                 .updater(new Nadam(Math.pow(10, -3.5)))
                 .numHiddenNodes(300)
                 .numLayers(4)
