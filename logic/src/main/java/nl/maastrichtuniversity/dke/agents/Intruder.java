@@ -18,14 +18,20 @@ import java.util.stream.Collectors;
 @Slf4j
 public class Intruder extends Agent {
 
-    private @Getter @Setter boolean isCaught;
-    private @Setter IRunningAway runningAway;
+    private @Getter
+    @Setter
+    boolean isCaught;
+    private @Setter
+    IRunningAway runningAway;
     private boolean navigatedToBlueMark; // whether the agent has navigated to the mark that another agent dropped
     private boolean droppedBlueMark; // did it drop the mark already
-    private @Getter Position guessTarget;
-    private @Getter boolean reachGuessTarget;
+    private @Getter
+    Position guessTarget;
+    private @Getter
+    boolean reachGuessTarget;
 
-    private @Getter boolean fleeing;
+    private @Getter
+    boolean fleeing;
 
     public Intruder() {
         super();
@@ -46,7 +52,7 @@ public class Intruder extends Agent {
 
     @Override
     public void move() {
-        if(this.getPosition().equals( guessTarget)){
+        if (this.getPosition().equals(guessTarget)) {
             reachGuessTarget = true;
         }
         if (isFleeing()) {
@@ -55,9 +61,9 @@ public class Intruder extends Agent {
             }
         } else if (hasTarget()) {
             navigateToTarget();
-        } else if(reachGuessTarget){
+        } else if (reachGuessTarget) {
             super.explore();
-        }else{
+        } else {
             moveToPosition(guessTarget);
         }
         super.move();

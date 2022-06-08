@@ -108,7 +108,7 @@ public class AgentFactory {
                         hearingDistanceInteraction))
                 .setMemoryModule(new MemoryModule(scenario))
                 .setApproximationModule(new ApproximationModule(scenario))
-                .setListeningModule(new ListeningModule(scenario,agent.getApproximationModule()))
+                .setListeningModule(new ListeningModule(scenario, agent.getApproximationModule()))
                 .setSmellModule(new SmellModule(scenario, smellingDistance))
                 .setExplorationModule(new BrickAndMortar(agent.getMemoryModule().getMap(), agent.getMovement()))
                 .setInteractionModule(new InteractionModule(scenario))

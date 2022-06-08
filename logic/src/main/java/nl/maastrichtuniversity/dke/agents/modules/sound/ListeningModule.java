@@ -7,10 +7,7 @@ import nl.maastrichtuniversity.dke.agents.util.Direction;
 import nl.maastrichtuniversity.dke.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
 import nl.maastrichtuniversity.dke.scenario.Sound;
-import nl.maastrichtuniversity.dke.scenario.environment.Tile;
-import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
-import nl.maastrichtuniversity.dke.util.Distribution;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,13 +40,6 @@ public class ListeningModule extends AgentModule implements IListeningModule {
         Position sourceOfSound = sound.getSource();
         return appriximationModule.getValidGuess(sourceOfSound);
     }
-
-
-
-
-
-
-
 
 
     @Override
