@@ -33,9 +33,7 @@ public class Victory implements IVictory {
             }
 
             return false;
-        }
-        //GAME MODE 0
-        else if (scenario.getGameMode() == 0) {
+        } else if (scenario.getGameMode() == 0) {
             int count = 0;
             for (Intruder intruder : scenario.getIntruders()) {
                 if (intruderIsOnTargetTile(intruder)) {
@@ -44,8 +42,11 @@ public class Victory implements IVictory {
             }
             if (count == scenario.getIntruders().size()) {
                 return true;
-            } else return false;
-        } else return false;
+            }
+            return false;
+        } else {
+            return false;
+        }
     }
 
     public boolean guardsHaveWon() {
@@ -57,13 +58,14 @@ public class Victory implements IVictory {
                 }
             }
             return true;
-        }
-        // GAME MODE 0
-        else if (scenario.getGameMode() == 0) {
+        } else if (scenario.getGameMode() == 0) {
             if (scenario.getIntruders().size() < ogNumberOfIntruders) {
                 return true;
-            } else return false;
-        } else return false;
+            }
+            return false;
+        } else {
+            return false;
+        }
     }
 
     private boolean intruderIsOnTargetTile(Intruder intruder) {
