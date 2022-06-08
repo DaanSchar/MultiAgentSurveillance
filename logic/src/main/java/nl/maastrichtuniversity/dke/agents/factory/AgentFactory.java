@@ -8,6 +8,7 @@ import nl.maastrichtuniversity.dke.agents.Fleet;
 import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
 import nl.maastrichtuniversity.dke.agents.modules.ActionTimer;
+import nl.maastrichtuniversity.dke.agents.modules.approximation.ApproximationModule;
 import nl.maastrichtuniversity.dke.agents.modules.interaction.InteractionModule;
 import nl.maastrichtuniversity.dke.agents.modules.exploration.BrickAndMortar;
 import nl.maastrichtuniversity.dke.agents.modules.policy.PolicyModule;
@@ -106,13 +107,14 @@ public class AgentFactory {
                 .setNoiseModule(new NoiseModule(scenario, hearingDistanceWalking, hearingDistanceSprinting,
                         hearingDistanceInteraction))
                 .setMemoryModule(new MemoryModule(scenario))
-                .setListeningModule(new ListeningModule(scenario))
+                .setApproximationModule(new ApproximationModule(scenario))
+                .setListeningModule(new ListeningModule(scenario, agent.getApproximationModule()))
                 .setSmellModule(new SmellModule(scenario, smellingDistance))
                 .setExplorationModule(new BrickAndMortar(agent.getMemoryModule().getMap(), agent.getMovement()))
                 .setInteractionModule(new InteractionModule(scenario))
                 .setPathFinderModule(new Dijkstra(agent.getMemoryModule().getMap()))
                 .setRewardModule(new RewardModule(scenario))
-                .setPolicyModule(new PolicyModule("intruder-flee.bin"));
+                .setPolicyModule(new PolicyModule("intruder-fleeing-starter.bin"));
     }
 
     private List<CommunicationType> getMarkers() {
