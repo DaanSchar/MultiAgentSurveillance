@@ -48,6 +48,8 @@ public class Agent {
     private PathNavigator pathNavigator;
     private @Setter Position target;
 
+    private int speedbar=2;
+
     public Agent() {
         this.id = agentCount++;
     }
@@ -93,14 +95,36 @@ public class Agent {
     }
 
     public void move(MoveAction action) {
+        if (speedbar<2){
+            speedbarincrease();
+            return;
+        }
         switch (action) {
-            case MOVE_FORWARD -> moveForward();
-            case SPRINT_FORWARD -> sprintForward();
-            case ROTATE_LEFT -> rotate(MoveAction.ROTATE_LEFT);
-            case ROTATE_RIGHT -> rotate(MoveAction.ROTATE_RIGHT);
-            case STAND_STILL -> { /* do nothing */ }
-            case BREAK_WINDOW -> breakWindow();
-            case TOGGLE_DOOR -> toggleDoor();
+            case MOVE_FORWARD -> {
+                moveForward();
+                speedbardecrease(-1);
+            }
+            case SPRINT_FORWARD -> {
+                sprintForward();
+                speedbardecrease(-2);
+            }
+            case ROTATE_LEFT -> {
+                rotate(MoveAction.ROTATE_LEFT);
+                speedbarincrease();
+            }
+            case ROTATE_RIGHT -> {
+                rotate(MoveAction.ROTATE_RIGHT);
+                speedbarincrease();
+            }
+            case STAND_STILL -> { speedbarincrease(); }
+            case BREAK_WINDOW -> {
+                breakWindow();
+                speedbarincrease();
+            }
+            case TOGGLE_DOOR -> {
+                toggleDoor();
+                speedbarincrease();
+            }
             default -> log.info("not performing MoveAction: {}", action);
         }
     }
@@ -187,12 +211,22 @@ public class Agent {
     private void moveForward() {
         position = movement.goForward(position, direction);
         noiseModule.makeSound(position, SoundType.WALK, getAgentSourceType());
+
     }
 
     private void sprintForward() {
         position = movement.sprint(position, direction);
         noiseModule.makeSound(position, SoundType.SPRINT, getAgentSourceType());
     }
+    private void speedbarincrease() {
+        if(speedbar<2){
+            speedbar++;
+        }
+    }
+    private void speedbardecrease(int num) {
+        speedbar=num;
+    }
+
 
     protected List<Agent> getVisibleAgents() {
         return this.getVisionModule().getVisibleAgents();

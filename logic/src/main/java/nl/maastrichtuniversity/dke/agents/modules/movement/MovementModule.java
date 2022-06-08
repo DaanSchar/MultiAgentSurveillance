@@ -1,5 +1,6 @@
 package nl.maastrichtuniversity.dke.agents.modules.movement;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.agents.modules.ActionTimer;
 import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
@@ -10,6 +11,7 @@ import nl.maastrichtuniversity.dke.scenario.environment.TeleportTile;
 import nl.maastrichtuniversity.dke.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
+import org.nd4j.linalg.api.ops.ScalarOp;
 
 @Slf4j
 public class MovementModule extends AgentModule implements IMovementModule {
@@ -48,13 +50,15 @@ public class MovementModule extends AgentModule implements IMovementModule {
     @Override
     public Position sprint(Position currentPosition, Direction direction) {
         Position nextPosition = getForwardPosition(currentPosition, direction);
-
+        Position nextPosition1 = getForwardPosition(nextPosition, direction);
         if (actionTimer.performAction(sprintSpeed)) {
-            return nextPosition;
+            System.out.println("sprint");
+            return nextPosition1;
         }
-
         return currentPosition;
     }
+
+
 
     @Override
     public Position getForwardPosition(Position currentPosition, Direction direction) {
