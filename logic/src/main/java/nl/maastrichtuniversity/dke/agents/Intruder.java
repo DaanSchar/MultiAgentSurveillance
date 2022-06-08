@@ -64,9 +64,8 @@ public class Intruder extends Agent {
             }
         } else if (hasTarget()) {
             navigateToTarget();
-//        else if (seesBlueMark()){
-//            navigatToBlueMark();
-
+        } else if (seesBlueMark()){
+            navigateToBlueMark();
         } else if (reachGuessTarget) {
             super.explore();
         } else {
