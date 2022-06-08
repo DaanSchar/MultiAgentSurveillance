@@ -72,8 +72,8 @@ public class ListeningModule extends AgentModule implements IListeningModule {
             case SOUTHWEST -> list.set(7, 1d);
             default -> list.set(0, 0d);
         }
-        return list;
 
+        return list;
     }
 
     @Override
