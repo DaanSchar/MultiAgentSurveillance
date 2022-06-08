@@ -27,6 +27,7 @@ public class SequentialIntruderMDP implements MDP<SequentialGameState, Integer, 
     @Override
     public StepReply<SequentialGameState> step(Integer action) {
         double reward = 0;
+
         SequentialGameState observation = new SequentialGameState(
                 new double[game.getScenario().getGuards().get(0).getPolicyModule().getInputSize()][5]
         );

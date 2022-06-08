@@ -34,6 +34,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
     private @Setter Position position;
     private @Getter @Setter Position previousPosition;
     private @Getter boolean discoveredNewTiles;
+    private @Getter List<double[]> observationMemory;
 
     public MemoryModule(Scenario scenario) {
         super(scenario);
@@ -47,6 +48,7 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
         this.agents = new ArrayList<>();
         this.soundDirection = new ArrayList<>();
         this.discoveredNewTiles = false;
+        this.observationMemory = new ArrayList<>();
         initEnvironment();
     }
 
@@ -70,11 +72,12 @@ public class MemoryModule extends AgentModule implements IMemoryModule {
                 .collect(Collectors.toList());
     }
 
-    public void update(IVisionModule visionModule, ISmellModule smellModule, Position position) {
+    public void update(IVisionModule visionModule, ISmellModule smellModule, Position position, double[] observations) {
         setPreviousPosition(this.position);
         setPosition(position);
         updateVision(visionModule);
         updateSmell(smellModule);
+        observationMemory.add(observations);
     }
 
     public List<Sound> getCurrentSounds() {
