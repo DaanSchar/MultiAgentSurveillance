@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.agents.modules.ActionTimer;
+import nl.maastrichtuniversity.dke.agents.modules.approximation.IApproximationModule;
 import nl.maastrichtuniversity.dke.agents.modules.interaction.InteractionModule;
 import nl.maastrichtuniversity.dke.agents.modules.communication.Mark;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationType;
@@ -274,17 +275,18 @@ public class Agent {
     private @Setter PathFinderModule pathFinderModule;
     private @Setter IPolicyModule policyModule;
     private @Setter IRewardModule rewardModule;
+    private @Setter IApproximationModule approximationModule;
     private @Setter ActionTimer actionTimer;
 
     public Agent newInstance() {
         return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule, communicationModule,
-                memoryModule, listeningModule, smellModule, rewardModule, policyModule, actionTimer);
+                memoryModule, listeningModule, smellModule, rewardModule, policyModule, actionTimer, approximationModule);
     }
 
     private Agent(Direction direction, Position position, int id, ISpawnModule spawnModule, IMovementModule movement,
                   IVisionModule visionModule, INoiseModule noiseModule, ICommunicationModule communicationModule,
                   IMemoryModule memoryModule, IListeningModule listeningModule, ISmellModule smellModule,
-                  IRewardModule rewardModule, IPolicyModule policyModule, ActionTimer actionTimer) {
+                  IRewardModule rewardModule, IPolicyModule policyModule, ActionTimer actionTimer, IApproximationModule approximationModule) {
         this.spawnModule = spawnModule;
         this.visionModule = visionModule;
         this.movement = movement;
@@ -295,6 +297,7 @@ public class Agent {
         this.smellModule = smellModule;
         this.rewardModule = rewardModule;
         this.policyModule = policyModule;
+        this.approximationModule = approximationModule;
         this.actionTimer = actionTimer;
         this.position = position;
         this.direction = direction;
