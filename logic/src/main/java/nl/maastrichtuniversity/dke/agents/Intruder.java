@@ -69,7 +69,7 @@ public class Intruder extends Agent {
         } else if (reachGuessTarget) {
             super.explore();
         } else {
-            moveToPosition(guessTarget);
+            setTarget(guessTarget);
         }
         super.move();
     }
@@ -208,8 +208,9 @@ public class Intruder extends Agent {
     }
 
     private void navigateToBlueMark() {
-        Position target = getBlueMark();
-        moveToPosition(target);
+        this.setTarget(getBlueMark());
+//        Position target = getBlueMark();
+//        moveToPosition(target);
     }
 
     @Override
