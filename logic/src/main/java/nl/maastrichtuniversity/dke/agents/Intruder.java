@@ -22,6 +22,8 @@ public class Intruder extends Agent {
     private @Setter IRunningAway runningAway;
     private boolean navigatedToBlueMark; // whether the agent has navigated to the mark that another agent dropped
     private boolean droppedBlueMark; // did it drop the mark already
+    private @Getter Position guessTarget;
+    private @Getter boolean reachGuessTarget;
 
     private @Getter boolean fleeing;
 
@@ -30,24 +32,33 @@ public class Intruder extends Agent {
         this.isCaught = false;
         this.navigatedToBlueMark = false;
         this.droppedBlueMark = false;
+        this.guessTarget = null;
+        this.reachGuessTarget = false;
     }
 
     @Override
     public void spawn() {
+
         super.spawn();
+        guessTarget = this.getApproximationModule().getValidTargetGuess();
         this.isCaught = false;
     }
 
     @Override
     public void move() {
+        if(this.getPosition().equals( guessTarget)){
+            reachGuessTarget = true;
+        }
         if (isFleeing()) {
             if (!DQN.isTraining()) {
                 super.rlMove();
             }
         } else if (hasTarget()) {
             navigateToTarget();
-        } else {
+        } else if(reachGuessTarget){
             super.explore();
+        }else{
+            moveToPosition(guessTarget);
         }
         super.move();
     }

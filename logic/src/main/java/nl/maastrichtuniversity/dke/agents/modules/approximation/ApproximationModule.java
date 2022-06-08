@@ -18,10 +18,10 @@ public class ApproximationModule extends AgentModule implements IApproximationMo
 
     @Override
     public Position getValidGuess(Position source) {
-        Position guessedPosition = makeGuess(source);
+        Position guessedPosition = makeGuess(source, 0 , 2);
 
         while (!isValid(guessedPosition)) {
-            guessedPosition = makeGuess(source);
+            guessedPosition = makeGuess(source, 0 , 2);
         }
 
         return guessedPosition;
@@ -30,26 +30,26 @@ public class ApproximationModule extends AgentModule implements IApproximationMo
     @Override
     public Position getValidTargetGuess() {
         Tile target = scenario.getEnvironment().get(TileType.TARGET).get(0);
-        Position guessedPosition = makeGuess(target.getPosition());
+        Position guessedPosition = makeGuess(target.getPosition(), 0, 5);
         while (!isValid(guessedPosition)) {
-            guessedPosition = makeGuess(target.getPosition());
+            guessedPosition = makeGuess(target.getPosition(),0 ,5);
         }
 
         return guessedPosition;
 
     }
 
-    private Position makeGuess(Position source) {
-        return source.add(getGuessOffset());
+    private Position makeGuess(Position source, double m, double s ) {
+        return source.add(getGuessOffset(m,s));
     }
 
     private boolean isValid(Position guessedPosition) {
         return isInMap(guessedPosition) && isPassable(guessedPosition) && !isTeleport(guessedPosition);
     }
 
-    private Position getGuessOffset() {
-        double mean = 0;
-        double stdDev = 2.0;
+    private Position getGuessOffset(double mean , double stdDev) {
+//        double mean = 0;
+//        double stdDev = 2.0;
         int guessX = (int) Distribution.normal(mean, stdDev);
         int guessY = (int) Distribution.normal(mean, stdDev);
 
