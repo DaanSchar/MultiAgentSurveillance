@@ -119,9 +119,9 @@ public class Agent {
                 rotate(MoveAction.ROTATE_RIGHT);
                 speedbarincrease();
             }
-            case STAND_STILL -> {
+            case STAND_STILL ->
                 speedbarincrease();
-            }
+
             case BREAK_WINDOW -> {
                 breakWindow();
                 speedbarincrease();
