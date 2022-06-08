@@ -220,6 +220,11 @@ public class Agent {
         }
     }
 
+    public double[][] toTimeArray() {
+        double[][] observations = new double[getPolicyModule().getInputSize()][5];
+
+        return observations;
+    }
 
     //TODO
     // implement toArray for all specified modules

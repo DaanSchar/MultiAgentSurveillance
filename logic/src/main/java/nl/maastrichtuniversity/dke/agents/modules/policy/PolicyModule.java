@@ -3,7 +3,7 @@ package nl.maastrichtuniversity.dke.agents.modules.policy;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import nl.maastrichtuniversity.dke.agents.modules.exploration.DQN;
+import nl.maastrichtuniversity.dke.agents.modules.exploration.Train;
 import nl.maastrichtuniversity.dke.agents.modules.exploration.NeuralGameState;
 import nl.maastrichtuniversity.dke.agents.util.MoveAction;
 import org.deeplearning4j.nn.api.Layer;
@@ -19,7 +19,7 @@ public class PolicyModule implements IPolicyModule {
     private final @Getter DQNPolicy<NeuralGameState> policy;
 
     public PolicyModule(String path) {
-        this.policy = getPolicy(DQN.getPathToBins() + path);
+        this.policy = getPolicy(Train.getPathToBins() + path);
     }
 
     public MoveAction nextMove(double[] input) {

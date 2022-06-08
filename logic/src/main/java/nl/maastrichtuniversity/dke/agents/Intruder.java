@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationType;
-import nl.maastrichtuniversity.dke.agents.modules.exploration.DQN;
+import nl.maastrichtuniversity.dke.agents.modules.exploration.Train;
 import nl.maastrichtuniversity.dke.agents.modules.runningAway.IRunningAway;
 import nl.maastrichtuniversity.dke.agents.modules.sound.SourceType;
 import nl.maastrichtuniversity.dke.scenario.Sound;
@@ -59,7 +59,7 @@ public class Intruder extends Agent {
             reachGuessTarget = true;
         }
         if (isFleeing()) {
-            if (!DQN.isTraining()) {
+            if (!Train.isTraining()) {
                 super.rlMove();
             }
         } else if (hasTarget()) {
