@@ -41,7 +41,6 @@ public class ListeningModule extends AgentModule implements IListeningModule {
         return appriximationModule.getValidGuess(sourceOfSound);
     }
 
-
     @Override
     public List<Double> toArray() {
         List<Double> obs = new ArrayList<>();
