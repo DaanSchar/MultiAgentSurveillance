@@ -48,9 +48,10 @@ public class MovementModule extends AgentModule implements IMovementModule {
     @Override
     public Position sprint(Position currentPosition, Direction direction) {
         Position nextPosition = getForwardPosition(currentPosition, direction);
+        Position nextPosition2 = getForwardPosition(nextPosition, direction);
 
         if (actionTimer.performAction(sprintSpeed)) {
-            return nextPosition;
+            return nextPosition2;
         }
 
         return currentPosition;
