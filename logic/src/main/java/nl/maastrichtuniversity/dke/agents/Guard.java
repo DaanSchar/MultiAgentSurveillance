@@ -48,7 +48,10 @@ public class Guard extends Agent {
         if (seesIntruder()) {
             chaseIntruder();
             catchIntruder();
-        }  else if (hearsSound() && !seesGuard()) {
+        } else if (hearsYell()) {
+            log.info("hello");
+            moveToSoundSource();
+        } else if (hearsSound() && !seesGuard()) {
             moveToSoundSource();
         }
     }
@@ -60,6 +63,16 @@ public class Guard extends Agent {
         if (super.hearsSound()) {
             Sound sound = sounds.get(0);
             return sound.getSourceType() != SourceType.GUARD;
+        }
+
+        return false;
+    }
+
+    protected boolean hearsYell() {
+        List<Sound> sounds = getSoundsAtCurrentPosition();
+        if (super.hearsSound()) {
+            Sound sound = sounds.get(0);
+            return sound.getSoundType() == SoundType.YELL;
         }
 
         return false;
