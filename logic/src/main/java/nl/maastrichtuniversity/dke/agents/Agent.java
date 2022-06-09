@@ -43,11 +43,15 @@ public class Agent {
     private static int agentCount;
     private final int id;
 
-    private @Setter Position position;
-    private @Setter Direction direction;
+    private @Setter
+    Position position;
+    private @Setter
+    Direction direction;
 
     private PathNavigator pathNavigator;
-    private @Setter Position target;
+    private @Setter
+    Position target;
+    private int speedbar = 2;
 
     public Agent() {
         this.id = agentCount++;
@@ -93,15 +97,39 @@ public class Agent {
         move(nextMove);
     }
 
+
     public void move(MoveAction action) {
+        if (speedbar < 2) {
+            speedbarincrease();
+            return;
+        }
         switch (action) {
-            case MOVE_FORWARD -> moveForward();
-            case SPRINT_FORWARD -> sprintForward();
-            case ROTATE_LEFT -> rotate(MoveAction.ROTATE_LEFT);
-            case ROTATE_RIGHT -> rotate(MoveAction.ROTATE_RIGHT);
-            case STAND_STILL -> { /* do nothing */ }
-            case BREAK_WINDOW -> breakWindow();
-            case TOGGLE_DOOR -> toggleDoor();
+            case MOVE_FORWARD -> {
+                moveForward();
+                speedbardecrease(-1);
+            }
+            case SPRINT_FORWARD -> {
+                sprintForward();
+                speedbardecrease(-2);
+            }
+            case ROTATE_LEFT -> {
+                rotate(MoveAction.ROTATE_LEFT);
+                speedbarincrease();
+            }
+            case ROTATE_RIGHT -> {
+                rotate(MoveAction.ROTATE_RIGHT);
+                speedbarincrease();
+            }
+            case STAND_STILL -> speedbarincrease();
+
+            case BREAK_WINDOW -> {
+                breakWindow();
+                speedbarincrease();
+            }
+            case TOGGLE_DOOR -> {
+                toggleDoor();
+                speedbarincrease();
+            }
             default -> log.info("not performing MoveAction: {}", action);
         }
     }
@@ -204,6 +232,16 @@ public class Agent {
         noiseModule.makeSound(position, SoundType.SPRINT, getAgentSourceType());
     }
 
+    private void speedbarincrease() {
+        if (speedbar < 2) {
+            speedbar++;
+        }
+    }
+
+    private void speedbardecrease(int num) {
+        speedbar = num;
+    }
+
     protected List<Agent> getVisibleAgents() {
         return this.getVisionModule().getVisibleAgents();
     }
@@ -271,21 +309,36 @@ public class Agent {
         return array;
     }
 
-    private @Setter ISpawnModule spawnModule;
-    private @Setter IMovementModule movement;
-    private @Setter IVisionModule visionModule;
-    private @Setter ICommunicationModule communicationModule;
-    private @Setter INoiseModule noiseModule;
-    private @Setter IListeningModule listeningModule;
-    private @Setter IMemoryModule memoryModule;
-    private @Setter ISmellModule smellModule;
-    private @Setter IExplorationModule explorationModule;
-    private @Setter InteractionModule interactionModule;
-    private @Setter PathFinderModule pathFinderModule;
-    private @Setter IPolicyModule policyModule;
-    private @Setter IRewardModule rewardModule;
-    private @Setter IApproximationModule approximationModule;
-    private @Setter ActionTimer actionTimer;
+    private @Setter
+    ISpawnModule spawnModule;
+    private @Setter
+    IMovementModule movement;
+    private @Setter
+    IVisionModule visionModule;
+    private @Setter
+    ICommunicationModule communicationModule;
+    private @Setter
+    INoiseModule noiseModule;
+    private @Setter
+    IListeningModule listeningModule;
+    private @Setter
+    IMemoryModule memoryModule;
+    private @Setter
+    ISmellModule smellModule;
+    private @Setter
+    IExplorationModule explorationModule;
+    private @Setter
+    InteractionModule interactionModule;
+    private @Setter
+    PathFinderModule pathFinderModule;
+    private @Setter
+    IPolicyModule policyModule;
+    private @Setter
+    IRewardModule rewardModule;
+    private @Setter
+    IApproximationModule approximationModule;
+    private @Setter
+    ActionTimer actionTimer;
 
     public Agent newInstance() {
         return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule, communicationModule,
