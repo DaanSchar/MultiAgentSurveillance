@@ -154,7 +154,7 @@ public class Agent {
 
     protected void calculatePathTo(Position target) {
         if (this.pathNavigator == null || this.pathNavigator.getFinalDestination() != target
-                        || memoryModule.discoveredNewTiles()) {
+                || memoryModule.discoveredNewTiles()) {
             this.pathNavigator = new PathNavigator(getPosition(), target, pathFinderModule);
         }
     }
@@ -165,6 +165,15 @@ public class Agent {
 
     protected boolean hasReachedTarget() {
         return getPosition().equals(this.target);
+    }
+
+    protected boolean hasReachedFinalTarget() {
+        if (visionModule.getCurrentPosition() == null) {
+            return false;
+        } else if (visionModule.getCurrentPosition().getType().equals(TileType.TARGET)) {
+            return true;
+        }
+        return false;
     }
 
     private void updatePathToTarget() {
