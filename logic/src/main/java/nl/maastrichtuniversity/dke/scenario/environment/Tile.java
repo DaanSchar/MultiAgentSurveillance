@@ -10,7 +10,7 @@ public class Tile {
 
     private @Getter final Position position;
     private boolean isOpened;
-    private @Setter TileType type;
+    private @Getter @Setter TileType type;
 
     public Tile(Position position) {
         this.position = position;

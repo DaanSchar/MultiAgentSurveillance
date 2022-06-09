@@ -100,6 +100,13 @@ public class RayCast extends AgentModule implements IVisionModule {
         return 0;
     }
 
+    public Tile getCurrentPosition() {
+        if (currentPosition == null) {
+            return null;
+        }
+        return this.scenario.getEnvironment().getAt(currentPosition);
+    }
+
     private List<Position> getVisiblePositions(Position position, Direction direction) {
         double viewingAngle = Math.toRadians(this.viewingAngle);
         double currentAngle = direction.getAngle();
