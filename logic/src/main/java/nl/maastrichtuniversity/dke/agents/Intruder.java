@@ -53,7 +53,6 @@ public class Intruder extends Agent {
     @Override
     public void move() {
         if (hasReachedFinalTarget()) {
-            log.info("hello");
             return;
         }
         if (this.getPosition().equals(guessTarget)) {
@@ -65,7 +64,7 @@ public class Intruder extends Agent {
             }
         } else if (hasTarget()) {
             navigateToTarget();
-        } else if (seesBlueMark()){
+        } else if (seesBlueMark()) {
             navigateToBlueMark();
         } else if (reachGuessTarget) {
             super.explore();
@@ -97,7 +96,7 @@ public class Intruder extends Agent {
         this.fleeing = false;
 
         if (seesTargetArea()) {
-            if(!droppedBlueMark){
+            if (!droppedBlueMark) {
                 this.dropMark(CommunicationType.VISION_BLUE);
                 droppedBlueMark = true;
             }

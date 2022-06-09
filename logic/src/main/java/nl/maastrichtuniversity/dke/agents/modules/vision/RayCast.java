@@ -101,7 +101,7 @@ public class RayCast extends AgentModule implements IVisionModule {
     }
 
     public Tile getCurrentPosition() {
-        if(currentPosition == null) {
+        if (currentPosition == null) {
             return null;
         }
         return this.scenario.getEnvironment().getAt(currentPosition);
