@@ -10,10 +10,7 @@ import nl.maastrichtuniversity.dke.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 public class RayCast extends AgentModule implements IVisionModule {
@@ -45,6 +42,8 @@ public class RayCast extends AgentModule implements IVisionModule {
             visibleTiles.add(scenario.getEnvironment().getAt(tilePos));
             visibleAgents.add(getAgentAt(tilePos));
         }
+
+        sortTileOnDistanceFromAgent(position);
     }
 
     @Override
@@ -76,6 +75,7 @@ public class RayCast extends AgentModule implements IVisionModule {
         int oneHotEncodingSize = 13;
         List<Double> encodedTiles = new ArrayList<>(visibleTiles.size() * 13);
 
+        // TODO: Maybe sort the list on distance from the player.
         for (Tile tile : visibleTiles) {
             encodedTiles.addAll(getEncodingPerTile(tile.getType().getValue(), oneHotEncodingSize));
         }
@@ -133,5 +133,20 @@ public class RayCast extends AgentModule implements IVisionModule {
 
     private Tile getTileAt(Position position) {
         return scenario.getEnvironment().getAt(position);
+    }
+
+    private void sortTileOnDistanceFromAgent(Position agentPosition) {
+        visibleTiles.sort((o1, o2) -> {
+            double distanceO1 = o1.getPosition().distance(agentPosition);
+            double distanceO2 = o2.getPosition().distance(agentPosition);
+
+            if (distanceO1 > distanceO2) {
+                return 1;
+            } else if (distanceO1 < distanceO2) {
+                return -1;
+            }
+
+            return 0;
+        });
     }
 }

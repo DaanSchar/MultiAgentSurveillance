@@ -237,10 +237,7 @@ public class Agent {
         return observations;
     }
 
-    //TODO
-    // implement toArray for all specified modules
     public double[] toArray() {
-
         double[] fullObservations = new double[getPolicyModule().getInputSize()];
         double isFleeing = 0;
         if (this instanceof Intruder) {
@@ -249,10 +246,9 @@ public class Agent {
             }
         }
 
-        List<Double> observations = new ArrayList<>();
+        List<Double> observations = new ArrayList<>(getStateVector());
         observations.add(isFleeing);
-        observations.addAll(getStateVector());
-        Stream.of(visionModule.toArray(), listeningModule.toArray()).forEach(observations::addAll);
+        Stream.of(visionModule.toArray()).forEach(observations::addAll);
 
         double[] observationsArray = listToArray(observations);
         System.arraycopy(observationsArray, 0, fullObservations, 0, observationsArray.length);
