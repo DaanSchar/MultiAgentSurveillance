@@ -49,7 +49,6 @@ public class Guard extends Agent {
             chaseIntruder();
             catchIntruder();
         } else if (hearsYell()) {
-            log.info("hello");
             moveToSoundSource();
         } else if (hearsSound() && !seesGuard()) {
             moveToSoundSource();
@@ -79,7 +78,7 @@ public class Guard extends Agent {
     }
 
     private void moveToSoundSource() {
-        if (hearsSound()) {
+        if (hearsSound() || hearsYell()) {
             List<Sound> sounds = super.getSoundsAtCurrentPosition();
 
             if (sounds.size() > 0) {
