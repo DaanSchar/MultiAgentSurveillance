@@ -22,4 +22,5 @@ public interface IVisionModule {
 
     int targetTilesSeen();
 
+ch    Tile getCurrentPosition();
 }

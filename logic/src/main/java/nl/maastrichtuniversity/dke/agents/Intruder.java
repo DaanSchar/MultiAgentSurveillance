@@ -52,7 +52,8 @@ public class Intruder extends Agent {
 
     @Override
     public void move() {
-        if (hasReachedTarget()) {
+        if (hasReachedFinalTarget()) {
+            log.info("hello");
             return;
         }
         if (this.getPosition().equals(guessTarget)) {

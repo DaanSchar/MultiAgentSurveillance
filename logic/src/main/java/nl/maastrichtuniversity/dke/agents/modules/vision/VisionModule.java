@@ -147,6 +147,10 @@ public class VisionModule extends AgentModule implements IVisionModule {
         return visiblePositions;
     }
 
+    public Tile getCurrentPosition() {
+        return this.scenario.getEnvironment().getAt(currentPosition);
+    }
+
     private List<Position> getPositionsRowInRange(Position position, Direction direction) {
         List<Position> positionsRow = new ArrayList<>();
         int range = getViewDistance();
