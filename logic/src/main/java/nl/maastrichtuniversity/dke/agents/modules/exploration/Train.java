@@ -59,9 +59,10 @@ public final class Train<OBSERVATION extends Encodable> {
                 .gamma(0.99)
                 .errorClamp(1.0)
                 .batchSize(16)
-                .minEpsilon(0.5)
+                .minEpsilon(0.2)
                 .epsilonNbStep(128)
                 .expRepMaxSize(128 * 16)
+                .doubleDQN(true)
                 .build();
     }
 

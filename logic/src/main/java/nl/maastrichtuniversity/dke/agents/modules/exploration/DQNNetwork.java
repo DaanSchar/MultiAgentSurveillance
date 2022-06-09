@@ -14,6 +14,7 @@ import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.learning.config.Nadam;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
 
+import java.util.Arrays;
 
 
 public class DQNNetwork implements DQNFactory {
@@ -40,7 +41,7 @@ public class DQNNetwork implements DQNFactory {
                 .list()
 
                 // input layer
-                .layer(new SimpleRnn.Builder()
+                .layer(new DenseLayer.Builder()
                         .nIn(nIn)
                         .nOut(100)
                         .activation(Activation.RELU).build()
@@ -54,7 +55,7 @@ public class DQNNetwork implements DQNFactory {
 
                 // output layer
                 .layer(new OutputLayer.Builder(LossFunctions.LossFunction.MSE)
-                        .activation(Activation.IDENTITY)
+                        .activation(Activation.RELU)
                         .nIn(70)
                         .nOut(numOutputs)
                         .build()

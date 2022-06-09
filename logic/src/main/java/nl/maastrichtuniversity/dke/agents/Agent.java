@@ -231,11 +231,8 @@ public class Agent {
         for (int i = 0; i < observationSize; i++) {
             for (int j = 0; j < time; j++) {
                 observations[i][j] = observationMemory.get(j)[i];
-//                observations[i][j] = 0;
             }
         }
-
-        log.info("bruh");
 
         return observations;
     }

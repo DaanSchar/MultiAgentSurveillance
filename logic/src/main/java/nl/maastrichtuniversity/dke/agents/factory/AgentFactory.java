@@ -114,7 +114,7 @@ public class AgentFactory {
                 .setInteractionModule(new InteractionModule(scenario))
                 .setPathFinderModule(new Dijkstra(agent.getMemoryModule().getMap()))
                 .setRewardModule(new RewardModule(scenario))
-                .setPolicyModule(new PolicyModule("intruder-flee_custom.bin"));
+                .setPolicyModule(new PolicyModule("intruder-fleeing-starter.bin"));
     }
 
     private List<CommunicationType> getMarkers() {
