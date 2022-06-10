@@ -9,7 +9,7 @@ import org.deeplearning4j.rl4j.space.DiscreteSpace;
 import org.deeplearning4j.rl4j.space.ObservationSpace;
 
 @Slf4j
-public class SequentialIntruderMDP implements MDP<SequentialGameState, Integer, DiscreteSpace>{
+public class SequentialIntruderMDP implements MDP<SequentialGameState, Integer, DiscreteSpace> {
 
     private final Game game;
     private int intruderIndex;

@@ -19,7 +19,8 @@ public class QLearningDiscreteCustom<OBSERVATION extends Encodable> extends QLea
         this(mdp, factory.buildDQN(mdp.getObservationSpace().getShape(), mdp.getActionSpace().getSize()), conf);
     }
 
-    public QLearningDiscreteCustom(MDP<OBSERVATION, Integer, DiscreteSpace> mdp, IDQN dqn, QLearningConfiguration conf) {
+    public QLearningDiscreteCustom(MDP<OBSERVATION, Integer, DiscreteSpace> mdp,
+                                   IDQN dqn, QLearningConfiguration conf) {
         super(mdp, dqn, conf, conf.getEpsilonNbStep());
     }
 

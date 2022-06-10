@@ -3,7 +3,6 @@ package nl.maastrichtuniversity.dke.agents.modules.reward;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
 import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.agents.util.Direction;
@@ -14,6 +13,7 @@ import nl.maastrichtuniversity.dke.scenario.util.Position;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Slf4j
 public class RewardModule extends AgentModule implements IRewardModule {
 
@@ -37,8 +37,8 @@ public class RewardModule extends AgentModule implements IRewardModule {
 
         if (intruder.isFleeing()) {
             moveReward += 2;
-        }else { // I think this is better, since it will entice intruder to not be in flee mode
-            moveReward+=10;
+        } else { // I think this is better, since it will entice intruder to not be in flee mode
+            moveReward += 10;
         }
 
         if (isStuck(position, direction)) {
@@ -153,12 +153,14 @@ public class RewardModule extends AgentModule implements IRewardModule {
         int moveX = 0;
         int moveY = 0;
 
-        switch (direction) {
-            case EAST -> moveX = scenario.getEnvironment().getWidth() - position.getX();
-            case WEST -> moveX = -position.getX();
-            case NORTH -> moveY = -position.getY();
-            case SOUTH -> moveY = scenario.getEnvironment().getHeight() - position.getY();
-            default -> log.error("Direction not found");
+        if (direction == Direction.EAST) {
+            moveX = scenario.getEnvironment().getWidth() - position.getX();
+        } else if (direction == Direction.WEST) {
+            moveX = -position.getX();
+        } else if(direction == Direction.NORTH) {
+            moveY = -position.getY();
+        } else {
+            moveY = scenario.getEnvironment().getHeight() - position.getY();
         }
 
         return new Position(moveX, moveY);

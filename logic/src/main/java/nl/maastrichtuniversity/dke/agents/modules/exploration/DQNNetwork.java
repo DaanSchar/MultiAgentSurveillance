@@ -4,7 +4,6 @@ import org.deeplearning4j.nn.api.OptimizationAlgorithm;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
 import org.deeplearning4j.nn.conf.layers.*;
-import org.deeplearning4j.nn.conf.layers.recurrent.SimpleRnn;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.weights.WeightInit;
 import org.deeplearning4j.rl4j.network.dqn.DQN;
@@ -13,9 +12,6 @@ import org.deeplearning4j.rl4j.util.Constants;
 import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.learning.config.Nadam;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
-
-import java.util.Arrays;
-
 
 public class DQNNetwork implements DQNFactory {
 

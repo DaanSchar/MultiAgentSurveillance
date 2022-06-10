@@ -17,19 +17,15 @@ import java.util.*;
 @Slf4j
 public class RayCast extends AgentModule implements IVisionModule {
 
-
-    private final int TILE_LIMIT;
-
+    private final int tileLimit;
 
     private final double viewingDistance;
     private final double viewingAngle = 100;
 
     private Position currentPosition;
 
-    private final @Getter
-    List<Tile> visibleTiles;
-    private final @Getter
-    List<Agent> visibleAgents;
+    private final @Getter List<Tile> visibleTiles;
+    private final @Getter List<Agent> visibleAgents;
 
 
     public RayCast(Scenario scenario, double viewingDistance) {
@@ -37,7 +33,7 @@ public class RayCast extends AgentModule implements IVisionModule {
         this.viewingDistance = (float) viewingDistance;
         this.visibleTiles = new ArrayList<>();
         this.visibleAgents = new ArrayList<>();
-        this.TILE_LIMIT = Train.OBSERVATION_SIZE - 3;
+        this.tileLimit = Train.OBSERVATION_SIZE - 3;
     }
 
     @Override
@@ -74,9 +70,9 @@ public class RayCast extends AgentModule implements IVisionModule {
 
 
     /**
-     * method to convert visible tiles to input for ANN
+     * method to convert visible tiles to input for ANN.
      *
-     * @return a double vector with 0 if tile passable,1 if not
+     * @return a double vector with 0 if tile passable,1 if not.
      */
     @Override
     public List<Double> toArray(Position p) {
@@ -86,18 +82,20 @@ public class RayCast extends AgentModule implements IVisionModule {
         for (Tile tile : visibleTiles) {
             if (tile.isPassable()) {
                 tileVector.add(0d);
-            } else tileVector.add(1d);
+            } else {
+                tileVector.add(1d);
+            }
         }
-        return tileVector.subList(0, Math.min(TILE_LIMIT, tileVector.size()));
+        return tileVector.subList(0, Math.min(tileLimit, tileVector.size()));
     }
 
 
     /**
      * This will return a one-hot encoding of each tile that agent sees,e.g.
-     * 1 0 0 0 0 0 0 0 0 0 0 0 - Corresponds to the tile being unknown
-     * 0 1 0 0 0 0 0 0 0 0 0 0 - Corresponds to the tile being empty
+     * 1 0 0 0 0 0 0 0 0 0 0 0 - Corresponds to the tile being unknown.
+     * 0 1 0 0 0 0 0 0 0 0 0 0 - Corresponds to the tile being empty.
      *
-     * @return One-hot encoding of visible tiles
+     * @return One-hot encoding of visible tiles.
      */
     // @Override
     // public List<Double> toArray() {
@@ -160,8 +158,8 @@ public class RayCast extends AgentModule implements IVisionModule {
     }
 
     /**
-     * @param p position of our intruder
-     * @return manhattan distance of guard to intruder
+     * @param p position of our intruder.
+     * @return manhattan distance of guard to intruder.
      */
     private double getGuardDistance(Position p) {
         for (Agent a : getVisibleAgents()) {
@@ -172,8 +170,9 @@ public class RayCast extends AgentModule implements IVisionModule {
 
         if (visibleTiles.isEmpty()) {
             return viewingDistance + 10;
-        } else
+        } else {
             return p.distanceManhattan(visibleTiles.get(visibleTiles.size() - 1).getPosition()) + 1;
+        }
     }
 
     private Tile getTileAt(Position position) {

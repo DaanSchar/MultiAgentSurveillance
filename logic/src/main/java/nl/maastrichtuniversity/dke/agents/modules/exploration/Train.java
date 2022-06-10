@@ -1,30 +1,27 @@
 package nl.maastrichtuniversity.dke.agents.modules.exploration;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.maastrichtuniversity.dke.Game;
 import org.deeplearning4j.rl4j.learning.configuration.QLearningConfiguration;
 import org.deeplearning4j.rl4j.mdp.MDP;
 import org.deeplearning4j.rl4j.policy.DQNPolicy;
 import org.deeplearning4j.rl4j.space.DiscreteSpace;
 import org.deeplearning4j.rl4j.space.Encodable;
 
-
-import java.io.File;
 import java.io.IOException;
 
 @Slf4j
 public final class Train<OBSERVATION extends Encodable> {
 
-    public static int OBSERVATION_SIZE = 64;
+    public static final int OBSERVATION_SIZE = 64;
 
-    private static final String pathWhenTraining = "core/assets/policies/bins/";
-    private static final String pathWhenPlaying = "policies/bins/";
+    private static final String PATH_WHEN_TRAINING = "core/assets/policies/bins/";
+    private static final String PATH_WHEN_PLAYING = "policies/bins/";
     private static boolean training = false;
 
     private final QLearningConfiguration qlConf;
     private final MDP<OBSERVATION, Integer, DiscreteSpace> mdp;
 
-    public Train(MDP<OBSERVATION, Integer, DiscreteSpace> mdp,int stepsPerEpoch, int totalGames) {
+    public Train(MDP<OBSERVATION, Integer, DiscreteSpace> mdp, int stepsPerEpoch, int totalGames) {
         this.qlConf = getQLConfiguration(stepsPerEpoch, totalGames);
         this.mdp = mdp;
     }
@@ -33,7 +30,12 @@ public final class Train<OBSERVATION extends Encodable> {
         training = true;
 
         for (int i = 0; i < repetitions; i++) {
-            log.info("Starting training iteration {}. training for {} games", i, (qlConf.getMaxStep() / qlConf.getMaxEpochStep()));
+            log.info(
+                    "Starting training iteration {}. training for {} games",
+                    i,
+                    (qlConf.getMaxStep() / qlConf.getMaxEpochStep())
+            );
+
             final QLearningDiscreteCustom<OBSERVATION> dqn;
 
             if (i == 0) {
@@ -45,7 +47,7 @@ public final class Train<OBSERVATION extends Encodable> {
             }
 
             dqn.train();
-            save(dqn, "intruder-flee_custom.bin");
+            save(dqn, "intruder-flee.bin");
         }
     }
 
@@ -96,9 +98,9 @@ public final class Train<OBSERVATION extends Encodable> {
 
     public static String getPathToBins() {
         if (training) {
-            return pathWhenTraining;
+            return PATH_WHEN_TRAINING;
         } else {
-            return pathWhenPlaying;
+            return PATH_WHEN_PLAYING;
         }
     }
 

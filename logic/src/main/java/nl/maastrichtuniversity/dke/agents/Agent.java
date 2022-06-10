@@ -44,11 +44,14 @@ public class Agent {
     private static int agentCount;
     private final int id;
 
-    private @Setter Position position;
-    private @Setter Direction direction;
+    private @Setter
+    Position position;
+    private @Setter
+    Direction direction;
 
     private PathNavigator pathNavigator;
-    private @Setter Position target;
+    private @Setter
+    Position target;
 
     public Agent() {
         this.id = agentCount++;
@@ -155,7 +158,7 @@ public class Agent {
 
     protected void calculatePathTo(Position target) {
         if (this.pathNavigator == null || this.pathNavigator.getFinalDestination() != target
-                        || memoryModule.discoveredNewTiles()) {
+                || memoryModule.discoveredNewTiles()) {
             this.pathNavigator = new PathNavigator(getPosition(), target, pathFinderModule);
         }
     }
@@ -223,7 +226,7 @@ public class Agent {
 
     public double[][] toTimeArray() {
         ((MemoryModule) memoryModule).addObservations(toArray());
-        List<double[]> observationMemory = ((MemoryModule)memoryModule).getObservationMemory();
+        List<double[]> observationMemory = ((MemoryModule) memoryModule).getObservationMemory();
         int observationSize = observationMemory.get(0).length;
         int time = observationMemory.size();
         double[][] observations = new double[observationSize][time];
@@ -249,10 +252,9 @@ public class Agent {
 
         List<Double> observations = new ArrayList<>();
         observations.add(isFleeing);
-        observations.add((double)direction.getMoveX());
-        observations.add((double)direction.getMoveY());
+        observations.add((double) direction.getMoveX());
+        observations.add((double) direction.getMoveY());
         Stream.of(visionModule.toArray(position)).forEach(observations::addAll);
-
 
 
         double[] observationsArray = listToArray(observations);

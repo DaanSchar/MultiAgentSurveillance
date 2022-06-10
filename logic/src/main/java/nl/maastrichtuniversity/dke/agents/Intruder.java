@@ -12,7 +12,6 @@ import nl.maastrichtuniversity.dke.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
