@@ -22,27 +22,21 @@ public class CommunicationModule extends AgentModule implements ICommunicationMo
     }
 
     @Override
-    //TODO: Suspicious list.remove() in loop.
-    // you can't remove an element from a list while iterating over it.
-    // PLEASE FIX THIS.
     public void dropMark(Mark device) {
-        boolean check = false;
         for (int i = 0; i < marks.size(); i++) {
             if (marks.get(i).equals(device.getType())) {
                 if (device.getType().equals(CommunicationType.SMELL)) {
                     dropSmell(device.getPosition(), device.getAgentSource());
                 }
-                scenario.getMarks().add(device);
-                marks.remove(i);
-                check = true;
+                dropVisionMark(i, device);
+                return;
             }
-            if (check) {
-                break;
-            }
-
         }
+    }
 
-
+    private void dropVisionMark(int index, Mark device) {
+        scenario.getMarks().add(device);
+        marks.remove(index);
     }
 
     private void dropSmell(Position position, Agent source) {
