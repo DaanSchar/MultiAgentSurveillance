@@ -36,13 +36,13 @@ public class RewardModule extends AgentModule implements IRewardModule {
         Intruder intruder = (Intruder) scenario.getIntruders().getCurrentAgent();
 
         if (intruder.isFleeing()) {
-            moveReward += -2;
-        } else {
-//            moveReward += 1;
+            moveReward += 2;
+        }else { // I think this is better, since it will entice intruder to not be in flee mode
+            moveReward+=10;
         }
 
         if (isStuck(position, direction)) {
-            moveReward -= 0.5;
+            moveReward -= 1;
         }
 
 //        double distanceRewardScalar = -0.1;

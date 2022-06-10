@@ -15,7 +15,7 @@ import java.io.IOException;
 @Slf4j
 public final class Train<OBSERVATION extends Encodable> {
 
-    public static int OBSERVATION_SIZE = 1649;
+    public static int OBSERVATION_SIZE = 64;
 
     private static final String pathWhenTraining = "core/assets/policies/bins/";
     private static final String pathWhenPlaying = "policies/bins/";

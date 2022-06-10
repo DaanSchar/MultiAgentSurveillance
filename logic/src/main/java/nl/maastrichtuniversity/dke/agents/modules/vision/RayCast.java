@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.agents.Agent;
 import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
+import nl.maastrichtuniversity.dke.agents.modules.exploration.Train;
 import nl.maastrichtuniversity.dke.agents.util.Direction;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
 import nl.maastrichtuniversity.dke.scenario.environment.Tile;
@@ -17,8 +18,7 @@ import java.util.*;
 public class RayCast extends AgentModule implements IVisionModule {
 
 
-    private final int TILE_LIMIT = 60;
-    private final int GUARD_DIST_LIMIT = 1;
+    private final int TILE_LIMIT;
 
 
     private final double viewingDistance;
@@ -37,6 +37,7 @@ public class RayCast extends AgentModule implements IVisionModule {
         this.viewingDistance = (float) viewingDistance;
         this.visibleTiles = new ArrayList<>();
         this.visibleAgents = new ArrayList<>();
+        this.TILE_LIMIT = Train.OBSERVATION_SIZE - 3;
     }
 
     @Override
@@ -87,7 +88,7 @@ public class RayCast extends AgentModule implements IVisionModule {
                 tileVector.add(0d);
             } else tileVector.add(1d);
         }
-        return tileVector.subList(0, Math.min(TILE_LIMIT + GUARD_DIST_LIMIT, tileVector.size()));
+        return tileVector.subList(0, Math.min(TILE_LIMIT, tileVector.size()));
     }
 
 
@@ -168,7 +169,11 @@ public class RayCast extends AgentModule implements IVisionModule {
                 return p.distanceManhattan(a.getPosition());
             }
         }
-        return p.distanceManhattan(visibleTiles.get(visibleTiles.size() - 1).getPosition()) + 1;
+
+        if (visibleTiles.isEmpty()) {
+            return viewingDistance + 10;
+        } else
+            return p.distanceManhattan(visibleTiles.get(visibleTiles.size() - 1).getPosition()) + 1;
     }
 
     private Tile getTileAt(Position position) {
