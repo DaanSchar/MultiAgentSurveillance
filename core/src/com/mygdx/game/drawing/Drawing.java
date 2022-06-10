@@ -36,7 +36,7 @@ public class Drawing extends JLabel {
     List<Tile> teleporttiles = new ArrayList<>();
     JFrame window = new JFrame("Draw");
     TileType texturetype = TileType.WALL;
-    RandomMapGenerator mapcreater= new RandomMapGenerator();
+    RandomMapGenerator mapcreater = new RandomMapGenerator();
 
     public Drawing() {
         mapcreater.startBuild();
@@ -85,7 +85,7 @@ public class Drawing extends JLabel {
 
     private Tile createTile(TileType type, int x, int y) {
         Tile tile = new Tile(new Position(x, y), type);
-        mapcreater.createArea(x,y,x+1,y+1,type);
+        mapcreater.createArea(x, y, x + 1, y + 1, type);
         if (type == TileType.WALL) {
             walltiles.add(tile);
         }

@@ -1,6 +1,7 @@
 package nl.maastrichtuniversity.dke.scenario.util;
 
 import nl.maastrichtuniversity.dke.scenario.environment.TileType;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;

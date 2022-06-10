@@ -51,8 +51,10 @@ public class RandomMapGenerator {
         fillInEmptyTiles();
         mapSaver.saveMap();
     }
+
     public void startBuild() {
         mapSaver.scenarioSaver();
+        createBorder(); //WALL BORDER
     }
 
 

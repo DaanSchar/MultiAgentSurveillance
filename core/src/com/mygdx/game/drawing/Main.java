@@ -62,7 +62,7 @@ public class Main {
         public void actionPerformed(ActionEvent e) {
             drawing.setTextureDrawing(textures.getSelectedItem());
             window.repaint();
-            if (e.getSource()==button){
+            if (e.getSource() == button) {
                 drawing.savemap();
             }
         }
