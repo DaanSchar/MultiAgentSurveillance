@@ -1,6 +1,7 @@
 package nl.maastrichtuniversity.dke.scenario.util;
 
 import nl.maastrichtuniversity.dke.scenario.environment.*;
+
 import java.util.Random;
 
 public class RandomMapGenerator {
