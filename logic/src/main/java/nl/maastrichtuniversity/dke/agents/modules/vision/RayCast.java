@@ -15,13 +15,19 @@ import java.util.*;
 @Slf4j
 public class RayCast extends AgentModule implements IVisionModule {
 
+
+    private final int TILE_LIMIT = 60;
     private final double viewingDistance;
     private final double viewingAngle = 100;
 
     private Position currentPosition;
 
-    private final @Getter List<Tile> visibleTiles;
-    private final @Getter List<Agent> visibleAgents;
+    private final @Getter
+    List<Tile> visibleTiles;
+    private final @Getter
+    List<Agent> visibleAgents;
+
+
 
     public RayCast(Scenario scenario, double viewingDistance) {
         super(scenario);
@@ -64,24 +70,42 @@ public class RayCast extends AgentModule implements IVisionModule {
 
 
     /**
+     * method to convert visible tiles to input for ANN
+     *
+     * @return a double vector with 0 if tile passable,1 if not
+     */
+    @Override
+    public List<Double> toArray() {
+
+        List<Double> tileVector = new ArrayList<>();
+        for (Tile tile : visibleTiles) {
+            if (tile.isPassable()) {
+                tileVector.add(0d);
+            } else tileVector.add(1d);
+        }
+        return tileVector.subList(0, Math.min(TILE_LIMIT, tileVector.size()));
+    }
+
+
+    /**
      * This will return a one-hot encoding of each tile that agent sees,e.g.
      * 1 0 0 0 0 0 0 0 0 0 0 0 - Corresponds to the tile being unknown
      * 0 1 0 0 0 0 0 0 0 0 0 0 - Corresponds to the tile being empty
      *
      * @return One-hot encoding of visible tiles
      */
-    @Override
-    public List<Double> toArray() {
-        int oneHotEncodingSize = 13;
-        List<Double> encodedTiles = new ArrayList<>(visibleTiles.size() * 13);
+  // @Override
+  // public List<Double> toArray() {
+  //     int oneHotEncodingSize = 13;
+  //     List<Double> encodedTiles = new ArrayList<>(visibleTiles.size() * 13);
 
-        // TODO: Maybe sort the list on distance from the player.
-        for (Tile tile : visibleTiles) {
-            encodedTiles.addAll(getEncodingPerTile(tile.getType().getValue(), oneHotEncodingSize));
-        }
+  //     // TODO: Maybe sort the list on distance from the player.
+  //     for (Tile tile : visibleTiles) {
+  //         encodedTiles.addAll(getEncodingPerTile(tile.getType().getValue(), oneHotEncodingSize));
+  //     }
 
-        return encodedTiles.subList(0, Math.min(computeVisionInputSize(), encodedTiles.size()));
-    }
+  //     return encodedTiles.subList(0, Math.min(computeVisionInputSize(), encodedTiles.size()));
+  // }
 
     private int computeVisionInputSize() {
         double visionInputSize = scenario.getIntruders().getCurrentAgent().getPolicyModule().getInputSize() * 0.977;

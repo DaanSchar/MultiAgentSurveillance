@@ -240,14 +240,16 @@ public class Agent {
     public double[] toArray() {
         double[] fullObservations = new double[getPolicyModule().getInputSize()];
         double isFleeing = 0;
+
         if (this instanceof Intruder) {
             if (((Intruder) this).isFleeing()) {
                 isFleeing = 1;
             }
         }
 
-        List<Double> observations = new ArrayList<>(getStateVector());
+        List<Double> observations = new ArrayList<>();
         observations.add(isFleeing);
+
         Stream.of(visionModule.toArray()).forEach(observations::addAll);
 
         double[] observationsArray = listToArray(observations);
