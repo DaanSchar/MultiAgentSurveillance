@@ -47,11 +47,12 @@ public class Main {
         textures.addItem("WALL");
         textures.addItem("TARGET");
         textures.addItem("SHADED");
-        textures.addItem("SPAWN AREA GUARDS");
-        textures.addItem("SPAWN AREA INTRUDERS");
-        textures.addItem("SENTRY TOWER");
+        textures.addItem("SPAWN_GUARDS");
+        textures.addItem("SPAWN_INTRUDERS");
+        textures.addItem("SENTRY");
         textures.addItem("DOOR");
         textures.addItem("WINDOW");
+        textures.addItem("TELEPORT");
         buttonContainer.add(textures, 0, 0);
         buttonContainer.add(button, 0, 0);
     }

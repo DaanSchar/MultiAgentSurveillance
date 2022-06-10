@@ -5,6 +5,7 @@ import nl.maastrichtuniversity.dke.scenario.Scenario;
 import nl.maastrichtuniversity.dke.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.scenario.environment.TileType;
+import nl.maastrichtuniversity.dke.scenario.environment.WindowTile;
 import nl.maastrichtuniversity.dke.scenario.util.MapSaver;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 
@@ -25,6 +26,13 @@ public class Drawing extends JLabel {
     private MapSaver mapSaver = new MapSaver();
     List<Tile> walltiles = new ArrayList<>();
     List<Tile> targettiles = new ArrayList<>();
+    List<Tile> spawnguardstiles = new ArrayList<>();
+    List<Tile> spawnintruderstiles = new ArrayList<>();
+    List<Tile> shadedtiles = new ArrayList<>();
+    List<Tile> windowtiles = new ArrayList<>();
+    List<Tile> doortiles = new ArrayList<>();
+    List<Tile> sentrytowertiles = new ArrayList<>();
+    List<Tile> teleporttiles = new ArrayList<>();
     JFrame window = new JFrame("Draw");
     TileType texturetype = TileType.WALL;
 
@@ -45,6 +53,14 @@ public class Drawing extends JLabel {
     private void drawEnvironment(Graphics g) {
         drawAreas(g, walltiles, imageFactory.get("wallTexture"));
         drawAreas(g, targettiles, imageFactory.get("targetTexture"));
+        drawAreas(g, windowtiles, imageFactory.get("windowTexture"));
+        drawAreas(g, doortiles, imageFactory.get("doorTexture"));
+        drawAreas(g, teleporttiles, imageFactory.get("teleportTexture"));
+        drawAreas(g, sentrytowertiles, imageFactory.get("sentryTowerTexture"));
+        drawAreas(g, shadedtiles, imageFactory.get("shadedTexture"));
+        drawAreas(g, spawnguardstiles, imageFactory.get("spawnAreaTexture"));
+        drawAreas(g, spawnintruderstiles, imageFactory.get("spawnAreaTexture"));
+
     }
 
     private void drawAreas(Graphics g, List<Tile> tiles, BufferedImage image) {
@@ -72,6 +88,27 @@ public class Drawing extends JLabel {
         if (type == TileType.TARGET) {
             targettiles.add(tile);
         }
+        if (type == TileType.SPAWN_GUARDS) {
+            spawnguardstiles.add(tile);
+        }
+        if (type == TileType.SPAWN_INTRUDERS) {
+            spawnintruderstiles.add(tile);
+        }
+        if (type == TileType.DOOR) {
+            doortiles.add(tile);
+        }
+        if (type == TileType.WINDOW) {
+            windowtiles.add(tile);
+        }
+        if (type == TileType.SENTRY) {
+            sentrytowertiles.add(tile);
+        }
+        if (type == TileType.SHADED) {
+            shadedtiles.add(tile);
+        }
+        if (type == TileType.TELEPORT) {
+            teleporttiles.add(tile);
+        }
         return tile;
     }
 
@@ -84,6 +121,34 @@ public class Drawing extends JLabel {
         if (string.equals(TileType.TARGET.toString())) {
             texturetype = TileType.TARGET;
             return TileType.TARGET;
+        }
+        if (string.equals(TileType.DOOR.toString())) {
+            texturetype = TileType.DOOR;
+            return TileType.DOOR;
+        }
+        if (string.equals(TileType.WINDOW.toString())) {
+            texturetype = TileType.WINDOW;
+            return TileType.WINDOW;
+        }
+        if (string.equals(TileType.SHADED.toString())) {
+            texturetype = TileType.SHADED;
+            return TileType.SHADED;
+        }
+        if (string.equals(TileType.SPAWN_GUARDS.toString())) {
+            texturetype = TileType.SPAWN_GUARDS;
+            return TileType.SPAWN_GUARDS;
+        }
+        if (string.equals(TileType.SPAWN_INTRUDERS.toString())) {
+            texturetype = TileType.SPAWN_INTRUDERS;
+            return TileType.SPAWN_INTRUDERS;
+        }
+        if (string.equals(TileType.SENTRY.toString())) {
+            texturetype = TileType.SENTRY;
+            return TileType.SENTRY;
+        }
+        if (string.equals(TileType.TELEPORT.toString())) {
+            texturetype = TileType.TELEPORT;
+            return TileType.TELEPORT;
         }
         return TileType.WALL;
     }
