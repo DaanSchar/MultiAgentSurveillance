@@ -81,7 +81,7 @@ public class VisionModule extends AgentModule implements IVisionModule {
      * @return One-hot encoding of visible tiles
      */
     @Override
-    public List<Double> toArray() {
+    public List<Double> toArray(Position p) {
         int oneHotEncodingSize = 13;
         List<Double> encodedTiles = new ArrayList<>(visibleTiles.size() * 13);
         for (Tile tile : visibleTiles) {

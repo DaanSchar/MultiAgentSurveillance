@@ -250,7 +250,7 @@ public class Agent {
         List<Double> observations = new ArrayList<>();
         observations.add(isFleeing);
 
-        Stream.of(visionModule.toArray()).forEach(observations::addAll);
+        Stream.of(visionModule.toArray(position)).forEach(observations::addAll);
 
         double[] observationsArray = listToArray(observations);
         System.arraycopy(observationsArray, 0, fullObservations, 0, observationsArray.length);

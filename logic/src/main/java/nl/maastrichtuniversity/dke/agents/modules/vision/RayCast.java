@@ -3,6 +3,7 @@ package nl.maastrichtuniversity.dke.agents.modules.vision;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.agents.Agent;
+import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.modules.AgentModule;
 import nl.maastrichtuniversity.dke.agents.util.Direction;
 import nl.maastrichtuniversity.dke.scenario.Scenario;
@@ -17,6 +18,9 @@ public class RayCast extends AgentModule implements IVisionModule {
 
 
     private final int TILE_LIMIT = 60;
+    private final int GUARD_DIST_LIMIT = 1;
+
+
     private final double viewingDistance;
     private final double viewingAngle = 100;
 
@@ -26,7 +30,6 @@ public class RayCast extends AgentModule implements IVisionModule {
     List<Tile> visibleTiles;
     private final @Getter
     List<Agent> visibleAgents;
-
 
 
     public RayCast(Scenario scenario, double viewingDistance) {
@@ -75,15 +78,16 @@ public class RayCast extends AgentModule implements IVisionModule {
      * @return a double vector with 0 if tile passable,1 if not
      */
     @Override
-    public List<Double> toArray() {
-
+    public List<Double> toArray(Position p) {
         List<Double> tileVector = new ArrayList<>();
+        tileVector.add(getGuardDistance(p));
+
         for (Tile tile : visibleTiles) {
             if (tile.isPassable()) {
                 tileVector.add(0d);
             } else tileVector.add(1d);
         }
-        return tileVector.subList(0, Math.min(TILE_LIMIT, tileVector.size()));
+        return tileVector.subList(0, Math.min(TILE_LIMIT + GUARD_DIST_LIMIT, tileVector.size()));
     }
 
 
@@ -94,19 +98,18 @@ public class RayCast extends AgentModule implements IVisionModule {
      *
      * @return One-hot encoding of visible tiles
      */
-  // @Override
-  // public List<Double> toArray() {
-  //     int oneHotEncodingSize = 13;
-  //     List<Double> encodedTiles = new ArrayList<>(visibleTiles.size() * 13);
+    // @Override
+    // public List<Double> toArray() {
+    //     int oneHotEncodingSize = 13;
+    //     List<Double> encodedTiles = new ArrayList<>(visibleTiles.size() * 13);
 
-  //     // TODO: Maybe sort the list on distance from the player.
-  //     for (Tile tile : visibleTiles) {
-  //         encodedTiles.addAll(getEncodingPerTile(tile.getType().getValue(), oneHotEncodingSize));
-  //     }
+    //     // TODO: Maybe sort the list on distance from the player.
+    //     for (Tile tile : visibleTiles) {
+    //         encodedTiles.addAll(getEncodingPerTile(tile.getType().getValue(), oneHotEncodingSize));
+    //     }
 
-  //     return encodedTiles.subList(0, Math.min(computeVisionInputSize(), encodedTiles.size()));
-  // }
-
+    //     return encodedTiles.subList(0, Math.min(computeVisionInputSize(), encodedTiles.size()));
+    // }
     private int computeVisionInputSize() {
         double visionInputSize = scenario.getIntruders().getCurrentAgent().getPolicyModule().getInputSize() * 0.977;
         return (int) Math.round(visionInputSize / 13) * 13;
@@ -155,14 +158,27 @@ public class RayCast extends AgentModule implements IVisionModule {
         return null;
     }
 
+    /**
+     * @param p position of our intruder
+     * @return manhattan distance of guard to intruder
+     */
+    private double getGuardDistance(Position p) {
+        for (Agent a : getVisibleAgents()) {
+            if (a instanceof Guard) {
+                return p.distanceManhattan(a.getPosition());
+            }
+        }
+        return p.distanceManhattan(visibleTiles.get(visibleTiles.size() - 1).getPosition()) + 1;
+    }
+
     private Tile getTileAt(Position position) {
         return scenario.getEnvironment().getAt(position);
     }
 
     private void sortTileOnDistanceFromAgent(Position agentPosition) {
         visibleTiles.sort((o1, o2) -> {
-            double distanceO1 = o1.getPosition().distance(agentPosition);
-            double distanceO2 = o2.getPosition().distance(agentPosition);
+            double distanceO1 = o1.getPosition().distanceManhattan(agentPosition);
+            double distanceO2 = o2.getPosition().distanceManhattan(agentPosition);
 
             if (distanceO1 > distanceO2) {
                 return 1;
