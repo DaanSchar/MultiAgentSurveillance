@@ -32,6 +32,8 @@ public class VisionModule extends AgentModule implements IVisionModule {
     private Position currentPosition;
     private Direction currentDirection;
 
+
+
     public VisionModule(Scenario scenario, int viewingDistance) {
         super(scenario);
         this.viewingDistance = viewingDistance;
@@ -68,6 +70,9 @@ public class VisionModule extends AgentModule implements IVisionModule {
     }
 
 
+
+
+
     /**
      * This will return a one-hot encoding of each tile that agent sees,e.g.
      * 1 0 0 0 0 0 0 0 0 0 0 0 - Corresponds to the tile being unknown
@@ -76,15 +81,13 @@ public class VisionModule extends AgentModule implements IVisionModule {
      * @return One-hot encoding of visible tiles
      */
     @Override
-    public List<Double> toArray() {
+    public List<Double> toArray(Position p) {
         int oneHotEncodingSize = 13;
         List<Double> encodedTiles = new ArrayList<>(visibleTiles.size() * 13);
-
         for (Tile tile : visibleTiles) {
             encodedTiles.addAll(getEncodingPerTile(tile.getType().getValue(), oneHotEncodingSize));
         }
-
-        return encodedTiles.subList(0, Math.min(computeVisionInputSize(), encodedTiles.size()));
+       return encodedTiles.subList(0, Math.min(computeVisionInputSize(), encodedTiles.size()));
     }
 
     private int computeVisionInputSize() {

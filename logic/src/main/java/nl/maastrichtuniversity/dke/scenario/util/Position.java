@@ -55,7 +55,12 @@ public class Position {
         );
     }
 
-    public double distance(Position other) {
+    public double distanceEuclidean(Position other) {
         return Math.abs(Math.sqrt((other.y - this.y) * (other.y - this.y) + (other.x - this.x) * (other.x - this.x)));
     }
+
+    public double distanceManhattan(Position other) {
+        return (Math.abs(this.getX() - other.getX()) + Math.abs(this.getY() - other.getY()));
+    }
+
 }

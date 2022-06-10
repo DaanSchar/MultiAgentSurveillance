@@ -32,6 +32,7 @@ public class InteractionModule extends AgentModule {
         if (intruder != null) {
             intruder.setCaught(true);
             scenario.getIntruders().remove(intruder);
+            log.info("CAUGHT");
         }
     }
 
