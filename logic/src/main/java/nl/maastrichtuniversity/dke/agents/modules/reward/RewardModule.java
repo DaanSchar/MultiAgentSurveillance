@@ -105,7 +105,7 @@ public class RewardModule extends AgentModule implements IRewardModule {
         }
 
 
-        if (previousPositions.size() == 20) {
+        if (previousPositions.size() == 50) {
             previousPositions.remove(0);
         }
         previousPositions.add(p);
