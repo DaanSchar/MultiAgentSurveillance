@@ -7,7 +7,7 @@ import java.util.Random;
 public class RandomMapGenerator {
     private final int width = 120 / 2;
     private final int height = 80 / 2;
-    private Tile[][] tileMap;
+    private Tile[][] tileMap = new Tile[width][height];
     private static final int EIGHTEEN = 18 / 2;
     private static final int EIGHT = 8 / 2;
     private static final int THREE = 3;
@@ -21,7 +21,6 @@ public class RandomMapGenerator {
 
 
     public Environment build() {
-        this.tileMap = new Tile[width][height];
         mapSaver.scenarioSaver();
         createBorder(); //WALL BORDER
         createrArea(EIGHTEEN, EIGHT, TileType.SPAWN_INTRUDERS); //SPAWN
@@ -48,6 +47,15 @@ public class RandomMapGenerator {
         return new Environment(this.width, this.height, this.tileMap);
     }
 
+    public void buildDraw() {
+        fillInEmptyTiles();
+        mapSaver.saveMap();
+    }
+    public void startBuild() {
+        mapSaver.scenarioSaver();
+    }
+
+
     private void fillInEmptyTiles() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -58,7 +66,7 @@ public class RandomMapGenerator {
         }
     }
 
-    private void createrArea(int maxWidth, int maxHeight, TileType type) {
+    public void createrArea(int maxWidth, int maxHeight, TileType type) {
         Random rand = new Random();
         int rX1 = rand.nextInt(width - maxWidth);
         int rY1 = rand.nextInt(height - maxHeight);
@@ -75,7 +83,7 @@ public class RandomMapGenerator {
 
     }
 
-    private void createArea(int x1, int y1, int x2, int y2, TileType type) {
+    public void createArea(int x1, int y1, int x2, int y2, TileType type) {
         for (int x = x1; x < x2; x++) {
             for (int y = y1; y < y2; y++) {
                 tileMap[x][y] = new Tile(new Position(x, y), type);

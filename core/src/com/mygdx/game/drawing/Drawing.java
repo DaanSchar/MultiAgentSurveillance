@@ -8,6 +8,7 @@ import nl.maastrichtuniversity.dke.scenario.environment.TileType;
 import nl.maastrichtuniversity.dke.scenario.environment.WindowTile;
 import nl.maastrichtuniversity.dke.scenario.util.MapSaver;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
+import nl.maastrichtuniversity.dke.scenario.util.RandomMapGenerator;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -35,8 +36,10 @@ public class Drawing extends JLabel {
     List<Tile> teleporttiles = new ArrayList<>();
     JFrame window = new JFrame("Draw");
     TileType texturetype = TileType.WALL;
+    RandomMapGenerator mapcreater= new RandomMapGenerator();
 
     public Drawing() {
+        mapcreater.startBuild();
         MouseSpy mouseListener = new MouseSpy();
         addMouseListener(mouseListener);
 
@@ -82,6 +85,7 @@ public class Drawing extends JLabel {
 
     private Tile createTile(TileType type, int x, int y) {
         Tile tile = new Tile(new Position(x, y), type);
+        mapcreater.createArea(x,y,x+1,y+1,type);
         if (type == TileType.WALL) {
             walltiles.add(tile);
         }
@@ -151,6 +155,10 @@ public class Drawing extends JLabel {
             return TileType.TELEPORT;
         }
         return TileType.WALL;
+    }
+
+    public void savemap() {
+        mapcreater.buildDraw();
     }
 
     class MouseSpy implements MouseWheelListener, MouseMotionListener, MouseListener {
