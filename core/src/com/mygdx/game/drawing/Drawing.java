@@ -39,7 +39,7 @@ public class Drawing extends JLabel {
         mapcreater.startBuild();
         MouseSpy mouseListener = new MouseSpy();
         addMouseListener(mouseListener);
-
+        addMouseMotionListener(mouseListener);
     }
 
     public void paintComponent(Graphics g) {
@@ -160,19 +160,27 @@ public class Drawing extends JLabel {
 
     class MouseSpy implements MouseWheelListener, MouseMotionListener, MouseListener {
         private Point point;
-        private boolean released = false;
 
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
+
         }
 
         @Override
         public void mouseDragged(MouseEvent e) {
-
+           // mouseMoved(e);
+            point = MouseInfo.getPointerInfo().getLocation();
+            int x = (int) (point.getX() / textureSize);
+            int y = (int) (point.getY() / textureSize);
+            Tile tile = createTile(texturetype, x, y);
+            repaint();
         }
 
         @Override
         public void mouseMoved(MouseEvent e) {
+
+
+
         }
 
         @Override
@@ -191,14 +199,11 @@ public class Drawing extends JLabel {
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            released = true;
-
         }
 
         @Override
         public void mouseEntered(MouseEvent e) {
             // TODO Auto-generated method stub
-
         }
 
         @Override
