@@ -1,7 +1,6 @@
 package nl.maastrichtuniversity.dke.scenario.util;
 
 import nl.maastrichtuniversity.dke.scenario.environment.TileType;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -60,6 +59,7 @@ public class MapSaver {
     public void teleportSaver(int x1, int y1, int x2, int y2, int disx, int disy, int rotation) {
         PrintWriter printWriter = new PrintWriter(writer);
         printWriter.println("teleport = " + x1 + " " + y1 + " " + x2 + " " + y2 + " " + disx + " " + disy + " " + rotation);
+
     }
 
 

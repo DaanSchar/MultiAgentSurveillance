@@ -1,21 +1,18 @@
 package com.mygdx.game.drawing;
 
 
-import nl.maastrichtuniversity.dke.scenario.Scenario;
-import nl.maastrichtuniversity.dke.scenario.environment.Environment;
 import nl.maastrichtuniversity.dke.scenario.environment.Tile;
 import nl.maastrichtuniversity.dke.scenario.environment.TileType;
-import nl.maastrichtuniversity.dke.scenario.environment.WindowTile;
 import nl.maastrichtuniversity.dke.scenario.util.MapSaver;
 import nl.maastrichtuniversity.dke.scenario.util.Position;
 import nl.maastrichtuniversity.dke.scenario.util.RandomMapGenerator;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.*;
 
 /**
  * Play class .
@@ -25,15 +22,15 @@ public class Drawing extends JLabel {
     private int textureSize = 20;
     private boolean agentMapNumBoolean = false;
     private MapSaver mapSaver = new MapSaver();
-    List<Tile> walltiles = new ArrayList<>();
-    List<Tile> targettiles = new ArrayList<>();
-    List<Tile> spawnguardstiles = new ArrayList<>();
-    List<Tile> spawnintruderstiles = new ArrayList<>();
-    List<Tile> shadedtiles = new ArrayList<>();
-    List<Tile> windowtiles = new ArrayList<>();
-    List<Tile> doortiles = new ArrayList<>();
-    List<Tile> sentrytowertiles = new ArrayList<>();
-    List<Tile> teleporttiles = new ArrayList<>();
+    private List<Tile> walltiles = new ArrayList<>();
+    private List<Tile> targettiles = new ArrayList<>();
+    private List<Tile> spawnguardstiles = new ArrayList<>();
+    private List<Tile> spawnintruderstiles = new ArrayList<>();
+    private List<Tile> shadedtiles = new ArrayList<>();
+    private List<Tile> windowtiles = new ArrayList<>();
+    private List<Tile> doortiles = new ArrayList<>();
+    private List<Tile> sentrytowertiles = new ArrayList<>();
+    private List<Tile> teleporttiles = new ArrayList<>();
     JFrame window = new JFrame("Draw");
     TileType texturetype = TileType.WALL;
     RandomMapGenerator mapcreater = new RandomMapGenerator();
