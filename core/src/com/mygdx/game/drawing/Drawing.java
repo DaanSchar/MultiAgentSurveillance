@@ -31,9 +31,9 @@ public class Drawing extends JLabel {
     private List<Tile> doortiles = new ArrayList<>();
     private List<Tile> sentrytowertiles = new ArrayList<>();
     private List<Tile> teleporttiles = new ArrayList<>();
-    JFrame window = new JFrame("Draw");
-    TileType texturetype = TileType.WALL;
-    RandomMapGenerator mapcreater = new RandomMapGenerator();
+    private JFrame window = new JFrame("Draw");
+    private TileType texturetype = TileType.WALL;
+    private RandomMapGenerator mapcreater = new RandomMapGenerator();
 
     public Drawing() {
         mapcreater.startBuild();
