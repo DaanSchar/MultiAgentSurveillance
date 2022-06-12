@@ -23,7 +23,7 @@ public class Main {
         window.getContentPane().setBackground(Color.BLACK);
         window.setUndecorated(true);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setSize(60 * 20, 40 * 20);
+        window.setSize(1200, 800);
         // window.setLocationRelativeTo(null);
         window.setVisible(true);
     }
@@ -33,7 +33,7 @@ public class Main {
         buttonContainer = new JLabel();
         buttonContainer.setBackground(backgroundColor);
         buttonContainer.setOpaque(true);
-        buttonContainer.setBounds(0, 40 * 20 - 40, 60 * 40, 40);
+        buttonContainer.setBounds(0, 760, 1200, 40);
         textures.setBounds(350, 0, 250, 40);
         textures.addActionListener(buttonListener);
         textures.setBackground(buttonColor);

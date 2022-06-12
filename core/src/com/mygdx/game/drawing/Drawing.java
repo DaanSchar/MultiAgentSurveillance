@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 public class Drawing extends JLabel {
-    private int textureSize = 20;
+    private final int textureSize = 20;
     private boolean agentMapNumBoolean = false;
     private MapSaver mapSaver = new MapSaver();
     private List<Tile> walltiles = new ArrayList<>();
@@ -183,8 +183,8 @@ public class Drawing extends JLabel {
         @Override
         public void mousePressed(MouseEvent e) {
             point = MouseInfo.getPointerInfo().getLocation();
-            int x = (int) (point.getX() / 20);
-            int y = (int) (point.getY() / 20);
+            int x = (int) (point.getX() / textureSize);
+            int y = (int) (point.getY() / textureSize);
             Tile tile = createTile(texturetype, x, y);
             repaint();
         }
@@ -209,8 +209,4 @@ public class Drawing extends JLabel {
 
     }
 
-    public static void main(String[] args) {
-        Drawing drawing = new Drawing();
-
-    }
 }
