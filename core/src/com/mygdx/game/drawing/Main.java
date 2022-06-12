@@ -6,14 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Main {
-    private JFrame window = new JFrame("Draw");
-    private Drawing drawing = new Drawing();
+    private final JFrame window = new JFrame("Draw");
+    private final Drawing drawing = new Drawing();
     private JLabel buttonContainer;
-    private Color backgroundColor = new Color(173, 237, 153);
+    private final Color backgroundColor = new Color(173, 237, 153);
     private JComboBox<String> textures;
-    private JButton button = new JButton("SAVE MAP");
-    private Color buttonColor = new Color(230, 230, 230);
-    private ButtonListener buttonListener;
+    private final JButton button = new JButton("SAVE MAP");
+    private final Color buttonColor = new Color(230, 230, 230);
+    private final ButtonListener buttonListener;
 
     public Main() {
         buttonListener = new ButtonListener();
@@ -69,6 +69,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        Main main = new Main();
+        new Main();
     }
 }
