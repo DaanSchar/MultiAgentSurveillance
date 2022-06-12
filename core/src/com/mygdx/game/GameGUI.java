@@ -110,6 +110,7 @@ public final class GameGUI extends ApplicationAdapter {
             timeInterval = MIN_TIME_INTERVAL;
         }
     }
+
     public static float getTimeInterval() {
         return timeInterval;
     }
