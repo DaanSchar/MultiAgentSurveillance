@@ -159,8 +159,8 @@ public class Drawing extends JLabel {
     }
 
     class MouseSpy implements MouseWheelListener, MouseMotionListener, MouseListener {
-        Point point;
-        boolean released = false;
+        private Point point;
+        private boolean released = false;
 
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
