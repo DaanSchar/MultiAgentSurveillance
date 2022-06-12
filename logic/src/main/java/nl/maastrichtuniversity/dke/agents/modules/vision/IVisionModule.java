@@ -18,8 +18,9 @@ public interface IVisionModule {
 
     List<Double> getVector();
 
-    List<Double> toArray();
+    List<Double> toArray(Position position);
 
     int targetTilesSeen();
 
+    Tile getCurrentPosition();
 }

@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationType;
-import nl.maastrichtuniversity.dke.agents.modules.exploration.DQN;
+import nl.maastrichtuniversity.dke.agents.modules.exploration.Train;
 import nl.maastrichtuniversity.dke.agents.modules.runningAway.IRunningAway;
 import nl.maastrichtuniversity.dke.agents.modules.sound.SourceType;
 import nl.maastrichtuniversity.dke.scenario.Sound;
@@ -18,17 +18,12 @@ import java.util.stream.Collectors;
 @Slf4j
 public class Intruder extends Agent {
 
-    private @Getter
-    @Setter
-    boolean isCaught;
-    private @Setter
-    IRunningAway runningAway;
+    private @Getter @Setter boolean isCaught;
+    private @Setter IRunningAway runningAway;
     private boolean navigatedToBlueMark; // whether the agent has navigated to the mark that another agent dropped
     private boolean droppedBlueMark; // did it drop the mark already
-    private @Getter
-    Position guessTarget;
-    private @Getter
-    boolean reachGuessTarget;
+    private @Getter Position guessTarget;
+    private @Getter boolean reachGuessTarget;
 
     private @Getter
     boolean fleeing;
@@ -52,22 +47,24 @@ public class Intruder extends Agent {
 
     @Override
     public void move() {
-        if (hasReachedTarget()) {
+        if (hasReachedFinalTarget()) {
             return;
         }
         if (this.getPosition().equals(guessTarget)) {
             reachGuessTarget = true;
         }
         if (isFleeing()) {
-            if (!DQN.isTraining()) {
+            if (!Train.isTraining()) {
                 super.rlMove();
             }
         } else if (hasTarget()) {
             navigateToTarget();
+        } else if (seesBlueMark()) {
+            navigateToBlueMark();
         } else if (reachGuessTarget) {
             super.explore();
         } else {
-            moveToPosition(guessTarget);
+            setTarget(guessTarget);
         }
         super.move();
     }
@@ -94,6 +91,10 @@ public class Intruder extends Agent {
         this.fleeing = false;
 
         if (seesTargetArea()) {
+            if (!droppedBlueMark) {
+                this.dropMark(CommunicationType.VISION_BLUE);
+                droppedBlueMark = true;
+            }
             setTarget(getTargetTile().getPosition());
         } else if (seesGuard() || hearsSound()) {
             flee();
@@ -202,8 +203,9 @@ public class Intruder extends Agent {
     }
 
     private void navigateToBlueMark() {
-        Position target = getBlueMark();
-        moveToPosition(target);
+        this.setTarget(getBlueMark());
+//        Position target = getBlueMark();
+//        moveToPosition(target);
     }
 
     @Override
@@ -216,8 +218,8 @@ public class Intruder extends Agent {
             observations.add((double) visibleGuard.getPosition().getY());
         } else if (hearsSound()) {
             Sound sound = getSoundsAtCurrentPosition().get(0);
-            observations.add((double) sound.getPosition().getX());
-            observations.add((double) sound.getPosition().getY());
+            observations.add((double) sound.getSource().getX());
+            observations.add((double) sound.getSource().getY());
         } else {
             observations.add(0.0);
             observations.add(0.0);

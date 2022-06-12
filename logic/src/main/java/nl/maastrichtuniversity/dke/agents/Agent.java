@@ -11,6 +11,7 @@ import nl.maastrichtuniversity.dke.agents.modules.communication.Mark;
 import nl.maastrichtuniversity.dke.agents.modules.communication.CommunicationType;
 import nl.maastrichtuniversity.dke.agents.modules.communication.ICommunicationModule;
 import nl.maastrichtuniversity.dke.agents.modules.exploration.IExplorationModule;
+import nl.maastrichtuniversity.dke.agents.modules.memory.MemoryModule;
 import nl.maastrichtuniversity.dke.agents.modules.policy.IPolicyModule;
 import nl.maastrichtuniversity.dke.agents.modules.reward.IRewardModule;
 import nl.maastrichtuniversity.dke.agents.modules.sound.IListeningModule;
@@ -43,14 +44,11 @@ public class Agent {
     private static int agentCount;
     private final int id;
 
-    private @Setter
-    Position position;
-    private @Setter
-    Direction direction;
+    private @Setter Position position;
+    private @Setter Direction direction;
 
     private PathNavigator pathNavigator;
-    private @Setter
-    Position target;
+    private @Setter Position target;
     private int speedbar = 2;
 
     public Agent() {
@@ -96,7 +94,6 @@ public class Agent {
         MoveAction nextMove = explorationModule.explore(getPosition(), getDirection());
         move(nextMove);
     }
-
 
     public void move(MoveAction action) {
         if (speedbar < 2) {
@@ -195,6 +192,15 @@ public class Agent {
         return getPosition().equals(this.target);
     }
 
+    protected boolean hasReachedFinalTarget() {
+        if (visionModule.getCurrentPosition() == null) {
+            return false;
+        } else if (visionModule.getCurrentPosition().getType().equals(TileType.TARGET)) {
+            return true;
+        }
+        return false;
+    }
+
     private void updatePathToTarget() {
         if (hasTarget()) {
             calculatePathTo(this.target);
@@ -258,13 +264,26 @@ public class Agent {
         }
     }
 
+    public double[][] toTimeArray() {
+        ((MemoryModule) memoryModule).addObservations(toArray());
+        List<double[]> observationMemory = ((MemoryModule) memoryModule).getObservationMemory();
+        int observationSize = observationMemory.get(0).length;
+        int time = observationMemory.size();
+        double[][] observations = new double[observationSize][time];
 
-    //TODO
-    // implement toArray for all specified modules
+        for (int i = 0; i < observationSize; i++) {
+            for (int j = 0; j < time; j++) {
+                observations[i][j] = observationMemory.get(j)[i];
+            }
+        }
+
+        return observations;
+    }
+
     public double[] toArray() {
-
         double[] fullObservations = new double[getPolicyModule().getInputSize()];
         double isFleeing = 0;
+
         if (this instanceof Intruder) {
             if (((Intruder) this).isFleeing()) {
                 isFleeing = 1;
@@ -273,8 +292,10 @@ public class Agent {
 
         List<Double> observations = new ArrayList<>();
         observations.add(isFleeing);
-        observations.addAll(getStateVector());
-        Stream.of(visionModule.toArray(), listeningModule.toArray()).forEach(observations::addAll);
+        observations.add((double) direction.getMoveX());
+        observations.add((double) direction.getMoveY());
+        Stream.of(visionModule.toArray(position)).forEach(observations::addAll);
+
 
         double[] observationsArray = listToArray(observations);
         System.arraycopy(observationsArray, 0, fullObservations, 0, observationsArray.length);
@@ -300,36 +321,21 @@ public class Agent {
         return array;
     }
 
-    private @Setter
-    ISpawnModule spawnModule;
-    private @Setter
-    IMovementModule movement;
-    private @Setter
-    IVisionModule visionModule;
-    private @Setter
-    ICommunicationModule communicationModule;
-    private @Setter
-    INoiseModule noiseModule;
-    private @Setter
-    IListeningModule listeningModule;
-    private @Setter
-    IMemoryModule memoryModule;
-    private @Setter
-    ISmellModule smellModule;
-    private @Setter
-    IExplorationModule explorationModule;
-    private @Setter
-    InteractionModule interactionModule;
-    private @Setter
-    PathFinderModule pathFinderModule;
-    private @Setter
-    IPolicyModule policyModule;
-    private @Setter
-    IRewardModule rewardModule;
-    private @Setter
-    IApproximationModule approximationModule;
-    private @Setter
-    ActionTimer actionTimer;
+    private @Setter ISpawnModule spawnModule;
+    private @Setter IMovementModule movement;
+    private @Setter IVisionModule visionModule;
+    private @Setter ICommunicationModule communicationModule;
+    private @Setter INoiseModule noiseModule;
+    private @Setter IListeningModule listeningModule;
+    private @Setter IMemoryModule memoryModule;
+    private @Setter ISmellModule smellModule;
+    private @Setter IExplorationModule explorationModule;
+    private @Setter InteractionModule interactionModule;
+    private @Setter PathFinderModule pathFinderModule;
+    private @Setter IPolicyModule policyModule;
+    private @Setter IRewardModule rewardModule;
+    private @Setter IApproximationModule approximationModule;
+    private @Setter ActionTimer actionTimer;
 
     public Agent newInstance() {
         return new Agent(direction, position, id, spawnModule, movement, visionModule, noiseModule, communicationModule,

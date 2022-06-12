@@ -9,24 +9,25 @@ import org.deeplearning4j.rl4j.space.DiscreteSpace;
 import org.deeplearning4j.rl4j.space.ObservationSpace;
 
 @Slf4j
-public class IntruderMdp implements MDP<NeuralGameState, Integer, DiscreteSpace> {
+public class IntruderMDP implements MDP<NeuralGameState, Integer, DiscreteSpace> {
 
     private final Game game;
     private int intruderIndex;
     private final int[] actionList;
 
     private final ArrayObservationSpace<NeuralGameState> gameArrayObservationSpace;
+    private final int observationSize = Train.OBSERVATION_SIZE;
 
     // action space for the 5 moves agent can do : MOVE_FORWARD,SPRINT_FORWARD,ROTATE_LEFT,ROTATE_RIGHT,STAND_STILL.
     // also added place marker, break glass and toggle door to move actions.
     private final DiscreteSpace discreteSpace = new DiscreteSpace(5);
 
 
-    public IntruderMdp(Game game) {
+    public IntruderMDP(Game game) {
         this.game = game;
-        gameArrayObservationSpace = new ArrayObservationSpace<>(new int[]{game.observationSize()});
-        actionList = new int[game.getScenario().getIntruders().size()];
-        intruderIndex = 0;
+        this.gameArrayObservationSpace = new ArrayObservationSpace<>(new int[]{observationSize});
+        this.actionList = new int[game.getScenario().getIntruders().size()];
+        this.intruderIndex = 0;
     }
 
     @Override
