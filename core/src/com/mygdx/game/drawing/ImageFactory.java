@@ -48,6 +48,27 @@ public final class ImageFactory {
         images.put("spawnAreaTexture", readImage("texture/spawnarea.png"));
         images.put("unknownTexture", readImage("texture/unknown.png"));
         images.put("teleportDestination", readImage("texture/teleportD.png"));
+        // Menu backgrounds
+        images.put("menuBackground", readImage("settings/background.jpg"));
+        images.put("mapSettingsBackground", readImage("settings/mapsettings.jpg"));
+        images.put("selectBackground", readImage("settings/selectmap.png"));
+        images.put("settingsBackground1", readImage("settings/settings1.jpg"));
+        images.put("settingsBackground2", readImage("settings/settings2.jpg"));
+        images.put("settingsBackground3", readImage("settings/settings3.jpg"));
+        // Buttons
+        images.put("backButton", readImage("settings/back.png"));
+        images.put("designButton", readImage("settings/design.png"));
+        images.put("exitButton", readImage("settings/exit.jpg"));
+        images.put("manuallyButton", readImage("settings/manually.png"));
+        images.put("nextButton", readImage("settings/next.jpg"));
+        images.put("playButton", readImage("settings/play.jpg"));
+        images.put("selectButton", readImage("settings/select.png"));
+        images.put("startButton", readImage("settings/start.jpg"));
+        images.put("uploadButton", readImage("settings/upload.png"));
+
+        // Text
+        images.put("uploadText", readImage("settings/uploadfile.png"));
+
     }
 
     /**

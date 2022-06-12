@@ -11,7 +11,7 @@ public class MapSaver {
 
     public MapSaver() {
         try {
-            writer = new FileWriter("core/assets/generatedTestMap.txt");
+            writer = new FileWriter("core/assets/NEWmap.txt");
 
         } catch (IOException e) {
             System.out.println("error");

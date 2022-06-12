@@ -27,7 +27,7 @@ public class HUD extends Stage {
         getBatch().begin();
         getBatch().draw(TextureRepository.getInstance().getTile(
                 new Color(0.00f, 0.0071f, 0.090f, 0.7f)),
-                40, 525, 250, 193
+                40, 525, 250, 200
         );
         drawPlaySpeed();
         drawKeyTexts();
@@ -45,7 +45,7 @@ public class HUD extends Stage {
             }
 
             String text = list.get(i);
-            font.draw(getBatch(), text, 50, 550 + (i * 20));
+            font.draw(getBatch(), text, 50, 540 + (i * 20));
         }
     }
 
@@ -65,6 +65,7 @@ public class HUD extends Stage {
         list.add("(B)   Display Exploration (B&M)");
         list.add("(Q)   Switch between Intruder/Guard");
         list.add("(P)   PAUSE");
+        list.add("(C)   CUSTOMIZE NEW MAP");
         return list;
     }
 
@@ -77,7 +78,7 @@ public class HUD extends Stage {
     }
 
     public void init() {
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 10; i++) {
             booleanList.add(false);
         }
     }

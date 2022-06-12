@@ -64,6 +64,8 @@ public class Main {
             window.repaint();
             if (e.getSource() == button) {
                 drawing.savemap();
+                window.dispose();
+                JOptionPane.showMessageDialog(null, "MAP SAVED IN : NEWmap.txt", "MAP SAVED!", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
