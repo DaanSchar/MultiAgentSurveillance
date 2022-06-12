@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 public class Menu implements ActionListener {
 
@@ -107,7 +106,7 @@ public class Menu implements ActionListener {
     }
 
     public static void main(String[] args) {
-        Menu Menu = new Menu();
+        new Menu();
     }
 
 }
