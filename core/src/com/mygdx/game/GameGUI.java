@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.Game;
+import nl.maastrichtuniversity.dke.experiments.EventExperiment;
 import nl.maastrichtuniversity.dke.experiments.VictoryExperiment;
 
 import java.io.File;
@@ -21,6 +22,7 @@ public final class GameGUI extends ApplicationAdapter {
     private Game game;
     private GameComponent gameComponent;
     private VictoryExperiment victoryExperiment;
+    private EventExperiment eventExperiment;
     private HUD hud;
 
     private float totalTimePassed;
@@ -38,6 +40,7 @@ public final class GameGUI extends ApplicationAdapter {
         setupGame();
         this.hud = new HUD();
         this.victoryExperiment = new VictoryExperiment(game, 100, true);
+        this.eventExperiment = new EventExperiment(game);
         this.gameComponent = new GameComponent(game, hud);
         Gdx.input.setInputProcessor(gameComponent);
     }

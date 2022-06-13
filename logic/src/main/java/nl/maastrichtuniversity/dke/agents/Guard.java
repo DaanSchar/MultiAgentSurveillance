@@ -76,7 +76,7 @@ public class Guard extends Agent {
         }
     }
 
-    private boolean seesIntruder() {
+    public boolean seesIntruder() {
         return getVisibleIntruder() != null;
     }
 
@@ -101,7 +101,7 @@ public class Guard extends Agent {
         return null;
     }
 
-    private boolean seesGuard() {
+    public boolean seesGuard() {
         return getVisibleGuards() != null;
     }
 

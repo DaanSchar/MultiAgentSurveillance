@@ -121,7 +121,7 @@ public class Intruder extends Agent {
         return getVisibleGuards().size() > 0;
     }
 
-    private boolean seesIntruder() {
+    public boolean seesIntruder() {
         return getVisibleIntruder() != null;
     }
 

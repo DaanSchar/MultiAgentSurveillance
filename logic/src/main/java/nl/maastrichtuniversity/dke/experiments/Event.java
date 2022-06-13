@@ -1,8 +1,12 @@
 package nl.maastrichtuniversity.dke.experiments;
 
-public interface Event {
+public class Event {
 
-    double getTimeStep();
+    private EventType type;
+    private Double time;
 
-    Enum<EventType> getEventType();
+    public Event(EventType type, double time) {
+        this.type = type;
+        this.time = time;
+    }
 }
