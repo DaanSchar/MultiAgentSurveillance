@@ -196,10 +196,7 @@ public class Agent {
     protected boolean hasReachedFinalTarget() {
         if (visionModule.getCurrentPosition() == null) {
             return false;
-        } else if (visionModule.getCurrentPosition().getType().equals(TileType.TARGET)) {
-            return true;
-        }
-        return false;
+        } else return visionModule.getCurrentPosition().getType().equals(TileType.TARGET);
     }
 
     private void updatePathToTarget() {
