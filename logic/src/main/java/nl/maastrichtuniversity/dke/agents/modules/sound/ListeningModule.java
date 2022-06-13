@@ -48,7 +48,9 @@ public class ListeningModule extends AgentModule implements IListeningModule {
             obs.addAll(getListPerSound(dir));
         }
 
-        return obs.subList(0, Math.min(computeSoundInputSize(), obs.size()));
+        var x = obs.subList(0, Math.min(computeSoundInputSize(), obs.size()));
+        log.info("{}", x);
+        return x;
     }
 
     public int computeSoundInputSize() {

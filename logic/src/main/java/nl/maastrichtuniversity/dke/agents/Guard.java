@@ -88,7 +88,7 @@ public class Guard extends Agent {
         }
     }
 
-    private boolean seesIntruder() {
+    public boolean seesIntruder() {
         return getVisibleIntruder() != null;
     }
 
@@ -113,7 +113,7 @@ public class Guard extends Agent {
         return null;
     }
 
-    private boolean seesGuard() {
+    public boolean seesGuard() {
         return getVisibleGuards() != null;
     }
 
@@ -138,7 +138,7 @@ public class Guard extends Agent {
 
         Position intruderPosition = intruder.getPosition();
 
-        if (this.getPosition().distance(intruderPosition) <= catchDistance) {
+        if (this.getPosition().distanceEuclidean(intruderPosition) <= catchDistance) {
             getInteractionModule().catchIntruder(intruderPosition);
         }
     }

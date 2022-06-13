@@ -61,7 +61,7 @@ public class SoundView extends Actor {
 
     private Texture getTileTexture(Sound sound) {
         Position source = sound.getSource();
-        float distance = (float) sound.getPosition().distance(source);
+        float distance = (float) sound.getPosition().distanceEuclidean(source);
         return textureRepository.getTile(makeColor(distance));
     }
 

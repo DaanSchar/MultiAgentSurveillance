@@ -32,7 +32,7 @@ public class NoiseModule extends AgentModule implements INoiseModule {
         List<Sound> sounds = new ArrayList<>();
 
         for (Tile tile: environment) {
-            double distanceToTile = position.distance(tile.getPosition());
+            double distanceToTile = position.distanceEuclidean(tile.getPosition());
 
             if (distanceToTile <= getHearingDistance(soundType)) {
                 Sound sound = new Sound(tile.getPosition(), position, soundType, sourceType);
@@ -66,7 +66,7 @@ public class NoiseModule extends AgentModule implements INoiseModule {
         List<Sound> walkingSounds = new ArrayList<>();
 
         for (Tile tile: scenario.getEnvironment()) {
-            if (position.distance(tile.getPosition()) <= hearingDistanceWalking) {
+            if (position.distanceEuclidean(tile.getPosition()) <= hearingDistanceWalking) {
                 Sound walkingSound = new Sound(tile.getPosition(), position, SoundType.WALK, SourceType.WINDOW);
                 walkingSounds.add(walkingSound);
             }
@@ -80,7 +80,7 @@ public class NoiseModule extends AgentModule implements INoiseModule {
         List<Sound> sprintingSounds = new ArrayList<>();
 
         for (Tile tile: scenario.getEnvironment()) {
-            if (position.distance(tile.getPosition()) <= hearingDistanceSprinting) {
+            if (position.distanceEuclidean(tile.getPosition()) <= hearingDistanceSprinting) {
                 Sound sprintingSound = new Sound(tile.getPosition(), position, SoundType.WALK, SourceType.WINDOW);
                 scenario.getSoundMap().add(sprintingSound);
             }
@@ -94,7 +94,7 @@ public class NoiseModule extends AgentModule implements INoiseModule {
         Tile[][] tileMap = scenario.getEnvironment().getTileMap();
         for (Tile[] tiles : tileMap) {
             for (Tile tile : tiles) {
-                if (position.distance(tile.getPosition()) <= hearingDistanceSprinting) {
+                if (position.distanceEuclidean(tile.getPosition()) <= hearingDistanceSprinting) {
                     Sound sound = new Sound(tile.getPosition(), position, SoundType.WALK, SourceType.WINDOW);
                     scenario.getSoundMap().add(sound);
                 }
@@ -107,7 +107,7 @@ public class NoiseModule extends AgentModule implements INoiseModule {
         Tile[][] tileMap = scenario.getEnvironment().getTileMap();
         for (Tile[] tiles : tileMap) {
             for (Tile tile : tiles) {
-                if (position.distance(tile.getPosition()) <= hearingDistanceInteraction) {
+                if (position.distanceEuclidean(tile.getPosition()) <= hearingDistanceInteraction) {
                     Sound sound = new Sound(tile.getPosition(), position, SoundType.WALK, SourceType.WINDOW);
                     scenario.getSoundMap().add(sound);
                 }

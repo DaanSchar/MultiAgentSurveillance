@@ -1,8 +1,17 @@
 package nl.maastrichtuniversity.dke.experiments;
 
-public interface Event {
+import lombok.Getter;
 
-    double getTimeStep();
+@Getter
+public class Event {
 
-    Enum<EventType> getEventType();
+    private EventType type;
+    private Double time;
+    private int gameNumber;
+
+    public Event(EventType type, double time, int gameNumber) {
+        this.type = type;
+        this.time = time;
+        this.gameNumber = gameNumber;
+    }
 }

@@ -3,6 +3,7 @@ package com.mygdx.game.gamecomponent;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.GameGUI;
+import com.mygdx.game.drawing.Main;
 import com.mygdx.game.util.FleetType;
 import com.mygdx.game.views.brickandmortar.BrickAndMortarView;
 import com.mygdx.game.views.environment.EnvironmentView;
@@ -118,6 +119,11 @@ public class GameComponent extends MovableStage {
                 hud.setKey(5);
                 toggleMemoryView();
             }
+            case Input.Keys.C -> {
+                new Main();
+                hud.setKey(9);
+            }
+
             case Input.Keys.D -> {
                 hud.setKey(4);
                 togglePathFindView();

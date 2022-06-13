@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import nl.maastrichtuniversity.dke.Game;
+import nl.maastrichtuniversity.dke.experiments.EventExperiment;
 import nl.maastrichtuniversity.dke.experiments.VictoryExperiment;
 
 import java.io.File;
@@ -21,6 +22,7 @@ public final class GameGUI extends ApplicationAdapter {
     private Game game;
     private GameComponent gameComponent;
     private VictoryExperiment victoryExperiment;
+    private static EventExperiment eventExperiment;
     private HUD hud;
 
     private float totalTimePassed;
@@ -28,7 +30,7 @@ public final class GameGUI extends ApplicationAdapter {
 
     private static final float MAX_TIME_INTERVAL = 0.5f;
     private static final float MIN_TIME_INTERVAL = 0f;
-    private static final float TIME_INTERVAL_INCREMENT = 0.02f;
+    private static final float TIME_INTERVAL_INCREMENT = 0.0001f;
 
     private static boolean isPaused;
 
@@ -37,7 +39,9 @@ public final class GameGUI extends ApplicationAdapter {
     public void create() {
         setupGame();
         this.hud = new HUD();
-        this.victoryExperiment = new VictoryExperiment(game, 100, true);
+        this.victoryExperiment = new VictoryExperiment(game, 2, true);
+        this.eventExperiment = new EventExperiment(game);
+        this.eventExperiment = new EventExperiment(game);
         this.gameComponent = new GameComponent(game, hud);
         Gdx.input.setInputProcessor(gameComponent);
     }
@@ -45,6 +49,7 @@ public final class GameGUI extends ApplicationAdapter {
     @Override
     public void render() {
         totalTimePassed += Gdx.graphics.getDeltaTime();
+        eventExperiment.addEvents(totalTimePassed, game.getGameNumber());
 
         if (game.isDone()) {
             handleVictory();
@@ -110,6 +115,7 @@ public final class GameGUI extends ApplicationAdapter {
             timeInterval = MIN_TIME_INTERVAL;
         }
     }
+
     public static float getTimeInterval() {
         return timeInterval;
     }
@@ -137,6 +143,11 @@ public final class GameGUI extends ApplicationAdapter {
 
     private void exit() {
         Gdx.app.exit();
+        eventExperiment.printEvents();
+        log.info(eventExperiment.getTimes());
+        log.info(eventExperiment.getEvents());
+        log.info(eventExperiment.getGameNumbers());
+        eventExperiment.toCSV("events.csv");
         log.info("Guards won " + victoryExperiment.countWinner("G") + " times");
         log.info("Intruders won " + victoryExperiment.countWinner("I") + " times");
     }
