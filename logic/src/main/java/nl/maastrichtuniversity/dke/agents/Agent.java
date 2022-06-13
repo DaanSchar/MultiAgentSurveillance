@@ -49,7 +49,7 @@ public class Agent {
 
     private PathNavigator pathNavigator;
     private @Setter Position target;
-    private int speedbar = 2;
+    private int speedBar;
 
     public Agent() {
         this.id = agentCount++;
@@ -59,6 +59,7 @@ public class Agent {
         position = spawnModule.getSpawnPosition(this);
         direction = spawnModule.getSpawnDirection();
         memoryModule.setSpawnPosition(position);
+        this.speedBar = 2;
         updateMemory();
     }
 
@@ -96,18 +97,18 @@ public class Agent {
     }
 
     public void move(MoveAction action) {
-        if (speedbar < 2) {
-            speedbarincrease();
-            return;
-        }
         switch (action) {
             case MOVE_FORWARD -> {
+                speedbarincrease();
                 moveForward();
-                speedbardecrease(-1);
             }
             case SPRINT_FORWARD -> {
-                sprintForward();
-                speedbardecrease(-2);
+                if (speedBar < 2) {
+                    move(MoveAction.MOVE_FORWARD);
+                } else {
+                    sprintForward();
+                    speedbardecrease(-1);
+                }
             }
             case ROTATE_LEFT -> {
                 rotate(MoveAction.ROTATE_LEFT);
@@ -230,13 +231,13 @@ public class Agent {
     }
 
     private void speedbarincrease() {
-        if (speedbar < 2) {
-            speedbar++;
+        if (speedBar < 2) {
+            speedBar++;
         }
     }
 
     private void speedbardecrease(int num) {
-        speedbar = num;
+        speedBar = num;
     }
 
     protected List<Agent> getVisibleAgents() {
