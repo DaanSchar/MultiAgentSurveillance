@@ -91,7 +91,7 @@ public class EventExperiment {
 
     public void toCSV(String fileName) {
         try {
-            BufferedWriter br = new BufferedWriter( new FileWriter(fileName));
+            BufferedWriter br = new BufferedWriter(new FileWriter(fileName));
             StringBuilder sb = new StringBuilder();
 
             sb.append("Game Number");
