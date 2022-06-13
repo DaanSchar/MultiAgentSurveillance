@@ -3,7 +3,6 @@ package nl.maastrichtuniversity.dke.experiments;
 import lombok.Getter;
 import lombok.Setter;
 import nl.maastrichtuniversity.dke.Game;
-import nl.maastrichtuniversity.dke.agents.Agent;
 import nl.maastrichtuniversity.dke.agents.Guard;
 import nl.maastrichtuniversity.dke.agents.Intruder;
 import nl.maastrichtuniversity.dke.agents.modules.victory.Victory;
@@ -85,14 +84,14 @@ public class EventExperiment {
 
         for (Event e : eventList) {
             events += e.getType() + ", ";
-            times += e.getTime() + ", ";
-            gameNumbers += e.getGameNumber() + ", ";
+            times += (e.getTime() + ", ");
+            gameNumbers += (e.getGameNumber() + ", ");
         }
     }
 
     public void toCSV(String fileName) {
-        try{
-            BufferedWriter br = new BufferedWriter(new FileWriter(fileName));
+        try {
+            BufferedWriter br = new BufferedWriter( new FileWriter(fileName));
             StringBuilder sb = new StringBuilder();
 
             sb.append("Game Number");
@@ -115,7 +114,7 @@ public class EventExperiment {
             br.write(sb.toString());
             br.close();
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
