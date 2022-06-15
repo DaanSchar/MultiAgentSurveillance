@@ -30,7 +30,8 @@ public final class GameGUI extends ApplicationAdapter {
 
     private static final float MAX_TIME_INTERVAL = 0.5f;
     private static final float MIN_TIME_INTERVAL = 0f;
-    private static final float TIME_INTERVAL_INCREMENT = 0.1f;
+
+    private static final float TIME_INTERVAL_INCREMENT = 0.01f;
 
     private static boolean isPaused;
 
@@ -100,7 +101,7 @@ public final class GameGUI extends ApplicationAdapter {
     }
 
     private File getMapFile() {
-        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("maps/hardMap1.txt")).getFile());
+        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("maps/emptyMap2.txt")).getFile());
     }
 
     public static boolean togglePause() {
