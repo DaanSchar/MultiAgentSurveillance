@@ -30,7 +30,7 @@ public final class GameGUI extends ApplicationAdapter {
 
     private static final float MAX_TIME_INTERVAL = 0.5f;
     private static final float MIN_TIME_INTERVAL = 0f;
-    private static final float TIME_INTERVAL_INCREMENT = 0.0001f;
+    private static final float TIME_INTERVAL_INCREMENT = 0.001f;
 
     private static boolean isPaused;
 
@@ -41,7 +41,6 @@ public final class GameGUI extends ApplicationAdapter {
         this.hud = new HUD();
         this.victoryExperiment = new VictoryExperiment(game, 2, true);
         this.eventExperiment = new EventExperiment(game);
-        this.eventExperiment = new EventExperiment(game);
         this.gameComponent = new GameComponent(game, hud);
         Gdx.input.setInputProcessor(gameComponent);
     }
@@ -49,7 +48,7 @@ public final class GameGUI extends ApplicationAdapter {
     @Override
     public void render() {
         totalTimePassed += Gdx.graphics.getDeltaTime();
-        eventExperiment.addEvents(totalTimePassed, game.getGameNumber());
+        eventExperiment.addEvents(game.getScenario().getCurrentTimeStep(), game.getGameNumber());
 
         if (game.isDone()) {
             handleVictory();
