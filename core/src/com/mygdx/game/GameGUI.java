@@ -50,7 +50,7 @@ public final class GameGUI extends ApplicationAdapter {
     @Override
     public void render() {
         totalTimePassed += Gdx.graphics.getDeltaTime();
-        eventExperiment.addEvents(totalTimePassed, game.getGameNumber());
+        eventExperiment.addEvents(game.getScenario().getCurrentTimeStep(), game.getGameNumber());
 
         if (game.isDone()) {
             handleVictory();
@@ -100,7 +100,7 @@ public final class GameGUI extends ApplicationAdapter {
     }
 
     private File getMapFile() {
-        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("maps/mazeMap2.txt")).getFile());
+        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("maps/hardMap1.txt")).getFile());
     }
 
     public static boolean togglePause() {
