@@ -26,20 +26,22 @@ public final class GameGUI extends ApplicationAdapter {
     private HUD hud;
 
     private float totalTimePassed;
-    private static float timeInterval = 0.24f;
+    private static float timeInterval = 0f;
 
     private static final float MAX_TIME_INTERVAL = 0.5f;
     private static final float MIN_TIME_INTERVAL = 0f;
-    private static final float TIME_INTERVAL_INCREMENT = 0.0001f;
+    private static final float TIME_INTERVAL_INCREMENT = 0.1f;
 
     private static boolean isPaused;
+
+    private final boolean render = false;
 
     @SneakyThrows
     @Override
     public void create() {
         setupGame();
         this.hud = new HUD();
-        this.victoryExperiment = new VictoryExperiment(game, 2, true);
+        this.victoryExperiment = new VictoryExperiment(game, 3, true);
         this.eventExperiment = new EventExperiment(game);
         this.eventExperiment = new EventExperiment(game);
         this.gameComponent = new GameComponent(game, hud);
@@ -64,12 +66,17 @@ public final class GameGUI extends ApplicationAdapter {
             }
         }
 
-        draw();
+        if (render) {
+            draw();
+        }
     }
 
     private void update() {
         game.update();
-        gameComponent.update();
+
+        if (render) {
+            gameComponent.update();
+        }
     }
 
     private void draw() {
@@ -94,7 +101,7 @@ public final class GameGUI extends ApplicationAdapter {
     }
 
     private File getMapFile() {
-        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("maps/hardMap1.txt")).getFile());
+        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("maps/mazeMap2.txt")).getFile());
     }
 
     public static boolean togglePause() {
