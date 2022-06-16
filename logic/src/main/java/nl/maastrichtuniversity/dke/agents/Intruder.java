@@ -25,8 +25,8 @@ public class Intruder extends Agent {
     private @Getter Position guessTarget;
     private @Getter boolean reachGuessTarget;
 
-    private @Getter
-    boolean fleeing;
+    private @Getter boolean fleeing;
+    private final boolean flee = true;
 
     public Intruder() {
         super();
@@ -53,7 +53,7 @@ public class Intruder extends Agent {
         if (this.getPosition().equals(guessTarget)) {
             reachGuessTarget = true;
         }
-        if (isFleeing()) {
+        if (isFleeing() && flee) {
             if (!Train.isTraining()) {
                 super.rlMove();
             }
