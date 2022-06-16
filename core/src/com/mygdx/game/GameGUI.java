@@ -42,7 +42,7 @@ public final class GameGUI extends ApplicationAdapter {
     public void create() {
         setupGame();
         this.hud = new HUD();
-        this.victoryExperiment = new VictoryExperiment(game, 3, true);
+        this.victoryExperiment = new VictoryExperiment(game, 99, true);
         this.eventExperiment = new EventExperiment(game);
         this.gameComponent = new GameComponent(game, hud);
         Gdx.input.setInputProcessor(gameComponent);
@@ -101,7 +101,7 @@ public final class GameGUI extends ApplicationAdapter {
     }
 
     private File getMapFile() {
-        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("maps/emptyMap2.txt")).getFile());
+        return new File(Objects.requireNonNull(getClass().getClassLoader().getResource("maps/mazeMap.txt")).getFile());
     }
 
     public static boolean togglePause() {

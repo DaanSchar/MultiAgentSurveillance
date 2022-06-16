@@ -26,10 +26,11 @@ public class Intruder extends Agent {
     private @Getter boolean reachGuessTarget;
 
     private @Getter boolean fleeing;
-    private final boolean flee = true;
+    private final boolean flee;
 
-    public Intruder() {
+    public Intruder(boolean fleeing) {
         super();
+        this.flee = fleeing;
         this.isCaught = false;
         this.navigatedToBlueMark = false;
         this.droppedBlueMark = false;

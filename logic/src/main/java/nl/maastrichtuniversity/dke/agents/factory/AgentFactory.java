@@ -70,7 +70,12 @@ public class AgentFactory {
         Fleet<Intruder> agents = new Fleet<>();
 
         for (int i = 0; i < numOfAgents; i++) {
-            agents.add(buildIntruder());
+            if(i==0) {
+                agents.add(buildIntruder(true));
+            }
+            else {
+                agents.add(buildIntruder(false));
+            }
         }
         if (DebugSettings.FACTORY) {
             log.info("Created {} intruders", numOfAgents);
@@ -86,8 +91,8 @@ public class AgentFactory {
         return guard;
     }
 
-    public Intruder buildIntruder() {
-        Intruder intruder = new Intruder();
+    public Intruder buildIntruder(boolean flee) {
+        Intruder intruder = new Intruder(flee);
         insertModules(intruder);
         intruder.setRunningAway(new RunningAway(scenario));
 
